@@ -1,0 +1,119 @@
+body {
+  background-color: #F1F1F1;
+  color: #444;
+}
+body .panel-wordpress {
+  background-color: #fff;
+  margin-top: 20px;
+  padding: 50px;
+  margin-bottom: 40px;
+}
+body .panel-wordpress button.btn-actions {
+  /* border:1px solid #cccccc;
+        padding: 10px;
+        font-size: 1.5em;
+        color: #cccccc;
+        font-weight: 800;
+        width: 25px;
+        height: 25px;
+        background: #fafafa;
+        border-radius: 50%;
+        &:hover{
+          text-decoration: none;
+          color: #aaa;
+          font-weight: 800;
+        }
+        &:active{
+          text-decoration: none;
+        }
+        &:visited{
+          color: #cccccc;
+        } */
+  width: 25px;
+  height: 25px;
+  background: #fafafa;
+  font: bold 13px Arial;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  color: #aaa;
+  float: right;
+  margin-right: 10px;
+}
+body .panel-wordpress button.btn-actions:active {
+  background: #cccccc;
+  color: #999;
+}
+body .panel-wordpress button.right {
+  float: right;
+}
+body .panel-wordpress label.label-checkbox {
+  margin-left: 5px;
+  margin-bottom: -4px;
+}
+body .panel-wordpress label[name$="[form-name]"] {
+  display: block;
+  cursor: move;
+}
+body .panel-wordpress a.upanddown {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 24px;
+  background: #fafafa;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  color: #aaa;
+}
+body .panel-wordpress a.upanddown:hover {
+  text-decoration: none;
+  color: #aaa;
+  font-weight: 800;
+}
+body .panel-wordpress .field-number {
+  font-size: 20px;
+  line-height: 52px;
+}
+body .panel-wordpress div[id^="field-"] {
+  background-color: #fff;
+}
+body .panel-wordpress div[id^="field-"] hr {
+  margin-top: 0;
+}
+body .panel-wordpress div[id^="field-"].ui-draggable-dragging {
+  -webkit-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+  box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+}
+body .panel-wordpress div[id^="field-"].ui-draggable-dragging .info {
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  color: #777;
+  font-weight: 400;
+}
+body .panel-wordpress div[id^="field-"] .info {
+  display: none;
+}
+body .panel-wordpress div[id^="field-"] .col-sm-7 label {
+  cursor: move;
+  display: block;
+}
+body .panel-wordpress div[id^="field-"].hovered {
+  border: 2px dashed #ccc;
+  background-color: #ebf2ff;
+}
+body .panel-wordpress .infos {
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: #888;
+}
+body .panel-wordpress textarea {
+  resize: vertical;
+  width: 100%;
+}
