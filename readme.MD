@@ -1,3 +1,6 @@
+This plugin is made for WP theme developper, to create & style easily all theirs forms
+
+
 @Version 0.4 :
 Update doc for radio button
 Update file field
