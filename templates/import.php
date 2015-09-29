@@ -1,15 +1,26 @@
 <div class="wrap gf_browser_chrome">
     <h2>Importer un formulaire</h2>
-
-    <?php if(isset($error) && is_string($error)): ?>
-        <?php echo $error; ?>
-    <?php endif; ?>
     <section class="panel-wordpress">
         <div class="form-group">
             <div class="form-group">
                 <h2>Séléctionnez votre formulaire Json</h2>
             </div>
         </div>
+
+        <?php if(isset($error) && is_string($error)): ?>
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <?php echo $error; ?>
+            </div>
+        <?php endif; ?>
+
+
+        <?php if(isset($success) && is_string($success)): ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo $success; ?>
+            </div>
+        <?php endif; ?>
         <form action="#" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="file" name="import-form" id="import-form" class="sr-only"/>

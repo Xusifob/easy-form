@@ -208,7 +208,12 @@ class FormPlugin
     public function displayImport()
     {
         if(true === $error = $this->handleImport()){
-            $this->ImportForm();
+            $result = $this->ImportForm();
+
+            if($result['error'] == true)
+                $error = $result['message'];
+            else
+                $success = $result['message'];
         }
 
         include __DIR__ . '/templates/import.php';
@@ -442,8 +447,14 @@ class FormPlugin
                 if($fileSize < $maxSize){
                     $ext = pathinfo($fileName, PATHINFO_EXTENSION);
                     if($ext == 'json'){
-                        move_uploaded_file($tmpName,plugin_dir_path( __FILE__ ).'/library/uploads/' . $fileName);
-                        return true;
+                        if(is_writable(plugin_dir_path( __FILE__ ).'/library/uploads/')) {
+                            $return = move_uploaded_file($tmpName, plugin_dir_path(__FILE__) . '/library/uploads/' . $fileName);
+                            if(!$return)
+                                $error = "Une erreur est survenue lors de l'upload du fichier, veuillez réessayer";
+                            return $return;
+                        }else{
+                            $error = 'Le dossier <strong>' . plugin_dir_path( __FILE__ ).'/library/uploads/' . ' </strong>n\'a pas pu être ouvert, vérifiez ses droits d\'écriture';
+                        }
                     }else
                         $error = 'Le fichier doit être un .json';
                     return $error;
@@ -585,6 +596,8 @@ class FormPlugin
         // I get the json content in php
         $array = json_decode($json);
 
+        $flag = true;
+
         foreach($array as $form){
             $postargs = [
                 'post_name' => sanitize_title($form->post_title),
@@ -602,8 +615,17 @@ class FormPlugin
                     else
                         update_post_meta($pid,$key,$meta);
                 }
-            }
+            }else
+                $flag = false;
+
         }
+        return $flag ? [
+            'error' => false,
+            'message' => "Les formulaires ont bien tous été importés"
+        ] : [
+            'error' => true,
+            'message' => "Une erreur est survenue à la création d'un ou plusieurs formulaires"
+        ];
     }
 
     /**
