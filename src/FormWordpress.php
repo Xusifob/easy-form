@@ -719,6 +719,7 @@ class FormWordpress extends Form
 
 
 
+
             // If there is an id it's an update, else it's an insert
             if(isset($postId) && null != ($postId)) {
 
