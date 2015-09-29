@@ -39,6 +39,15 @@ class Mail
     private $boundary;
 
     /**
+     * @Since V 0.4
+     *
+     * The message send is in HTML
+     *
+     * @var bool
+     */
+    private $html;
+
+    /**
      * @param array $args
      */
     public function __construct($args = [])
@@ -131,11 +140,20 @@ class Mail
     }
 
     /**
+     *
+     * @since V 0.1
+     *
+     * @Modify V 0.4
+     *
      * @param string $message
+     * @param bool $html
      * @return $this
      */
-    public function setMessage($message)
+    public function setMessage($message,$html = false)
     {
+
+        $this->html = $html;
+
         $this->message = $message;
         return $this;
     }
@@ -220,13 +238,32 @@ class Mail
         return $header;
     }
 
+    /**
+     * Create the message
+     *
+     * @Since V 0.1
+     *
+     * @Modified : V 0.4
+     * @return string
+     */
     private function createMessage()
     {
-        // Création du message texte.
-        $message_txt = preg_replace('#<br />|<br>|</br>|<br >|< br/>#', $this->returnLigne ,nl2br($this->message));	// Je modifie les passages à la ligne
 
-        // Création du message au format HTML
-        $message_html = "<html><head><meta charset=\"utf-8\"/></head><body style=\"background-color: white;\"><div>" . nl2br(stripslashes($this->message)) . "</div></body></html>";
+        /** @Since V 0.4 */
+        if(!$this->html) {
+
+            // Création du message texte.
+            $message_txt = preg_replace('#<br />|<br>|</br>|<br >|< br/>#', $this->returnLigne, nl2br($this->message));    // Je modifie les passages à la ligne
+
+            // Création du message au format HTML
+            $message_html = "<html><head><meta charset=\"utf-8\"/></head><body style=\"background-color: white;\"><div>" . nl2br(stripslashes($this->message)) . "</div></body></html>";
+
+        }else{
+            $message_html = $this->message;
+            $message_txt = strip_tags(preg_replace('#<br />|<br>|</br>|<br >|< br/>#', $this->returnLigne, nl2br($this->message)));
+        }
+
+
 
         // Création du message.
         $message = $this->returnLigne."--".$this->boundary.$this->returnLigne;
