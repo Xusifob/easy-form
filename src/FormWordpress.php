@@ -128,8 +128,6 @@ class FormWordpress extends Form
                 }
                 $this->setError($error);
             }
-
-
             return ($insert['password'] && $insert['email']);
         }else{
             return true;
@@ -717,26 +715,39 @@ class FormWordpress extends Form
                 $role = 'subscriber';
 
 
-
-
-
             // If there is an id it's an update, else it's an insert
             if(isset($postId) && null != ($postId)) {
 
-                $postarr = [
-                    'ID' => $postId,
-                    'user_email' => isset($_POST['email']) ? $_POST['email'] : '',
-                    'user_url' => isset($_POST['url']) ? $_POST['url'] : '',
-                    'first_name' => isset($_POST['first_name']) ? $_POST['first_name'] : '',
-                    'last_name' => isset($_POST['last_name']) ? $_POST['last_name'] : '',
-                    'description' => isset($_POST['content']) ? $_POST['content'] : '',
-                    'role' => $role,
-                ];
+                $postarr['ID'] = $postId;
 
+                // Email
+                if(isset($_POST['email']))
+                    $postarr['user_email'] = $_POST['email'];
+
+                // Url
+                if(isset($_POST['url']))
+                    $postarr['user_url'] = $_POST['url'];
+
+                // First name
+                if(isset($_POST['first_name']))
+                    $postarr['first_name'] = $_POST['first_name'];
+
+                // last name
+                if(isset($_POST['last_name']))
+                    $postarr['last_name'] = $_POST['last_name'];
+
+                // Description
+                if(isset($_POST['description']))
+                    $postarr['description'] = $_POST['content'];
+
+                // Role
+                $postarr['role'] = $role;
+
+                // Password
                 if(isset($_POST['password']) && !empty($_POST['password']))
                     $postarr['user_pass'] = $_POST['password'];
 
-
+                // Update user
                 $postId = wp_update_user($postarr);
             }else{
 
