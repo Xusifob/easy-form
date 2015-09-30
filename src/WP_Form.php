@@ -68,7 +68,7 @@ class WP_Form
                 $this->closeForm();
 
                 // I check the form
-                $this->CheckForm();
+                add_action('init',[$this,'CheckForm']);
 
                 return true;
 
@@ -141,7 +141,7 @@ class WP_Form
      *
      * Check if form is valid and send datas
      */
-    private function CheckForm()
+    public function CheckForm()
     {
         // If form is valid
         if($this->form->isValid()){
