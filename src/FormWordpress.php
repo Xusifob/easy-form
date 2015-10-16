@@ -376,10 +376,27 @@ class FormWordpress extends Form
 
             // If it's a post
             case 'post' :
+
+                /* @since V 0.4 add hooks Before Send */
+                do_action('form/BeforeInsertOrModifyPost',$postId);
+                do_action('form/BeforeInsertOrModifyPost-' . $this->id,$postId);
+                if(isset($this->postArgs['id'])) {
+                    do_action('form/BeforeModifyPost-' . $this->id,$postId);
+                    do_action('form/BeforeModifyPost',$postId);
+                }
+                else {
+                    do_action('form/BeforeInsertPost-' . $this->id,$postId);
+                    do_action('form/BeforeInsertPost',$postId);
+                }
+
                 if($postId = $this->insertPost($postId,$args)) {
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
+                    do_action('form/insertOrModifyPost',$postId);
+                    do_action('form/insertOrModifyPost-' . $this->id,$postId);
+
+                    // Keep compatibility with old version, deprecated
                     do_action('form/insertOrModifyPost',$postId);
                     do_action('form/insertOrModifyPost-' . $this->id,$postId);
                     if(isset($this->postArgs['id'])) {
@@ -387,6 +404,10 @@ class FormWordpress extends Form
                         do_action('form/ModifyPost',$postId);
                     }
                     else {
+                        do_action('form/InsertPost-' . $this->id,$postId);
+                        do_action('form/InsertPost',$postId);
+
+                        // Keep compatibility with old version, deprecated
                         do_action('form/insertPost-' . $this->id,$postId);
                         do_action('form/insertPost',$postId);
                     }
@@ -413,18 +434,40 @@ class FormWordpress extends Form
                 break;
 
             case 'user' :
+
+                // Actions
+                /* @since V 0.4 add hooks */
+                do_action('form/BeforeInsertOrModifyUser',$postId);
+                do_action('form/BeforeInsertOrModifyUser-' . $this->id,$postId);
+                if(isset($this->postArgs['id'])) {
+                    do_action('form/ModifyUser',$postId);
+                    do_action('form/ModifyUser-' . $this->id,$postId);
+                } else {
+                    do_action('form/BeforeInsertUser',$postId);
+                    do_action('form/BeforeInsertUser-' . $this->id,$postId);
+                }
+
                 $lien = ($lien == 'newpost') ? null : $lien;
                 if($postId = $this->insertUser($postId,$args)) {
                     $this->setFormSend($thepostId);
 
                     // Actions
                     /* @since V 0.4 add hooks */
+                    do_action('form/InsertOrModifyUser',$postId);
+                    do_action('form/InsertOrModifyUser-' . $this->id,$postId);
+
+                    // Keep compatibility with old version, deprecated
                     do_action('form/insertOrModifyUser',$postId);
                     do_action('form/insertOrModifyUser-' . $this->id,$postId);
                     if(isset($this->postArgs['id'])) {
                         do_action('form/ModifyUser',$postId);
                         do_action('form/ModifyUser-' . $this->id,$postId);
                     } else {
+
+                        do_action('form/InsertUser',$postId);
+                        do_action('form/InsertUser-' . $this->id,$postId);
+
+                        // Keep compatibility with old version, deprecated
                         do_action('form/insertUser',$postId);
                         do_action('form/insertUser-' . $this->id,$postId);
                     }
@@ -437,10 +480,17 @@ class FormWordpress extends Form
                 break;
             case 'email' :
                 $lien = ($lien == 'newpost') ? null : $lien;
+
+                do_action('form/BeforeSendMail');
+                do_action('form/BeforeSendMail-' . $this->id);
                 if($this->sendMail($args)) {
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
+                    do_action('form/SendMail');
+                    do_action('form/SendMail-' . $this->id);
+
+                    // Keep compatibility with old version, deprecated
                     do_action('form/sendMail');
                     do_action('form/sendMail-' . $this->id);
                     wp_redirect($lien . $varURl);
@@ -451,6 +501,9 @@ class FormWordpress extends Form
                 break;
             case 'connexion' :
                 $lien = ($lien == 'newpost') ? null : $lien;
+
+                do_action('form/ConnectUser');
+                do_action('form/ConnectUser-' . $this->id);
                 if($user = $this->connectUser($args)){
                     $this->setFormSend($thepostId);
 
@@ -463,11 +516,19 @@ class FormWordpress extends Form
                 break;
 
             case 'resetPassword' :
+
+                do_action('form/BeforeResetPassword');
+                do_action('form/BeforeResetPassword-' . $this->id);
+
                 $lien = ($lien == 'newpost') ? null : $lien;
                 if($this->resetPassword()){
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
+                    do_action('form/ResetPassword');
+                    do_action('form/ResetPassword-' . $this->id);
+
+                    // Keep compatibility with old version, deprecated
                     do_action('form/resetPassword');
                     do_action('form/resetPassword-' . $this->id);
 
