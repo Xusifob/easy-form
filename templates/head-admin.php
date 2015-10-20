@@ -13,6 +13,7 @@ $output .= '<link rel="stylesheet" href="' . get_bloginfo('wpurl') . '/wp-conten
 $output .= '<script src="' . get_bloginfo('wpurl') . '/wp-content/plugins/easy-form/library/js/shCore.js"></script>';
 $output .= '<script src="' . get_bloginfo('wpurl') . '/wp-content/plugins/easy-form/library/js/shBrushJScript.js"></script>';
 $output .= '<script src="' . get_bloginfo('wpurl') . '/wp-content/plugins/easy-form/library/js/shBrushPhp.js"></script>';
+$output .= '<script src="' . get_bloginfo('wpurl') . '/wp-content/plugins/easy-form/library/js/functions.js"></script>';
 $output .= '  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>';
 
 $output .= '<!-- Finally, to actually run the highlighter, you need to include this JS on your page -->
