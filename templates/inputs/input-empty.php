@@ -22,7 +22,7 @@ $inputs = [
                 <label for="field[fieldId][form-name]">Nom du champ</label>
                 <input type="text"  value="field-name" name="field[fieldId][form-name]" id="field[fieldId][form-name]" class="form-control" placeholder="Nom du champ" required/>
                 <a href="#" class="dupliquer" data-field="fieldId">Dupliquer</a>
-                <a href="#" class="move" data-field="<?php echo $i-1; ?>">Copier sur un autre formulaire</a>
+                <a href="#" class="move" data-field="fieldId">Copier sur un autre formulaire</a>
             </div>
             <div class="col-sm-3">
                 <label for="field[fieldId][form-type]">Type de champ</label>

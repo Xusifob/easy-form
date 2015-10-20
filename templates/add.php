@@ -276,7 +276,7 @@ $my_query = new WP_Query($args);
     jQuery(function($){
         $('.move').on('click',function() {
             var fieldId = $(this).attr('data-field');
-            $('#form-duplicate-field-id').val(fieldId);
+            $('#form-duplicate-field-id').val(fieldId-1);
             $('#modal-move').modal('show');
 
             return false;
@@ -334,6 +334,8 @@ $my_query = new WP_Query($args);
 
         function getData(field){
 
+            console.log(field);
+
             // Je récupère la base
             $.get('<?php echo get_bloginfo('wpurl') ?>/wp-content/plugins/easy-form/templates/inputs/input-empty.php',function(base){
 
@@ -362,9 +364,19 @@ $my_query = new WP_Query($args);
                         data = replace(data, 'field-value', field.args.value);
                     if(field.args.label != undefined)
                         data = replace(data, 'field-label', field.args.label);
+                    if(field.args.labelClass != undefined)
+                        data = replace(data, 'field-clas-label', field.args.labelClass);
 
                     // Select
                     data = replace(data, 'option value="'+ field.type +'"', 'option selected value="'+ field.type +'"');
+
+
+                    // Checkboxs
+                    if(field.args.required != undefined && field.args.required)
+                     //   data = replace(data,'field[2][form-required]','[3][form-required banane]');
+
+                    //data = replace(data,'id="field['+ field.id+'][form-required]"','id="field['+field.id+'][form-required]" checked');
+
 
                     $("#fld").append(data);
                     fieldIncrement++;
