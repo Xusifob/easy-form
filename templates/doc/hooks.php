@@ -179,4 +179,38 @@
         </tbody>
     </table>
 
+    <h3>Connexuin</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Nom du hook</th>
+            <th>Arguments</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>form/BeforeConnectUser</td>
+            <td>aucun</td>
+            <td>Agis <strong>avant</strong> de connecter un utilisateur quelque soit le formulaire utilisé.</td>
+        </tr>
+        <tr>
+            <td>form/BeforeSendMail-{{formId}}</td>
+            <td>aucun</td>
+            <td>Agis <strong>avant</strong> de connecter un utilisateur Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>form/SendMail</td>
+            <td>aucun</td>
+            <td>Agis <strong>après</strong> avoir envoyé un e-mail de contact quelque soit le formulaire utilisé.</td>
+        </tr>
+        <tr>
+            <td>form/SendMail-{{formId}}</td>
+            <td>aucun</td>
+            <td>Agis <strong>après</strong> avoir envoyé un e-mail de contact. Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+        </tr>
+        </tbody>
+    </table>
+
 </div>
