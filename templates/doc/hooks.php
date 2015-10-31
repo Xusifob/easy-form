@@ -179,7 +179,7 @@
         </tbody>
     </table>
 
-    <h3>Connexuin</h3>
+    <h3>Connexion</h3>
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -195,18 +195,59 @@
             <td>Agis <strong>avant</strong> de connecter un utilisateur quelque soit le formulaire utilisé.</td>
         </tr>
         <tr>
-            <td>form/ConnectUser-{{formId}}</td>
+            <td>form/BeforeConnectUser-{{formId}}</td>
             <td>$creds (tableau comportant user_login, user_password et remember)</td>
-            <td>Agis <strong>après</strong> avoir connecté un utilisateur Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td>Agis <strong>avant</strong> de connecter un utilisateur Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>form/ConnectUser</td>
+            <td>$userId (l'id de l'utilisateur connecté)</td>
+            <td>Agis <strong>après</strong> avoir connecté un utilisateur quelque soit le formulaire utilisé.</td>
             <td></td>
         </tr>
         <tr>
             <td>form/ConnectUser-{{formId}}</td>
-            <td>$creds (tableau comportant user_login, user_password et remember)</td>
+            <td>$userId</td>
             <td>Agis <strong>après</strong> avoir connecté un utilisateur Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
             <td></td>
         </tr>
         </tbody>
     </table>
 
+    <h3>Connexion</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Nom du hook</th>
+            <th>Arguments</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>form/BeforeResetPassword</td>
+            <td>aucun</td>
+            <td>Agis <strong>avant</strong> de réinitialiser un mot de passe quelque soit le formulaire utilisé.</td>
+        </tr>
+        <tr>
+            <td>form/BeforeResetPassword-{{formId}}</td>
+            <td>aucun</td>
+            <td>Agis <strong>avant</strong> de réinitialiser un mot de passe Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>form/ResetPassword</td>
+            <td>aucun</td>
+            <td>Agis <strong>après</strong> avoir réinitialiseé un mot de passe quelque soit le formulaire utilisé.</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>form/ResetPassword-{{formId}}</td>
+            <td>aucun</td>
+            <td>Agis <strong>après</strong> avoir réinitialiseé un mot de passe Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
