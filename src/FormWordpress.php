@@ -502,8 +502,7 @@ class FormWordpress extends Form
             case 'connexion' :
                 $lien = ($lien == 'newpost') ? null : $lien;
 
-                do_action('form/ConnectUser');
-                do_action('form/ConnectUser-' . $this->id);
+
                 if($user = $this->connectUser($args)){
                     $this->setFormSend($thepostId);
 
