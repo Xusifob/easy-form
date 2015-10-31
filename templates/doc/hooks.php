@@ -191,24 +191,20 @@
         <tbody>
         <tr>
             <td>form/BeforeConnectUser</td>
-            <td>aucun</td>
+            <td>$creds (tableau comportant user_login, user_password et remember)</td>
             <td>Agis <strong>avant</strong> de connecter un utilisateur quelque soit le formulaire utilisé.</td>
         </tr>
         <tr>
-            <td>form/BeforeSendMail-{{formId}}</td>
-            <td>aucun</td>
-            <td>Agis <strong>avant</strong> de connecter un utilisateur Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td>form/ConnectUser-{{formId}}</td>
+            <td>$creds (tableau comportant user_login, user_password et remember)</td>
+            <td>Agis <strong>après</strong> avoir connecté un utilisateur Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
             <td></td>
         </tr>
         <tr>
-            <td>form/SendMail</td>
-            <td>aucun</td>
-            <td>Agis <strong>après</strong> avoir envoyé un e-mail de contact quelque soit le formulaire utilisé.</td>
-        </tr>
-        <tr>
-            <td>form/SendMail-{{formId}}</td>
-            <td>aucun</td>
-            <td>Agis <strong>après</strong> avoir envoyé un e-mail de contact. Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td>form/ConnectUser-{{formId}}</td>
+            <td>$creds (tableau comportant user_login, user_password et remember)</td>
+            <td>Agis <strong>après</strong> avoir connecté un utilisateur Remplacer {{formId}} par l'id d'un formulaire permet de cibler celui là spécifiquement.</td>
+            <td></td>
         </tr>
         </tbody>
     </table>
