@@ -959,6 +959,7 @@ class FormWordpress extends Form
             /* @since V 0.4 */
 
             do_action('form/BeforeConnectUser',$creds);
+            do_action('form/BeforeConnectUser-' .$this->id,$creds);
 
             return $this->doConnexion($creds);
         }else{
