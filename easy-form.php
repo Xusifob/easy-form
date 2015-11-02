@@ -118,7 +118,7 @@ class FormPlugin
 
 
     /**
-     * Affiche la page admin
+     * Displays the admin page
      */
     public function displayPage()
     {
@@ -154,12 +154,31 @@ class FormPlugin
                 $formFields = get_post_meta($_GET['modify'],'form-fields');
                 $submitArgs = get_post_meta($_GET['modify'],'form-submit-args');
                 $formSendArgs = get_post_meta($_GET['modify'],'form-send-args');
+
+
+                $i = 1;
+                foreach ($formFields[0] as $key => $field) {
+                    $formFields[0][$key]['id'] = $i;
+                    $i++;
+                }
             }else
                 unset($form);
 
         }
-        require_once __DIR__ . '/templates/add.php';
 
+        // Set all vars used in add.php
+        $inputs = [
+            'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'select', 'radio', 'url', 'range', 'color', 'search', 'hidden','file','textarea','taxonomy','wp_editor','open container','close container', 'close all container',
+        ];
+
+        $roles = FormPlugin::GetAllRoles();
+
+        $allposts = get_post_types();
+
+        $postDisabled = ['page','revision','attachment','nav_menu_item','acf-field','acf-field-group'];
+
+        // Call the template
+        require_once __DIR__ . '/templates/add.php';
     }
 
 
@@ -183,6 +202,9 @@ class FormPlugin
         include __DIR__ . '/templates/export.php';
     }
 
+    /**
+     * Display the preview page
+     */
     public function displayPrev()
     {
         if(isset($_GET['id']) && !empty($_GET['id'])){
