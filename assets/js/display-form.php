@@ -1,31 +1,15 @@
 <script type="text/javascript">
-    // All inputs available
-    var inputs = [
-        'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'radio', 'url', 'range', 'color', 'search', 'hidden','textarea'
-    ];
-
     // Set all fields depending on modify or add
     <?php
     if(isset($formFields[0])):
         echo 'var fields = ' .  json_encode($formFields[0]) . ';';
     else : ?>
-    var fields = [{
-        id: 1,
-        name : '',
+    var fd = getInput({
+        id : 1,
         type : 'text',
-        args : {
-            autocomplete : true,
-            'class' : '',
-            id : '',
-            label : '',
-            labelAfter : false,
-            labelClass : '',
-            placeholder : '',
-            readOnly : false,
-            required : true,
-            value : ''
-        }
-    }];
+        name : '';
+    });
+    var fields = [fd];
     <?php endif; ?>
 
     // Set the nb of fields at 0 for the start
@@ -34,15 +18,46 @@
     // Affiche toutes les données des champs
     function retrieveData(){
         if(fieldIncrement <fields.length){
-            getData(fields[fieldIncrement]);
+            displayData(fields[fieldIncrement]);
         }
     }
+
+
+    // Get the data and display it on the page
+    function displayData(field,expand){
+        console.log(fieldIncrement);
+        getData(field).done(function(data){
+            // J'affiche les champs
+            $("#fld").append(data);
+            // Je rend le champ draggable
+            $('#field-' + field.id).draggable(DraggableArgs);
+            // Je m'occupe de certains champs à cacher
+            handleHiddenFields(field.id,field.type);
+
+            if(expand === true)
+                $('a[data-field="'+ field.id +'"].open').click();
+
+
+            // J'incrémente le nombre de champs
+            fieldIncrement++;
+
+            // J'affiche les données
+            retrieveData();
+        });
+    }
+
+
+
 
     // Récupère le champ lié
     function getData(field){
 
-// Je récupère la base
+        // Create a promise
+        var dfd = new $.Deferred();
+
+        // Je récupère la base
         $.get('<?php echo plugins_url()?>/easy-form/templates/inputs/input-empty.php',function(base){
+
 
             if($.inArray(field.type,inputs) !== -1) {
                 var template = '<?php echo plugins_url()?>/easy-form/templates/inputs/input.php';
@@ -96,8 +111,7 @@
                         data = replace(data,'field-acf-field',field.args.acfField);
                 }
 
-                if(field.type == 'open_container')
-                    console.log(field);
+
 
                 // Handle Select Fields
                 if(field.type == 'select'){
@@ -119,25 +133,17 @@
                         }
                         // Add the options in the template
                         data = replace(data,'optionsFields',opts);
-
-                        $("#fld").append(data);
+                        dfd.resolve(data);
                     });
                 }else{
-                    // J'affiche les champs
-                    $("#fld").append(data);
+                    dfd.resolve(data);
                 }
-
-// Checkboxs
-                // Je rend le champ draggable
-                $('#field-' + fieldIncrement).draggable(DraggableArgs);
-
-// J'incrémente le nombre de champs
-                fieldIncrement++;
-// J'affiche les données
-                retrieveData();
             });
         });
+        // Return a promise
+        return dfd.promise();
     }
+
     // J'affiche tous les champs sur la page
     retrieveData();
 </script>
