@@ -1,4 +1,9 @@
-// Handle hidden fields on certains kinds of fields
+/**
+ *  Handle hidden fields on certains kinds of fields
+ *
+ * @param id
+ * @param type
+ */
 function handleHiddenFields(id,type){
     // Take care of checkbox & radios
     if($.inArray(type,inputs) != -1) {
@@ -10,7 +15,14 @@ function handleHiddenFields(id,type){
     }
 }
 
-// Update fields
+/**
+ *
+ * Update a field from id1 to id2
+ *
+ * @param field
+ * @param id1
+ * @param id2
+ */
 function updateIds(field, id1, id2) {
     field.attr("id", 'field-' + id2);
     field.find("*[data-field="+ id1 +"]").attr("data-field", id2);
@@ -29,7 +41,12 @@ function updateIds(field, id1, id2) {
     });
     field.find(".field-number").text(id2);
 }
-
+/**
+ * Switch thd id of 2 fields
+ *
+ * @param id1
+ * @param id2
+ */
 function switchIds(id1,id2) {
     var thefield = $('#field-' + id1);
     var fieldBefore = $('#field-' + id2);

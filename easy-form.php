@@ -173,13 +173,10 @@ class FormPlugin
 
         $roles = FormPlugin::GetAllRoles();
 
-        $allposts = get_post_types();
-
-        $postDisabled = ['page','revision','attachment','nav_menu_item','acf-field','acf-field-group'];
-
         // Call the template
         require_once __DIR__ . '/templates/add.php';
     }
+
 
 
     /**

@@ -215,12 +215,12 @@
 
 <!-- Include the modal -->
 <?php include __DIR__ . '/modals/modal-duplicate.php' ; ?>
+
 <script type="text/javascript">
     // Used to call jQuery with $
     var $ = jQuery;
 </script>
 <script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/empty-inputs.js'; ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/modal-duplicate.js'; ?>"></script>
 <script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/draggable.js'; ?>"></script>
 <script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/functions.js'; ?>"></script>
 <script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/actions.js'; ?>"></script>
@@ -230,88 +230,10 @@
 
 <script type="text/javascript">
 
+    var templatePath = '<?php echo plugins_url() . '/easy-form/templates'; ?>';
+
     var nbfield = <?php echo isset($i) ? ($i-1) : 1; ?> ;
-    var utilities = {
-        post: '<div class="row">' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-type">Type de post</label>' +
-        '<select name="form-send-type" class="form-control" id="form-send-type">' +
-        <?php
-        foreach ($allposts as $allpost){
-            if(!in_array($allpost,$postDisabled)){ ?>
-        '<option value="<?php echo $allpost; ?>"><?php echo $allpost; ?></option>' +
-        <?php } } ?>
-        '</select>' +
-        '</div>' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-staut">Statut</label>' +
-        '<select id="form-send-staut" class="form-control" name="form-send-staut">' +
-        <?php $post_status = get_post_stati();
-        foreach($post_status as $post_statut){ ?>
-        '<option value="<?php echo $post_statut; ?>"><?php echo $post_statut; ?></option>' +
-        <?php } ?>
-        '</select>' +
-        '</div>' +
-        '</div>',
 
-        user: '<div class="row">' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-role">Role</label>' +
-        '<select name="form-send-role" id="form-send-role" class="form-control">' +
-        <?php foreach($roles as $role){ ?>
-        '<option <?php echo (isset($formSendArgs[0]['role']) && $formSendArgs[0]['role'] == $role['slug'] ) ? 'selected' : ''; ?> value="<?php echo $role['slug']; ?>"><?php echo $role['name']; ?></option>' +
-        <?php } ?>
-        '</select>' +
-        '</div>' +
-        '<div class="col-sm-4">' +
-        '<br>' +
-        '<input type="checkbox" name="form-connexion-user" id="form-connexion-user">' +
-        '<label for="form-connexion-user" class="label-checkbox">Connecter l\'utilisateur à l\'inscription</label>' +
-        '</div>' +
-        '</div>',
 
-        email: '<div class="row">' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-subject">Objet</label>' +
-        '<input type="text" name="form-send-subject" id="form-send-subject" placeholder="Objet" class="form-control"/>' +
-        '</div>' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-recipientEmail">Email destinataire</label>' +
-        '<input type="email" name="form-send-recipientEmail" id="form-send-recipientEmail" placeholder="Email destinataire" value="<?php echo get_option('admin_email'); ?>" class="form-control"/>' +
-        '</div>' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-recipientName">Nom du destinataire</label>' +
-        '<input type="text" name="form-send-recipientName" id="form-send-recipientName" placeholder="Nom du destinataire" value="<?php echo get_option('blogname'); ?>" class="form-control"/>' +
-        '</div>' +
-        '</div>',
 
-        connexion: '<div class="row">' +
-        '<div class="col-sm-4">' +
-        '<input type="checkbox" name="form-send-remember" id="form-send-remember" value="1"/>' +
-        '<label for="form-send-remember" id="form-send-remember" class="label-checkbox">Se souvenir de l\'utilisateur</label>' +
-        '</div>' +
-        '</div>',
-
-        resetPassword : '<div class="row form-group">' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-subject">Objet</label>' +
-        '<input type="text" name="form-send-subject" id="form-send-subject" value="Réinitialisation du mot de passe" ?> placeholder="Objet" class="form-control"/>' +
-        '</div>' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-senderEmail">Email de l\'expéditeur</label>' +
-        '<input type="email" name="form-send-senderEmail" id="form-send-senderEmail" placeholder="Email expéditeur"  value="<?php echo addslashes(get_option('admin_email')); ?>" class="form-control"/>' +
-        '</div>' +
-        '<div class="col-sm-4">' +
-        '<label for="form-send-senderName">Nom de l\'expéditeur</label>' +
-        '<input type="text" name="form-send-senderName" id="form-send-senderName" placeholder="Nom du expéditeur"  value="<?php echo addslashes(get_option('blogname')); ?>" class="form-control"/>' +
-        '</div>' +
-        '</div>' +
-        '<div class="row form-group">' +
-        '<div class="col-sm-12">' +
-        '<label for="form-send-message">Message</label>' +
-        '<p class="infos">Utilisez %PASSWORD% à la place du mot de passe et %ID% pour l\'identifiant de l\'utilisateur</p>' +
-        '<textarea name="form-send-message" id="form-send-message" cols="30" rows="10" placeholder="Message (texte brut ou HTML)"></textarea>' +
-        '</div>' +
-        '</div>'
-    };
 </script>

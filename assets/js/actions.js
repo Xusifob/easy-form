@@ -1,4 +1,16 @@
-// Au changement du form type
+// Use to display the duplication field modal
+$('.move').on('click',function() {
+    var fieldId = $(this).attr('data-field');
+    $('#form-duplicate-field-id').val(fieldId);
+    $('#modal-move').modal('show');
+
+    return false;
+});
+
+
+/**
+ * @event : Called on change of the form type,
+ */
 $('body').on('change','select[name$="form-type]"]',function(){
     // Kind of field
     var type = $(this).val();
@@ -22,7 +34,9 @@ $('body').on('change','select[name$="form-type]"]',function(){
 
 });
 
-// Ajout d'un champ
+/**
+ * @Event : Called at click on the button add, add a new field
+ */
 $('button[data-action="add"]').on('click',function(){
     $('.minify').each(function(){
         $(this).click();
@@ -39,7 +53,9 @@ $('button[data-action="add"]').on('click',function(){
     nbfield++;
 });
 
-
+/**
+ * @event : Clic on delete button, delete a field
+ */
 $('body')
     .on('click','.delete',function(){
         var id = parseInt($(this).attr('data-field'));
@@ -51,6 +67,9 @@ $('body')
         return false;
 
 
+        /**
+         * @event : Clic on minify button : hide the options of the field
+         */
     }).on('click','.minify',function(){
 
         var id = $(this).attr('data-field');
@@ -63,6 +82,9 @@ $('body')
         return false;
 
 
+        /**
+         * @event : Clic on open button, show the field options
+         */
     }).on('click','.open',function(){
         var id = parseInt($(this).attr('data-field'));
         $('.options-'+ id ).show(200);
@@ -74,6 +96,9 @@ $('body')
         return false;
 
     })
+/**
+ * @Event : called on "up" arrow, move the field 1 way up
+ */
     .on('click','.up',function(){
         var id = parseInt($(this).attr('data-field'));
         if(id != 1)
@@ -81,6 +106,9 @@ $('body')
 
         return false;
     })
+/**
+ * @event : Called on "down" arrow, move the field 1 way down
+ */
     .on('click','.down',function(){
         var id = parseInt($(this).attr('data-field'));
         if(id != nbfield)
@@ -88,6 +116,9 @@ $('body')
 
         return false;
     })
+/**
+ * @event : clic on duplicate field, create a new field with the same properties
+ */
     .on('click','.dupliquer',function(){
         var id = parseInt($(this).attr('data-field'));
 
@@ -105,33 +136,26 @@ $('body')
         nbfield++;
         return false;
     })
+/**
+ * @Event : clic on add option button (for a select) : add a new option row
+ */
     .on('click','button[data-action="add-option"]',function(){
 
         var id = parseInt($(this).attr('data-field'));
 
         var nbOptions = $('.option-select').length +1;
-
-        $(this).before(
-            '<div class="row option-select" id="option-select'+ id +'-'+ nbOptions +'">' +
-            '<div class="col-sm-4">' +
-            '<div class="form-group">' +
-            '<input type="text" id="field['+ id +'][form-select-option-name]['+ nbOptions +']" name="field['+ id +'][form-select-option]['+ nbOptions +'][name]" placeholder="Nom de l\'option" class="form-control" required/>' +
-            '</div>' +
-            '</div>' +
-            '<div class="col-sm-4">' +
-            '<div class="form-group">' +
-            '<input type="text" id="field['+ id +'][form-select-option-name]['+ nbOptions +']" name="field['+ id +'][form-select-option]['+ nbOptions +'][value]" placeholder="Valeur de l\'option" class="form-control" required/>' +
-            '</div>' +
-            '</div>' +
-            '<div class="col-sm-3">' +
-            '<input type="radio" id="field['+ id +'][form-select-option-selected]['+ nbOptions +']" name="field['+ id +'][form-select-option-selected]" value="'+ nbOptions +'"  class="form-control" required/>' +
-            '<label for="field['+ id +'][form-select-option-selected]['+ nbOptions +']" class="label-checkbox">Ce champ est séléctionné</label>' +
-            '</div>' +
-            '<div class="col-sm-1">' +
-            '<a href="#" data-field="'+ id +'" data-option="'+ nbOptions +'" class="upanddown removeoption">×</a>' +
-            '</div>' +
-            '</div>'
-        );
+        var $this = $(this);
+        getOption({
+            id : id,
+            nbOptions : nbOptions,
+            option : {
+                content: "",
+                select: true,
+                value: ""
+            }
+        }).done(function(option){
+            $this.before(option);
+        });
     })
     .on('click','.removeoption',function(){
         var id = parseInt($(this).attr('data-field'));
@@ -147,6 +171,9 @@ $('body')
         var input = $('input[name="field['+ id +'][form-name]"');
         input.val($(this).val());
     })
+/**
+ * @event : on called at select
+ */
     .on('change','select[name$="[form-taxonomy]"]',function(){
         var id = parseInt($(this).attr('data-field'));
 
@@ -154,3 +181,12 @@ $('body')
 
         $('input[name="field['+ id +'][form-name]"]').val('taxonomy_'+ val);
     });
+
+// Change utility on top
+$('select[name="form-utility"]').change(function(){
+    var val = $(this).val();
+
+    $.get(templatePath + '/form-actions/' + val + '.php' , function (data) {
+        $('.utilities').html(data);
+    });
+});

@@ -60,9 +60,9 @@
 
 
             if($.inArray(field.type,inputs) !== -1) {
-                var template = '<?php echo plugins_url()?>/easy-form/templates/inputs/input.php';
+                var template = templatePath + '/inputs/input.php';
             }else {
-                var template = '<?php echo plugins_url()?>/easy-form/templates/inputs/' + field.type + '.php';
+                var template = templatePath + '/inputs/' + field.type + '.php';
             }
             $.get(template, function () {
             }).always(function(data){
@@ -115,7 +115,7 @@
 
                 // Handle Select Fields
                 if(field.type == 'select'){
-                    $.get('<?php echo plugins_url()?>/easy-form/templates/inputs/options.php',function(optionTemplate) {
+                    $.get(templatePath + '/inputs/options.php',function(optionTemplate) {
                         // Create the opts
                         var opts = '';
                         for(opt = 0; opt< field.args.options.length;opt++){
@@ -146,4 +146,25 @@
 
     // J'affiche tous les champs sur la page
     retrieveData();
+
+    function getOption(field){
+
+        // Create a promise
+        var dfd = new $.Deferred();
+
+        $.get(templatePath + '/inputs/options.php',function(optionTemplate) {
+
+            // Replace the sub field Id
+            optionTemplate = replace(optionTemplate, 'fieldSubId',field.nbOptions);
+            optionTemplate = replace(optionTemplate, 'fieldId', field.id);
+            optionTemplate = replace(optionTemplate, 'OptionName', field.option.content);
+            optionTemplate = replace(optionTemplate, 'OptionValue', field.option.value);
+            optionTemplate = replace(optionTemplate, 'OptionSelected', field.option.select === true ? 'selected' : '');
+            // Add the options in the template
+
+            dfd.resolve(optionTemplate);
+        });
+        return dfd.promise();
+    }
+
 </script>
