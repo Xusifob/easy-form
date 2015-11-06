@@ -4,6 +4,10 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 
 ## Changelogs
 
+### Version 0.5 :
+ * Refactor whole add.php code for better maintaining
+
+
 ### Version 0.4 :
  * Update doc for radio button
  * Update file field
