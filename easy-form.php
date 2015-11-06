@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://baltazare.fr
 Description: Permet de créer et styliser des formulaires facilement
-Version: 0.4
+Version: 0.5
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 License: MIT
@@ -36,6 +36,9 @@ class FormPlugin
         if(!class_exists('WP_Form'))
             include_once plugin_dir_path( __FILE__ ).'/src/WP_Form.php';
 
+        if(!class_exists('PHPMailer'))
+            include_once plugin_dir_path( __FILE__ ).'/src/class-phpmailer.php';
+
         // Gestion de la partie admin
         if(is_admin()){
             $pgs = [
@@ -64,6 +67,35 @@ class FormPlugin
             }
         }
     }
+
+    /**
+     * Called on plugin activation : Create user & usermeta tabs
+     */
+    public function activate(){
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+        $table_meta = $wpdb->prefix . 'easy_form_usermeta';
+
+        // Create user table
+        if($wpdb->get_var("show tables like '$table'") != $table){
+            $sql = "CREATE TABLE $table LIKE {$wpdb->prefix}users";
+
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        }
+
+        // Create usermeta table
+        if($wpdb->get_var("show tables like '$table_meta'") != $table_meta){
+            $sql = "CREATE TABLE $table_meta LIKE {$wpdb->prefix}usermeta";
+
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        }
+    }
+
+
 
     /**
      * Ajoute le menu
@@ -414,6 +446,7 @@ class FormPlugin
                             $args = [
                                 'role' => $_POST['form-send-role'],
                                 'connectUser' => isset($_POST['form-connexion-user']),
+                                'emailUser' => isset($_POST['form-email-user']),
                             ];
                             update_post_meta($pid,'form-send-args',$args);
                             break;
@@ -485,11 +518,12 @@ class FormPlugin
         }
     }
 
-
+    /**
+     * Handle duplicate fields
+     */
     public function handleDuplicateFields()
     {
         if(isset($_POST['action']) && $_POST['action'] == 'duplicate_field') {
-            vardump($_POST);
 
             if(!wp_verify_nonce($_POST['wp_nonce'],'duplicate_field'))
                 die('Security check');
@@ -507,6 +541,10 @@ class FormPlugin
         }
     }
 
+
+    /**
+     * Handle duplicate forms
+     */
     public function handleDuplicate()
     {
         if(isset($_POST['form-duplicate']) && !empty($_POST['form-duplicate'])){
@@ -742,4 +780,7 @@ class FormPlugin
 
     }
 }
+
+register_activation_hook(__FILE__, array('$formPlugin = new FormPlugin();', 'activate'));
+
 $formPlugin = new FormPlugin();

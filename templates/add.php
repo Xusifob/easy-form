@@ -1,6 +1,7 @@
 <div class="wrap gf_browser_chrome">
     <form action="<?php echo $_SERVER['REQUEST_URI'];?>&noheader=true" method="post">
         <?php
+
         // If it's a modification, I put the id in a hidden field
         /** @var $form WP_Post */
         if(isset($form)): ?>
@@ -72,7 +73,6 @@
         <h2>3 - Les champs</h2>
         <section class="panel-wordpress" id="allfields">
             <div id="fld">
-
             </div>
             <div class="row">
                 <button class="button button-primary button-large right" data-action="add" type="button">Ajouter un champ</button>
@@ -108,6 +108,7 @@
     // Used to call jQuery with $
     var $ = jQuery;
 
+
     var templatePath = '<?php echo plugins_url() . '/easy-form/templates'; ?>';
 
 </script>
@@ -121,10 +122,6 @@
 
 <script type="text/javascript">
 
-
     var nbfield = <?php echo isset($i) ? ($i-1) : 1; ?> ;
-
-
-
 
 </script>
