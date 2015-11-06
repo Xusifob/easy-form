@@ -2,6 +2,8 @@
 var inputs = [
     'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'radio', 'url', 'range', 'color', 'search', 'hidden','textarea'
 ];
+
+
 // All empty inputs with theirs attributs
 function getInput(args) {
     var emptyInputs = {

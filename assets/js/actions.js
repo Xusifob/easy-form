@@ -186,7 +186,42 @@ $('body')
 $('select[name="form-utility"]').change(function(){
     var val = $(this).val();
 
+    getUtilities(val,utilitiesEmpty[val]);
+});
+
+/**
+ * Display utilities on the map
+ *
+ * @param val
+ */
+function getUtilities(val,formSendArgs){
     $.get(templatePath + '/form-actions/' + val + '.php' , function (data) {
+        console.log(formSendArgs);
+        console.log(val);
+        switch (val){
+            case 'post':
+                data = replace(data, 'value="' +formSendArgs.post_type+ '"', 'value="' +formSendArgs.post_type + '" selected');
+                data = replace(data, 'value="' +formSendArgs.post_status+ '"', 'value="' +formSendArgs.post_status + '" selected');
+                break;
+            case 'connexion':
+                data = replace(data, 'ConnectUserChecked',formSendArgs.remember ? 'checked' : '');
+                break;
+            case 'user':
+                data = replace(data, 'value="' +formSendArgs.role+ '"', 'value="' +formSendArgs.role + '" selected');
+                data = replace(data, 'ConnectUserChecked',formSendArgs.connectUser ? 'checked' : '');
+                break;
+            case 'email' :
+                data = replace(data, 'SubjectValue','value="'+ formSendArgs.subject +'"');
+                data = replace(data, 'recipiendNameValue','value="'+ formSendArgs.recipientName +'"');
+                data = replace(data, 'recipiendEmailValue','value="'+ formSendArgs.recipientEmail +'"');
+                break;
+            case 'resetPassword':
+                data = replace(data, 'SubjectValue','value="'+ formSendArgs.subject +'"');
+                data = replace(data, 'senderEmailValue','value="'+ formSendArgs.senderEmail +'"');
+                data = replace(data, 'SenderNameValue','value="'+ formSendArgs.senderName +'"');
+                data = replace(data, 'MessageValue','value="'+ formSendArgs.message +'"');
+                break;
+        }
         $('.utilities').html(data);
     });
-});
+}

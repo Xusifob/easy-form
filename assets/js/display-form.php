@@ -7,10 +7,48 @@
     var fd = getInput({
         id : 1,
         type : 'text',
-        name : '';
+        name : ''
     });
     var fields = [fd];
     <?php endif; ?>
+
+
+    var utilitiesEmpty = {
+        post : {
+            post_type: "post",
+            post_status: "publish"
+        },
+        connexion : {
+            remember: true
+        },
+        user :  {
+            role: "current",
+            connectUser: true
+        }
+        email : {
+            subject: "",
+            recipientEmail: "<?php echo get_option('admin_email'); ?>",
+            recipientName: "<?php echo get_option('blogname'); ?>"
+        },
+        resetPassword :
+        {
+            subject: "Réinitialisation du mot de passe",
+            senderEmail: "<?php echo get_option('admin_email'); ?>",
+            senderName: "<?php echo get_option('blogname'); ?>",
+            message: ""
+        }
+    };
+
+
+
+
+
+
+
+    var formType = "<?php echo isset($formMetas['form-type'][0]) ? $formMetas['form-type'][0] : 'post'; ?>";
+    var formSendArgs = <?php echo isset($formSendArgs[0]) ?  json_encode($formSendArgs[0]) : '""'; ?>;
+
+        getUtilities(formType,formSendArgs);
 
     // Set the nb of fields at 0 for the start
     var fieldIncrement = 0;
@@ -21,7 +59,6 @@
             displayData(fields[fieldIncrement]);
         }
     }
-
 
     // Get the data and display it on the page
     function displayData(field,expand){
@@ -36,7 +73,6 @@
 
             if(expand === true)
                 $('a[data-field="'+ field.id +'"].open').click();
-
 
             // J'incrémente le nombre de champs
             fieldIncrement++;
