@@ -48,8 +48,6 @@ class WP_Form
                 $formArgs = get_post_meta($formId,'form-args')[0];
 
 
-
-
                 $formArgs['postId'] = $postId;
                 /** @since V 0.4 */
                 $formArgs['formId'] = $formId;
