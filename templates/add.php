@@ -135,7 +135,7 @@ $postDisabled = ['page','revision','attachment','nav_menu_item','acf-field','acf
                     <div class="col-sm-4">
                         <br>
                         <input type="checkbox" name="form-email-user" <?php echo isset($formSendArgs[0]['emailUser']) && !empty($formSendArgs[0]['emailUser']) ? 'checked' : ''; ?> id="form-email-user">
-                        <label for="form-email-user" class="label-checkbox">Envoyer un e-mail à l'inscription</label>
+                        <label for="form-email-user" class="label-checkbox">Activer l'inscription par e-mail</label>
                     </div>
                 </div>
                 <?php break; ?>
@@ -1420,7 +1420,7 @@ $my_query = new WP_Query($args);
             '<div class="col-sm-4">' +
             '<br>' +
             '<input type="checkbox" name="form-email-user" id="form-email-user">' +
-            '<label for="form-email-user" class="label-checkbox">Envoyer un e-mail à l\'inscription</label>' +
+            '<label for="form-email-user" class="label-checkbox">Activer l\'inscription par e-mail</label>' +
             '</div>' +
             '</div>',
 
