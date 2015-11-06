@@ -448,7 +448,8 @@ class FormWordpress extends Form
                 }
 
                 $lien = ($lien == 'newpost') ? null : $lien;
-                if($postId = $this->insertUser($postId,$args)) {
+
+                if($postId  = $this->insertUser($postId,$args)) {
                     $this->setFormSend($thepostId);
 
                     // Actions
@@ -767,22 +768,24 @@ class FormWordpress extends Form
     {
         if($this->canInsertUser($postId)) {
 
+            // Handle User has to be activated by e-mail
+            $ActivateUser = isset($args['emailUser']) && true === $args['emailUser'];
+
 
             if(isset($args['role'])){
                 if($args['role'] == 'current'){
-                    $role = $this->get_user_role($postId);
+                    if(is_user_logged_in())
+                        $role = $this->get_user_role($postId);
+                    else
+                        $role = 'subscriber';
                 }else
                     $role = $args['role'];
             }else
                 $role = 'subscriber';
 
 
-
-
-
             // If there is an id it's an update, else it's an insert
             if(isset($postId) && null != ($postId)) {
-
                 $postarr = [
                     'ID' => $postId,
                     'user_email' => isset($_POST['email']) ? $_POST['email'] : '',
@@ -814,10 +817,22 @@ class FormWordpress extends Form
                 if(isset($_POST['password']) && !empty($_POST['password']))
                     $postarr['user_pass'] = $_POST['password'];
 
-                $postId = wp_insert_user($postarr);
+
+                if($ActivateUser) {
+                    /** @Since V 0.5 **/
+                    $postId = $this->InsertUnactiveUser($postarr);
+                }else{
+                    $postId = wp_insert_user($postarr);
+                }
             }
 
-
+            /**
+             * Check if there is an error
+             */
+            if(is_wp_error($postId)){
+                $this->error = $postId->get_error_message();
+                return false;
+            }
 
 
             // Array of fields which are not metas
@@ -840,10 +855,18 @@ class FormWordpress extends Form
                     if (!in_array($field['name'], $notField)) {
                         if (isset($field['multiple']) && $field['multiple'] && is_array($_POST[$field['name']])) {
                             foreach ($_POST[$field['name']] as $val) {
-                                add_user_meta($postId, $field['name'], $val);
+                                if($ActivateUser){
+                                    $this->addUnactiveUserMeta($postId,$field['name'],$val);
+                                }else {
+                                    add_user_meta($postId, $field['name'], $val);
+                                }
                             }
                         } else {
-                            update_user_meta($postId, $field['name'], $_POST[$field['name']]);
+                            if($ActivateUser){
+                                $this->addUnactiveUserMeta($postId,$field['name'],$_POST[$field['name']]);
+                            }else {
+                                update_user_meta($postId, $field['name'], $_POST[$field['name']]);
+                            }
                         }
                     }
                 }else {
@@ -870,7 +893,10 @@ class FormWordpress extends Form
                     }
                 }
             }
-            if($args['connectUser']){
+            /**
+             * If the forms asks to connect the user (you can't connect & have to activate the user)
+             */
+            if($args['connectUser'] && !$ActivateUser){
                 $creds = [
                     'user_login' => isset($_POST['login']) ? $_POST['login'] : $_POST['email'],
                     'user_password' => $_POST['password'],
@@ -878,6 +904,11 @@ class FormWordpress extends Form
                 ];
                 $this->doConnexion($creds);
             }
+            /**
+             * Send the e-mail for unactive user
+             */
+            $this->sendMailActivate($postId);
+
             return $postId;
         }else{
             return false;
@@ -1024,7 +1055,7 @@ class FormWordpress extends Form
         $string = '';
 
         // Every carac
-        $chaine = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#@$0123456789sdfhDFHGgfdhg';
+        $chaine = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$0123456789sdfhDFHGgfdhg';
         srand((double)microtime()*time());
         for($i=0; $i<$car; $i++) {
             $string .= $chaine[rand()%strlen($chaine)];
@@ -1090,4 +1121,297 @@ class FormWordpress extends Form
     {
         echo $this->get_form_uniqId();
     }
+
+
+    /**
+     * Insert an unactive user
+     *
+     * @CalledIn : FormWordpress::insertUser
+     * @Since V 0.5
+     * @param $postarr
+     * @return WP_Error|mixed
+     */
+    private function InsertUnactiveUser($postarr){
+
+        $user = get_user_by('login',$postarr['user_login']);
+
+        $this->sendMailActivate(25);
+
+        if($user)
+            return new WP_Error(99,"Un utilisateur avec le même identifiant a été trouvé");
+
+        if($this->SelectUnactiveUser('user_login',$postarr['user_login']))
+            return new WP_Error(99,"Un utilisateur avec le même identifiant a été trouvé");
+
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+
+        $postarr['user_activation_key'] = $this->random(55);
+
+        $sql = "INSERT INTO $table (
+            user_login,
+            user_pass,
+            user_email,
+            user_url,
+            user_activation_key
+             ) VALUES (
+             '{$postarr['user_login']}',
+             '{$postarr['user_pass']}',
+             '{$postarr['user_email']}',
+             '{$postarr['user_url']}',
+             '{$postarr['user_activation_key']}'
+             )";
+        $wpdb->query($sql);
+
+        // Get User Id
+        $userId = $this->SelectUnactiveUser('user_login',$postarr['user_login'])->ID;
+
+        if(isset($postarr['first_name']))
+            $this->addUnactiveUserMeta($userId,'first_name',$postarr['first_name']);
+
+        if(isset($postarr['last_name']))
+            $this->addUnactiveUserMeta($userId,'last_name',$postarr['last_name']);
+
+        if(isset($postarr['description']))
+            $this->addUnactiveUserMeta($userId,'description',$postarr['description']);
+
+        if(isset($postarr['role']))
+            $this->addUnactiveUserMeta($userId,'role',$postarr['role']);
+
+        return $userId;
+    }
+
+    /**
+     * Return a user from a certain condition
+     *
+     * @param $key
+     * @param $val
+     * @return mixed
+     */
+    private function SelectUnactiveUser($key,$val){
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+        $sql = "SELECT * FROM $table WHERE {$key} = '{$val}'";
+        return $wpdb->get_row($sql);
+    }
+
+    /**
+     * Return a user from a certain condition
+     *
+     * @param $userId
+     * @param string $key
+     * @return mixed
+     */
+    private function SelectUnactiveUserMeta($userId,$key = null){
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_usermeta';
+        $sql = "SELECT * FROM $table WHERE (user_id = '{$userId}')";
+
+        if($key !== null)
+            $sql .= "AND ( meta_key  = '{$key}' )";
+
+        $results = $wpdb->get_results($sql);
+
+        $resultSorted = new stdClass();
+        if(is_array($results)) {
+            foreach ($results as $result) {
+                $resultSorted->{$result->meta_key} = $result->meta_value;
+            }
+        }else
+            $resultSorted = $results;
+
+        return $resultSorted;
+    }
+
+    /**
+     * @param $userId
+     * @param $key
+     * @param $value
+     * @return false|int
+     */
+    private function addUnactiveUserMeta($userId,$key,$value){
+
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_usermeta';
+
+        $sql = "INSERT INTO $table (
+            user_id,
+            meta_key,
+            meta_value
+
+             ) VALUES (
+             '$userId',
+             '$key',
+             '$value'
+             )";
+        return $wpdb->query($sql);
+    }
+
+
+    /**
+     * Remove a selected user
+     *
+     * @param $userId
+     * @return false|int
+     */
+    private function removeUnactiveUser($userId){
+
+        if(!is_int($userId))
+            return false;
+
+
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+
+        // Delete user
+        $sql = "DELETE FROM $table WHERE ID = $userId";
+        $wpdb->query($sql);
+
+        // Delete metas
+        $table = $wpdb->prefix . 'easy_form_usermeta';
+        $sql = "DELETE FROM $table WHERE user_id = $userId";
+
+        return $wpdb->query($sql);
+    }
+
+    /**
+     * @param $userId
+     * @return bool
+     */
+    private function sendMailActivate($userId){
+
+        /** @var $user */
+        $user = $this->SelectUnactiveUser('ID',$userId);
+        $metas = $this->SelectUnactiveUserMeta($user->ID);
+
+
+        $email = get_option('admin_email');
+        $name = get_option('blogname');
+        $mail = new PHPMailer();
+        $mail->setFrom($email,$name);
+        $mail->addAddress($user->user_email,$metas->first_name . ' ' . $metas->last_name);
+
+        $mail->Subject = "Inscription sur $name Confirmation de l'e-mail";
+
+        $message = $this->getFormTemplate('activeAccount.php');
+
+        $union = isset($_GET) && !empty($_GET) ? '&' : '?';
+
+
+        $lien = $_SERVER['REQUEST_URI'] . $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
+
+        $message = str_replace('%NOM%',$metas->first_name,$message);
+        $message = str_replace('%/LIEN%','</a>',$message);
+        $message = str_replace('%LIEN%','<a href="'. $lien .'">',$message);
+        $message = str_replace('%BLOGNAME%',$name,$message);
+
+        vardump($message);
+
+        $mail->Body = $message;
+        return $mail->send();
+    }
+
+    /**
+     * @param $templateUrl
+     * @return string
+     */
+    private function getTemplate($templateUrl){
+        if(file_exists($templateUrl)) {
+            ob_start();
+            require $templateUrl;
+            $var = ob_get_clean();
+            return $var;
+        }else
+            return '';
+    }
+
+
+    /**
+     * @param $templateName
+     * @return bool
+     */
+    private function templateExists($templateName){
+        return file_exists(get_template_directory() . '/EasyFormTemplates/' . $templateName);
+    }
+
+    /**
+     * Returns the template overided in theme || the form default template
+     *
+     * @param $templateName
+     * @return string
+     */
+    private function getFormTemplate($templateName){
+        if($this->templateExists($templateName)){
+            return $this->getTemplate(get_template_directory() . 'EasyFormTemplates/' . $templateName);
+        }else{
+            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../templates/mail/' . $templateName);
+        }
+    }
+
+    /**
+     * Check if there is unactive users's activation on this page
+     *
+     * @return bool
+     */
+    public function CheckUnactiveUsers(){
+
+        if(!isset($_GET['key']) || !isset($_GET['login']))
+            return false;
+
+
+        $user = $this->SelectUnactiveUser('user_login',$_GET['login']);
+
+        if(NULL === $user) {
+            $this->error = 'Utilisateur introuvable ou déjà activé';
+            return false;
+        }
+
+
+        if($user->user_activation_key != $_GET['key']) {
+            $this->error = 'Clé incorrect pour l\'utilisateur choisi';
+            return false;
+        }
+
+        $metas = $this->SelectUnactiveUserMeta($user->ID);
+
+
+        $postarr = [
+            'user_email' => $user->user_email,
+            'user_url' => $user->user_email,
+            'user_pass' => $user->user_pass,
+            'user_login' => $user->user_login,
+            'first_name' => isset($metas->first_name) ? $metas->first_name : '',
+            'last_name' => isset($metas->last_name) ? $metas->last_name : '',
+            'description' => isset($metas->description) ? $metas->description : '',
+            'role' => $metas->role,
+        ];
+
+        $userId = wp_insert_user($postarr);
+
+        if(is_wp_error($userId)) {
+            $this->error = $userId->get_error_message();
+            return false;
+        }
+
+        $forgetMeta = ['role','last_name','description','first_name',];
+
+        foreach ($metas as $key => $val){
+            if(!in_array($key,$forgetMeta))
+                add_user_meta($userId, $key, $val);
+        }
+
+
+        return $this->removeUnactiveUser($user->ID);
+    }
+
 }

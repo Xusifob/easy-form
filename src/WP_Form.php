@@ -39,7 +39,7 @@ class WP_Form
         if(is_numeric($formId)){
             $form = get_post($formId);
 
-            if($form->post_type == 'form-plugin-bastien'){
+            if(is_object($form) && $form->post_type == 'form-plugin-bastien'){
 
                 // All form metas
                 $formMetas = get_post_meta($formId);
@@ -143,6 +143,8 @@ class WP_Form
      */
     private function CheckForm()
     {
+        $this->form->CheckUnactiveUsers();
+
         // If form is valid
         if($this->form->isValid()){
             $formType = get_post_meta($this->formId,'form-type')[0];
