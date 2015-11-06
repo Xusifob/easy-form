@@ -25,7 +25,7 @@
 
     // Get the data and display it on the page
     function displayData(field,expand){
-        console.log(fieldIncrement);
+
         getData(field).done(function(data){
             // J'affiche les champs
             $("#fld").append(data);
@@ -111,8 +111,6 @@
                         data = replace(data,'field-acf-field',field.args.acfField);
                 }
 
-
-
                 // Handle Select Fields
                 if(field.type == 'select'){
                     $.get(templatePath + '/inputs/options.php',function(optionTemplate) {
@@ -132,7 +130,7 @@
                             opts += tmpOption;
                         }
                         // Add the options in the template
-                        data = replace(data,'optio  nsFields',opts);
+                        data = replace(data,'optionsFields',opts);
                         dfd.resolve(data);
                     });
                 }else{
