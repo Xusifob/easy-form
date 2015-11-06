@@ -132,7 +132,7 @@
                             opts += tmpOption;
                         }
                         // Add the options in the template
-                        data = replace(data,'optionsFields',opts);
+                        data = replace(data,'optio  nsFields',opts);
                         dfd.resolve(data);
                     });
                 }else{

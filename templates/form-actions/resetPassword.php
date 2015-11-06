@@ -1,4 +1,10 @@
-<div class="row form-group">
+<?php
+define('WP_USE_THEMES', false);
+global $wp, $wp_query, $wp_the_query, $wp_rewrite, $wp_did_header;
+require(__DIR__ . '/../../../../../wp-load.php');
+
+
+?><div class="row form-group">
     <div class="col-sm-4">
         <label for="form-send-subject">Objet</label>
         <input type="text" name="form-send-subject" id="form-send-subject" value="Réinitialisation du mot de passe" placeholder="Objet" class="form-control"/>

@@ -1,4 +1,10 @@
-<div class="row">
+<?php
+define('WP_USE_THEMES', false);
+global $wp, $wp_query, $wp_the_query, $wp_rewrite, $wp_did_header;
+require(__DIR__ . '/../../../../../wp-load.php');
+
+$roles = FormPlugin::GetAllRoles();
+?><div class="row">
     <div class="col-sm-4">
         <label for="form-send-role">Role</label>
         <select name="form-send-role" id="form-send-role" class="form-control">
