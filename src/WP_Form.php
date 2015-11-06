@@ -143,6 +143,8 @@ class WP_Form
      */
     private function CheckForm()
     {
+        $this->form->CheckUnactiveUsers();
+
         // If form is valid
         if($this->form->isValid()){
             $formType = get_post_meta($this->formId,'form-type')[0];

@@ -1055,7 +1055,7 @@ class FormWordpress extends Form
         $string = '';
 
         // Every carac
-        $chaine = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#@$0123456789sdfhDFHGgfdhg';
+        $chaine = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$0123456789sdfhDFHGgfdhg';
         srand((double)microtime()*time());
         for($i=0; $i<$car; $i++) {
             $string .= $chaine[rand()%strlen($chaine)];
@@ -1255,6 +1255,35 @@ class FormWordpress extends Form
         return $wpdb->query($sql);
     }
 
+
+    /**
+     * Remove a selected user
+     *
+     * @param $userId
+     * @return false|int
+     */
+    private function removeUnactiveUser($userId){
+
+        if(!is_int($userId))
+            return false;
+
+
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+
+        // Delete user
+        $sql = "DELETE FROM $table WHERE ID = $userId";
+        $wpdb->query($sql);
+
+        // Delete metas
+        $table = $wpdb->prefix . 'easy_form_usermeta';
+        $sql = "DELETE FROM $table WHERE user_id = $userId";
+
+        return $wpdb->query($sql);
+    }
+
     /**
      * @param $userId
      * @return bool
@@ -1327,6 +1356,62 @@ class FormWordpress extends Form
         }else{
             return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../templates/mail/' . $templateName);
         }
+    }
+
+    /**
+     * Check if there is unactive users's activation on this page
+     *
+     * @return bool
+     */
+    public function CheckUnactiveUsers(){
+
+        if(!isset($_GET['key']) || !isset($_GET['login']))
+            return false;
+
+
+        $user = $this->SelectUnactiveUser('user_login',$_GET['login']);
+
+        if(NULL === $user) {
+            $this->error = 'Utilisateur introuvable ou déjà activé';
+            return false;
+        }
+
+
+        if($user->user_activation_key != $_GET['key']) {
+            $this->error = 'Clé incorrect pour l\'utilisateur choisi';
+            return false;
+        }
+
+        $metas = $this->SelectUnactiveUserMeta($user->ID);
+
+
+        $postarr = [
+            'user_email' => $user->user_email,
+            'user_url' => $user->user_email,
+            'user_pass' => $user->user_pass,
+            'user_login' => $user->user_login,
+            'first_name' => isset($metas->first_name) ? $metas->first_name : '',
+            'last_name' => isset($metas->last_name) ? $metas->last_name : '',
+            'description' => isset($metas->description) ? $metas->description : '',
+            'role' => $metas->role,
+        ];
+
+        $userId = wp_insert_user($postarr);
+
+        if(is_wp_error($userId)) {
+            $this->error = $userId->get_error_message();
+            return false;
+        }
+
+        $forgetMeta = ['role','last_name','description','first_name',];
+
+        foreach ($metas as $key => $val){
+            if(!in_array($key,$forgetMeta))
+                add_user_meta($userId, $key, $val);
+        }
+
+
+        return $this->removeUnactiveUser($user->ID);
     }
 
 }
