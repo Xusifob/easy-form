@@ -1297,7 +1297,7 @@ class FormWordpress extends Form
 
         $email = get_option('admin_email');
         $name = get_option('blogname');
-        $mail = new PHPMailer();
+        $mail = new Phpmailerform();
         $mail->setFrom($email,$name);
         $mail->addAddress($user->user_email,$metas->first_name . ' ' . $metas->last_name);
 
@@ -1314,8 +1314,6 @@ class FormWordpress extends Form
         $message = str_replace('%/LIEN%','</a>',$message);
         $message = str_replace('%LIEN%','<a href="'. $lien .'">',$message);
         $message = str_replace('%BLOGNAME%',$name,$message);
-
-        vardump($message);
 
         $mail->Body = $message;
         return $mail->send();
