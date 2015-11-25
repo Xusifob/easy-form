@@ -196,8 +196,6 @@ $('select[name="form-utility"]').change(function(){
  */
 function getUtilities(val,formSendArgs){
     $.get(templatePath + '/form-actions/' + val + '.php' , function (data) {
-        console.log(formSendArgs);
-        console.log(val);
         switch (val){
             case 'post':
                 data = replace(data, 'value="' +formSendArgs.post_type+ '"', 'value="' +formSendArgs.post_type + '" selected');
@@ -209,6 +207,7 @@ function getUtilities(val,formSendArgs){
             case 'user':
                 data = replace(data, 'value="' +formSendArgs.role+ '"', 'value="' +formSendArgs.role + '" selected');
                 data = replace(data, 'ConnectUserChecked',formSendArgs.connectUser ? 'checked' : '');
+                data = replace(data, 'EmailUserChecked',formSendArgs.emailUser ? 'checked' : '');
                 break;
             case 'email' :
                 data = replace(data, 'SubjectValue','value="'+ formSendArgs.subject +'"');

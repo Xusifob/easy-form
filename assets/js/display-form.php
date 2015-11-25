@@ -23,8 +23,9 @@
         },
         user :  {
             role: "current",
-            connectUser: true
-        }
+            connectUser: true,
+            emailUser : false
+        },
         email : {
             subject: "",
             recipientEmail: "<?php echo get_option('admin_email'); ?>",
