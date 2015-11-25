@@ -779,8 +779,12 @@ class FormPlugin
         return($form->post_type == 'form-plugin-bastien');
 
     }
+
 }
+if(class_exists('FormPlugin')) {
 
-register_activation_hook(__FILE__, array('$formPlugin = new FormPlugin();', 'activate'));
+    $formPlugin = new FormPlugin();
+    register_activation_hook(__FILE__, array($formPlugin, 'activate'));
 
-$formPlugin = new FormPlugin();
+
+}
