@@ -1267,7 +1267,6 @@ class FormWordpress extends Form
 
         $user = get_user_by('login',$postarr['user_login']);
 
-        $this->sendMailActivate(25);
 
         if($user)
             return new WP_Error(99,"Un utilisateur avec le même identifiant a été trouvé");
@@ -1326,8 +1325,11 @@ class FormWordpress extends Form
         /** @var $wpdb wpdb */
         global $wpdb;
 
+
         $table = $wpdb->prefix . 'easy_form_users';
         $sql = "SELECT * FROM $table WHERE {$key} = '{$val}'";
+
+
         return $wpdb->get_row($sql);
     }
 
@@ -1424,6 +1426,7 @@ class FormWordpress extends Form
 
         /** @var $user */
         $user = $this->SelectUnactiveUser('ID',$userId);
+
         $metas = $this->SelectUnactiveUserMeta($user->ID);
 
 
@@ -1437,12 +1440,12 @@ class FormWordpress extends Form
 
         $message = $this->getFormTemplate('activeAccount.php');
 
-        $union = isset($_GET) && !empty($_GET) ? '&' : '?';
-
 
         $lien = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://';
 
         $lien.= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+
+        $union = strpos($lien, '?') ? '&' : '?';
 
         $lien .= $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
 
