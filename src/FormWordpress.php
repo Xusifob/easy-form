@@ -758,7 +758,7 @@ class FormWordpress extends Form
             require_once ABSPATH . WPINC . '/class-phpass.php';
             $wp_hasher = new PasswordHash( 8, true );
         }
-        $hashed =  $wp_hasher->HashPassword( $key );
+        $hashed = time() . ':' . $wp_hasher->HashPassword( $key );
         $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
         return  $key;
@@ -790,8 +790,6 @@ class FormWordpress extends Form
 
             return false;
         }
-
-        $this->isValid('reset');
 
 
         if(is_object($user) && !is_wp_error($user))
