@@ -1440,7 +1440,7 @@ class FormWordpress extends Form
         $union = isset($_GET) && !empty($_GET) ? '&' : '?';
 
 
-        $lien = $_SERVER['REQUEST_URI'] . $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
+        $lien = $_SERVER['HTTP_REFERER'] .  $_SERVER['REQUEST_URI'] . $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
 
         $message = str_replace('%NOM%',$metas->first_name,$message);
         $message = str_replace('%/LIEN%','</a>',$message);
