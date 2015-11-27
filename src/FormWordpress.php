@@ -623,11 +623,11 @@ class FormWordpress extends Form
                         $senderName = isset($sendArgs['senderName']) && !empty($sendArgs['senderName']) ? $sendArgs['senderName'] : get_option('blogname');
 
                         /** @var Phpmailerform $mail */
-                        $mail = new Phpmailerform();
+                        $mail = $this->prepareMail();
                         $mail->setFrom($senderEmail, $senderName);
-                        $mail->isHTML(true);
                         $mail->addAddress($user_data->user_email, $user_data->user_login);
                         $mail->Subject = $subject;
+
 
 
                         if ($args['resetAction'] == 'reset-password-email') {
@@ -702,6 +702,18 @@ class FormWordpress extends Form
         }else{
             return false;
         }
+    }
+
+
+    /**
+     * @return Phpmailerform
+     */
+    public function prepareMail(){
+        $mail = new Phpmailerform();
+        $mail->isHTML(true);
+        $mail->setLanguage('fr');
+        $mail->CharSet = "UTF-8";
+        return $mail;
     }
 
 
@@ -1417,7 +1429,7 @@ class FormWordpress extends Form
 
         $email = get_option('admin_email');
         $name = get_option('blogname');
-        $mail = new Phpmailerform();
+        $mail = $this->prepareMail();
         $mail->setFrom($email,$name);
         $mail->addAddress($user->user_email,$metas->first_name . ' ' . $metas->last_name);
 
