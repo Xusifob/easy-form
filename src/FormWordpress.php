@@ -1440,7 +1440,9 @@ class FormWordpress extends Form
         $union = isset($_GET) && !empty($_GET) ? '&' : '?';
 
 
-        $lien = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $lien = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://';
+
+        $lien.= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
         $lien .= $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
 
