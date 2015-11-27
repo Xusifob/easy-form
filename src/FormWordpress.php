@@ -1494,7 +1494,7 @@ class FormWordpress extends Form
      */
     private function getFormTemplate($templateName){
         if($this->templateExists($templateName)){
-            return $this->getTemplate(get_template_directory() . 'EasyFormTemplates/' . $templateName);
+            return $this->getTemplate(get_template_directory() . '/EasyFormTemplates/' . $templateName);
         }else{
             return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../templates/mail/' . $templateName);
         }
