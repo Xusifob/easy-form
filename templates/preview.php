@@ -64,7 +64,7 @@ $form->open_the_form();
                 <?php
                 ?>
 
-// Affiche le bouton submit
+                // Affiche le bouton submit
 $form->the_form_field('submit');
 
 // ferme le formulaire
@@ -94,6 +94,37 @@ $form->close_the_form();
                      echo 'le formulaire a bien été envoyé';
                   ?&gt;
             </pre>
+
+            <?php if($form->isResetForm()): ?>
+                <h2>Page de réinitialisation de mot de passe</h2>
+                <pre class="brush: php">
+ &lt;?php
+/*
+Template Name: Réinitialiser le mot de passe
+*/
+
+$form = new WP_Form(<?php echo $_GET['id']; ?>);
+
+// Check si c'est bien une action de reset
+$isPage = $form->checkResetPage();
+
+
+get_header(); ?>
+
+ &lt;?php if($form->hasError())
+    $form->theError();
+?>
+ &lt;?php if($form->hasBeenSend())
+    echo 'Votre mot de passe a bien été réinitialisé';
+?>
+
+ &lt;?php echo $form; ?>
+
+
+ &lt;?php get_footer(); ?>
+            </pre>
+
+            <?php endif; ?>
 
 
             <a href="<?php echo menu_page_url('add-form',false) . '&modify='. $_GET['id']; ?>" class="button button-primary button-large">Modifier</a>

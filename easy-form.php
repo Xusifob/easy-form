@@ -462,11 +462,15 @@ class FormPlugin
 
                         case 'resetPassword' :
 
+
                             $args = [
                                 'subject' => $_POST['form-send-subject'],
                                 'senderEmail' => $_POST['form-send-senderEmail'],
                                 'senderName' => $_POST['form-send-senderName'],
                                 'message' => $_POST['form-send-message'],
+                                'resetAction' => $_POST['form-reset-action'],
+                                'pageId' => $_POST['form-send-page-id'],
+
                             ];
                             update_post_meta($pid,'form-send-args',$args);
                             break;

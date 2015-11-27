@@ -36,20 +36,17 @@
             subject: "Réinitialisation du mot de passe",
             senderEmail: "<?php echo get_option('admin_email'); ?>",
             senderName: "<?php echo get_option('blogname'); ?>",
-            message: ""
+            message: "",
+            resetAction: "reset-password-email",
+            pageId : ""
         }
     };
-
-
-
-
-
 
 
     var formType = "<?php echo isset($formMetas['form-type'][0]) ? $formMetas['form-type'][0] : 'post'; ?>";
     var formSendArgs = <?php echo isset($formSendArgs[0]) ?  json_encode($formSendArgs[0]) : '""'; ?>;
 
-        getUtilities(formType,formSendArgs);
+    getUtilities(formType,formSendArgs);
 
     // Set the nb of fields at 0 for the start
     var fieldIncrement = 0;
@@ -132,6 +129,7 @@
 
                 if(field.args.labelAfter != undefined)
                     data = replace(data,'field-label-after-selected',field.args.labelAfter ? 'checked' : '');
+
 
 
                 // Select
