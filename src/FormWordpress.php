@@ -1398,8 +1398,6 @@ class FormWordpress extends Form
      */
     private function removeUnactiveUser($userId){
 
-        if(!is_int($userId))
-            return false;
 
 
         /** @var $wpdb wpdb */
@@ -1453,6 +1451,8 @@ class FormWordpress extends Form
         $message = str_replace('%/LIEN%','</a>',$message);
         $message = str_replace('%LIEN%','<a href="'. $lien .'">',$message);
         $message = str_replace('%BLOGNAME%',$name,$message);
+
+        $_SESSION['message'] = $lien;
 
         $mail->Body = $message;
         return $mail->send();
@@ -1559,6 +1559,7 @@ class FormWordpress extends Form
             ];
             $this->doConnexion($creds);
         }
+
 
         return $this->removeUnactiveUser($user->ID);
     }
