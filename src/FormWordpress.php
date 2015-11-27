@@ -427,7 +427,8 @@ class FormWordpress extends Form
 
                         /* @since V 0.4 */
                         if (isset($args['varURl']) && !empty($args['varURl'])) {
-                            $union = strpos(get_permalink($postId), '?') ? '&' : '?';
+                            $union = self::getunion($lien);
+
                             $lien = get_permalink($postId) . $union . $args['varURl'];
                             wp_redirect($lien);
                         }else{
@@ -662,7 +663,7 @@ class FormWordpress extends Form
                             $lien = get_permalink($args['pageId']);
 
                             // If there isn't a ? start the params with ? else with &
-                            $union = strpos($lien, '?') != -1 ? '&' : '?';
+                            $union = self::getunion($lien);
 
                             // I put every fields in the link
                             $lien .= $union . 'action=rt';
@@ -704,6 +705,19 @@ class FormWordpress extends Form
         }
     }
 
+
+    /**
+     * @Since V 0.5
+     *
+     * Return the union between 2 parameters in a link
+     *
+     * @param $lien
+     * @return string
+     */
+    public static function getunion($lien){
+        return strpos($lien, '?') === false ? '?' : '&';
+
+    }
 
     /**
      * @return Phpmailerform
@@ -1443,7 +1457,8 @@ class FormWordpress extends Form
 
         $lien.= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
-        $union = strpos($lien, '?') ? '&' : '?';
+        $union = self::getunion($lien);
+
 
         $lien .= $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
 
