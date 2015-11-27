@@ -142,8 +142,13 @@ class WP_Form
      */
     private function CheckForm()
     {
+
+        /* @Modified V 0.4 */
+        $argsMeta = get_post_meta($this->formId,'form-send-args');
+        $args = !empty($argsMeta) ? get_post_meta($this->formId,'form-send-args')[0] : '';
+
         if(!$this->form->isResetForm())
-            $this->form->CheckUnactiveUsers();
+            $this->form->CheckUnactiveUsers($args);
 
         $formType = $this->form->isResetForm() ? 'reset' : null;
 
@@ -153,9 +158,6 @@ class WP_Form
 
             $lien = get_post_meta($this->formId,'form-redirect')[0];
 
-            /* @Modified V 0.4 */
-            $argsMeta = get_post_meta($this->formId,'form-send-args');
-            $args = !empty($argsMeta) ? get_post_meta($this->formId,'form-send-args')[0] : '';
 
             /* @since V 0.4 */
             $args['varURl'] = FormWordpress::post_meta($this->formId,'form-var-url');

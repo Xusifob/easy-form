@@ -558,7 +558,7 @@ class FormWordpress extends Form
      *
      * @param $thepostId
      */
-    protected function setFormSend($thepostId)
+    protected function setFormSend($thepostId = null)
     {
         if(null == $thepostId)
             $_SESSION[$this->name] = true;
@@ -1452,10 +1452,6 @@ class FormWordpress extends Form
     }
 
 
-    protected function sendMailRetrievePassword(){
-
-    }
-
     /**
      * @param $templateUrl
      * @return string
@@ -1498,7 +1494,8 @@ class FormWordpress extends Form
      *
      * @return bool
      */
-    public function CheckUnactiveUsers(){
+    public function CheckUnactiveUsers($args){
+
 
         if(!isset($_GET['key']) || !isset($_GET['login']))
             return false;
@@ -1522,7 +1519,7 @@ class FormWordpress extends Form
 
         $postarr = [
             'user_email' => $user->user_email,
-            'user_url' => $user->user_email,
+            'user_url' => $user->user_url,
             'user_pass' => $user->user_pass,
             'user_login' => $user->user_login,
             'first_name' => isset($metas->first_name) ? $metas->first_name : '',
@@ -1545,6 +1542,16 @@ class FormWordpress extends Form
                 add_user_meta($userId, $key, $val);
         }
 
+        $this->setFormSend();
+
+        if(isset($args['connectUser']) & $args['connectUser']){
+            $creds = [
+                'user_login' => $user->user_login,
+                'user_password' => $user->user_pass,
+                'remember' => true,
+            ];
+            $this->doConnexion($creds);
+        }
 
         return $this->removeUnactiveUser($user->ID);
     }
