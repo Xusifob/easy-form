@@ -14,7 +14,7 @@ require(__DIR__ . '/../../../../../wp-load.php');
         </select>
     </div>
 </div>
-<div class="row form-group" id="reset-password-email">
+<div class="row form-group">
     <div class="col-sm-4">
         <label for="form-send-subject">Objet</label>
         <input type="text" name="form-send-subject" id="form-send-subject" SubjectValue placeholder="Objet" class="form-control"/>
@@ -28,17 +28,33 @@ require(__DIR__ . '/../../../../../wp-load.php');
         <input type="text" name="form-send-senderName" id="form-send-senderName" placeholder="Nom du expéditeur" SenderNameValue  class="form-control"/>
     </div>
 </div>
-<div class="row form-group">
-    <div class="col-sm-12">
-        <label for="form-send-message">Message</label>
-        <p class="infos">Utilisez %PASSWORD% à la place du mot de passe, %LIEN% pour le lien vers la page de récupération (si besoin) et %ID% pour l'identifiant de l'utilisateur</p>
-        <textarea name="form-send-message" id="form-send-message" cols="30" rows="10" MessageValue placeholder="Message (texte brut ou HTML)"></textarea>
+
+<div id="reset-password-email">
+    <div class="row form-group">
+        <div class="col-sm-12">
+            <label for="form-send-message">Message</label>
+            <p class="infos">Utilisez %PASSWORD% à la place du mot de passe et %ID% pour l'identifiant de l'utilisateur</p>
+            <textarea name="form-send-message" id="form-send-message" cols="30" rows="10" MessageValue placeholder="Message (texte brut ou HTML)"></textarea>
+            <p class="infos">Vous pouvez aussi créer un fichier EasyFormTemplates/resetPassword.php dans votre thème en copiant celui du plugin</p>
+        </div>
     </div>
 </div>
 
-<div class="row form-group" id="link-password-email" style="display: none">
-    <div class="col-sm-4">
-        <label for="form-send-page-id">Objet</label>
-        <input type="text" name="form-send-page-id" id="form-send-page-id" PageValue placeholder="Id de la page de récupération" class="form-control"/>
+
+<div id="link-password-email">
+    <div class="row form-group">
+        <div class="col-sm-12">
+            <label for="form-send-message">Message</label>
+            <p class="infos">Utilisez %LIEN% pour le lien vers la page de récupération  et %ID% pour l'identifiant de l'utilisateur</p>
+            <textarea name="form-send-message" id="form-send-message" cols="30" rows="10" MessageValue placeholder="Message (texte brut ou HTML)"></textarea>
+            <p class="infos">Vous pouvez aussi créer un fichier EasyFormTemplates/retrievePassword.php dans votre thème en copiant celui du plugin</p>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-sm-6">
+            <label for="form-send-page-id">Id de la page de récupération de mot de passe</label>
+            <input type="text" name="form-send-page-id" id="form-send-page-id" PageValue placeholder="Id de la page de récupération" class="form-control"/>
+        </div>
     </div>
 </div>

@@ -314,11 +314,23 @@ class WP_Form
     }
 
     /**
+     * @Since V 0.5
+     *
      * @return bool
      */
     public function checkResetPage()
     {
         return $this->form->checkResetPage();
+    }
+
+    /**
+     * @Since V 0.5
+     *
+     * @return bool
+     */
+    public function isResetForm()
+    {
+        return $this->form->isResetForm();
     }
 
 

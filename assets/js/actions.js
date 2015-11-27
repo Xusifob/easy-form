@@ -186,12 +186,7 @@ $('body').on('change','select[name$="form-type]"]',function(){
      */
     .on('change','select[name="form-reset-action"]',function(){
         var val = $(this).val();
-        if(val == 'reset-password-email')
-            $('#link-password-email').hide();
-        /*else
-            $('#reset-password-email').hide(); */
-
-        $('#' + val).show();
+        displayReinitialiseUtility(val);
     });
 
 // Change utility on top
@@ -200,6 +195,12 @@ $('select[name="form-utility"]').change(function(){
 
     getUtilities(val,utilitiesEmpty[val]);
 });
+
+function displayReinitialiseUtility(val){
+    $('#link-password-email').hide();
+    $('#reset-password-email').hide();
+    $('#' + val).show();
+}
 
 /**
  * Display utilities on the map
@@ -231,8 +232,14 @@ function getUtilities(val,formSendArgs){
                 data = replace(data, 'senderEmailValue','value="'+ formSendArgs.senderEmail +'"');
                 data = replace(data, 'SenderNameValue','value="'+ formSendArgs.senderName +'"');
                 data = replace(data, 'MessageValue','value="'+ formSendArgs.message +'"');
+                data = replace(data,'PageValue', 'value="' + formSendArgs.pageId + '"');
+                data = replace(data,'value="'+ formSendArgs.resetAction +'"','value="'+ formSendArgs.resetAction +'" selected');
+
                 break;
         }
         $('.utilities').html(data);
+
+        if(formSendArgs.resetAction != undefined)
+            displayReinitialiseUtility(formSendArgs.resetAction);
     });
 }
