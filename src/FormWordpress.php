@@ -613,8 +613,21 @@ class FormWordpress extends Form
                     $allow = apply_filters('allow_password_reset', true, $user_data->ID);
 
                     if ($allow) {
-
                         $args['resetAction'] = isset($args['resetAction']) ? $args['resetAction'] : 'reset-password-email';
+
+                        /** @Since V 0.4 */
+                        $sendArgs = isset(get_post_meta($this->id, 'form-send-args')[0]) ? get_post_meta($this->id, 'form-send-args')[0] : false;
+
+                        $senderEmail = isset($sendArgs['senderEmail']) && !empty($sendArgs['senderEmail']) ? $sendArgs['senderEmail'] : get_option('admin_email');
+                        $subject = isset($sendArgs['subject']) && !empty($sendArgs['subject']) ? $sendArgs['subject'] : 'Renouvellement du mot de passe';
+                        $senderName = isset($sendArgs['senderName']) && !empty($sendArgs['senderName']) ? $sendArgs['senderName'] : get_option('blogname');
+
+                        /** @var Phpmailerform $mail */
+                        $mail = new Phpmailerform();
+                        $mail->setFrom($senderEmail, $senderName);
+                        $mail->isHTML(true);
+                        $mail->addAddress($user_data->user_email, $user_data->user_login);
+                        $mail->Subject = $subject;
 
 
                         if ($args['resetAction'] == 'reset-password-email') {
@@ -626,87 +639,55 @@ class FormWordpress extends Form
                             wp_set_password($password, $user_data->ID);
 
 
-                            /** @Since V 0.4 */
-                            $sendArgs = isset(get_post_meta($this->id, 'form-send-args')[0]) ? get_post_meta($this->id, 'form-send-args')[0] : false;
-
-                            $senderEmail = isset($sendArgs['senderEmail']) && !empty($sendArgs['senderEmail']) ? $sendArgs['senderEmail'] : get_option('admin_email');
-                            $subject = isset($sendArgs['subject']) && !empty($sendArgs['subject']) ? $sendArgs['subject'] : 'Renouvellement du mot de passe';
-                            $senderName = isset($sendArgs['senderName']) && !empty($sendArgs['senderName']) ? $sendArgs['senderName'] : get_option('blogname');
-
-                            if (isset($sendArgs['message']) && !empty($sendArgs['message'])) {
+                            if (isset($sendArgs['message']) && !empty($sendArgs['message']))
                                 $message = $sendArgs['message'];
-                                $message = str_replace('%ID%', $user_data->user_login, $message);
-                                $message = str_replace('%PASSWORD%', $password, $message);
+                            else
+                                $message = $this->getFormTemplate('resetPassword.php');
 
-
-                            } else {
-                                $message = "Quelqu'un a demandé le renouvellement de son mot de passe sur <a href=\"" . get_bloginfo('wpurl') . "\">" . get_bloginfo('blogurl') . "</a>  pour le compte suivant :
-                        <br>Identifiant : $user_data->user_login
-                        <br>Votre nouveau mot de passe est le suivant : " . $password;
-                            }
-
-
-                            try {
-
-
-                                /** @var Mail $mail */
-                                $mail = new Mail();
-
-                                $mail
-                                    ->setRecipientEmail($user_email)
-                                    ->setRecipientName($user_login)
-                                    ->setSenderEmail($senderEmail)
-                                    ->setSenderName($senderName)
-                                    ->setSubject($subject)
-                                    ->setMessage($message);
-
-                                return $mail->send();
-                            } catch (Exception $e) {
-
-                                $this->setError($e->getMessage());
-                                return false;
-
-                            }
+                            $message = str_replace('%ID%', $user_login, $message);
+                            $message = str_replace('%PASSWORD%', $password, $message);
+                            $message = str_replace('%BLOGNAME%', $senderName, $message);
 
                             // Send link
                         } else {
                             $key = $this->retrieve_password($user_login);
 
-                            $email = isset($args['senderEmail']) ? $args['senderEmail'] : get_option('admin_email');
-                            $name = isset($args['senderName']) ? $args['senderName'] : get_option('blogname');
+                            // Get the template||message
+                            if (isset($sendArgs['message']) && !empty($sendArgs['message']))
+                                $message = $sendArgs['message'];
+                            else
+                                $message = $this->getFormTemplate('retrievePassword.php');
 
-                            $mail = new Phpmailerform();
-                            $mail->setFrom($email, $name);
-                            $mail->isHTML(true);
-                            $mail->addAddress($user_data->user_email, $user_data->user_login);
-
-                            $mail->Subject = isset($args['subject']) && !empty($args['subject']) ? $args['subject'] : "Réinitialisation de votre mot de passe";
-
-                            $message = $this->getFormTemplate('retrievePassword.php');
-
+                            // Get the link of the page
                             $lien = get_permalink($args['pageId']);
 
+                            // If there isn't a ? start the params with ? else with &
                             $union = strpos($lien, '?') != -1 ? '&' : '?';
 
+                            // I put every fields in the link
                             $lien .= $union . 'action=rt';
-
                             $lien .= '&login=' . rawurlencode($user_login);
-
                             $lien .= '&key=' . $key;
 
                             $lienhtml = '<a href="' . $lien . '">' . $lien . '</a>';
 
 
-                            $message = str_replace('%ID%', $user_data->user_login, $message);
+                            $message = str_replace('%ID%', $user_login, $message);
                             $message = str_replace('%LIEN%', $lienhtml, $message);
-                            $message = str_replace('%BLOGNAME%', $name, $message);
+                            $message = str_replace('%BLOGNAME%', $senderName, $message);
 
 
                             $mail->Body = $message;
 
+                        }
+                        try {
+                            $mail->Body = $message;
+
                             return $mail->send();
+                        } catch (Exception $e) {
 
-
+                            $this->setError($e->getMessage());
+                            return false;
                         }
 
                     } else {
