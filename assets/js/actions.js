@@ -8,31 +8,6 @@ $('.move').on('click',function() {
 });
 
 
-/**
- * @event : Called on change of the form type,
- */
-$('body').on('change','select[name$="form-type]"]',function(){
-    // Kind of field
-    var type = $(this).val();
-    var id = $(this).attr('data-field');
-    var name = $('body input[name="field['+ id +'][form-name]"]').val();
-
-    var input = getInput({
-        type : type,
-        id : id,
-        name : name
-    });
-    // Replace the datas
-    getData(input).done(function(data){
-        $('#field-' + id).replaceWith(data);
-
-        handleHiddenFields(id,type);
-
-        // Open the field
-        $('a[data-field="'+ id +'"].open').click();
-    });
-
-});
 
 /**
  * @Event : Called at click on the button add, add a new field
@@ -53,10 +28,35 @@ $('button[data-action="add"]').on('click',function(){
     nbfield++;
 });
 
+
 /**
- * @event : Clic on delete button, delete a field
+ * @event : Called on change of the form type,
  */
-$('body')
+$('body').on('change','select[name$="form-type]"]',function(){
+        // Kind of field
+        var type = $(this).val();
+        var id = $(this).attr('data-field');
+        var name = $('body input[name="field['+ id +'][form-name]"]').val();
+
+        var input = getInput({
+            type : type,
+            id : id,
+            name : name
+        });
+        // Replace the datas
+        getData(input).done(function(data){
+            $('#field-' + id).replaceWith(data);
+
+            handleHiddenFields(id,type);
+
+            // Open the field
+            $('a[data-field="'+ id +'"].open').click();
+        });
+
+    })
+    /**
+     * @event : Clic on delete button, delete a field
+     */
     .on('click','.delete',function(){
         var id = parseInt($(this).attr('data-field'));
         $("#field-" + id).remove();
@@ -72,20 +72,20 @@ $('body')
          */
     }).on('click','.minify',function(){
 
-        var id = $(this).attr('data-field');
+    var id = $(this).attr('data-field');
 
-        $('.options-'+ id ).hide(200);
-        $(this)
-            .removeClass('minify')
-            .addClass('open')
-            .html('+');
-        return false;
+    $('.options-'+ id ).hide(200);
+    $(this)
+        .removeClass('minify')
+        .addClass('open')
+        .html('+');
+    return false;
 
 
-        /**
-         * @event : Clic on open button, show the field options
-         */
-    }).on('click','.open',function(){
+    /**
+     * @event : Clic on open button, show the field options
+     */
+}).on('click','.open',function(){
         var id = parseInt($(this).attr('data-field'));
         $('.options-'+ id ).show(200);
         $(this)
@@ -96,9 +96,9 @@ $('body')
         return false;
 
     })
-/**
- * @Event : called on "up" arrow, move the field 1 way up
- */
+    /**
+     * @Event : called on "up" arrow, move the field 1 way up
+     */
     .on('click','.up',function(){
         var id = parseInt($(this).attr('data-field'));
         if(id != 1)
@@ -106,9 +106,9 @@ $('body')
 
         return false;
     })
-/**
- * @event : Called on "down" arrow, move the field 1 way down
- */
+    /**
+     * @event : Called on "down" arrow, move the field 1 way down
+     */
     .on('click','.down',function(){
         var id = parseInt($(this).attr('data-field'));
         if(id != nbfield)
@@ -116,9 +116,9 @@ $('body')
 
         return false;
     })
-/**
- * @event : clic on duplicate field, create a new field with the same properties
- */
+    /**
+     * @event : clic on duplicate field, create a new field with the same properties
+     */
     .on('click','.dupliquer',function(){
         var id = parseInt($(this).attr('data-field'));
 
@@ -136,9 +136,9 @@ $('body')
         nbfield++;
         return false;
     })
-/**
- * @Event : clic on add option button (for a select) : add a new option row
- */
+    /**
+     * @Event : clic on add option button (for a select) : add a new option row
+     */
     .on('click','button[data-action="add-option"]',function(){
 
         var id = parseInt($(this).attr('data-field'));
@@ -171,15 +171,27 @@ $('body')
         var input = $('input[name="field['+ id +'][form-name]"');
         input.val($(this).val());
     })
-/**
- * @event : on called at select
- */
+    /**
+     * @event : on called at select
+     */
     .on('change','select[name$="[form-taxonomy]"]',function(){
         var id = parseInt($(this).attr('data-field'));
 
         var val = $(this).val();
 
         $('input[name="field['+ id +'][form-name]"]').val('taxonomy_'+ val);
+    })
+    /**
+     * @event : on called at select
+     */
+    .on('change','select[name="form-reset-action"]',function(){
+        var val = $(this).val();
+        if(val == 'reset-password-email')
+            $('#link-password-email').hide();
+        /*else
+            $('#reset-password-email').hide(); */
+
+        $('#' + val).show();
     });
 
 // Change utility on top

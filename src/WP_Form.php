@@ -135,16 +135,20 @@ class WP_Form
     /**
      *@since V 0.1
      *
-     * @Modified : V 0.4
+     * @Modified : - V 0.4
+     *             - V 0.5
      *
      * Check if form is valid and send datas
      */
     private function CheckForm()
     {
-        $this->form->CheckUnactiveUsers();
+        if(!$this->form->isResetForm())
+            $this->form->CheckUnactiveUsers();
+
+        $formType = $this->form->isResetForm() ? 'reset' : null;
 
         // If form is valid
-        if($this->form->isValid()){
+        if($this->form->isValid($formType)){
             $formType = get_post_meta($this->formId,'form-type')[0];
 
             $lien = get_post_meta($this->formId,'form-redirect')[0];
@@ -308,6 +312,16 @@ class WP_Form
     {
         $this->form->close_the_form();
     }
+
+    /**
+     * @return bool
+     */
+    public function checkResetPage()
+    {
+        return $this->form->checkResetPage();
+    }
+
+
 
 
 }

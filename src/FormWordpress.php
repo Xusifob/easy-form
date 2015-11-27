@@ -188,21 +188,32 @@ class FormWordpress extends Form
      *
      * @since V 0.2
      *
+     * @Modified : - V 0.5
+     *
      * @return bool
      */
     protected function canResetPassword()
     {
         $insert = false;
 
-        // Check fields
-        foreach($this->fields as $field){
-            if($field['name'] == 'login')
-                $insert = true;
+        if($this->resetArgsAvailable()){
+            // Check fields
+            foreach($this->fields as $field){
+                if($field['name'] == 'password')
+                    $insert = true;
+            }
+        }else {
+
+            // Check fields
+            foreach ($this->fields as $field) {
+                if ($field['name'] == 'login')
+                    $insert = true;
+            }
         }
 
         // display error
         if(!$insert) {
-            $error = $this->errorMessages['fr']['missingfield'] . 'login';
+            $error = $this->errorMessages['fr']['missingfield'] . $this->resetArgsAvailable() ? 'password' : 'login';
             $this->setError($error);
         }
 
@@ -355,7 +366,6 @@ class FormWordpress extends Form
      */
     public function SendFormAndRedirect($type = 'post',$lien = null,$postId = null,$args = [])
     {
-
 
         $lien = ($lien == null || $lien == '' || $lien == false)  ? get_permalink() : $lien;
 
@@ -521,7 +531,7 @@ class FormWordpress extends Form
                 do_action('form/BeforeResetPassword-' . $this->id);
 
                 $lien = ($lien == 'newpost') ? null : $lien;
-                if($this->resetPassword()){
+                if($this->resetPassword($args)){
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
@@ -563,100 +573,229 @@ class FormWordpress extends Form
      *
      * @Modified : V 0.4
      *
+     * @param $args Array
+     *
      * @return bool
      */
-    public function resetPassword()
+    public function resetPassword($args = [])
     {
         if($this->canResetPassword()){
 
             global $wpdb, $wp_hasher;
 
-            $user_login = $_POST['login'];
+            if($user = $this->checkResetPage()) {
+                wp_set_password($_POST['password'], $user->data->ID);
+                return true;
+            }else {
 
-            if ( strpos( $user_login, '@' ) ) {
-                $user_data = get_user_by( 'email', trim( $user_login ) );
+                $user_login = $_POST['login'];
 
-            } else {
-                $login = trim($user_login);
-                $user_data = get_user_by('login', $login);
-            }
-
-            if (!empty($user_data) && $user_data) {
-
-                // redefining user_login ensures we return the right case in the email
-                $user_login = $user_data->user_login;
-                $user_email = $user_data->user_email;
-
-                $allow = apply_filters('allow_password_reset', true, $user_data->ID);
-
-                if ($allow) {
-
-                    // Create new password
-                    $password = self::random(8);
-
-                    // Set new password
-                    wp_set_password($password,$user_data->ID);
-
-
-
-                    /** @Since V 0.4 */
-                    $sendArgs = isset(get_post_meta($this->id,'form-send-args')[0]) ? get_post_meta($this->id,'form-send-args')[0] : false;
-
-                    $senderEmail = isset($sendArgs['senderEmail']) && !empty($sendArgs['senderEmail'])  ? $sendArgs['senderEmail'] : get_option('admin_email');
-                    $subject = isset($sendArgs['subject']) && !empty($sendArgs['subject']) ? $sendArgs['subject'] : 'Renouvellement du mot de passe';
-                    $senderName = isset($sendArgs['senderName']) && !empty($sendArgs['senderName'])  ? $sendArgs['senderName'] : get_option('blogname');
-
-                    if(isset($sendArgs['message']) && !empty($sendArgs['message'])){
-                        $message = $sendArgs['message'];
-                        $message = str_replace('%ID%',$user_data->user_login,$message);
-                        $message = str_replace('%PASSWORD%',$password,$message);
-
-
-                    }else{
-                        $message = "Quelqu'un a demandé le renouvellement de son mot de passe sur <a href=\"". get_bloginfo('wpurl') ."\">" . get_bloginfo('blogurl') . "</a>  pour le compte suivant :
-                        <br>Identifiant : $user_data->user_login
-                        <br>Votre nouveau mot de passe est le suivant : " . $password
-                        ;
-                    }
-
-
-
-
-                    try {
-
-
-                        /** @var Mail $mail */
-                        $mail = new Mail();
-
-                        $mail
-                            ->setRecipientEmail($user_email)
-                            ->setRecipientName($user_login)
-                            ->setSenderEmail($senderEmail)
-                            ->setSenderName($senderName)
-                            ->setSubject($subject)
-                            ->setMessage($message);
-
-                        return $mail->send();
-                    }
-                    catch(Exception $e){
-
-                        $this->setError($e->getMessage());
-                        return false;
-
-                    }
+                if (strpos($user_login, '@')) {
+                    $user_data = get_user_by('email', trim($user_login));
 
                 } else {
-                    $this->setError($this->errorMessages['fr']['noReset']);
+                    $login = trim($user_login);
+                    $user_data = get_user_by('login', $login);
+                }
+
+                do_action('lostpassword_post');
+
+
+                if (!empty($user_data) && $user_data) {
+
+                    // redefining user_login ensures we return the right case in the email
+                    $user_login = $user_data->user_login;
+                    $user_email = $user_data->user_email;
+
+                    do_action('retrieve_password', $user_login);
+
+
+                    $allow = apply_filters('allow_password_reset', true, $user_data->ID);
+
+                    if ($allow) {
+
+                        $args['resetAction'] = isset($args['resetAction']) ? $args['resetAction'] : 'reset-password-email';
+
+
+                        if ($args['resetAction'] == 'reset-password-email') {
+
+                            // Create new password
+                            $password = self::random(8);
+
+                            // Set new password
+                            wp_set_password($password, $user_data->ID);
+
+
+                            /** @Since V 0.4 */
+                            $sendArgs = isset(get_post_meta($this->id, 'form-send-args')[0]) ? get_post_meta($this->id, 'form-send-args')[0] : false;
+
+                            $senderEmail = isset($sendArgs['senderEmail']) && !empty($sendArgs['senderEmail']) ? $sendArgs['senderEmail'] : get_option('admin_email');
+                            $subject = isset($sendArgs['subject']) && !empty($sendArgs['subject']) ? $sendArgs['subject'] : 'Renouvellement du mot de passe';
+                            $senderName = isset($sendArgs['senderName']) && !empty($sendArgs['senderName']) ? $sendArgs['senderName'] : get_option('blogname');
+
+                            if (isset($sendArgs['message']) && !empty($sendArgs['message'])) {
+                                $message = $sendArgs['message'];
+                                $message = str_replace('%ID%', $user_data->user_login, $message);
+                                $message = str_replace('%PASSWORD%', $password, $message);
+
+
+                            } else {
+                                $message = "Quelqu'un a demandé le renouvellement de son mot de passe sur <a href=\"" . get_bloginfo('wpurl') . "\">" . get_bloginfo('blogurl') . "</a>  pour le compte suivant :
+                        <br>Identifiant : $user_data->user_login
+                        <br>Votre nouveau mot de passe est le suivant : " . $password;
+                            }
+
+
+                            try {
+
+
+                                /** @var Mail $mail */
+                                $mail = new Mail();
+
+                                $mail
+                                    ->setRecipientEmail($user_email)
+                                    ->setRecipientName($user_login)
+                                    ->setSenderEmail($senderEmail)
+                                    ->setSenderName($senderName)
+                                    ->setSubject($subject)
+                                    ->setMessage($message);
+
+                                return $mail->send();
+                            } catch (Exception $e) {
+
+                                $this->setError($e->getMessage());
+                                return false;
+
+                            }
+
+                            // Send link
+                        } else {
+                            $key = $this->retrieve_password($user_login);
+
+                            $email = isset($args['senderEmail']) ? $args['senderEmail'] : get_option('admin_email');
+                            $name = isset($args['senderName']) ? $args['senderName'] : get_option('blogname');
+
+                            $mail = new Phpmailerform();
+                            $mail->setFrom($email, $name);
+                            $mail->isHTML(true);
+                            $mail->addAddress($user_data->user_email, $user_data->user_login);
+
+                            $mail->Subject = isset($args['subject']) && !empty($args['subject']) ? $args['subject'] : "Réinitialisation de votre mot de passe";
+
+                            $message = $this->getFormTemplate('retrievePassword.php');
+
+                            $lien = get_permalink($args['pageId']);
+
+                            $union = strpos($lien, '?') != -1 ? '&' : '?';
+
+                            $lien .= $union . 'action=rt';
+
+                            $lien .= '&login=' . rawurlencode($user_login);
+
+                            $lien .= '&key=' . $key;
+
+                            $lienhtml = '<a href="' . $lien . '">' . $lien . '</a>';
+
+
+                            $message = str_replace('%ID%', $user_data->user_login, $message);
+                            $message = str_replace('%LIEN%', $lienhtml, $message);
+                            $message = str_replace('%BLOGNAME%', $name, $message);
+
+
+                            $mail->Body = $message;
+
+                            return $mail->send();
+
+
+                        }
+
+                    } else {
+                        $this->setError($this->errorMessages['fr']['noReset']);
+                        return false;
+                    }
+                } else {
+                    $this->setError($this->errorMessages['fr']['noUser']);
                     return false;
                 }
-            }else{
-                $this->setError($this->errorMessages['fr']['noUser']);
-                return false;
             }
         }else{
             return false;
         }
     }
+
+
+    /**
+     * Handles sending password retrieval email to user.
+     *
+     * @Since V 0.5
+     *
+     * @param : $user_login string
+     *
+     * @global wpdb         $wpdb      WordPress database abstraction object.
+     * @global PasswordHash $wp_hasher Portable PHP password hashing framework.
+     *
+     * @return bool|WP_Error True: when finish. WP_Error on error
+     */
+    public function retrieve_password($user_login) {
+
+        global $wpdb;
+
+        // Generate something random for a password reset key.
+        $key = wp_generate_password( 20, false );
+
+        do_action( 'retrieve_password_key', $user_login, $key );
+
+
+        // Now insert the key, hashed, into the DB.
+        if ( empty( $wp_hasher ) ) {
+            require_once ABSPATH . WPINC . '/class-phpass.php';
+            $wp_hasher = new PasswordHash( 8, true );
+        }
+        $hashed =  $wp_hasher->HashPassword( $key );
+        $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+
+        return  $key;
+
+    }
+
+    /**
+     * @Since V 0.5
+     *
+     * @return bool
+     */
+    public function checkResetPage(){
+        if(!$this->resetArgsAvailable())
+            return false;
+
+        if (isset($_GET['key']) && isset($_GET['login'])) {
+            $user = check_password_reset_key($_GET['key'], $_GET['login']);
+
+        } else {
+            $this->error = $this->errorMessages['fr']['invalidKey'];
+            return false;
+        }
+
+        if(is_wp_error($user)) {
+            if ($user && $user->get_error_code() === 'expired_key')
+                $this->error = $this->errorMessages['fr']['expiredKey'];
+            else
+                $this->error = $this->errorMessages['fr']['invalidKey'];
+
+            return false;
+        }
+
+        $this->isValid('reset');
+
+
+        if(is_object($user) && !is_wp_error($user))
+            return $user;
+
+        do_action('validate_password_reset', [], $user);
+
+    }
+
+
+
 
 
     /**
@@ -1319,6 +1458,11 @@ class FormWordpress extends Form
         return $mail->send();
     }
 
+
+    protected function sendMailRetrievePassword(){
+
+    }
+
     /**
      * @param $templateUrl
      * @return string
@@ -1370,13 +1514,13 @@ class FormWordpress extends Form
         $user = $this->SelectUnactiveUser('user_login',$_GET['login']);
 
         if(NULL === $user) {
-            $this->error = 'Utilisateur introuvable ou déjà activé';
+            $this->error = $this->errorMessages['fr']['alreadyActivated'];
             return false;
         }
 
 
         if($user->user_activation_key != $_GET['key']) {
-            $this->error = 'Clé incorrect pour l\'utilisateur choisi';
+            $this->error = $this->errorMessages['fr']['invalidKey'];
             return false;
         }
 

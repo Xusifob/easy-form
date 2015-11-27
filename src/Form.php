@@ -107,6 +107,10 @@ class Form
             'noReset' => 'La réinitialisation de mot de passe n\'est pas autorisée sur cet utilisateur',
             'error' => 'Une erreur est survenue',
             'filesize' => 'La taille du fichier est trop importante, taille maximum : ',
+            'errorDatabase' => 'Une erreur est survenue lors de la modification de l\'utilisateur',
+            'expiredKey' => 'La clé utilisée est expirée',
+            'invalidKey' => 'La clé utilisée est invalide',
+            'alreadyActivated' => '\'Utilisateur introuvable ou déjà activé\'',
         ],
     ];
 
@@ -574,9 +578,8 @@ class Form
 
             $this->closeAllContainers();
 
-            $template = '</form>';
+            $this->template['close_the_form'] = '</form>';
 
-            array_push($this->template, $template);
 
             $this->formFinish = true;
 
@@ -601,10 +604,30 @@ class Form
         return $template;
     }
 
+
+    /**
+     * Return if the form is a reset one
+     * @Since V 0.5
+     * @return bool
+     */
+    public function isResetForm(){
+        return (isset($this->postArgs['formType']) && $this->postArgs['formType'] == 'resetPassword');
+    }
+
+    /**
+     * Return if the form reset is available
+     * @Since V 0.5
+     * @return bool
+     */
+    public function resetArgsAvailable(){
+        return (isset($_GET['action']) && $_GET['action'] == 'rt' && isset($_GET['key']) && isset($_GET['login']));
+    }
+
     /**
      * @Since V 0.1
      *
      * @Modified :  - V 0.2
+     *              - V 0.5
      *
      * Display the form
      *
@@ -612,11 +635,30 @@ class Form
      */
     public function __toString()
     {
+
         $templateString = '';
+
+        if($this->isResetForm()){
+            $availableFields = [
+                'open_the_form','close_the_form','submit'
+            ];
+            if($this->resetArgsAvailable()) {
+                array_push($availableFields, 'password');
+                array_push($availableFields, 'repeat-password');
+            }else
+                array_push($availableFields, 'login');
+
+        }
 
 
         $f = 1;
-        foreach($this->template as $template){
+        foreach($this->template as $key => $template){
+
+            // Display only a part of the form
+            if($this->isResetForm()){
+                if(!in_array($key,$availableFields))
+                    continue;
+            }
 
             // Handle errors
             if(isset($this->args['displayErrorsBefore']) && $this->args['displayErrorsBefore'] ){
@@ -666,10 +708,10 @@ class Form
      * @Modified :  - V 0.2
      *              - V 0.3
      *
-     *
+     * @param $formtype
      * @return bool
      */
-    public function isValid()
+    public function isValid($formtype = null)
     {
         if(isset($_POST[$this->name]) && !empty($_POST[$this->name])) {
 
@@ -678,8 +720,18 @@ class Form
                 die( 'Security check' );
 
             } else {
+
+                if($formtype == 'reset' && $this->isResetForm() && !$this->resetArgsAvailable()) {
+                    unset($this->fields['password']);
+                    unset($this->fields['repeat-password']);
+
+                }if($formtype == 'reset' && $this->isResetForm() && $this->resetArgsAvailable())
+                    unset($this->fields['login']);
+
+
                 $error = true;
                 foreach ($this->fields as $key => $field) {
+
                     if (!isset($field['args']['readOnly']) || empty($field['args']['readOnly'])) {
                         // Check if isset & !empty
                         if ($field['required'] && $field['type'] != 'file') {
@@ -701,7 +753,6 @@ class Form
                                 }
                                 break;
                             case 'password' :
-
                                 foreach ($this->fields as $thefield) {
                                     if ($thefield['name'] == 'repeat-' . $field['name'] && $thefield['type'] == 'repeatPassword') {
                                         if ($_POST[$thefield['name']] != $_POST[$field['name']]) {
@@ -709,7 +760,6 @@ class Form
                                             $errorMsg = $this->errorMessages['fr']['samepassword'];
                                             $this->error = $errorMsg;
                                             $this->errors[$key] = $this->errorMessages['fr']['samepassword'];
-
                                         }
                                     }
                                 }

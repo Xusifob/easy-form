@@ -4,7 +4,17 @@ global $wp, $wp_query, $wp_the_query, $wp_rewrite, $wp_did_header;
 require(__DIR__ . '/../../../../../wp-load.php');
 
 
-?><div class="row form-group">
+?>
+<div class="row form-group">
+    <div class="col-sm-4">
+        <label for="form-reset-action">Type de réintialisation</label>
+        <select name="form-reset-action" class="form-control" id="form-reset-action">
+            <option value="reset-password-email">Réinitialise le mot de passe dans un e-mail</option>
+            <option value="link-password-email">Envoie par e-mail un lien de récupération du mot de passe</option>
+        </select>
+    </div>
+</div>
+<div class="row form-group" id="reset-password-email">
     <div class="col-sm-4">
         <label for="form-send-subject">Objet</label>
         <input type="text" name="form-send-subject" id="form-send-subject" SubjectValue placeholder="Objet" class="form-control"/>
@@ -21,7 +31,14 @@ require(__DIR__ . '/../../../../../wp-load.php');
 <div class="row form-group">
     <div class="col-sm-12">
         <label for="form-send-message">Message</label>
-        <p class="infos">Utilisez %PASSWORD% à la place du mot de passe et %ID% pour l'identifiant de l'utilisateur</p>
+        <p class="infos">Utilisez %PASSWORD% à la place du mot de passe, %LIEN% pour le lien vers la page de récupération (si besoin) et %ID% pour l'identifiant de l'utilisateur</p>
         <textarea name="form-send-message" id="form-send-message" cols="30" rows="10" MessageValue placeholder="Message (texte brut ou HTML)"></textarea>
+    </div>
+</div>
+
+<div class="row form-group" id="link-password-email" style="display: none">
+    <div class="col-sm-4">
+        <label for="form-send-page-id">Objet</label>
+        <input type="text" name="form-send-page-id" id="form-send-page-id" PageValue placeholder="Id de la page de récupération" class="form-control"/>
     </div>
 </div>
