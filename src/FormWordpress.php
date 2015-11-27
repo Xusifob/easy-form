@@ -1542,7 +1542,7 @@ class FormWordpress extends Form
                 add_user_meta($userId, $key, $val);
         }
 
-        $this->setFormSend();
+        $this->setUserActive();
 
         if(isset($args['connectUser']) & $args['connectUser']){
             $creds = [
@@ -1554,6 +1554,29 @@ class FormWordpress extends Form
         }
 
         return $this->removeUnactiveUser($user->ID);
+    }
+
+
+    /**
+     * Set the user has been activated
+     *
+     * @Since V 0.5
+     */
+    private function setUserActive(){
+        $_SESSION['user_activated'] = true;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function UserIsActivated(){
+        if (isset($_SESSION['user_activated'])) {
+            // I unset the session
+            unset($_SESSION['user_activated']);
+            return true;
+        }else
+            return false;
     }
 
 }

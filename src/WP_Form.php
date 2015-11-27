@@ -336,6 +336,16 @@ class WP_Form
     }
 
 
+    /**
+     * @Since V 0.5
+     *
+     * @return bool
+     */
+    public function UserIsActivated()
+    {
+        return $this->form->UserIsActivated();
+    }
+
 
 
 }
