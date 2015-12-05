@@ -143,7 +143,9 @@ $('body').on('change','select[name$="form-type]"]',function(){
 
         var id = parseInt($(this).attr('data-field'));
 
-        var nbOptions = $('.option-select').length +1;
+        console.log(id);
+
+        var nbOptions = $('#field-'+ id +' .option-select').length;
         var $this = $(this);
         getOption({
             id : id,

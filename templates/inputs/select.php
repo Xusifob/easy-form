@@ -47,6 +47,6 @@ $inputs = [
     </div>
     <label>Options du select</label>
     optionsFields
-    <button class="button button-primary button-large left" data-action="add-option" data-field="1" type="button">Ajouter une option</button>
+    <button class="button button-primary button-large left" data-action="add-option" data-field="fieldId" type="button">Ajouter une option</button>
     <hr>
 </div>
