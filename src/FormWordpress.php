@@ -594,6 +594,9 @@ class FormWordpress extends Form
                 if (strpos($user_login, '@')) {
                     $user_data = get_user_by('email', trim($user_login));
 
+                    if(empty($user_data) || !$user_data)
+                        $user_data = get_user_by('login', trim($user_login));
+
                 } else {
                     $login = trim($user_login);
                     $user_data = get_user_by('login', $login);
