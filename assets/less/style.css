@@ -9,26 +9,6 @@ body .panel-wordpress {
   margin-bottom: 40px;
 }
 body .panel-wordpress button.btn-actions {
-  /* border:1px solid #cccccc;
-        padding: 10px;
-        font-size: 1.5em;
-        color: #cccccc;
-        font-weight: 800;
-        width: 25px;
-        height: 25px;
-        background: #fafafa;
-        border-radius: 50%;
-        &:hover{
-          text-decoration: none;
-          color: #aaa;
-          font-weight: 800;
-        }
-        &:active{
-          text-decoration: none;
-        }
-        &:visited{
-          color: #cccccc;
-        } */
   width: 25px;
   height: 25px;
   background: #fafafa;

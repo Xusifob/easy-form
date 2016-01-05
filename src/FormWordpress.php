@@ -574,7 +574,7 @@ class FormWordpress extends Form
      *
      * @Modified : V 0.4
      *
-     * @param $args Array
+     * @param $args array
      *
      * @return bool
      */
@@ -593,6 +593,9 @@ class FormWordpress extends Form
 
                 if (strpos($user_login, '@')) {
                     $user_data = get_user_by('email', trim($user_login));
+
+                    if(empty($user_data) || !$user_data)
+                        $user_data = get_user_by('login', trim($user_login));
 
                 } else {
                     $login = trim($user_login);
@@ -1472,6 +1475,7 @@ class FormWordpress extends Form
         $_SESSION['message'] = $lien;
 
         $mail->Body = $message;
+
         return $mail->send();
     }
 
