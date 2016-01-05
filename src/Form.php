@@ -93,27 +93,7 @@ class Form
      *
      * @var array
      */
-    protected $errorMessages = [
-        'fr' => [
-            'missing' =>"Un ou plusieurs champs n'est pas complet",
-            'email' =>"Adresse e-mail invalide",
-            '2password' => "Veuillez retaper votre mot de passe", // Unused
-            'samepassword' =>"Les deux mots de passe entrés doivent être identiques",
-            'filetype' =>"Le type du fichier chargé est incorrect",
-            'identifiants' => 'Identifiants incorrects',
-            'empty' => "Ce champ doit être rempli",
-            'missingfield' => 'Le formulaire doit avoir un champ ',
-            'noUser' => 'Aucun utilisateur n\'a été trouvé avec cet identifiant',
-            'noReset' => 'La réinitialisation de mot de passe n\'est pas autorisée sur cet utilisateur',
-            'error' => 'Une erreur est survenue',
-            'filesize' => 'La taille du fichier est trop importante, taille maximum : ',
-            'errorDatabase' => 'Une erreur est survenue lors de la modification de l\'utilisateur',
-            'expiredKey' => 'La clé utilisée est expirée',
-            'invalidKey' => 'La clé utilisée est invalide',
-            'alreadyActivated' => '\'Utilisateur introuvable ou déjà activé\'',
-        ],
-    ];
-
+    protected $errorMessages = [];
 
     /**
      * @Since V 0.1
@@ -133,6 +113,9 @@ class Form
     public function __construct($name,$action = '#',$args = [])
     {
 
+        $fr = file_get_contents(__DIR__ . '/../assets/langs/fr.json');
+
+        $this->errorMessages = json_decode($fr,true);
 
         // Args action & name
         $this->action = $action;
@@ -171,6 +154,8 @@ class Form
 
         $this->template['open_the_form'] = $template;
     }
+
+
 
     /**
      *
@@ -752,19 +737,19 @@ class Form
                         if ($field['required'] && $field['type'] != 'file') {
                             if (!isset($_POST[$field['name']]) || empty($_POST[$field['name']])) {
                                 $error = false;
-                                $errorMsg = $this->errorMessages['fr']['missing'];
+                                $errorMsg = $this->errorMessages['missing'];
                                 $this->error = $errorMsg;
-                                $this->errors[$key] = $this->errorMessages['fr']['empty'];
+                                $this->errors[$key] = $this->errorMessages['empty'];
                             }
                         }
                         // Check if e-mail is a good e-mail format
                         switch ($field['type']) {
                             case 'email' :
                                 if (!isset($_POST[$field['name']]) || !filter_var($_POST[$field['name']], FILTER_VALIDATE_EMAIL)) {
-                                    $errorMsg = $this->errorMessages['fr']['email'];
+                                    $errorMsg = $this->errorMessages['email'];
                                     $error = false;
                                     $this->error = $errorMsg;
-                                    $this->errors[$key] = $this->errorMessages['fr']['email'];
+                                    $this->errors[$key] = $this->errorMessages['email'];
                                 }
                                 break;
                             case 'password' :
@@ -772,9 +757,9 @@ class Form
                                     if ($thefield['name'] == 'repeat-' . $field['name'] && $thefield['type'] == 'repeatPassword') {
                                         if ($_POST[$thefield['name']] != $_POST[$field['name']]) {
                                             $error = false;
-                                            $errorMsg = $this->errorMessages['fr']['samepassword'];
+                                            $errorMsg = $this->errorMessages['samepassword'];
                                             $this->error = $errorMsg;
-                                            $this->errors[$key] = $this->errorMessages['fr']['samepassword'];
+                                            $this->errors[$key] = $this->errorMessages['samepassword'];
                                         }
                                     }
                                 }
@@ -800,9 +785,9 @@ class Form
                                             // if extension not in array, error
                                             if (!in_array(strtolower($ext), $allowed)) {
                                                 $error = false;
-                                                $errorMsg = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                                $errorMsg = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                                 $this->error = $errorMsg;
-                                                $this->errors[$key] = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                                $this->errors[$key] = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                             }
                                         }
 
@@ -811,9 +796,9 @@ class Form
                                         $ext = pathinfo($_FILES[$field['name']]['name'], PATHINFO_EXTENSION);
                                         if (!in_array(strtolower($ext), $allowed)) {
                                             $error = false;
-                                            $errorMsg = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                            $errorMsg = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                             $this->error = $errorMsg;
-                                            $this->errors[$key] = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                            $this->errors[$key] = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                         }
                                     }
                                     break;

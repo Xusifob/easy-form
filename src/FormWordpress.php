@@ -27,7 +27,17 @@ class FormWordpress extends Form
      */
     public function __construct($name,$action = '#',$args = [])
     {
+
+
         parent::__construct($name,$action,$args);
+
+        $json = $this->getLangTemplate('fr');
+
+        echo $json;
+        die();
+
+
+        $this->errorMessages = json_encode($json,true);
 
         // store the form Id
         if(isset($args['formId']))
@@ -50,7 +60,7 @@ class FormWordpress extends Form
         }
 
         if(!$insert)
-            $this->setError($this->errorMessages['fr']['missingfield'] . 'name');
+            $this->setError($this->errorMessages['missingfield'] . 'name');
 
         return $insert;
     }
@@ -84,7 +94,7 @@ class FormWordpress extends Form
             $error = '';
             foreach($insert as $key => $val){
                 if(!$val){
-                    $error .= $this->errorMessages['fr']['missingfield'] . $key . ' ';
+                    $error .= $this->errorMessages['missingfield'] . $key . ' ';
                 }
             }
             $this->setError($error);
@@ -123,7 +133,7 @@ class FormWordpress extends Form
                 $error = '';
                 foreach($insert as $key => $val){
                     if(!$val){
-                        $error .= $this->errorMessages['fr']['missingfield'] . $key . ' ';
+                        $error .= $this->errorMessages['missingfield'] . $key . ' ';
                     }
                 }
                 $this->setError($error);
@@ -172,7 +182,7 @@ class FormWordpress extends Form
             $error = '';
             foreach($insert as $key => $val){
                 if(!$val){
-                    $error .= $this->errorMessages['fr']['missingfield'] . $key . ' ';
+                    $error .= $this->errorMessages['missingfield'] . $key . ' ';
                 }
             }
             $this->setError($error);
@@ -213,7 +223,7 @@ class FormWordpress extends Form
 
         // display error
         if(!$insert) {
-            $error = $this->errorMessages['fr']['missingfield'] . $this->resetArgsAvailable() ? 'password' : 'login';
+            $error = $this->errorMessages['missingfield'] . $this->resetArgsAvailable() ? 'password' : 'login';
             $this->setError($error);
         }
 
@@ -295,7 +305,7 @@ class FormWordpress extends Form
                                 foreach ($val['size'] as $siz) {
                                     if($siz > (int)$field['args']['maxSize']*1000) {
                                         $sizeOk = false;
-                                        $this->setError($this->errorMessages['fr']['filesize']  . $field['args']['maxSize'] . 'ko');
+                                        $this->setError($this->errorMessages['filesize']  . $field['args']['maxSize'] . 'ko');
                                     }
                                 }
                             }
@@ -546,7 +556,7 @@ class FormWordpress extends Form
                     wp_redirect($lien . $varURl);
                     exit();
                 }elseif(!$this->hasError())
-                    $this->setError($this->errorMessages['fr']['error']);
+                    $this->setError($this->errorMessages['error']);
 
                 break;
         endswitch;
@@ -696,11 +706,11 @@ class FormWordpress extends Form
                         }
 
                     } else {
-                        $this->setError($this->errorMessages['fr']['noReset']);
+                        $this->setError($this->errorMessages['noReset']);
                         return false;
                     }
                 } else {
-                    $this->setError($this->errorMessages['fr']['noUser']);
+                    $this->setError($this->errorMessages['noUser']);
                     return false;
                 }
             }
@@ -782,7 +792,7 @@ class FormWordpress extends Form
             $user = check_password_reset_key($_GET['key'], $_GET['login']);
 
         } else {
-            $this->error = $this->errorMessages['fr']['invalidKey'];
+            $this->error = $this->errorMessages['invalidKey'];
             return false;
         }
 
@@ -791,9 +801,9 @@ class FormWordpress extends Form
             // vardump($user);
 
             if ($user && $user->get_error_code() === 'expired_key')
-                $this->error = $this->errorMessages['fr']['expiredKey'];
+                $this->error = $this->errorMessages['expiredKey'];
             else
-                $this->error = $this->errorMessages['fr']['invalidKey'];
+                $this->error = $this->errorMessages['invalidKey'];
 
             return false;
         }
@@ -1160,7 +1170,7 @@ class FormWordpress extends Form
     {
         $usr = wp_signon($creds,false);
         if(is_wp_error($usr)){
-            $this->setError($this->errorMessages['fr']['identifiants']);
+            $this->setError($this->errorMessages['identifiants']);
             return false;
         }else{
             return $usr;
@@ -1518,6 +1528,25 @@ class FormWordpress extends Form
     }
 
     /**
+     * Returns the lang overided in theme || the form default template
+     *
+     * @Since V 0.5
+     *
+     * @param $templateName
+     * @return string
+     */
+    private function getLangTemplate($lang){
+        if($this->templateExists('langs/' . $lang . '.json')){
+            return $this->getTemplate(get_template_directory() . '/EasyFormTemplates/langs/' . $lang . '.json');
+        }elseif(is_file(plugin_dir_path( __FILE__ ).'/../assets/langs/' . $lang . '.json')){
+            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../assets/langs/' . $lang . '.json');
+        }else{
+            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../assets/langs/fr.json');
+        }
+    }
+
+
+    /**
      * Check if there is unactive users's activation on this page
      *
      * @return bool
@@ -1532,13 +1561,13 @@ class FormWordpress extends Form
         $user = $this->SelectUnactiveUser('user_login',$_GET['login']);
 
         if(NULL === $user) {
-            $this->error = $this->errorMessages['fr']['alreadyActivated'];
+            $this->error = $this->errorMessages['alreadyActivated'];
             return false;
         }
 
 
         if($user->user_activation_key != $_GET['key']) {
-            $this->error = $this->errorMessages['fr']['invalidKey'];
+            $this->error = $this->errorMessages['invalidKey'];
             return false;
         }
 
