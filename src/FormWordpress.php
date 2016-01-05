@@ -680,6 +680,7 @@ class FormWordpress extends Form
 
                             $mail->Body = $message;
 
+
                         }
                         try {
                             $mail->Body = $message;
@@ -752,16 +753,16 @@ class FormWordpress extends Form
 
         do_action( 'retrieve_password_key', $user_login, $key );
 
-
         // Now insert the key, hashed, into the DB.
         if ( empty( $wp_hasher ) ) {
             require_once ABSPATH . WPINC . '/class-phpass.php';
             $wp_hasher = new PasswordHash( 8, true );
         }
-        $hashed = time() . ':' . $wp_hasher->HashPassword( $key );
+        $hashed = $wp_hasher->HashPassword( $key );
         $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
-        return  $key;
+
+        return $key;
 
     }
 
@@ -783,6 +784,9 @@ class FormWordpress extends Form
         }
 
         if(is_wp_error($user)) {
+
+            // vardump($user);
+
             if ($user && $user->get_error_code() === 'expired_key')
                 $this->error = $this->errorMessages['fr']['expiredKey'];
             else

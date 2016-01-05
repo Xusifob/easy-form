@@ -470,6 +470,7 @@ class FormPlugin
                                 'message' => $_POST['form-send-message'],
                                 'resetAction' => $_POST['form-reset-action'],
                                 'pageId' => $_POST['form-send-page-id'],
+                                'submitValue' => $_POST['form-send-submit-value'],
 
                             ];
                             update_post_meta($pid,'form-send-args',$args);
@@ -601,9 +602,13 @@ class FormPlugin
     }
 
 
-
-
-
+    /**
+     * @Since V 0.3
+     *
+     * Used to handle import forms
+     *
+     * @return bool|string
+     */
     protected function handleExport()
     {
         // If the post exists
@@ -645,6 +650,14 @@ class FormPlugin
     }
 
 
+    /**
+     *
+     * @Since V 0.3
+     *
+     * Used to import a form
+     *
+     * @return array
+     */
     protected function ImportForm()
     {
         /** @var string $file */
@@ -730,11 +743,21 @@ class FormPlugin
     }
 
 
+    /**
+     *
+     * @Since V 0.3
+     *
+     * Used to create the forms to download
+     *
+     * @param $val
+     * @param string $filename
+     * @return string
+     */
     protected function arrayToJson($val, $filename = "export.json")
     {
         // open raw memory as file so no temp files needed, you might run out of memory though
         $f = fopen(wp_upload_dir()['path'] . '/' . $filename, 'w');
-        fputs($f,json_encode($val));
+        fputs($f,json_encode($val),JSON_PRETTY_PRINT);
         fclose($f);
         return '<a href="' . wp_upload_dir()['url'] . '/' . $filename . '" class="button button-primary" target="_blank" download>Télécharger</a>';
     }

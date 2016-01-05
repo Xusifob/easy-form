@@ -56,5 +56,9 @@ require(__DIR__ . '/../../../../../wp-load.php');
             <label for="form-send-page-id">Id de la page de récupération de mot de passe</label>
             <input type="text" name="form-send-page-id" id="form-send-page-id" PageValue placeholder="Id de la page de récupération" class="form-control"/>
         </div>
+        <div class="col-sm-6">
+            <label for="form-send-submit-value">Value du bouton submit sur la page de récupération</label>
+            <input type="text" name="form-send-submit-value" id="form-send-submit-value" submitValue placeholder="Value du bouton submit" class="form-control"/>
+        </div>
     </div>
 </div>

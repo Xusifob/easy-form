@@ -1,5 +1,5 @@
 <div class="wrap gf_browser_chrome">
-    <form action="<?php echo $_SERVER['REQUEST_URI'];?>&noheader=true" method="post">
+    <form action="<?php echo $_SERVER['REQUEST_URI'];?>&noheader=true" novalidate method="post">
         <?php
 
         // If it's a modification, I put the id in a hidden field

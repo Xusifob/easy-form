@@ -38,7 +38,8 @@
             senderName: "<?php echo get_option('blogname'); ?>",
             message: "",
             resetAction: "reset-password-email",
-            pageId : ""
+            pageId : "",
+            submitValue : 'Réinitialiser'
         }
     };
 

@@ -121,6 +121,7 @@ class Form
      * @Modified :  - V 0.2
      *              - V 0.3
      *              - V 0.4
+     *              - V 0.5
      *
      *
      * Constructor
@@ -137,6 +138,10 @@ class Form
         $this->action = $action;
         $this->args['defaultclass'] = isset($args['defaultClass']) ? $args['defaultClass'] : '';
         $this->args['displayErrors'] = isset($args['displayErrors']) ? $args['displayErrors'] : '';
+
+
+
+
         $this->name = $name;
         $this->uniqId = uniqid();
 
@@ -149,7 +154,9 @@ class Form
         if(isset($args['formType']))
             $this->postArgs['formType'] = $args['formType'];
 
-
+        if($this->isResetForm() && $this->resetArgsAvailable()){
+            $this->args['submitValue'] = isset($args['form-send-args']['submitValue']) ? $args['form-send-args']['submitValue'] : null;
+        }
 
         $template = '<form action="'. $this->action .'" ';
         $template .= $this->classAndId($args);
@@ -565,11 +572,19 @@ class Form
      *
      * @Since V 0.1
      *
+     * @Modified : V 0.5
+     *
      * @param string $submitValue
      * @param array $args
      */
     public function finishForm($submitValue = 'Send',$args = [])
     {
+
+        if($this->isResetForm() && $this->resetArgsAvailable()){
+            $submitValue = $this->args['submitValue'] == null ? $submitValue : $this->args['submitValue'];
+        }
+
+
         if(!$this->formFinish) {
             $template = '<input type="submit" name="' . $this->name . '" value="' . $submitValue . '" ';
             $template .= $this->classAndId($args);

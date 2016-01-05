@@ -28,6 +28,8 @@ class WP_Form
     /**
      * @since V 0.1
      *
+     * @Modified : V 0.5
+     *
      * Constructor
      *
      * @param $formId
@@ -52,7 +54,9 @@ class WP_Form
                 /** @since V 0.4 */
                 $formArgs['formId'] = $formId;
                 $formArgs['formType'] = get_post_meta($formId,'form-type')[0];
-                $formArgs['lien'] = get_post_meta($this->formId,'form-redirect')[0];
+                $formArgs['lien'] = get_post_meta($formId,'form-redirect')[0];
+                $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args')[0];
+
 
                 $form = new FormWordpress($form->post_name,$formMetas['action'][0],$formArgs);
                 $this->formId = $formId;

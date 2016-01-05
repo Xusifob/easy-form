@@ -208,6 +208,7 @@ function displayReinitialiseUtility(val){
  * Display utilities on the map
  *
  * @param val
+ * @param formSendArgs
  */
 function getUtilities(val,formSendArgs){
     $.get(templatePath + '/form-actions/' + val + '.php' , function (data) {
@@ -230,11 +231,13 @@ function getUtilities(val,formSendArgs){
                 data = replace(data, 'recipiendEmailValue','value="'+ formSendArgs.recipientEmail +'"');
                 break;
             case 'resetPassword':
+                formSendArgs.submitValue = formSendArgs.submitValue == undefined ? 'Réinitialiser' : '';
                 data = replace(data, 'SubjectValue','value="'+ formSendArgs.subject +'"');
                 data = replace(data, 'senderEmailValue','value="'+ formSendArgs.senderEmail +'"');
                 data = replace(data, 'SenderNameValue','value="'+ formSendArgs.senderName +'"');
                 data = replace(data, 'MessageValue','value="'+ formSendArgs.message +'"');
                 data = replace(data,'PageValue', 'value="' + formSendArgs.pageId + '"');
+                data = replace(data,'submitValue', 'value="' + formSendArgs.submitValue + '"');
                 data = replace(data,'value="'+ formSendArgs.resetAction +'"','value="'+ formSendArgs.resetAction +'" selected');
 
                 break;
