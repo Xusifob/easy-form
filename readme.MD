@@ -5,6 +5,12 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 
 ## Installation
 
+ ````
+ cd wp-content/plugins/
+ git clone https://github.com/xusifob/easy-form && git checkout dev
+ ````
+
+ Go in your Plugin's page in your back office and enable it
 
 
 ## Changelogs
