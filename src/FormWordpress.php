@@ -33,7 +33,7 @@ class FormWordpress extends Form
 
         $json = $this->getLangTemplate('fr');
 
-        $this->errorMessages = json_encode($json,true);
+        $this->errorMessages = json_decode($json,true);
 
         // store the form Id
         if(isset($args['formId']))
@@ -794,7 +794,6 @@ class FormWordpress extends Form
 
         if(is_wp_error($user)) {
 
-            // vardump($user);
 
             if ($user && $user->get_error_code() === 'expired_key')
                 $this->error = $this->errorMessages['expiredKey'];
@@ -1164,6 +1163,7 @@ class FormWordpress extends Form
      */
     public function doConnexion($creds)
     {
+
         $usr = wp_signon($creds,false);
         if(is_wp_error($usr)){
             $this->setError($this->errorMessages['identifiants']);
