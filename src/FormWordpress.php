@@ -574,7 +574,7 @@ class FormWordpress extends Form
      *
      * @Modified : V 0.4
      *
-     * @param $args Array
+     * @param $args array
      *
      * @return bool
      */
@@ -1471,6 +1471,7 @@ class FormWordpress extends Form
         $_SESSION['message'] = $lien;
 
         $mail->Body = $message;
+
         return $mail->send();
     }
 
