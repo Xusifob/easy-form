@@ -21,7 +21,7 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Add Password Reset with form
  * Add Inscription with mail
  * Add Templates for mails
- * Add Template for langs
+ * Add Template for errors
 
 ### Version 0.4 :
  * Update doc for radio button
