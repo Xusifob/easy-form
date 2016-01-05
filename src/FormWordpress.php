@@ -33,10 +33,6 @@ class FormWordpress extends Form
 
         $json = $this->getLangTemplate('fr');
 
-        echo $json;
-        die();
-
-
         $this->errorMessages = json_encode($json,true);
 
         // store the form Id
