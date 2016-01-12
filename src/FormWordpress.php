@@ -73,20 +73,20 @@ class FormWordpress extends Form
     {
         $insert = [
             'email' => false,
-            'name' => false,
+            'sendername' => false,
             'message' => false,
         ];
         foreach ($this->fields as $field) {
             if ($field['name'] == 'email' || (isset($args['senderEmail']) && !empty($args['senderEmail'])))
                 $insert['email'] = true;
-            elseif ($field['name'] == 'senderName' || (isset($args['senderName']) && !empty($args['senderName']) ))
-                $insert['name'] = true;
+            elseif ($field['name'] == 'sendername' || (isset($args['sendername']) && !empty($args['sendername']) ))
+                $insert['sendername'] = true;
             elseif ($field['name'] == 'message' || (isset($args['message']) && !empty($args['message']))) {
                 $insert['message'] = true;
             }
         }
 
-        if(!($insert['name'] && $insert['email'] && $insert['message'])){
+        if(!($insert['sendername'] && $insert['email'] && $insert['message'])){
             $error = '';
             foreach($insert as $key => $val){
                 if(!$val){
@@ -95,7 +95,7 @@ class FormWordpress extends Form
             }
             $this->setError($error);
         }
-        return ($insert['name'] && $insert['email'] && $insert['message']);
+        return ($insert['sendername'] && $insert['email'] && $insert['message']);
     }
 
 
@@ -630,7 +630,7 @@ class FormWordpress extends Form
 
                         $senderEmail = isset($sendArgs['senderEmail']) && !empty($sendArgs['senderEmail']) ? $sendArgs['senderEmail'] : get_option('admin_email');
                         $subject = isset($sendArgs['subject']) && !empty($sendArgs['subject']) ? $sendArgs['subject'] : 'Renouvellement du mot de passe';
-                        $senderName = isset($sendArgs['senderName']) && !empty($sendArgs['senderName']) ? $sendArgs['senderName'] : get_option('blogname');
+                        $senderName = isset($sendArgs['sendername']) && !empty($sendArgs['sendername']) ? $sendArgs['sendername'] : get_option('blogname');
 
                         /** @var Phpmailerform $mail */
                         $mail = $this->prepareMail();
@@ -1088,7 +1088,7 @@ class FormWordpress extends Form
                 $mail = new Mail();
                 $mail
                     ->setSenderEmail(isset($args['senderEmail']) ? $args['senderEmail'] : $_POST['email'])
-                    ->setSenderName(isset($args['senderName']) ? $args['senderName'] : $_POST['senderName'])
+                    ->setSenderName(isset($args['sendername']) ? $args['sendername'] : $_POST['sendername'])
                     ->setRecipientEmail(isset($args['recipientEmail']) ? $args['recipientEmail'] : get_option('admin_email'))
                     ->setRecipientName(isset($args['recipientName']) ? $args['recipientName'] : get_option('blogname'))
                     ->setSubject(isset($args['subject']) ? $args['subject'] : (isset($_POST['subject']) ? $_POST['subject'] : ''));
@@ -1096,7 +1096,7 @@ class FormWordpress extends Form
                 $message = isset($args['message']) ? $args['message'] : $_POST['message'];
 
 
-                $notField = ['message', 'email', 'senderName', 'subject'];
+                $notField = ['message', 'email', 'sendername', 'subject'];
 
                 // For all fields
                 foreach ($this->fields as $key => $field) {

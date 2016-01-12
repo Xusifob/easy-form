@@ -371,6 +371,7 @@ class FormPlugin
                                 ];
                                 break;
                             default :
+
                                 $fi = [
                                     'args' => [
                                         'id' => $field['form-id'],
@@ -410,7 +411,6 @@ class FormPlugin
                         // At the end, i push everything
                         array_push($fields,$fi);
                     }
-
                     // and hop ! post meta
                     update_post_meta($pid,'form-fields',$fields);
 
