@@ -757,7 +757,7 @@ class FormPlugin
     {
         // open raw memory as file so no temp files needed, you might run out of memory though
         $f = fopen(wp_upload_dir()['path'] . '/' . $filename, 'w');
-        fputs($f,json_encode($val),JSON_PRETTY_PRINT);
+        fputs($f,json_encode($val,JSON_PRETTY_PRINT));
         fclose($f);
         return '<a href="' . wp_upload_dir()['url'] . '/' . $filename . '" class="button button-primary" target="_blank" download>Télécharger</a>';
     }

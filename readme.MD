@@ -24,6 +24,11 @@ and then open the file easy-form/tests/index.php into your web browser
 ## Changelogs
 
 ### Version 0.6 :
+ * Update documentation for better understanding (In Progress)
+ * Add unit tests & tests using Symfony Crawler (In Progress)
+
+
+### Version 0.5 :
  * Refactoring full add.php code
  * Refactor whole add.php code for better maintaining
  * Add Password Reset with form
