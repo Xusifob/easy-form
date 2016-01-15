@@ -93,7 +93,7 @@ class FormListTable extends WP_List_Table {
     {
         $columns = array(
             'cb'          => '<input type="checkbox">',
-            'id'          => 'ID',
+            'id'          => 'ID - SLUG',
             'name'       => 'Nom',
             'nb_field' => 'Nombre de champs',
             'form_action' => 'Action',
@@ -147,11 +147,13 @@ class FormListTable extends WP_List_Table {
 
         while($my_query->have_posts()): $my_query->the_post();
 
+            global $post;
             $data = [
                 'id' => get_the_ID(),
                 'name' => get_the_title(),
                 'nb_field' => isset(get_post_meta(get_the_ID(),'form-fields')[0]) ? count(get_post_meta(get_the_ID(),'form-fields')[0]) : 0,
                 'form_action' => isset(get_post_meta(get_the_ID(),'form-type')[0]) ? get_post_meta(get_the_ID(),'form-type')[0] : '',
+                'slug' => $post->post_name,
             ];
 
             array_push($datas,$data);
@@ -165,13 +167,12 @@ class FormListTable extends WP_List_Table {
     public function column_id($item)
     {
         $actions = array(
-            // 'show'      => sprintf('<a href="' . menu_page_url('show-form',false) . '&id='. $item['id'] .'">Voir</a>',$_REQUEST['page'],'show',$item['ID']),
             'shw'      => sprintf('<a href="' . menu_page_url('show-form',false) . '&id='. $item['id'] .'">Afficher</a>',$_REQUEST['page'],'show',$item['id']),
             'edit'      => sprintf('<a href="' . menu_page_url('add-form',false) . '&modify='. $item['id'] .'">Modifier</a>',$_REQUEST['page'],'edit',$item['id']),
             'duplicate'      => sprintf('<a href="#" data-toggle="modal" data-target="#modal-duplicate" data-form="'. $item['id'] .'" >Dupliquer</a>',$_REQUEST['page'],'duplicate',$item['id']),
             'delete'    => sprintf('<a href="?page=%s&action=%s&form=%s" onclick="if(!confirm(\'Êtes vous sur de vouloir supprimer ce formulaire ?\')) return false;">Supprimer</a>',$_REQUEST['page'],'delete',$item['id']),
         );
-        return sprintf('%1$s %2$s', '<a href="'. menu_page_url('show-form',false) .'&id='. $item['id'] .'">' . $item['id'] .'</a>', $this->row_actions($actions) );
+        return sprintf('%1$s %2$s', '<a href="'. menu_page_url('show-form',false) .'&id='. $item['id'] .'">' . $item['id'] . ' -  ' . $item['slug'] .'</a>', $this->row_actions($actions) );
     }
 
     // Used to display the checkbox column

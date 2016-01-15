@@ -55,7 +55,7 @@
 &lt;?php
 // Ouverture du formulaire
 $form->open_the_form();
-                <?php foreach($formFields as $field){ ?>
+                <?php global $formFields; if(is_array($formFields)) foreach($formFields as $field){ ?>
                     <?php echo "\n"; ?>
                     <?php if($field['type'] == 'radio'):
                         if(!isset($radios[$field['name']]))
