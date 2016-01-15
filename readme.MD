@@ -12,10 +12,18 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 
  Go in your Plugin's page in your back office and enable it
 
+## Tests
+
+````
+ cd wp-content/plugins/easy-form/tests
+ composer install
+ ````
+and then open the file easy-form/tests/index.php into your web browser
+
 
 ## Changelogs
 
-### Version 0.5 :
+### Version 0.6 :
  * Refactoring full add.php code
  * Refactor whole add.php code for better maintaining
  * Add Password Reset with form
