@@ -151,6 +151,12 @@ class Form
         $nonce = wp_create_nonce($this->name);
 
         $template .= '<input type="hidden" name="_nounce" value="' . $nonce . '" >';
+        $template .= '<input type="hidden" name="_time" value="' . microtime(true) . '" >';
+
+        $template .="
+<style>.antispam{display: none !important;}</style>
+<input type='text' name='url-antispam' class='antispam' id='antispam-$this->uniqId'>
+                    <label for='antispam-$this->uniqId' class='antispam'>Do not type anything here</label>";
 
         $this->template['open_the_form'] = $template;
     }
@@ -717,7 +723,7 @@ class Form
 
             if ( ! wp_verify_nonce( $_POST['_nounce'], $this->name ) ) {
 
-                die( 'Security check' );
+                die(json_encode(['Wp_Form_Error' => 'Security check']));
 
             } else {
 
@@ -926,6 +932,7 @@ class Form
      */
     public function get_open_the_form()
     {
+
         return $this->get_form_field('open_the_form');
     }
 

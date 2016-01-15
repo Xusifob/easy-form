@@ -22,6 +22,7 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Add Inscription with mail
  * Add Templates for mails
  * Add Template for errors
+ * Add Antispam Detection
 
 ### Version 0.4 :
  * Update doc for radio button

@@ -146,6 +146,13 @@ class WP_Form
      */
     private function CheckForm()
     {
+        if(isset($_POST['_time'])) {
+            if(microtime(true) - $_POST['_time'] < 1)
+                die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
+        }
+
+        if(isset($_POST['url-antispam']) && !empty($_POST['url-antispam']))
+            die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
 
         /* @Modified V 0.4 */
         $argsMeta = get_post_meta($this->formId,'form-send-args');
