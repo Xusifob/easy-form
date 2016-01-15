@@ -1,0 +1,18 @@
+{
+  "missing": "Un ou plusieurs champs n'est pas complet",
+  "email": "Adresse e-mail invalide",
+  "2password": "Veuillez retaper votre mot de passe",
+  "samepassword": "Les deux mots de passe entrés doivent être identiques",
+  "filetype": "Le type du fichier chargé est incorrect",
+  "identifiants": "Identifiants incorrects",
+  "empty": "Ce champ doit être rempli",
+  "missingfield": "Le formulaire doit avoir un champ ",
+  "noUser": "Aucun utilisateur n'a été trouvé avec cet identifiant",
+  "noReset": "La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur",
+  "error": "Une erreur est survenue",
+  "filesize": "La taille du fichier est trop importante, taille maximum : ",
+  "errorDatabase": "Une erreur est survenue lors de la modification de l'utilisateur",
+  "expiredKey": "La clé utilisée est expirée",
+  "invalidKey": "La clé utilisée est invalide",
+  "alreadyActivated": "Utilisateur introuvable ou déjà activé"
+}

@@ -27,7 +27,13 @@ class FormWordpress extends Form
      */
     public function __construct($name,$action = '#',$args = [])
     {
+
+
         parent::__construct($name,$action,$args);
+
+        $json = $this->getLangTemplate('fr');
+
+        $this->errorMessages = json_decode($json,true);
 
         // store the form Id
         if(isset($args['formId']))
@@ -50,7 +56,7 @@ class FormWordpress extends Form
         }
 
         if(!$insert)
-            $this->setError($this->errorMessages['fr']['missingfield'] . 'name');
+            $this->setError($this->errorMessages['missingfield'] . 'name');
 
         return $insert;
     }
@@ -67,29 +73,29 @@ class FormWordpress extends Form
     {
         $insert = [
             'email' => false,
-            'name' => false,
+            'sendername' => false,
             'message' => false,
         ];
         foreach ($this->fields as $field) {
             if ($field['name'] == 'email' || (isset($args['senderEmail']) && !empty($args['senderEmail'])))
                 $insert['email'] = true;
-            elseif ($field['name'] == 'senderName' || (isset($args['senderName']) && !empty($args['senderName']) ))
-                $insert['name'] = true;
+            elseif ($field['name'] == 'sendername' || (isset($args['sendername']) && !empty($args['sendername']) ))
+                $insert['sendername'] = true;
             elseif ($field['name'] == 'message' || (isset($args['message']) && !empty($args['message']))) {
                 $insert['message'] = true;
             }
         }
 
-        if(!($insert['name'] && $insert['email'] && $insert['message'])){
+        if(!($insert['sendername'] && $insert['email'] && $insert['message'])){
             $error = '';
             foreach($insert as $key => $val){
                 if(!$val){
-                    $error .= $this->errorMessages['fr']['missingfield'] . $key . ' ';
+                    $error .= $this->errorMessages['missingfield'] . $key . ' ';
                 }
             }
             $this->setError($error);
         }
-        return ($insert['name'] && $insert['email'] && $insert['message']);
+        return ($insert['sendername'] && $insert['email'] && $insert['message']);
     }
 
 
@@ -123,7 +129,7 @@ class FormWordpress extends Form
                 $error = '';
                 foreach($insert as $key => $val){
                     if(!$val){
-                        $error .= $this->errorMessages['fr']['missingfield'] . $key . ' ';
+                        $error .= $this->errorMessages['missingfield'] . $key . ' ';
                     }
                 }
                 $this->setError($error);
@@ -170,7 +176,7 @@ class FormWordpress extends Form
             $error = '';
             foreach($insert as $key => $val){
                 if(!$val){
-                    $error .= $this->errorMessages['fr']['missingfield'] . $key . ' ';
+                    $error .= $this->errorMessages['missingfield'] . $key . ' ';
                 }
             }
             $this->setError($error);
@@ -186,21 +192,32 @@ class FormWordpress extends Form
      *
      * @since V 0.2
      *
+     * @Modified : - V 0.5
+     *
      * @return bool
      */
     protected function canResetPassword()
     {
         $insert = false;
 
-        // Check fields
-        foreach($this->fields as $field){
-            if($field['name'] == 'login')
-                $insert = true;
+        if($this->resetArgsAvailable()){
+            // Check fields
+            foreach($this->fields as $field){
+                if($field['name'] == 'password')
+                    $insert = true;
+            }
+        }else {
+
+            // Check fields
+            foreach ($this->fields as $field) {
+                if ($field['name'] == 'login')
+                    $insert = true;
+            }
         }
 
         // display error
         if(!$insert) {
-            $error = $this->errorMessages['fr']['missingfield'] . 'login';
+            $error = $this->errorMessages['missingfield'] . $this->resetArgsAvailable() ? 'password' : 'login';
             $this->setError($error);
         }
 
@@ -282,7 +299,7 @@ class FormWordpress extends Form
                                 foreach ($val['size'] as $siz) {
                                     if($siz > (int)$field['args']['maxSize']*1000) {
                                         $sizeOk = false;
-                                        $this->setError($this->errorMessages['fr']['filesize']  . $field['args']['maxSize'] . 'ko');
+                                        $this->setError($this->errorMessages['filesize']  . $field['args']['maxSize'] . 'ko');
                                     }
                                 }
                             }
@@ -354,7 +371,6 @@ class FormWordpress extends Form
     public function SendFormAndRedirect($type = 'post',$lien = null,$postId = null,$args = [])
     {
 
-
         $lien = ($lien == null || $lien == '' || $lien == false)  ? get_permalink() : $lien;
 
 
@@ -415,7 +431,8 @@ class FormWordpress extends Form
 
                         /* @since V 0.4 */
                         if (isset($args['varURl']) && !empty($args['varURl'])) {
-                            $union = strpos(get_permalink($postId), '?') ? '&' : '?';
+                            $union = self::getunion($lien);
+
                             $lien = get_permalink($postId) . $union . $args['varURl'];
                             wp_redirect($lien);
                         }else{
@@ -446,7 +463,8 @@ class FormWordpress extends Form
                 }
 
                 $lien = ($lien == 'newpost') ? null : $lien;
-                if($postId = $this->insertUser($postId,$args)) {
+
+                if($postId  = $this->insertUser($postId,$args)) {
                     $this->setFormSend($thepostId);
 
                     // Actions
@@ -500,8 +518,7 @@ class FormWordpress extends Form
             case 'connexion' :
                 $lien = ($lien == 'newpost') ? null : $lien;
 
-                do_action('form/ConnectUser');
-                do_action('form/ConnectUser-' . $this->id);
+
                 if($user = $this->connectUser($args)){
                     $this->setFormSend($thepostId);
 
@@ -519,7 +536,7 @@ class FormWordpress extends Form
                 do_action('form/BeforeResetPassword-' . $this->id);
 
                 $lien = ($lien == 'newpost') ? null : $lien;
-                if($this->resetPassword()){
+                if($this->resetPassword($args)){
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
@@ -533,7 +550,7 @@ class FormWordpress extends Form
                     wp_redirect($lien . $varURl);
                     exit();
                 }elseif(!$this->hasError())
-                    $this->setError($this->errorMessages['fr']['error']);
+                    $this->setError($this->errorMessages['error']);
 
                 break;
         endswitch;
@@ -546,7 +563,7 @@ class FormWordpress extends Form
      *
      * @param $thepostId
      */
-    protected function setFormSend($thepostId)
+    protected function setFormSend($thepostId = null)
     {
         if(null == $thepostId)
             $_SESSION[$this->name] = true;
@@ -561,100 +578,239 @@ class FormWordpress extends Form
      *
      * @Modified : V 0.4
      *
+     * @param $args array
+     *
      * @return bool
      */
-    public function resetPassword()
+    public function resetPassword($args = [])
     {
         if($this->canResetPassword()){
 
             global $wpdb, $wp_hasher;
 
-            $user_login = $_POST['login'];
+            if($user = $this->checkResetPage()) {
+                wp_set_password($_POST['password'], $user->data->ID);
+                return true;
+            }else {
 
-            if ( strpos( $user_login, '@' ) ) {
-                $user_data = get_user_by( 'email', trim( $user_login ) );
+                $user_login = $_POST['login'];
 
-            } else {
-                $login = trim($user_login);
-                $user_data = get_user_by('login', $login);
-            }
+                if (strpos($user_login, '@')) {
+                    $user_data = get_user_by('email', trim($user_login));
 
-            if (!empty($user_data) && $user_data) {
-
-                // redefining user_login ensures we return the right case in the email
-                $user_login = $user_data->user_login;
-                $user_email = $user_data->user_email;
-
-                $allow = apply_filters('allow_password_reset', true, $user_data->ID);
-
-                if ($allow) {
-
-                    // Create new password
-                    $password = self::random(8);
-
-                    // Set new password
-                    wp_set_password($password,$user_data->ID);
-
-
-
-                    /** @Since V 0.4 */
-                    $sendArgs = isset(get_post_meta($this->id,'form-send-args')[0]) ? get_post_meta($this->id,'form-send-args')[0] : false;
-
-                    $senderEmail = isset($sendArgs['senderEmail']) && !empty($sendArgs['senderEmail'])  ? $sendArgs['senderEmail'] : get_option('admin_email');
-                    $subject = isset($sendArgs['subject']) && !empty($sendArgs['subject']) ? $sendArgs['subject'] : 'Renouvellement du mot de passe';
-                    $senderName = isset($sendArgs['senderName']) && !empty($sendArgs['senderName'])  ? $sendArgs['senderName'] : get_option('blogname');
-
-                    if(isset($sendArgs['message']) && !empty($sendArgs['message'])){
-                        $message = $sendArgs['message'];
-                        $message = str_replace('%ID%',$user_data->user_login,$message);
-                        $message = str_replace('%PASSWORD%',$password,$message);
-
-
-                    }else{
-                        $message = "Quelqu'un a demandé le renouvellement de son mot de passe sur <a href=\"". get_bloginfo('wpurl') ."\">" . get_bloginfo('blogurl') . "</a>  pour le compte suivant :
-                        <br>Identifiant : $user_data->user_login
-                        <br>Votre nouveau mot de passe est le suivant : " . $password
-                        ;
-                    }
-
-
-
-
-                    try {
-
-
-                        /** @var Mail $mail */
-                        $mail = new Mail();
-
-                        $mail
-                            ->setRecipientEmail($user_email)
-                            ->setRecipientName($user_login)
-                            ->setSenderEmail($senderEmail)
-                            ->setSenderName($senderName)
-                            ->setSubject($subject)
-                            ->setMessage($message);
-
-                        return $mail->send();
-                    }
-                    catch(Exception $e){
-
-                        $this->setError($e->getMessage());
-                        return false;
-
-                    }
+                    if(empty($user_data) || !$user_data)
+                        $user_data = get_user_by('login', trim($user_login));
 
                 } else {
-                    $this->setError($this->errorMessages['fr']['noReset']);
+                    $login = trim($user_login);
+                    $user_data = get_user_by('login', $login);
+                }
+
+                do_action('lostpassword_post');
+
+
+                if (!empty($user_data) && $user_data) {
+
+                    // redefining user_login ensures we return the right case in the email
+                    $user_login = $user_data->user_login;
+                    $user_email = $user_data->user_email;
+
+                    do_action('retrieve_password', $user_login);
+
+
+                    $allow = apply_filters('allow_password_reset', true, $user_data->ID);
+
+                    if ($allow) {
+                        $args['resetAction'] = isset($args['resetAction']) ? $args['resetAction'] : 'reset-password-email';
+
+                        /** @Since V 0.4 */
+                        $sendArgs = isset(get_post_meta($this->id, 'form-send-args')[0]) ? get_post_meta($this->id, 'form-send-args')[0] : false;
+
+                        $senderEmail = isset($sendArgs['senderEmail']) && !empty($sendArgs['senderEmail']) ? $sendArgs['senderEmail'] : get_option('admin_email');
+                        $subject = isset($sendArgs['subject']) && !empty($sendArgs['subject']) ? $sendArgs['subject'] : 'Renouvellement du mot de passe';
+                        $senderName = isset($sendArgs['sendername']) && !empty($sendArgs['sendername']) ? $sendArgs['sendername'] : get_option('blogname');
+
+                        /** @var Phpmailerform $mail */
+                        $mail = $this->prepareMail();
+                        $mail->setFrom($senderEmail, $senderName);
+                        $mail->addAddress($user_data->user_email, $user_data->user_login);
+                        $mail->Subject = $subject;
+
+
+
+                        if ($args['resetAction'] == 'reset-password-email') {
+
+                            // Create new password
+                            $password = self::random(8);
+
+                            // Set new password
+                            wp_set_password($password, $user_data->ID);
+
+
+                            if (isset($sendArgs['message']) && !empty($sendArgs['message']))
+                                $message = $sendArgs['message'];
+                            else
+                                $message = $this->getFormTemplate('resetPassword.php');
+
+                            $message = str_replace('%ID%', $user_login, $message);
+                            $message = str_replace('%PASSWORD%', $password, $message);
+                            $message = str_replace('%BLOGNAME%', $senderName, $message);
+
+                            // Send link
+                        } else {
+                            $key = $this->retrieve_password($user_login);
+
+                            // Get the template||message
+                            if (isset($sendArgs['message']) && !empty($sendArgs['message']))
+                                $message = $sendArgs['message'];
+                            else
+                                $message = $this->getFormTemplate('retrievePassword.php');
+
+                            // Get the link of the page
+                            $lien = get_permalink($args['pageId']);
+
+                            // If there isn't a ? start the params with ? else with &
+                            $union = self::getunion($lien);
+
+                            // I put every fields in the link
+                            $lien .= $union . 'action=rt';
+                            $lien .= '&login=' . rawurlencode($user_login);
+                            $lien .= '&key=' . $key;
+
+                            $lienhtml = '<a href="' . $lien . '">' . $lien . '</a>';
+
+
+                            $message = str_replace('%ID%', $user_login, $message);
+                            $message = str_replace('%LIEN%', $lienhtml, $message);
+                            $message = str_replace('%BLOGNAME%', $senderName, $message);
+
+
+                            $mail->Body = $message;
+
+
+                        }
+                        try {
+                            $mail->Body = $message;
+
+                            return $mail->send();
+                        } catch (Exception $e) {
+
+                            $this->setError($e->getMessage());
+                            return false;
+                        }
+
+                    } else {
+                        $this->setError($this->errorMessages['noReset']);
+                        return false;
+                    }
+                } else {
+                    $this->setError($this->errorMessages['noUser']);
                     return false;
                 }
-            }else{
-                $this->setError($this->errorMessages['fr']['noUser']);
-                return false;
             }
         }else{
             return false;
         }
     }
+
+
+    /**
+     * @Since V 0.5
+     *
+     * Return the union between 2 parameters in a link
+     *
+     * @param $lien
+     * @return string
+     */
+    public static function getunion($lien){
+        return strpos($lien, '?') === false ? '?' : '&';
+
+    }
+
+    /**
+     * @return Phpmailerform
+     */
+    public function prepareMail(){
+        $mail = new Phpmailerform();
+        $mail->isHTML(true);
+        $mail->setLanguage('fr');
+        $mail->CharSet = "UTF-8";
+        return $mail;
+    }
+
+
+    /**
+     * Handles sending password retrieval email to user.
+     *
+     * @Since V 0.5
+     *
+     * @param : $user_login string
+     *
+     * @global wpdb         $wpdb      WordPress database abstraction object.
+     * @global PasswordHash $wp_hasher Portable PHP password hashing framework.
+     *
+     * @return bool|WP_Error True: when finish. WP_Error on error
+     */
+    public function retrieve_password($user_login) {
+
+        global $wpdb;
+
+        // Generate something random for a password reset key.
+        $key = wp_generate_password( 20, false );
+
+        do_action( 'retrieve_password_key', $user_login, $key );
+
+        // Now insert the key, hashed, into the DB.
+        if ( empty( $wp_hasher ) ) {
+            require_once ABSPATH . WPINC . '/class-phpass.php';
+            $wp_hasher = new PasswordHash( 8, true );
+        }
+        $hashed = $wp_hasher->HashPassword( $key );
+        $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+
+
+        return $key;
+
+    }
+
+    /**
+     * @Since V 0.5
+     *
+     * @return bool
+     */
+    public function checkResetPage(){
+        if(!$this->resetArgsAvailable())
+            return false;
+
+        if (isset($_GET['key']) && isset($_GET['login'])) {
+            $user = check_password_reset_key($_GET['key'], $_GET['login']);
+
+        } else {
+            $this->error = $this->errorMessages['invalidKey'];
+            return false;
+        }
+
+        if(is_wp_error($user)) {
+
+
+            if ($user && $user->get_error_code() === 'expired_key')
+                $this->error = $this->errorMessages['expiredKey'];
+            else
+                $this->error = $this->errorMessages['invalidKey'];
+
+            return false;
+        }
+
+
+        if(is_object($user) && !is_wp_error($user))
+            return $user;
+
+        do_action('validate_password_reset', [], $user);
+
+    }
+
+
+
 
 
     /**
@@ -766,10 +922,16 @@ class FormWordpress extends Form
     {
         if($this->canInsertUser($postId)) {
 
+            // Handle User has to be activated by e-mail
+            $ActivateUser = isset($args['emailUser']) && true === $args['emailUser'];
+
 
             if(isset($args['role'])){
                 if($args['role'] == 'current'){
-                    $role = $this->get_user_role($postId);
+                    if(is_user_logged_in())
+                        $role = $this->get_user_role($postId);
+                    else
+                        $role = 'subscriber';
                 }else
                     $role = $args['role'];
             }else
@@ -778,28 +940,15 @@ class FormWordpress extends Form
 
             // If there is an id it's an update, else it's an insert
             if(isset($postId) && null != ($postId)) {
-
-                $postarr['ID'] = $postId;
-
-                // Email
-                if(isset($_POST['email']))
-                    $postarr['user_email'] = $_POST['email'];
-
-                // Url
-                if(isset($_POST['url']))
-                    $postarr['user_url'] = $_POST['url'];
-
-                // First name
-                if(isset($_POST['first_name']))
-                    $postarr['first_name'] = $_POST['first_name'];
-
-                // last name
-                if(isset($_POST['last_name']))
-                    $postarr['last_name'] = $_POST['last_name'];
-
-                // Description
-                if(isset($_POST['description']))
-                    $postarr['description'] = $_POST['content'];
+                $postarr = [
+                    'ID' => $postId,
+                    'user_email' => isset($_POST['email']) ? $_POST['email'] : '',
+                    'user_url' => isset($_POST['url']) ? $_POST['url'] : '',
+                    'first_name' => isset($_POST['first_name']) ? $_POST['first_name'] : '',
+                    'last_name' => isset($_POST['last_name']) ? $_POST['last_name'] : '',
+                    'description' => isset($_POST['content']) ? $_POST['content'] : '',
+                    'role' => $role,
+                ];
 
                 // Role
                 $postarr['role'] = $role;
@@ -826,10 +975,22 @@ class FormWordpress extends Form
                 if(isset($_POST['password']) && !empty($_POST['password']))
                     $postarr['user_pass'] = $_POST['password'];
 
-                $postId = wp_insert_user($postarr);
+
+                if($ActivateUser) {
+                    /** @Since V 0.5 **/
+                    $postId = $this->InsertUnactiveUser($postarr);
+                }else{
+                    $postId = wp_insert_user($postarr);
+                }
             }
 
-
+            /**
+             * Check if there is an error
+             */
+            if(is_wp_error($postId)){
+                $this->error = $postId->get_error_message();
+                return false;
+            }
 
 
             // Array of fields which are not metas
@@ -852,10 +1013,18 @@ class FormWordpress extends Form
                     if (!in_array($field['name'], $notField)) {
                         if (isset($field['multiple']) && $field['multiple'] && is_array($_POST[$field['name']])) {
                             foreach ($_POST[$field['name']] as $val) {
-                                add_user_meta($postId, $field['name'], $val);
+                                if($ActivateUser){
+                                    $this->addUnactiveUserMeta($postId,$field['name'],$val);
+                                }else {
+                                    add_user_meta($postId, $field['name'], $val);
+                                }
                             }
                         } else {
-                            update_user_meta($postId, $field['name'], $_POST[$field['name']]);
+                            if($ActivateUser){
+                                $this->addUnactiveUserMeta($postId,$field['name'],$_POST[$field['name']]);
+                            }else {
+                                update_user_meta($postId, $field['name'], $_POST[$field['name']]);
+                            }
                         }
                     }
                 }else {
@@ -882,7 +1051,10 @@ class FormWordpress extends Form
                     }
                 }
             }
-            if($args['connectUser']){
+            /**
+             * If the forms asks to connect the user (you can't connect & have to activate the user)
+             */
+            if($args['connectUser'] && !$ActivateUser){
                 $creds = [
                     'user_login' => isset($_POST['login']) ? $_POST['login'] : $_POST['email'],
                     'user_password' => $_POST['password'],
@@ -890,6 +1062,11 @@ class FormWordpress extends Form
                 ];
                 $this->doConnexion($creds);
             }
+            /**
+             * Send the e-mail for unactive user
+             */
+            $this->sendMailActivate($postId);
+
             return $postId;
         }else{
             return false;
@@ -913,7 +1090,7 @@ class FormWordpress extends Form
                 $mail = new Mail();
                 $mail
                     ->setSenderEmail(isset($args['senderEmail']) ? $args['senderEmail'] : $_POST['email'])
-                    ->setSenderName(isset($args['senderName']) ? $args['senderName'] : $_POST['senderName'])
+                    ->setSenderName(isset($args['sendername']) ? $args['sendername'] : $_POST['sendername'])
                     ->setRecipientEmail(isset($args['recipientEmail']) ? $args['recipientEmail'] : get_option('admin_email'))
                     ->setRecipientName(isset($args['recipientName']) ? $args['recipientName'] : get_option('blogname'))
                     ->setSubject(isset($args['subject']) ? $args['subject'] : (isset($_POST['subject']) ? $_POST['subject'] : ''));
@@ -921,7 +1098,7 @@ class FormWordpress extends Form
                 $message = isset($args['message']) ? $args['message'] : $_POST['message'];
 
 
-                $notField = ['message', 'email', 'senderName', 'subject'];
+                $notField = ['message', 'email', 'sendername', 'subject'];
 
                 // For all fields
                 foreach ($this->fields as $key => $field) {
@@ -970,6 +1147,7 @@ class FormWordpress extends Form
             /* @since V 0.4 */
 
             do_action('form/BeforeConnectUser',$creds);
+            do_action('form/BeforeConnectUser-' .$this->id,$creds);
 
             return $this->doConnexion($creds);
         }else{
@@ -987,9 +1165,10 @@ class FormWordpress extends Form
      */
     public function doConnexion($creds)
     {
+
         $usr = wp_signon($creds,false);
         if(is_wp_error($usr)){
-            $this->setError($this->errorMessages['fr']['identifiants']);
+            $this->setError($this->errorMessages['identifiants']);
             return false;
         }else{
             return $usr;
@@ -1035,7 +1214,7 @@ class FormWordpress extends Form
         $string = '';
 
         // Every carac
-        $chaine = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#@$0123456789sdfhDFHGgfdhg';
+        $chaine = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$0123456789sdfhDFHGgfdhg';
         srand((double)microtime()*time());
         for($i=0; $i<$car; $i++) {
             $string .= $chaine[rand()%strlen($chaine)];
@@ -1101,4 +1280,359 @@ class FormWordpress extends Form
     {
         echo $this->get_form_uniqId();
     }
+
+
+    /**
+     * Insert an unactive user
+     *
+     * @CalledIn : FormWordpress::insertUser
+     * @Since V 0.5
+     * @param $postarr
+     * @return WP_Error|mixed
+     */
+    private function InsertUnactiveUser($postarr){
+
+        $user = get_user_by('login',$postarr['user_login']);
+
+
+        if($user)
+            return new WP_Error(99,"Un utilisateur avec le même identifiant a été trouvé");
+
+        if($this->SelectUnactiveUser('user_login',$postarr['user_login']))
+            return new WP_Error(99,"Un utilisateur avec le même identifiant a été trouvé");
+
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+
+        $postarr['user_activation_key'] = $this->random(55);
+
+        $sql = "INSERT INTO $table (
+            user_login,
+            user_pass,
+            user_email,
+            user_url,
+            user_activation_key
+             ) VALUES (
+             '{$postarr['user_login']}',
+             '{$postarr['user_pass']}',
+             '{$postarr['user_email']}',
+             '{$postarr['user_url']}',
+             '{$postarr['user_activation_key']}'
+             )";
+        $wpdb->query($sql);
+
+        // Get User Id
+        $userId = $this->SelectUnactiveUser('user_login',$postarr['user_login'])->ID;
+
+        if(isset($postarr['first_name']))
+            $this->addUnactiveUserMeta($userId,'first_name',$postarr['first_name']);
+
+        if(isset($postarr['last_name']))
+            $this->addUnactiveUserMeta($userId,'last_name',$postarr['last_name']);
+
+        if(isset($postarr['description']))
+            $this->addUnactiveUserMeta($userId,'description',$postarr['description']);
+
+        if(isset($postarr['role']))
+            $this->addUnactiveUserMeta($userId,'role',$postarr['role']);
+
+        return $userId;
+    }
+
+    /**
+     * Return a user from a certain condition
+     *
+     * @param $key
+     * @param $val
+     * @return mixed
+     */
+    private function SelectUnactiveUser($key,$val){
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+
+        $table = $wpdb->prefix . 'easy_form_users';
+        $sql = "SELECT * FROM $table WHERE {$key} = '{$val}'";
+
+
+        return $wpdb->get_row($sql);
+    }
+
+    /**
+     * Return a user from a certain condition
+     *
+     * @param $userId
+     * @param string $key
+     * @return mixed
+     */
+    private function SelectUnactiveUserMeta($userId,$key = null){
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_usermeta';
+        $sql = "SELECT * FROM $table WHERE (user_id = '{$userId}')";
+
+        if($key !== null)
+            $sql .= "AND ( meta_key  = '{$key}' )";
+
+        $results = $wpdb->get_results($sql);
+
+        $resultSorted = new stdClass();
+        if(is_array($results)) {
+            foreach ($results as $result) {
+                $resultSorted->{$result->meta_key} = $result->meta_value;
+            }
+        }else
+            $resultSorted = $results;
+
+        return $resultSorted;
+    }
+
+    /**
+     * @param $userId
+     * @param $key
+     * @param $value
+     * @return false|int
+     */
+    private function addUnactiveUserMeta($userId,$key,$value){
+
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_usermeta';
+
+        $sql = "INSERT INTO $table (
+            user_id,
+            meta_key,
+            meta_value
+
+             ) VALUES (
+             '$userId',
+             '$key',
+             '$value'
+             )";
+        return $wpdb->query($sql);
+    }
+
+
+    /**
+     * Remove a selected user
+     *
+     * @param $userId
+     * @return false|int
+     */
+    private function removeUnactiveUser($userId){
+
+
+
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+
+        // Delete user
+        $sql = "DELETE FROM $table WHERE ID = $userId";
+        $wpdb->query($sql);
+
+        // Delete metas
+        $table = $wpdb->prefix . 'easy_form_usermeta';
+        $sql = "DELETE FROM $table WHERE user_id = $userId";
+
+        return $wpdb->query($sql);
+    }
+
+    /**
+     * @param $userId
+     * @return bool
+     */
+    private function sendMailActivate($userId){
+
+        /** @var $user */
+        $user = $this->SelectUnactiveUser('ID',$userId);
+
+        $metas = $this->SelectUnactiveUserMeta($user->ID);
+
+
+        $email = get_option('admin_email');
+        $name = get_option('blogname');
+        $mail = $this->prepareMail();
+        $mail->setFrom($email,$name);
+        $mail->addAddress($user->user_email,$metas->first_name . ' ' . $metas->last_name);
+
+        $mail->Subject = "Inscription sur $name Confirmation de l'e-mail";
+
+        $message = $this->getFormTemplate('activeAccount.php');
+
+
+        $lien = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://';
+
+        $lien.= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+
+        $union = self::getunion($lien);
+
+
+        $lien .= $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
+
+        $message = str_replace('%NOM%',$metas->first_name,$message);
+        $message = str_replace('%/LIEN%','</a>',$message);
+        $message = str_replace('%LIEN%','<a href="'. $lien .'">',$message);
+        $message = str_replace('%BLOGNAME%',$name,$message);
+
+        $_SESSION['message'] = $lien;
+
+        $mail->Body = $message;
+
+        return $mail->send();
+    }
+
+
+    /**
+     * @param $templateUrl
+     * @return string
+     */
+    private function getTemplate($templateUrl){
+        if(file_exists($templateUrl)) {
+            ob_start();
+            require $templateUrl;
+            $var = ob_get_clean();
+            return $var;
+        }else
+            return '';
+    }
+
+
+    /**
+     * @param $templateName
+     * @return bool
+     */
+    private function templateExists($templateName){
+        return file_exists(get_template_directory() . '/EasyFormTemplates/' . $templateName);
+    }
+
+    /**
+     * Returns the template overided in theme || the form default template
+     *
+     * @param $templateName
+     * @return string
+     */
+    private function getFormTemplate($templateName){
+        if($this->templateExists($templateName)){
+            return $this->getTemplate(get_template_directory() . '/EasyFormTemplates/' . $templateName);
+        }else{
+            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../templates/mail/' . $templateName);
+        }
+    }
+
+    /**
+     * Returns the lang overided in theme || the form default template
+     *
+     * @Since V 0.5
+     *
+     * @param $templateName
+     * @return string
+     */
+    private function getLangTemplate($lang){
+        if($this->templateExists('langs/' . $lang . '.json')){
+            return $this->getTemplate(get_template_directory() . '/EasyFormTemplates/langs/' . $lang . '.json');
+        }elseif(is_file(plugin_dir_path( __FILE__ ).'/../assets/langs/' . $lang . '.json')){
+            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../assets/langs/' . $lang . '.json');
+        }else{
+            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../assets/langs/fr.json');
+        }
+    }
+
+
+    /**
+     * Check if there is unactive users's activation on this page
+     *
+     * @return bool
+     */
+    public function CheckUnactiveUsers($args){
+
+
+        if(!isset($_GET['key']) || !isset($_GET['login']))
+            return false;
+
+
+        $user = $this->SelectUnactiveUser('user_login',$_GET['login']);
+
+        if(NULL === $user) {
+            $this->error = $this->errorMessages['alreadyActivated'];
+            return false;
+        }
+
+
+        if($user->user_activation_key != $_GET['key']) {
+            $this->error = $this->errorMessages['invalidKey'];
+            return false;
+        }
+
+        $metas = $this->SelectUnactiveUserMeta($user->ID);
+
+
+        $postarr = [
+            'user_email' => $user->user_email,
+            'user_url' => $user->user_url,
+            'user_pass' => $user->user_pass,
+            'user_login' => $user->user_login,
+            'first_name' => isset($metas->first_name) ? $metas->first_name : '',
+            'last_name' => isset($metas->last_name) ? $metas->last_name : '',
+            'description' => isset($metas->description) ? $metas->description : '',
+            'role' => $metas->role,
+        ];
+
+        $userId = wp_insert_user($postarr);
+
+        if(is_wp_error($userId)) {
+            $this->error = $userId->get_error_message();
+            return false;
+        }
+
+        $forgetMeta = ['role','last_name','description','first_name',];
+
+        foreach ($metas as $key => $val){
+            if(!in_array($key,$forgetMeta))
+                add_user_meta($userId, $key, $val);
+        }
+
+        $this->setUserActive();
+
+        if(isset($args['connectUser']) & $args['connectUser']){
+            $creds = [
+                'user_login' => $user->user_login,
+                'user_password' => $user->user_pass,
+                'remember' => true,
+            ];
+            $this->doConnexion($creds);
+        }
+
+
+        return $this->removeUnactiveUser($user->ID);
+    }
+
+
+    /**
+     * Set the user has been activated
+     *
+     * @Since V 0.5
+     */
+    private function setUserActive(){
+        $_SESSION['user_activated'] = true;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function UserIsActivated(){
+        if (isset($_SESSION['user_activated'])) {
+            // I unset the session
+            unset($_SESSION['user_activated']);
+            return true;
+        }else
+            return false;
+    }
+
 }

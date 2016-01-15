@@ -28,6 +28,8 @@ class WP_Form
     /**
      * @since V 0.1
      *
+     * @Modified : V 0.5
+     *
      * Constructor
      *
      * @param $formId
@@ -48,13 +50,13 @@ class WP_Form
                 $formArgs = get_post_meta($formId,'form-args')[0];
 
 
-
-
                 $formArgs['postId'] = $postId;
                 /** @since V 0.4 */
                 $formArgs['formId'] = $formId;
                 $formArgs['formType'] = get_post_meta($formId,'form-type')[0];
-                $formArgs['lien'] = get_post_meta($this->formId,'form-redirect')[0];
+                $formArgs['lien'] = get_post_meta($formId,'form-redirect')[0];
+                $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args')[0];
+
 
                 $form = new FormWordpress($form->post_name,$formMetas['action'][0],$formArgs);
                 $this->formId = $formId;
@@ -137,21 +139,36 @@ class WP_Form
     /**
      *@since V 0.1
      *
-     * @Modified : V 0.4
+     * @Modified : - V 0.4
+     *             - V 0.5
      *
      * Check if form is valid and send datas
      */
     public function CheckForm()
     {
+        if(isset($_POST['_time'])) {
+            if(microtime(true) - $_POST['_time'] < 1)
+                die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
+        }
+
+        if(isset($_POST['url-antispam']) && !empty($_POST['url-antispam']))
+            die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
+
+        /* @Modified V 0.4 */
+        $argsMeta = get_post_meta($this->formId,'form-send-args');
+        $args = !empty($argsMeta) ? get_post_meta($this->formId,'form-send-args')[0] : '';
+
+        if(!$this->form->isResetForm())
+            $this->form->CheckUnactiveUsers($args);
+
+        $formType = $this->form->isResetForm() ? 'reset' : null;
+
         // If form is valid
-        if($this->form->isValid()){
+        if($this->form->isValid($formType)){
             $formType = get_post_meta($this->formId,'form-type')[0];
 
             $lien = get_post_meta($this->formId,'form-redirect')[0];
 
-            /* @Modified V 0.4 */
-            $argsMeta = get_post_meta($this->formId,'form-send-args');
-            $args = !empty($argsMeta) ? get_post_meta($this->formId,'form-send-args')[0] : '';
 
             /* @since V 0.4 */
             $args['varURl'] = FormWordpress::post_meta($this->formId,'form-var-url');
@@ -308,6 +325,38 @@ class WP_Form
     {
         $this->form->close_the_form();
     }
+
+    /**
+     * @Since V 0.5
+     *
+     * @return bool
+     */
+    public function checkResetPage()
+    {
+        return $this->form->checkResetPage();
+    }
+
+    /**
+     * @Since V 0.5
+     *
+     * @return bool
+     */
+    public function isResetForm()
+    {
+        return $this->form->isResetForm();
+    }
+
+
+    /**
+     * @Since V 0.5
+     *
+     * @return bool
+     */
+    public function UserIsActivated()
+    {
+        return $this->form->UserIsActivated();
+    }
+
 
 
 }

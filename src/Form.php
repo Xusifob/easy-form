@@ -93,23 +93,7 @@ class Form
      *
      * @var array
      */
-    protected $errorMessages = [
-        'fr' => [
-            'missing' =>"Un ou plusieurs champs n'est pas complet",
-            'email' =>"Adresse e-mail invalide",
-            '2password' => "Veuillez retaper votre mot de passe", // Unused
-            'samepassword' =>"Les deux mots de passe entrés doivent être identiques",
-            'filetype' =>"Le type du fichier chargé est incorrect",
-            'identifiants' => 'Identifiants incorrects',
-            'empty' => "Ce champ doit être rempli",
-            'missingfield' => 'Le formulaire doit avoir un champ ',
-            'noUser' => 'Aucun utilisateur n\'a été trouvé avec cet identifiant',
-            'noReset' => 'La réinitialisation de mot de passe n\'est pas autorisée sur cet utilisateur',
-            'error' => 'Une erreur est survenue',
-            'filesize' => 'La taille du fichier est trop importante, taille maximum : ',
-        ],
-    ];
-
+    protected $errorMessages = [];
 
     /**
      * @Since V 0.1
@@ -117,6 +101,7 @@ class Form
      * @Modified :  - V 0.2
      *              - V 0.3
      *              - V 0.4
+     *              - V 0.5
      *
      *
      * Constructor
@@ -128,11 +113,18 @@ class Form
     public function __construct($name,$action = '#',$args = [])
     {
 
+        $fr = file_get_contents(__DIR__ . '/../assets/langs/fr.json');
+
+        $this->errorMessages = json_decode($fr,true);
 
         // Args action & name
         $this->action = $action;
         $this->args['defaultclass'] = isset($args['defaultClass']) ? $args['defaultClass'] : '';
         $this->args['displayErrors'] = isset($args['displayErrors']) ? $args['displayErrors'] : '';
+
+
+
+
         $this->name = $name;
         $this->uniqId = uniqid();
 
@@ -145,7 +137,9 @@ class Form
         if(isset($args['formType']))
             $this->postArgs['formType'] = $args['formType'];
 
-
+        if($this->isResetForm() && $this->resetArgsAvailable()){
+            $this->args['submitValue'] = isset($args['form-send-args']['submitValue']) ? $args['form-send-args']['submitValue'] : null;
+        }
 
         $template = '<form action="'. $this->action .'" ';
         $template .= $this->classAndId($args);
@@ -157,9 +151,17 @@ class Form
         $nonce = wp_create_nonce($this->name);
 
         $template .= '<input type="hidden" name="_nounce" value="' . $nonce . '" >';
+        $template .= '<input type="hidden" name="_time" value="' . microtime(true) . '" >';
+
+        $template .="
+<style>.antispam{display: none !important;}</style>
+<input type='text' name='url-antispam' class='antispam' id='antispam-$this->uniqId'>
+                    <label for='antispam-$this->uniqId' class='antispam'>Do not type anything here</label>";
 
         $this->template['open_the_form'] = $template;
     }
+
+
 
     /**
      *
@@ -561,11 +563,19 @@ class Form
      *
      * @Since V 0.1
      *
+     * @Modified : V 0.5
+     *
      * @param string $submitValue
      * @param array $args
      */
     public function finishForm($submitValue = 'Send',$args = [])
     {
+
+        if($this->isResetForm() && $this->resetArgsAvailable()){
+            $submitValue = $this->args['submitValue'] == null ? $submitValue : $this->args['submitValue'];
+        }
+
+
         if(!$this->formFinish) {
             $template = '<input type="submit" name="' . $this->name . '" value="' . $submitValue . '" ';
             $template .= $this->classAndId($args);
@@ -574,9 +584,8 @@ class Form
 
             $this->closeAllContainers();
 
-            $template = '</form>';
+            $this->template['close_the_form'] = '</form>';
 
-            array_push($this->template, $template);
 
             $this->formFinish = true;
 
@@ -601,10 +610,30 @@ class Form
         return $template;
     }
 
+
+    /**
+     * Return if the form is a reset one
+     * @Since V 0.5
+     * @return bool
+     */
+    public function isResetForm(){
+        return (isset($this->postArgs['formType']) && $this->postArgs['formType'] == 'resetPassword');
+    }
+
+    /**
+     * Return if the form reset is available
+     * @Since V 0.5
+     * @return bool
+     */
+    public function resetArgsAvailable(){
+        return (isset($_GET['action']) && $_GET['action'] == 'rt' && isset($_GET['key']) && isset($_GET['login']));
+    }
+
     /**
      * @Since V 0.1
      *
      * @Modified :  - V 0.2
+     *              - V 0.5
      *
      * Display the form
      *
@@ -612,11 +641,30 @@ class Form
      */
     public function __toString()
     {
+
         $templateString = '';
+
+        if($this->isResetForm()){
+            $availableFields = [
+                'open_the_form','close_the_form','submit'
+            ];
+            if($this->resetArgsAvailable()) {
+                array_push($availableFields, 'password');
+                array_push($availableFields, 'repeat-password');
+            }else
+                array_push($availableFields, 'login');
+
+        }
 
 
         $f = 1;
-        foreach($this->template as $template){
+        foreach($this->template as $key => $template){
+
+            // Display only a part of the form
+            if($this->isResetForm()){
+                if(!in_array($key,$availableFields))
+                    continue;
+            }
 
             // Handle errors
             if(isset($this->args['displayErrorsBefore']) && $this->args['displayErrorsBefore'] ){
@@ -666,50 +714,58 @@ class Form
      * @Modified :  - V 0.2
      *              - V 0.3
      *
-     *
+     * @param $formtype
      * @return bool
      */
-    public function isValid()
+    public function isValid($formtype = null)
     {
         if(isset($_POST[$this->name]) && !empty($_POST[$this->name])) {
 
             if ( ! wp_verify_nonce( $_POST['_nounce'], $this->name ) ) {
 
-                die( 'Security check' );
+                die(json_encode(['Wp_Form_Error' => 'Security check']));
 
             } else {
+
+                if($formtype == 'reset' && $this->isResetForm() && !$this->resetArgsAvailable()) {
+                    unset($this->fields['password']);
+                    unset($this->fields['repeat-password']);
+
+                }if($formtype == 'reset' && $this->isResetForm() && $this->resetArgsAvailable())
+                    unset($this->fields['login']);
+
+
                 $error = true;
                 foreach ($this->fields as $key => $field) {
+
                     if (!isset($field['args']['readOnly']) || empty($field['args']['readOnly'])) {
                         // Check if isset & !empty
                         if ($field['required'] && $field['type'] != 'file') {
                             if (!isset($_POST[$field['name']]) || empty($_POST[$field['name']])) {
                                 $error = false;
-                                $errorMsg = $this->errorMessages['fr']['missing'];
+                                $errorMsg = $this->errorMessages['missing'];
                                 $this->error = $errorMsg;
-                                $this->errors[$key] = $this->errorMessages['fr']['empty'];
+                                $this->errors[$key] = $this->errorMessages['empty'];
                             }
                         }
                         // Check if e-mail is a good e-mail format
                         switch ($field['type']) {
                             case 'email' :
                                 if (!isset($_POST[$field['name']]) || !filter_var($_POST[$field['name']], FILTER_VALIDATE_EMAIL)) {
-                                    $errorMsg = $this->errorMessages['fr']['email'];
+                                    $errorMsg = $this->errorMessages['email'];
                                     $error = false;
                                     $this->error = $errorMsg;
-                                    $this->errors[$key] = $this->errorMessages['fr']['email'];
+                                    $this->errors[$key] = $this->errorMessages['email'];
                                 }
                                 break;
                             case 'password' :
-
                                 foreach ($this->fields as $thefield) {
                                     if ($thefield['name'] == 'repeat-' . $field['name'] && $thefield['type'] == 'repeatPassword') {
                                         if ($_POST[$thefield['name']] != $_POST[$field['name']]) {
                                             $error = false;
-                                            $errorMsg = $this->errorMessages['fr']['samepassword'];
+                                            $errorMsg = $this->errorMessages['samepassword'];
                                             $this->error = $errorMsg;
-                                            $this->errors[$key] = $this->errorMessages['fr']['samepassword'];
-
+                                            $this->errors[$key] = $this->errorMessages['samepassword'];
                                         }
                                     }
                                 }
@@ -735,9 +791,9 @@ class Form
                                             // if extension not in array, error
                                             if (!in_array(strtolower($ext), $allowed)) {
                                                 $error = false;
-                                                $errorMsg = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                                $errorMsg = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                                 $this->error = $errorMsg;
-                                                $this->errors[$key] = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                                $this->errors[$key] = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                             }
                                         }
 
@@ -746,9 +802,9 @@ class Form
                                         $ext = pathinfo($_FILES[$field['name']]['name'], PATHINFO_EXTENSION);
                                         if (!in_array(strtolower($ext), $allowed)) {
                                             $error = false;
-                                            $errorMsg = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                            $errorMsg = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                             $this->error = $errorMsg;
-                                            $this->errors[$key] = $this->errorMessages['fr']['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                            $this->errors[$key] = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
                                         }
                                     }
                                     break;
@@ -876,6 +932,7 @@ class Form
      */
     public function get_open_the_form()
     {
+
         return $this->get_form_field('open_the_form');
     }
 

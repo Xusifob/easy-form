@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://baltazare.fr
 Description: Permet de créer et styliser des formulaires facilement
-Version: 0.4
+Version: 0.5
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 License: MIT
@@ -36,6 +36,9 @@ class FormPlugin
         if(!class_exists('WP_Form'))
             include_once plugin_dir_path( __FILE__ ).'/src/WP_Form.php';
 
+        if(!class_exists('PHPMailer'))
+            include_once plugin_dir_path( __FILE__ ).'/src/class-phpmailer.php';
+
         // Gestion de la partie admin
         if(is_admin()){
             $pgs = [
@@ -64,6 +67,35 @@ class FormPlugin
             }
         }
     }
+
+    /**
+     * Called on plugin activation : Create user & usermeta tabs
+     */
+    public function activate(){
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'easy_form_users';
+        $table_meta = $wpdb->prefix . 'easy_form_usermeta';
+
+        // Create user table
+        if($wpdb->get_var("show tables like '$table'") != $table){
+            $sql = "CREATE TABLE $table LIKE {$wpdb->prefix}users";
+
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        }
+
+        // Create usermeta table
+        if($wpdb->get_var("show tables like '$table_meta'") != $table_meta){
+            $sql = "CREATE TABLE $table_meta LIKE {$wpdb->prefix}usermeta";
+
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        }
+    }
+
+
 
     /**
      * Ajoute le menu
@@ -118,7 +150,7 @@ class FormPlugin
 
 
     /**
-     * Affiche la page admin
+     * Displays the admin page
      */
     public function displayPage()
     {
@@ -154,13 +186,29 @@ class FormPlugin
                 $formFields = get_post_meta($_GET['modify'],'form-fields');
                 $submitArgs = get_post_meta($_GET['modify'],'form-submit-args');
                 $formSendArgs = get_post_meta($_GET['modify'],'form-send-args');
+
+
+                $i = 1;
+                foreach ($formFields[0] as $key => $field) {
+                    $formFields[0][$key]['id'] = $i;
+                    $i++;
+                }
             }else
                 unset($form);
 
         }
-        require_once __DIR__ . '/templates/add.php';
 
+        // Set all vars used in add.php
+        $inputs = [
+            'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'select', 'radio', 'url', 'range', 'color', 'search', 'hidden','file','textarea','taxonomy','wp_editor','open container','close container', 'close all container',
+        ];
+
+        $roles = FormPlugin::GetAllRoles();
+
+        // Call the template
+        require_once __DIR__ . '/templates/add.php';
     }
+
 
 
     /**
@@ -183,6 +231,9 @@ class FormPlugin
         include __DIR__ . '/templates/export.php';
     }
 
+    /**
+     * Display the preview page
+     */
     public function displayPrev()
     {
         if(isset($_GET['id']) && !empty($_GET['id'])){
@@ -268,98 +319,100 @@ class FormPlugin
                     ]);
 
                     $fields = [];
-                    foreach($_POST['field'] as $field){
-                        switch($field['form-type']) {
-                            case 'open_container' :
-                                $fi = [
-                                    'container' => $field['form-container'],
-                                    'args' => [
-                                        'id' => $field['form-container-id'],
-                                        'class' => $field['form-container-class'],
-                                    ]
-                                ];
-                                break;
-                            case 'close_container' :
-                                break;
-                            case 'close_all_container' :
-                                break;
-                            case 'file' :
-                                $fi = [
-                                    'args' => [
-                                        'id' => $field['form-id'],
-                                        'class' => $field['form-class'],
-                                        'multiple' => isset($field['form-multiple']),
-                                        'label' => $field['form-label'],
-                                        'labelClass' => $field['form-label-class'],
-                                        'required' => isset($field['form-required']),
-                                        'labelAfter' => isset($field['form-label-after']),
-                                        'allowed' => explode(',',$field['form-allowed']),
-                                        'acfField' => $field['form-acf-field'],
-                                        'maxSize' => $field['form-max-size'],
-                                    ]
-                                ];
-                                break;
-                            // If it's a field
-                            case 'taxonomy' :
-                                $fi = [
-                                    'args' => [
-                                        'id' => $field['form-id'],
-                                        'class' => $field['form-class'],
-                                        'value' => $field['form-value'],
-                                        'label' => $field['form-label'],
-                                        'labelClass' => $field['form-label-class'],
-                                        'required' => isset($field['form-required']),
-                                        'autocomplete' => isset($field['form-autocomplete']),
-                                        'labelAfter' => isset($field['form-label-after']),
-                                        'taxonomy' => $field['form-taxonomy'],
-                                        'emptyField' => $field['form-empty-field'],
-                                        'taxonomyType' => $field['form-taxonomy-type'],
-                                        'readOnly' => isset($field['form-readonly']),
+                    if(is_array($_POST['field'])) {
+                        foreach ($_POST['field'] as $field) {
+                            switch ($field['form-type']) {
+                                case 'open_container' :
+                                    $fi = [
+                                        'container' => $field['form-container'],
+                                        'args' => [
+                                            'id' => $field['form-container-id'],
+                                            'class' => $field['form-container-class'],
+                                        ]
+                                    ];
+                                    break;
+                                case 'close_container' :
+                                    break;
+                                case 'close_all_container' :
+                                    break;
+                                case 'file' :
+                                    $fi = [
+                                        'args' => [
+                                            'id' => $field['form-id'],
+                                            'class' => $field['form-class'],
+                                            'multiple' => isset($field['form-multiple']),
+                                            'label' => $field['form-label'],
+                                            'labelClass' => $field['form-label-class'],
+                                            'required' => isset($field['form-required']),
+                                            'labelAfter' => isset($field['form-label-after']),
+                                            'allowed' => explode(',', $field['form-allowed']),
+                                            'acfField' => $field['form-acf-field'],
+                                            'maxSize' => $field['form-max-size'],
+                                        ]
+                                    ];
+                                    break;
+                                // If it's a field
+                                case 'taxonomy' :
+                                    $fi = [
+                                        'args' => [
+                                            'id' => $field['form-id'],
+                                            'class' => $field['form-class'],
+                                            'value' => $field['form-value'],
+                                            'label' => $field['form-label'],
+                                            'labelClass' => $field['form-label-class'],
+                                            'required' => isset($field['form-required']),
+                                            'autocomplete' => isset($field['form-autocomplete']),
+                                            'labelAfter' => isset($field['form-label-after']),
+                                            'taxonomy' => $field['form-taxonomy'],
+                                            'emptyField' => $field['form-empty-field'],
+                                            'taxonomyType' => $field['form-taxonomy-type'],
+                                            'readOnly' => isset($field['form-readonly']),
 
-                                    ]
-                                ];
-                                break;
-                            default :
-                                $fi = [
-                                    'args' => [
-                                        'id' => $field['form-id'],
-                                        'class' => $field['form-class'],
-                                        'placeholder' => $field['form-placeholder'],
-                                        'value' => $field['form-value'],
-                                        'label' => $field['form-label'],
-                                        'labelClass' => $field['form-label-class'],
-                                        'required' => isset($field['form-required']),
-                                        'autocomplete' => isset($field['form-autocomplete']),
-                                        'labelAfter' => isset($field['form-label-after']),
-                                        'readOnly' => isset($field['form-readonly']),
-                                    ]
-                                ];
+                                        ]
+                                    ];
+                                    break;
+                                default :
 
-                                if($field['form-type'] == 'select'){
-                                    $fi['args']['options'] = [];
-                                    // The selected key is the 1st one or the selected option in the radio field
-                                    $selected = isset($field['form-select-option-selected']) ? $field['form-select-option-selected'] : array_keys($field['form-select-option'])[0];
-                                    foreach($field['form-select-option'] as $key => $opts) {
-                                        $opt = [
-                                            'content' => $opts['name'],
-                                            'value' => $opts['value'],
-                                            'select' => ($key == $selected),
-                                        ];
-                                        array_push($fi['args']['options'], $opt);
+                                    $fi = [
+                                        'args' => [
+                                            'id' => $field['form-id'],
+                                            'class' => $field['form-class'],
+                                            'placeholder' => $field['form-placeholder'],
+                                            'value' => $field['form-value'],
+                                            'label' => $field['form-label'],
+                                            'labelClass' => $field['form-label-class'],
+                                            'required' => isset($field['form-required']),
+                                            'autocomplete' => isset($field['form-autocomplete']),
+                                            'labelAfter' => isset($field['form-label-after']),
+                                            'readOnly' => isset($field['form-readonly']),
+                                        ]
+                                    ];
+
+                                    if ($field['form-type'] == 'select') {
+                                        $fi['args']['options'] = [];
+                                        // The selected key is the 1st one or the selected option in the radio field
+                                        $selected = isset($field['form-select-option-selected']) ? $field['form-select-option-selected'] : array_keys($field['form-select-option'])[0];
+                                        foreach ($field['form-select-option'] as $key => $opts) {
+                                            $opt = [
+                                                'content' => $opts['name'],
+                                                'value' => $opts['value'],
+                                                'select' => ($key == $selected),
+                                            ];
+                                            array_push($fi['args']['options'], $opt);
+                                        }
+                                        $fi['args']['orderBy'] = $field['form-order-by'];
                                     }
-                                    $fi['args']['orderBy'] = $field['form-order-by'];
-                                }
-                                break;
+                                    break;
+                            }
+
+                            // fields which are here anyway
+                            $fi['type'] = $field['form-type'];
+                            $fi['name'] = sanitize_title($field['form-name']);
+
+                            // At the end, i push everything
+                            array_push($fields, $fi);
                         }
-
-                        // fields which are here anyway
-                        $fi['type'] = $field['form-type'];
-                        $fi['name'] = sanitize_title($field['form-name']);
-
-                        // At the end, i push everything
-                        array_push($fields,$fi);
                     }
-
                     // and hop ! post meta
                     update_post_meta($pid,'form-fields',$fields);
 
@@ -393,8 +446,9 @@ class FormPlugin
 
                         case 'user' :
                             $args = [
-                                'role' => $_POST['form-send-role'],
+                                'role' => isset($_POST['form-send-role']) ? $_POST['form-send-role'] : 'current',
                                 'connectUser' => isset($_POST['form-connexion-user']),
+                                'emailUser' => isset($_POST['form-email-user']),
                             ];
                             update_post_meta($pid,'form-send-args',$args);
                             break;
@@ -410,11 +464,16 @@ class FormPlugin
 
                         case 'resetPassword' :
 
+
                             $args = [
                                 'subject' => $_POST['form-send-subject'],
                                 'senderEmail' => $_POST['form-send-senderEmail'],
                                 'senderName' => $_POST['form-send-senderName'],
                                 'message' => $_POST['form-send-message'],
+                                'resetAction' => $_POST['form-reset-action'],
+                                'pageId' => $_POST['form-send-page-id'],
+                                'submitValue' => $_POST['form-send-submit-value'],
+
                             ];
                             update_post_meta($pid,'form-send-args',$args);
                             break;
@@ -466,14 +525,15 @@ class FormPlugin
         }
     }
 
-
+    /**
+     * Handle duplicate fields
+     */
     public function handleDuplicateFields()
     {
         if(isset($_POST['action']) && $_POST['action'] == 'duplicate_field') {
-            vardump($_POST);
 
             if(!wp_verify_nonce($_POST['wp_nonce'],'duplicate_field'))
-                die('Security check');
+                die(json_encode(['Wp_Form_Error' => 'Security Error']));
 
             $duplicatedField = get_post_meta($_POST['form-id'],'form-fields')[0][$_POST['form-duplicate-field-id']];
 
@@ -488,6 +548,10 @@ class FormPlugin
         }
     }
 
+
+    /**
+     * Handle duplicate forms
+     */
     public function handleDuplicate()
     {
         if(isset($_POST['form-duplicate']) && !empty($_POST['form-duplicate'])){
@@ -540,9 +604,13 @@ class FormPlugin
     }
 
 
-
-
-
+    /**
+     * @Since V 0.3
+     *
+     * Used to handle import forms
+     *
+     * @return bool|string
+     */
     protected function handleExport()
     {
         // If the post exists
@@ -584,6 +652,14 @@ class FormPlugin
     }
 
 
+    /**
+     *
+     * @Since V 0.3
+     *
+     * Used to import a form
+     *
+     * @return array
+     */
     protected function ImportForm()
     {
         /** @var string $file */
@@ -669,11 +745,21 @@ class FormPlugin
     }
 
 
+    /**
+     *
+     * @Since V 0.3
+     *
+     * Used to create the forms to download
+     *
+     * @param $val
+     * @param string $filename
+     * @return string
+     */
     protected function arrayToJson($val, $filename = "export.json")
     {
         // open raw memory as file so no temp files needed, you might run out of memory though
         $f = fopen(wp_upload_dir()['path'] . '/' . $filename, 'w');
-        fputs($f,json_encode($val));
+        fputs($f,json_encode($val,JSON_PRETTY_PRINT));
         fclose($f);
         return '<a href="' . wp_upload_dir()['url'] . '/' . $filename . '" class="button button-primary" target="_blank" download>Télécharger</a>';
     }
@@ -722,5 +808,12 @@ class FormPlugin
         return($form->post_type == 'form-plugin-bastien');
 
     }
+
 }
-$formPlugin = new FormPlugin();
+if(class_exists('FormPlugin')) {
+
+    $formPlugin = new FormPlugin();
+    register_activation_hook(__FILE__, array($formPlugin, 'activate'));
+
+
+}

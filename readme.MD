@@ -2,7 +2,27 @@
 
 This plugin is made for WP theme developers, to create & style easily all theirs forms
 
+
+## Installation
+
+ ````
+ cd wp-content/plugins/
+ git clone https://github.com/xusifob/easy-form && git checkout dev
+ ````
+
+ Go in your Plugin's page in your back office and enable it
+
+
 ## Changelogs
+
+### Version 0.5 :
+ * Refactoring full add.php code
+ * Refactor whole add.php code for better maintaining
+ * Add Password Reset with form
+ * Add Inscription with mail
+ * Add Templates for mails
+ * Add Template for errors
+ * Add Antispam Detection
 
 ### Version 0.4 :
  * Update doc for radio button
