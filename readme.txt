@@ -59,8 +59,9 @@ Incomming :
  * Better documentation
  * New awesome features
 
-= 0.6 =
+= 0.6.1 =
  * Add support for displaying a form with it's slug
+ * Correct bug on select
 
 = 0.5 =
  * Refactoring full add.php code
