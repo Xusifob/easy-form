@@ -6,8 +6,15 @@ use \Goutte\Client;
  * @param $form
  * @param $formName
  * @return bool
+ *
+ * Import a form
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
  */
 function import_form($form,$formName){
+
 
     $file = new CURLFile( __DIR__ . '/forms/' . $form,'application/json',$form);
 
@@ -19,6 +26,7 @@ function import_form($form,$formName){
     curl_setopt($ch, CURLOPT_URL, admin_url() . 'admin.php?page=import-form&noheader=true');
     $content = curl_exec($ch);
     curl_close($ch);
+
     if($content === false)
         return [
             'result' => false,
@@ -31,6 +39,8 @@ function import_form($form,$formName){
             'result' => false,
             'reason' => 'Form not found'. ' on line ' .  __LINE__ . ' in ' . __FILE__,
         ];
+
+
 
     return [
         'result' => $form->post_title == $formName,
@@ -45,6 +55,11 @@ function import_form($form,$formName){
  * @param $login_user
  * @param $login_pass
  * @return bool
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
+ *
  */
 function login( $login_user, $login_pass){
     $login_url = home_url() . "/wp-login.php";
@@ -66,6 +81,11 @@ function login( $login_user, $login_pass){
 }
 
 /**
+ *  Test if the user add form works
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
  *
  */
 function test_add_form(){
@@ -119,8 +139,145 @@ function test_add_form(){
 
 }
 
+
 /**
  *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
+ *
+ * Test if the user add form works
+ *
+ * @return array
+ */
+function test_add_user_form(){
+
+    global $form_adress;
+
+    $form = selectLastPost('form-plugin-bastien');
+    if(!$form )
+        return [
+            'result' => false,
+            'reason' => 'form not found'. ' on line ' .  __LINE__ . ' in ' . __FILE__,
+        ];
+
+    $client = new Client();
+    $crawler = $client->request('GET',$form_adress);
+
+    try {
+        // select the form and fill in some values
+        $form = $crawler->selectButton($form->post_name)->form();
+        $form['email'] = 'email@email.com';
+        $form['password'] = 'password';
+        $form['repeat-password'] = 'password';
+        $form['login'] = 'loginIn';
+        $form['first_name'] = "first Name";
+        $form['last_name'] = "Last name";
+        $form['url'] = 'http://www.myurl.com';
+        $form['content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aut dicta excepturi exercitationem harum hic illo iusto mollitia natus nihil obcaecati possimus, quod saepe sint tenetur! Dolorum ducimus expedita modi?";
+    }catch(Exception $e){
+
+        return [
+            'result' => false,
+            'reason' => 'Line : ' .  $e->getMessage() . ' on line ' .  __LINE__ . ' in ' . __FILE__,
+        ];
+    }
+
+    sleep(1);
+    $result = $client->submit($form);
+
+    if(strpos($result->text(),'Wp_Form_Error') !== false) {
+        return [
+            'result' => (strpos($result->text(), 'Wp_Form_Error') === false),
+            'reason' => json_decode($result->text(), true)['Wp_Form_Error']. ' on line ' .  __LINE__ . ' in ' . __FILE__
+        ];
+    }
+
+    $user = selectLastUser();
+    if(!$user)
+        return [
+            'result' => false,
+            'reason' => 'user not found'. ' on line ' .  __LINE__ . ' in ' . __FILE__,
+        ];
+
+    return [
+        'result' => $user->data->user_login === 'loginIn' && $user->data->user_email === 'email@email.com' && $user->data->user_url = "http://www.myurl.com",
+        'reason' => 'Last user incorrect'. ' on line ' .  __LINE__ . ' in ' . __FILE__,
+    ];
+
+}
+
+/**
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
+ *
+ * Test the connexion of a user
+ *
+ */
+function test_connect_user(){
+    global $form_adress;
+
+    $form = selectLastPost('form-plugin-bastien');
+    if(!$form )
+        return [
+            'result' => false,
+            'reason' => 'form not found'. ' on line ' .  __LINE__ . ' in ' . __FILE__,
+        ];
+
+    $client = new Client();
+    $crawler = $client->request('GET',$form_adress);
+
+    try {
+        // select the form and fill in some values
+        $form = $crawler->selectButton($form->post_name)->form();
+        $form['login'] = 'loginIn';
+        $form['password'] = "password";
+        $form['remember'] = "on";
+    }catch(Exception $e){
+
+        return [
+            'result' => false,
+            'reason' => 'Line : ' .  $e->getMessage() . ' on line ' .  __LINE__ . ' in ' . __FILE__,
+        ];
+    }
+
+    sleep(1);
+    $result = $client->submit($form);
+
+    vardump($result->html());
+
+    if(strpos($result->text(),'Wp_Form_Error') !== false) {
+        return [
+            'result' => (strpos($result->text(), 'Wp_Form_Error') === false),
+            'reason' => json_decode($result->text(), true)['Wp_Form_Error']. ' on line ' .  __LINE__ . ' in ' . __FILE__
+        ];
+    }
+
+
+
+    /*
+    $user = selectLastUser();
+    if(!$user)
+        return [
+            'result' => false,
+            'reason' => 'user not found'. ' on line ' .  __LINE__ . ' in ' . __FILE__,
+        ];
+
+    return [
+        'result' => $user->data->user_login === 'loginIn' && $user->data->user_email === 'email@email.com' && $user->data->user_url = "http://www.myurl.com",
+        'reason' => 'Last user incorrect'. ' on line ' .  __LINE__ . ' in ' . __FILE__,
+    ]; */
+}
+
+/**
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
+ *
+ * Delete the last form in the database
  */
 function delete_last_form(){
     if($result = selectLastPost('form-plugin-bastien'))
@@ -135,6 +292,15 @@ function delete_last_form(){
         ];
 }
 
+/**
+ * Delete the last post created by the script
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
+ *
+ * @return array
+ */
 function delete_last_post(){
     $args = [
         'post_type' => 'post',
@@ -155,9 +321,42 @@ function delete_last_post(){
     }
 }
 
+/**
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
+ *
+ * delete the last user created by the script
+ *
+ * @return array
+ */
+function delete_last_user(){
+
+    $user = selectLastUser();
+
+    if($user){
+        return [
+            'result' => wp_delete_user($user->ID),
+            'reason' => 'Last user has not been deleted correctly'. ' on line ' .  __LINE__ . ' in ' . __FILE__
+        ];
+    }else{
+        return [
+            'result' => false,
+            'reason' => 'Last user not found'. ' on line ' .  __LINE__ . ' in ' . __FILE__
+        ];
+    }
+}
+
+
 
 
 /**
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/functions.php
+ *
  * @param string $postType
  * @return bool|WP_POST
  */
@@ -171,8 +370,32 @@ function selectLastPost($postType = 'post'){
     return  isset($my_query->posts[0]) ? $my_query->posts[0] : false;
 }
 
+/**
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/functions.php
+ *
+ * @return bool|WP_POST
+ */
+function selectLastUser(){
+    $args = [
+        'role' => 'Subscriber',
+        'number' => 1,
+        'orderby' => 'ID',
+        'order' => 'DESC'
+    ];
+    $my_query = new WP_User_Query($args);
+
+    return  isset($my_query->get_results()[0]) ? $my_query->get_results()[0] : false;
+}
+
+
 
 /**
+ *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/functions.php
  *
  * Prepare a curl session
  *
@@ -199,6 +422,10 @@ function prepareCurl(){
 
 /**
  *
+ * @Since V 0.6
+ *
+ * @CalledIn easy-forms/test/index.php
+ *
  * Launch the test and display the result
  *
  * @param $function
@@ -217,5 +444,3 @@ function test($function,$params){
 
     echo "\n\r";
 }
-
-?>
