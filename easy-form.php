@@ -377,8 +377,8 @@ class FormPlugin
                                         'args' => [
                                             'id' => $field['form-id'],
                                             'class' => $field['form-class'],
-                                            'placeholder' => $field['form-placeholder'],
-                                            'value' => $field['form-value'],
+                                            'placeholder' => isset($field['form-placeholder']) ? $field['form-placeholder'] : '' ,
+                                            'value' => isset($field['form-value']) ? $field['form-value'] : '',
                                             'label' => $field['form-label'],
                                             'labelClass' => $field['form-label-class'],
                                             'required' => isset($field['form-required']),
