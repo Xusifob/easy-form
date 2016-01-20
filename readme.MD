@@ -15,6 +15,10 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 
 ## Changelogs
 
+### Version 0.5.1 :
+ * Add support for displaying a form with it's slug
+ * Correct bug on select
+
 ### Version 0.5 :
  * Refactoring full add.php code
  * Refactor whole add.php code for better maintaining

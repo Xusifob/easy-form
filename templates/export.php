@@ -4,6 +4,7 @@
         <div class="form-group">
             <div class="form-group">
                 <h2>Choisir les formulaires à exporter</h2>
+                <p>Les IDs des formulaires ne seront pas exportés, ils seront ajoutés comme de nouveaux posts pour éviter tout conflit</p>
             </div>
         </div>
         <form action="#" method="post">

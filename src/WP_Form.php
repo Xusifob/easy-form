@@ -28,59 +28,80 @@ class WP_Form
     /**
      * @since V 0.1
      *
-     * @Modified : V 0.5
-     *
+     * @Modified :  - V 0.5
+     *              - V 0.6 : Add support for slug
      * Constructor
      *
-     * @param $formId
+     * @param $formId int|string Id ou slug du form
      * @param null $postId
      */
     public function __construct($formId,$postId = null)
     {
+        $formId = (int)$formId == 0 ? $formId : (int)$formId;
 
-        if(is_numeric($formId)){
+        if(is_string($formId)) {
+
+            $args = array(
+                'name'        => $formId,
+                'post_type'   => 'form-plugin-bastien',
+                'post_status' => 'publish',
+                'numberposts' => 1
+            );
+
+            $my_posts = get_posts($args);
+            if( $my_posts ) {
+                $form = $my_posts[0];
+                $formId = $form->ID;
+            }else
+                return new WP_Error(123,"Aucun formulaire n'a été trouvé avec le slug $formId");
+
+
+        }elseif(is_numeric($formId)) {
             $form = get_post($formId);
-
-            if(is_object($form) && $form->post_type == 'form-plugin-bastien'){
-
-                // All form metas
-                $formMetas = get_post_meta($formId);
-
-                // All args
-                $formArgs = get_post_meta($formId,'form-args')[0];
+        }
+        else{
+            return new WP_Error(123,"L'id $formId doit être un int ou une string");
+        }
 
 
-                $formArgs['postId'] = $postId;
-                /** @since V 0.4 */
-                $formArgs['formId'] = $formId;
-                $formArgs['formType'] = get_post_meta($formId,'form-type')[0];
-                $formArgs['lien'] = get_post_meta($formId,'form-redirect')[0];
-                $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args')[0];
+        if(is_object($form) && $form->post_type == 'form-plugin-bastien'){
+
+            // All form metas
+            $formMetas = get_post_meta($formId);
+
+            // All args
+            $formArgs = get_post_meta($formId,'form-args')[0];
 
 
-                $form = new FormWordpress($form->post_name,$formMetas['action'][0],$formArgs);
-                $this->formId = $formId;
-                $this->form = $form;
-                $this->postId = $postId;
+            $formArgs['postId'] = $postId;
+            /** @since V 0.4 */
+            $formArgs['formId'] = $formId;
+            $formArgs['formType'] = get_post_meta($formId,'form-type')[0];
+            $formArgs['lien'] = get_post_meta($formId,'form-redirect')[0];
+            $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args')[0];
 
-                // All fields
-                $this->setFields();
 
-                // Close the form
-                $this->closeForm();
+            $form = new FormWordpress($form->post_name,$formMetas['action'][0],$formArgs);
+            $this->formId = $formId;
+            $this->form = $form;
+            $this->postId = $postId;
 
-                // I check the form
-                add_action('init',[$this,'CheckForm']);
+            // All fields
+            $this->setFields();
 
-                return true;
+            // Close the form
+            $this->closeForm();
 
-            }else{
-                return new WP_Error(123,"Le post n°$formId n'est pas un formulaire");
-            }
+            // I check the form
+            add_action('init',[$this,'CheckForm']);
+
+            return true;
+
         }else{
-            return new WP_Error(123,"L'id $formId doit être un int");
+            return new WP_Error(123,"Le post n°$formId n'est pas un formulaire");
         }
     }
+
 
     /**
      * @since V 0.1

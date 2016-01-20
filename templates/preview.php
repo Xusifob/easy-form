@@ -1,6 +1,4 @@
 <div class="wrap gf_browser_chrome">
-
-
     <?php if(isset($form)): ?>
         <h2>Instalation du formulaire</h2>
         <section class="panel-wordpress">
@@ -12,6 +10,16 @@
                 // $id doit être l'ID de votre formulaire
                 $formId = <?php echo $_GET['id']; ?>;
                 $form = new WP_Form($formId);
+                ?&gt;
+            </pre>
+
+            <p>Vous pouvez aussi utiliser le slug du formulaire, l'avantage est que vous pouvez plus facilement exporter et réimporter ces derniers</p>
+            <pre class="brush: php">
+                <?php $theform = get_post($_GET['id']); ?>
+                &lt;?php
+                // $id doit être l'ID de votre formulaire
+                $formSlug = "<?php echo $theform->post_name; ?>";
+                $form = new WP_Form($formSlug);
                 ?&gt;
             </pre>
             <p>Si votre formulaire est une modification (utilisateur ou post) ajouter en 2e argument de la fonction l'id du post/de l'utilisateur à modifier</p>
@@ -47,7 +55,7 @@
 &lt;?php
 // Ouverture du formulaire
 $form->open_the_form();
-                <?php foreach($formFields as $field){ ?>
+                <?php global $formFields; if(is_array($formFields)) foreach($formFields as $field){ ?>
                     <?php echo "\n"; ?>
                     <?php if($field['type'] == 'radio'):
                         if(!isset($radios[$field['name']]))
