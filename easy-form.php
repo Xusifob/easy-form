@@ -227,6 +227,8 @@ class FormPlugin
 
         $my_query = new WP_Query($args);
 
+
+
         // Display the template
         include __DIR__ . '/templates/export.php';
     }
@@ -611,6 +613,7 @@ class FormPlugin
      */
     protected function handleExport()
     {
+
         // If the post exists
         if (isset($_POST['export-forms-bastien'])) {
 
@@ -641,11 +644,13 @@ class FormPlugin
 
                         array_push($vals, $array);
 
+
                     }
                 }
                 $downloadButton = $this->arrayToJson($vals, 'export-forms.json');
             }
         }
+
         return isset($downloadButton) ? $downloadButton : false;
     }
 
@@ -759,6 +764,8 @@ class FormPlugin
         $f = fopen(wp_upload_dir()['path'] . '/' . $filename, 'w');
         fputs($f,json_encode($val,JSON_PRETTY_PRINT));
         fclose($f);
+
+
         return '<a href="' . wp_upload_dir()['url'] . '/' . $filename . '" class="button button-primary" target="_blank" download>Télécharger</a>';
     }
 

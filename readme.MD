@@ -26,6 +26,7 @@ and then open the file easy-form/tests/index.php into your web browser
 ### Version 0.6 :
  * Update documentation for better understanding (In Progress)
  * Add unit tests & tests using Symfony Crawler (In Progress)
+ * Correct bug on export forms
 
 
 ### Version 0.5 :

@@ -18,7 +18,6 @@
                 <input type="submit" class="button button-primary button-large" name="export-forms-bastien" value="Exporter"/>
             </div>
         </form>
-        <?php global $downloadButton; ?>
         <?php if($downloadButton): ?>
             <hr>
             <h2>Formulaires exportés</h2>
