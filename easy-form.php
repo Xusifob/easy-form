@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://baltazare.fr
 Description: Permet de créer et styliser des formulaires facilement
-Version: 0.5.1
+Version: 0.5.2
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 License: MIT
