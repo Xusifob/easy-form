@@ -15,6 +15,12 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 
 ## Changelogs
 
+### Version 0.6.0 :
+ * Add multilangue French/English (In progress)
+ * Crypt Password for new users when authentification by email is needed
+ * Update the SQL queries to prepare them
+
+
 ### Version 0.5.1 :
  * Add support for displaying a form with it's slug
  * Correct bug on select

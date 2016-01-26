@@ -303,9 +303,9 @@ class FormPlugin
                     // All actions
                     update_post_meta($pid,'action',$_POST['form-action']);
                     update_post_meta($pid,'form-args',[
-                        'defaultClass' => $_POST['form-class-defaut'],
-                        'class' => $_POST['form-class'],
-                        'id' => $_POST['form-id-form'],
+                        'defaultClass' => filter_var($_POST['form-class-defaut'],FILTER_SANITIZE_STRING),
+                        'class' => filter_var($_POST['form-class'],FILTER_SANITIZE_STRING),
+                        'id' => filter_var($_POST['form-id-form'],FILTER_SANITIZE_STRING),
                         'displayErrors' => isset($_POST['form-display-errors']),
                         'displayErrorsBefore' => isset($_POST['form-display-errors-before']),
                     ]);
@@ -317,10 +317,10 @@ class FormPlugin
                             switch ($field['form-type']) {
                                 case 'open_container' :
                                     $fi = [
-                                        'container' => $field['form-container'],
+                                        'container' => filter_var($field['form-container'],FILTER_SANITIZE_STRING),
                                         'args' => [
-                                            'id' => $field['form-container-id'],
-                                            'class' => $field['form-container-class'],
+                                            'id' => filter_var($field['form-container-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'class' => filter_var($field['form-container-class'],FILTER_SANITIZE_STRING),
                                         ]
                                     ];
                                     break;
@@ -331,16 +331,16 @@ class FormPlugin
                                 case 'file' :
                                     $fi = [
                                         'args' => [
-                                            'id' => $field['form-id'],
-                                            'class' => $field['form-class'],
-                                            'multiple' => isset($field['form-multiple']),
-                                            'label' => $field['form-label'],
-                                            'labelClass' => $field['form-label-class'],
-                                            'required' => isset($field['form-required']),
-                                            'labelAfter' => isset($field['form-label-after']),
-                                            'allowed' => explode(',', $field['form-allowed']),
-                                            'acfField' => $field['form-acf-field'],
-                                            'maxSize' => $field['form-max-size'],
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
+                                            'multiple' => (isset($field['form-multiple'])),
+                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'labelClass' => filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
+                                            'required' => (isset($field['form-required'])),
+                                            'labelAfter' => (isset($field['form-label-after'])),
+                                            'allowed' => explode(',', filter_var($field['form-allowed']),FILTER_SANITIZE_STRING),
+                                            'acfField' => filter_var($field['form-acf-field'],FILTER_SANITIZE_STRING),
+                                            'maxSize' => filter_var($field['form-max-size'],FILTER_SANITIZE_NUMBER_INT),
                                         ]
                                     ];
                                     break;
@@ -348,17 +348,17 @@ class FormPlugin
                                 case 'taxonomy' :
                                     $fi = [
                                         'args' => [
-                                            'id' => $field['form-id'],
-                                            'class' => $field['form-class'],
-                                            'value' => $field['form-value'],
-                                            'label' => $field['form-label'],
-                                            'labelClass' => $field['form-label-class'],
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
+                                            'value' => filter_var($field['form-value'],FILTER_SANITIZE_STRING),
+                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'labelClass' => filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => isset($field['form-required']),
                                             'autocomplete' => isset($field['form-autocomplete']),
                                             'labelAfter' => isset($field['form-label-after']),
-                                            'taxonomy' => $field['form-taxonomy'],
-                                            'emptyField' => $field['form-empty-field'],
-                                            'taxonomyType' => $field['form-taxonomy-type'],
+                                            'taxonomy' => filter_var($field['form-taxonomy'],FILTER_SANITIZE_STRING),
+                                            'emptyField' => filter_var($field['form-empty-field'],FILTER_SANITIZE_STRING),
+                                            'taxonomyType' => filter_var($field['form-taxonomy-type'],FILTER_SANITIZE_STRING),
                                             'readOnly' => isset($field['form-readonly']),
 
                                         ]
@@ -368,12 +368,12 @@ class FormPlugin
 
                                     $fi = [
                                         'args' => [
-                                            'id' => $field['form-id'],
-                                            'class' => $field['form-class'],
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'placeholder' => isset($field['form-placeholder']) ? $field['form-placeholder'] : '' ,
                                             'value' => isset($field['form-value']) ? $field['form-value'] : '',
-                                            'label' => $field['form-label'],
-                                            'labelClass' => $field['form-label-class'],
+                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'labelClass' =>filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => isset($field['form-required']),
                                             'autocomplete' => isset($field['form-autocomplete']),
                                             'labelAfter' => isset($field['form-label-after']),
@@ -387,8 +387,8 @@ class FormPlugin
                                         $selected = isset($field['form-select-option-selected']) ? $field['form-select-option-selected'] : array_keys($field['form-select-option'])[0];
                                         foreach ($field['form-select-option'] as $key => $opts) {
                                             $opt = [
-                                                'content' => $opts['name'],
-                                                'value' => $opts['value'],
+                                                'content' => filter_var($opts['name'],FILTER_SANITIZE_STRING),
+                                                'value' => filter_var($opts['value'],FILTER_SANITIZE_STRING),
                                                 'select' => ($key == $selected),
                                             ];
                                             array_push($fi['args']['options'], $opt);
@@ -399,8 +399,8 @@ class FormPlugin
                             }
 
                             // fields which are here anyway
-                            $fi['type'] = $field['form-type'];
-                            $fi['name'] = sanitize_title($field['form-name']);
+                            $fi['type'] = filter_var($field['form-type'],FILTER_SANITIZE_STRING);
+                            $fi['name'] = filter_var(sanitize_title($field['form-name']),FILTER_SANITIZE_STRING);
 
                             // At the end, i push everything
                             array_push($fields, $fi);
@@ -412,20 +412,20 @@ class FormPlugin
                     // send button args
                     update_post_meta($pid,'form-submit-value',$_POST['form-button-send']);
                     update_post_meta($pid,'form-submit-args',[
-                        'id' => $_POST['form-button-send-id'],
-                        'class' => $_POST['form-button-send-class'],
+                        'id' => filter_var($_POST['form-button-send-id'],FILTER_SANITIZE_STRING),
+                        'class' => filter_var($_POST['form-button-send-class'],FILTER_SANITIZE_STRING),
                     ]);
 
                     // Form type args
-                    update_post_meta($pid,'form-redirect',$_POST['form-send-lien']);
-                    update_post_meta($pid,'form-var-url',$_POST['form-var-url']);
-                    update_post_meta($pid,'form-type',$_POST['form-utility']);
+                    update_post_meta($pid,'form-redirect',filter_var($_POST['form-send-lien']),FILTER_SANITIZE_NUMBER_INT);
+                    update_post_meta($pid,'form-var-url',filter_var($_POST['form-var-url'],FILTER_SANITIZE_URL));
+                    update_post_meta($pid,'form-type',filter_var($_POST['form-utility'],FILTER_SANITIZE_STRING));
 
                     switch($_POST['form-utility']){
                         case 'post' :
                             $args = [
-                                'post_type' => $_POST['form-send-type'],
-                                'post_status' => $_POST['form-send-staut'],
+                                'post_type' => filter_var($_POST['form-send-type'],FILTER_SANITIZE_STRING),
+                                'post_status' => filter_var($_POST['form-send-staut'],FILTER_SANITIZE_STRING),
                             ];
                             update_post_meta($pid,'form-send-args',$args);
                             break;
@@ -439,7 +439,7 @@ class FormPlugin
 
                         case 'user' :
                             $args = [
-                                'role' => isset($_POST['form-send-role']) ? $_POST['form-send-role'] : 'current',
+                                'role' => isset($_POST['form-send-role']) ? filter_var($_POST['form-send-role'],FILTER_SANITIZE_STRING) : 'current',
                                 'connectUser' => isset($_POST['form-connexion-user']),
                                 'emailUser' => isset($_POST['form-email-user']),
                             ];
@@ -448,9 +448,9 @@ class FormPlugin
 
                         case 'email' :
                             $args = [
-                                'subject' => $_POST['form-send-subject'],
-                                'recipientEmail' => $_POST['form-send-recipientEmail'],
-                                'recipientName' => $_POST['form-send-recipientName'],
+                                'subject' => filter_var($_POST['form-send-subject'],FILTER_SANITIZE_STRING),
+                                'recipientEmail' => filter_var($_POST['form-send-recipientEmail'],FILTER_SANITIZE_EMAIL),
+                                'recipientName' => filter_var($_POST['form-send-recipientName'],FILTER_SANITIZE_STRING),
                             ];
                             update_post_meta($pid,'form-send-args',$args);
                             break;
@@ -459,13 +459,13 @@ class FormPlugin
 
 
                             $args = [
-                                'subject' => $_POST['form-send-subject'],
-                                'senderEmail' => $_POST['form-send-senderEmail'],
-                                'senderName' => $_POST['form-send-senderName'],
-                                'message' => $_POST['form-send-message'],
-                                'resetAction' => $_POST['form-reset-action'],
-                                'pageId' => $_POST['form-send-page-id'],
-                                'submitValue' => $_POST['form-send-submit-value'],
+                                'subject' => filter_var($_POST['form-send-subject'],FILTER_SANITIZE_STRING),
+                                'senderEmail' => filter_var($_POST['form-send-senderEmail'],FILTER_SANITIZE_EMAIL),
+                                'senderName' => filter_var($_POST['form-send-senderName'],FILTER_SANITIZE_STRING),
+                                'message' => ($_POST['form-send-message']),
+                                'resetAction' => filter_var($_POST['form-reset-action'],FILTER_SANITIZE_STRING),
+                                'pageId' => filter_var($_POST['form-send-page-id'],FILTER_SANITIZE_NUMBER_INT),
+                                'submitValue' => filter_var($_POST['form-send-submit-value'],FILTER_SANITIZE_STRING),
 
                             ];
                             update_post_meta($pid,'form-send-args',$args);
@@ -697,46 +697,6 @@ class FormPlugin
         ];
     }
 
-    /**
-     *
-     * Export an array to a CSV file
-     *
-     * @param $arrays
-     * @param string $filename
-     * @param string $delimiter
-     */
-    protected function array_to_csv_download($arrays, $filename = "export.csv", $delimiter=";") {
-        // open raw memory as file so no temp files needed, you might run out of memory though
-        $f = fopen(wp_upload_dir()['path'] . '/' . $filename, 'w');
-        // loop over the input array
-
-        $i=0;
-        // Pour toutes les lignes
-        foreach ($arrays as $line) {
-
-            // j'affiche la ligne des clefs
-            if ($i == 0) {
-                $tmpk = [];
-                foreach(array_keys($line) as $k){
-                    array_push($tmpk,utf8_decode($k));
-                }
-                fputs($f, lcfirst(implode($tmpk, $delimiter)."\n"));
-
-            }
-
-            // Crée les lignes dans le CSV
-            fputs($f, implode($line, $delimiter)."\n");
-
-            $i++;
-        }
-        fclose($f);
-
-
-
-        echo '<a href="' . wp_upload_dir()['url'] . '/' . $filename . '" class="button button-primary">Télécharger</a>';
-
-    }
-
 
     /**
      *
@@ -771,7 +731,7 @@ class FormPlugin
         foreach ($wp_roles->roles as $key => $rl){
             array_push($rls,[
                 'slug' => $key,
-                'name' => $rl['name'],
+                'name' => filter_var($rl['name'],FILTER_SANITIZE_STRING),
             ]);
         }
 
