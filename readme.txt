@@ -59,6 +59,12 @@ Incomming :
  * Better documentation
  * New awesome features
 
+
+= 0.5.2 =
+ * Update sanitization
+ * Add scripts & css with wp_enqueue_scripts & wp_enqueue_styles
+ * Remove jQuery (use WordPress' own jQuery)
+
 = 0.5.1 =
  * Add support for displaying a form with it's slug
  * Correct bug on select
