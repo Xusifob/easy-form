@@ -11,3 +11,5 @@ function replace(data,find,replace){
     var re = new RegExp(find, 'g');
     return data.replace(re,replace);
 }
+
+SyntaxHighlighter.all();

@@ -52,7 +52,7 @@ class FormPlugin
             ];
 
             if(isset($_GET['page']) && in_array($_GET['page'],$pgs)) {
-                add_action('admin_head', [$this, 'includeHeadAdmin']);
+                require_once __DIR__ . '/templates/head-admin.php';
                 add_action('admin_footer', [$this, 'includeFooterAdmin']);
             }
             add_action('admin_menu', [$this, 'addAdminMenu']);
@@ -118,14 +118,6 @@ class FormPlugin
         // Doc
         add_submenu_page('forms','Documentation','Doccumentation','edit_plugins','doc-form',[$this,'displayDoc']);
 
-    }
-
-    /**
-     * Include a header in admin
-     */
-    public function includeHeadAdmin()
-    {
-        require_once __DIR__ . '/templates/head-admin.php';
     }
 
 
@@ -319,6 +311,7 @@ class FormPlugin
                     ]);
 
                     $fields = [];
+
                     if(is_array($_POST['field'])) {
                         foreach ($_POST['field'] as $field) {
                             switch ($field['form-type']) {
