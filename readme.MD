@@ -24,6 +24,8 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Update sanitization
  * Add scripts & css with wp_enqueue_scripts & wp_enqueue_styles
  * Remove jQuery (use WordPress' own jQuery)
+ * Update more sanitization
+ * Remove Mail() class (use phpmailer for all e-mails)
 
 ### Version 0.5.1 :
  * Add support for displaying a form with it's slug

@@ -110,8 +110,6 @@
                 data = replace(data, 'field-id', field.args.id);
                 data = replace(data, 'field-name', field.name);
 
-                console.log(field.id);
-
                 if(field.args.class != undefined)
                     data = replace(data, 'field-class', field.args.class);
 

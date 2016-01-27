@@ -1125,30 +1125,34 @@ class FormWordpress extends Form
      */
     public function sendMail($args = [])
     {
-        /** @var Mail $mail */
-        if($mail  = $this->canSendMail($args)){
+        if($this->canSendMail($args)){
 
             try {
-                $mail = new Mail();
-                $mail
-                    ->setSenderEmail(isset($args['senderEmail']) ? $args['senderEmail'] : $_POST['email'])
-                    ->setSenderName(isset($args['sendername']) ? $args['sendername'] : $_POST['sendername'])
-                    ->setRecipientEmail(isset($args['recipientEmail']) ? $args['recipientEmail'] : get_option('admin_email'))
-                    ->setRecipientName(isset($args['recipientName']) ? $args['recipientName'] : get_option('blogname'))
-                    ->setSubject(isset($args['subject']) ? $args['subject'] : (isset($_POST['subject']) ? $_POST['subject'] : ''));
+
+                /** @var Phpmailerform $mail */
+                $mail = $this->prepareMail();
+                $mail->setFrom(
+                    isset($args['senderEmail']) ? $args['senderEmail'] : filter_var($_POST['email']),FILTER_SANITIZE_EMAIL,
+                    isset($args['sendername']) ? $args['sendername'] : filter_var($_POST['sendername'],FILTER_SANITIZE_STRING)
+                );
+                $mail->addAddress(
+                    isset($args['recipientEmail']) ? $args['recipientEmail'] : get_option('admin_email'),
+                    isset($args['recipientName']) ? $args['recipientName'] : get_option('blogname')
+                );
+                $mail->Subject = isset($args['subject']) ? $args['subject'] : (isset($_POST['subject']) ? filter_var($_POST['subject'],FILTER_SANITIZE_STRING) : '');
+
 
                 $message = isset($args['message']) ? $args['message'] : $_POST['message'];
-
 
                 $notField = ['message', 'email', 'sendername', 'subject'];
 
                 // For all fields
                 foreach ($this->fields as $key => $field) {
                     if (!in_array($field['name'], $notField)) {
-                        $message .= $mail->getReturnLigne() . $field['name'] . ' : ' . $_POST[$field['name']];
+                        $message .= "\n\r" . $field['name'] . ' : ' . $_POST[$field['name']];
                     }
                 }
-                $mail->setMessage($message);
+                $mail->Body = $message;
 
                 try {
                     return $mail->send();

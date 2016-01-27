@@ -27,9 +27,6 @@ class FormPlugin
         if(!class_exists('FormWordpress'))
             include_once plugin_dir_path( __FILE__ ).'/src/FormWordpress.php';
 
-        if(!class_exists('Mail'))
-            include_once plugin_dir_path( __FILE__ ).'/src/Mail.php';
-
         if(!class_exists('FormListTable'))
             include_once plugin_dir_path( __FILE__ ).'/src/FormListTable.php';
 
@@ -283,15 +280,15 @@ class FormPlugin
             // If the form has a title
             if(isset($_POST['form-title'])){
                 $postInfos = [
-                    'post_name' => sanitize_title($_POST['form-title']),
-                    'post_title' => $_POST['form-title'],
+                    'post_name' => sanitize_title(filter_var($_POST['form-title']),FILTER_SANITIZE_STRING),
+                    'post_title' => filter_var($_POST['form-title'],FILTER_SANITIZE_STRING),
                     'post_status' => 'publish',
                     'post_type' => 'form-plugin-bastien',
                 ];
                 if(isset($_POST['form-id']) && !empty($_POST['form-id'])) {
                     // I insert the post
                     wp_update_post($postInfos);
-                    $pid = $_POST['form-id'];
+                    $pid = filter_var($_POST['form-id'],FILTER_SANITIZE_NUMBER_INT);
                 }else{
                     // I insert the post
                     $pid = wp_insert_post($postInfos);
@@ -519,6 +516,8 @@ class FormPlugin
     }
 
     /**
+     *
+     * @Since V 0.3
      * Handle duplicate fields
      */
     public function handleDuplicateFields()
@@ -528,15 +527,15 @@ class FormPlugin
             if(!wp_verify_nonce($_POST['wp_nonce'],'duplicate_field'))
                 die(json_encode(['Wp_Form_Error' => 'Security Error']));
 
-            $duplicatedField = get_post_meta($_POST['form-id'],'form-fields')[0][$_POST['form-duplicate-field-id']];
+            $duplicatedField = get_post_meta(filter_var($_POST['form-id'],FILTER_SANITIZE_NUMBER_INT),'form-fields')[0][$_POST['form-duplicate-field-id']];
 
-            $newformFields = get_post_meta($_POST['form-duplicate-form'],'form-fields')[0];
+            $newformFields = get_post_meta(filter_var($_POST['form-duplicate-form'],FILTER_SANITIZE_NUMBER_INT),'form-fields')[0];
             array_push($newformFields,$duplicatedField);
 
-            update_post_meta($_POST['form-duplicate-form'],'form-fields',$newformFields);
+            update_post_meta(filter_var($_POST['form-duplicate-form'],FILTER_SANITIZE_NUMBER_INT),'form-fields',$newformFields);
 
             $url = menu_page_url('add-form',false) . '&modify=' . $_POST['form-duplicate-form'];
-            wp_redirect($url);
+            wp_redirect(filter_var($url),FILTER_SANITIZE_URL);
             die();
         }
     }
@@ -552,14 +551,14 @@ class FormPlugin
             if(isset($_POST['form-duplicate-name'])) {
 
                 if($this->isForm($_POST['form-duplicate-id'])) {
-                    $form = get_post($_POST['form-duplicate-id']);
+                    $form = get_post(filter_var($_POST['form-duplicate-id'],FILTER_SANITIZE_NUMBER_INT));
 
-                    $formMetas = get_post_meta($_POST['form-duplicate-id']);
+                    $formMetas = get_post_meta(filter_var($_POST['form-duplicate-id'],FILTER_SANITIZE_NUMBER_INT));
 
 
                     $postInfos = [
-                        'post_name' => sanitize_title($_POST['form-duplicate-name']),
-                        'post_title' => $_POST['form-duplicate-name'],
+                        'post_name' => filter_var(sanitize_title($_POST['form-duplicate-name']),FILTER_SANITIZE_STRING),
+                        'post_title' => filter_var($_POST['form-duplicate-name'],FILTER_SANITIZE_STRING),
                         'post_status' => $form->post_status,
                         'post_type' => $form->post_type,
                     ];
@@ -756,7 +755,7 @@ class FormPlugin
      */
     protected function isForm($formId)
     {
-        $form = get_post($formId);
+        $form = get_post(filter_var($formId,FILTER_SANITIZE_NUMBER_INT));
         // If it's a form
         return($form->post_type == 'form-plugin-bastien');
 

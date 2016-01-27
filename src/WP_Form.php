@@ -42,7 +42,7 @@ class WP_Form
         if(is_string($formId)) {
 
             $args = array(
-                'name'        => $formId,
+                'name'        => filter_var($formId,FILTER_SANITIZE_STRING),
                 'post_type'   => 'form-plugin-bastien',
                 'post_status' => 'publish',
                 'numberposts' => 1
@@ -162,15 +162,14 @@ class WP_Form
      *
      * @Modified : - V 0.4
      *             - V 0.5
+     *             - V 0.5.2
      *
      * Check if form is valid and send datas
      */
     public function CheckForm()
     {
-        if(isset($_POST['_time'])) {
-            if(microtime(true) - $_POST['_time'] < 1)
-                die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
-        }
+        if(!isset($_POST['_time']) || microtime(true) - $_POST['_time'] < 1)
+            die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
 
         if(isset($_POST['url-antispam']) && !empty($_POST['url-antispam']))
             die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
