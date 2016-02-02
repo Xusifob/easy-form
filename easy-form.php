@@ -267,7 +267,7 @@ class FormPlugin
      *              - V 0.3
      *              - V 0.4
      *              - V 0.5.2 (Add Sanitization0
-     *              - V 0.5.3 (Remove sanitization for label)
+     *              - V 0.5.3 (Remove sanitization for label & update sanitization for id)
      *
      *
      * Check if add form is send
@@ -330,7 +330,7 @@ class FormPlugin
                                 case 'file' :
                                     $fi = [
                                         'args' => [
-                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_STRING),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'multiple' => (isset($field['form-multiple'])),
                                             'label' => $field['form-label'],FILTER_SANITIZE_STRING,
@@ -347,7 +347,7 @@ class FormPlugin
                                 case 'taxonomy' :
                                     $fi = [
                                         'args' => [
-                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_STRING),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'value' => filter_var($field['form-value'],FILTER_SANITIZE_STRING),
                                             'label' => $field['form-label'],
@@ -367,7 +367,7 @@ class FormPlugin
 
                                     $fi = [
                                         'args' => [
-                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_STRING),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'placeholder' => isset($field['form-placeholder']) ? $field['form-placeholder'] : '' ,
                                             'value' => isset($field['form-value']) ? $field['form-value'] : '',
