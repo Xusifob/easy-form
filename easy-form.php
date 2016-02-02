@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://baltazare.fr
 Description: Permet de créer et styliser des formulaires facilement
-Version: 0.5.2
+Version: 0.5.3
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 License: MIT
@@ -263,9 +263,11 @@ class FormPlugin
     /**
      * @since V 0.1
      *
-     * @Modified :  - V 0.2
+     * @Updated :  - V 0.2
      *              - V 0.3
      *              - V 0.4
+     *              - V 0.5.2 (Add Sanitization0
+     *              - V 0.5.3 (Remove sanitization for label)
      *
      *
      * Check if add form is send
@@ -331,7 +333,7 @@ class FormPlugin
                                             'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'multiple' => (isset($field['form-multiple'])),
-                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'label' => $field['form-label'],FILTER_SANITIZE_STRING,
                                             'labelClass' => filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => (isset($field['form-required'])),
                                             'labelAfter' => (isset($field['form-label-after'])),
@@ -348,7 +350,7 @@ class FormPlugin
                                             'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'value' => filter_var($field['form-value'],FILTER_SANITIZE_STRING),
-                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'label' => $field['form-label'],
                                             'labelClass' => filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => isset($field['form-required']),
                                             'autocomplete' => isset($field['form-autocomplete']),
@@ -369,7 +371,7 @@ class FormPlugin
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'placeholder' => isset($field['form-placeholder']) ? $field['form-placeholder'] : '' ,
                                             'value' => isset($field['form-value']) ? $field['form-value'] : '',
-                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'label' => $field['form-label'],FILTER_SANITIZE_STRING,
                                             'labelClass' =>filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => isset($field['form-required']),
                                             'autocomplete' => isset($field['form-autocomplete']),

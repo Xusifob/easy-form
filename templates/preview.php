@@ -1,3 +1,6 @@
+<!--
+@Updated : V 0.5.3
+-->
 <div class="wrap gf_browser_chrome">
     <?php if(isset($form)): ?>
         <h2>Instalation du formulaire</h2>
@@ -55,7 +58,7 @@
 &lt;?php
 // Ouverture du formulaire
 $form->open_the_form();
-                <?php global $formFields; if(is_array($formFields)) foreach($formFields as $field){ ?>
+                <?php if(is_array($formFields)) foreach($formFields as $field){ ?>
                     <?php echo "\n"; ?>
                     <?php if($field['type'] == 'radio'):
                         if(!isset($radios[$field['name']]))
@@ -72,7 +75,7 @@ $form->open_the_form();
                 <?php
                 ?>
 
-                // Affiche le bouton submit
+// Affiche le bouton submit
 $form->the_form_field('submit');
 
 // ferme le formulaire
