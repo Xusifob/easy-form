@@ -29,13 +29,15 @@ class WP_Form
      * @since V 0.1
      *
      * @Modified :  - V 0.5
-     *              - V 0.6 : Add support for slug
-     * Constructor
+     *              - V 0.5.1 : Add support for slug
+     *              - V 0.5.3 (Add lang for errors)
      *
+     * WP_Form constructor.
      * @param $formId int|string Id ou slug du form
      * @param null $postId
+     * @param string $lang
      */
-    public function __construct($formId,$postId = null)
+    public function __construct($formId,$postId = null,$lang = 'fr')
     {
         $formId = (int)$formId == 0 ? $formId : (int)$formId;
 
@@ -83,6 +85,9 @@ class WP_Form
             $formArgs['formType'] = get_post_meta($formId,'form-type');
             $formArgs['lien'] = get_post_meta($formId,'form-redirect');
             $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args',true);
+
+            /** @Since V 0.5.3 */
+            $formArgs['lang'] = $lang;
 
 
             $form = new FormWordpress($form->post_name,$formMetas['action'][0],$formArgs);
@@ -235,13 +240,16 @@ class WP_Form
      *
      * @since V 0.1
      *
-     * Return the error
+     * @Updated : V 0.5.3 (Add lang)
      *
+     * Return the error based on the asked lang
+     *
+     * @param string $lang
      * @return bool
      */
-    public function getError()
+    public function getError($lang = 'fr')
     {
-        return $this->form->getError();
+        return $this->form->getError($lang);
     }
 
     /**

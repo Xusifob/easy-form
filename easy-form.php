@@ -63,6 +63,12 @@ class FormPlugin
                     session_start();
             }
         }
+
+        add_action('plugins_loaded', 'wan_load_textdomain');
+        function wan_load_textdomain() {
+            load_plugin_textdomain( 'easy-form', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
+        }
+
     }
 
     /**
@@ -103,17 +109,17 @@ class FormPlugin
         add_menu_page('Easy Forms','Easy Forms','edit_plugins','forms',[$this,'displayPage'],'dashicons-feedback',21);
 
         // Ajouter/modifier un formulaire
-        add_submenu_page('forms','Ajouter un formulaire','Ajouter','edit_plugins','add-form',[$this,'displayPageAddForm']);
+        add_submenu_page('forms',__('Ajouter un formulaire','easy-form'),__('Ajouter','easy-form'),'edit_plugins','add-form',[$this,'displayPageAddForm']);
         // Prévisualiser son formulaire
-        add_submenu_page('forms','Voir un formulaire','Prévisualiser','edit_plugins','show-form',[$this,'displayPrev']);
+        add_submenu_page('forms',__('Voir un formulaire','easy-form'),__('Prévisualiser','easy-form'),'edit_plugins','show-form',[$this,'displayPrev']);
 
-        add_submenu_page('forms','Importer un formulaire','Importer','edit_plugins','import-form',[$this,'displayImport']);
+        add_submenu_page('forms',__('Importer un formulaire','easy-form'),__('Importer','easy-form'),'edit_plugins','import-form',[$this,'displayImport']);
 
         // Exporter un formulaire
-        add_submenu_page('forms','Exporter un formulaire','Exporter','edit_plugins','export-form',[$this,'displayExport']);
+        add_submenu_page('forms',__('Exporter un formulaire','easy-form'),__('Exporter','easy-form'),'edit_plugins','export-form',[$this,'displayExport']);
 
         // Doc
-        add_submenu_page('forms','Documentation','Doccumentation','edit_plugins','doc-form',[$this,'displayDoc']);
+        add_submenu_page('forms',__('Documentation','easy-form'),__('Documentation','easy-form'),'edit_plugins','doc-form',[$this,'displayDoc']);
 
     }
 

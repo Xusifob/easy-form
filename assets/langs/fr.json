@@ -3,7 +3,7 @@
   "email": "Adresse e-mail invalide",
   "2password": "Veuillez retaper votre mot de passe",
   "samepassword": "Les deux mots de passe entrés doivent être identiques",
-  "filetype": "Le type du fichier chargé est incorrect",
+  "filetype": "Le type du fichier chargé est incorrect, Les types acceptés sont : ",
   "identifiants": "Identifiants incorrects",
   "empty": "Ce champ doit être rempli",
   "missingfield": "Le formulaire doit avoir un champ ",

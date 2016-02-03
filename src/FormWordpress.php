@@ -16,10 +16,15 @@ class FormWordpress extends Form
      */
     protected $id;
 
+
+
+
     /**
      * Constructor
      *
      * @Since V 0.4
+     *
+     * @Updated : V 0.5.3 (Add lang support)
      *
      * @param string $name
      * @param string $action
@@ -31,13 +36,23 @@ class FormWordpress extends Form
 
         parent::__construct($name, $action, $args);
 
-        $json = $this->getLangTemplate('fr');
-
-        $this->errorMessages = json_decode($json, true);
 
         // store the form Id
         if (isset($args['formId']))
             $this->id = $args['formId'];
+
+
+        add_action('wp_loaded', [$this,'initLangError']);
+
+    }
+
+
+    public function initLangError(){
+
+
+        foreach($this->errorMessages as $key => $error){
+            $this->errorMessages[$key] = __($error,'easy-form');
+        }
     }
 
     /**

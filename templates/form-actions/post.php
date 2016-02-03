@@ -10,7 +10,7 @@ $postDisabled = ['page','revision','attachment','nav_menu_item','acf-field','acf
 ?>
 <div class="row">
     <div class="col-sm-4">
-        <label for="form-send-type">Type de post</label>
+        <label for="form-send-type"><?php _e('Type de post', 'easy-form'); ?></label>
         <select name="form-send-type" class="form-control" id="form-send-type">
             <?php
             foreach ($allposts as $allpost){

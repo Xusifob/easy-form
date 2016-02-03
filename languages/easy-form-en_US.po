@@ -1,0 +1,634 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy WP Form\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
+"PO-Revision-Date: Wed Feb 03 2016 17:55:14 GMT+0000 (GMT)\n"
+"Last-Translator: Bastien <bastien@convertize.com>\n"
+"Language-Team: \n"
+"Language: English\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Loco-Target-Locale: en_US\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: ../easy-form.php:112
+msgid "Ajouter un formulaire"
+msgstr "Add a Form"
+
+#: ../easy-form.php:114
+msgid "Voir un formulaire"
+msgstr "See A Form"
+
+#: ../easy-form.php:122
+msgid "Documentation"
+msgstr "Doc"
+
+#: ../easy-form.php:122
+msgid "Doccumentation"
+msgstr "Doc"
+
+#: ../src/Form.php:142
+msgid "Un ou plusieurs champs n'est pas complet"
+msgstr "One or many field is missing"
+
+#: ../src/Form.php:143
+msgid "Adresse e-mail invalide"
+msgstr "Invalid e-mail address"
+
+#: ../src/Form.php:144
+msgid "Veuillez retaper votre mot de passe"
+msgstr "Please retype your password"
+
+#: ../src/Form.php:145
+msgid "Les deux mots de passe entrés doivent être identiques"
+msgstr "The two password must be the same"
+
+#: ../src/Form.php:146
+msgid "Le type du fichier chargé est incorrect, Les types acceptés sont : "
+msgstr "The file type uploaded is incorrect, the availables types are : "
+
+#: ../src/Form.php:147
+msgid "Identifiants incorrects"
+msgstr "Invalid credentials"
+
+#: ../src/Form.php:148
+msgid "Ce champ doit être rempli"
+msgstr "This field can't be empty"
+
+#: ../src/Form.php:149
+msgid "Le formulaire doit avoir un champ "
+msgstr "The form need to have a field "
+
+#: ../src/Form.php:150
+msgid "Aucun utilisateur n'a été trouvé avec cet identifiant"
+msgstr "No user has been found with this id"
+
+#: ../src/Form.php:151
+msgid "La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur"
+msgstr "Impossible to reset the password for this user"
+
+#: ../src/Form.php:152
+msgid "Une erreur est survenue"
+msgstr "An error occured"
+
+#: ../src/Form.php:153
+msgid "La taille du fichier est trop importante, taille maximum : "
+msgstr "The file size is too big, the max size is : "
+
+#: ../src/Form.php:154
+msgid "Une erreur est survenue lors de la modification de l'utilisateur"
+msgstr "An error occurs during the user update"
+
+#: ../src/Form.php:155
+msgid "La clé utilisée est expirée"
+msgstr "The key used is expired"
+
+#: ../src/Form.php:156
+msgid "La clé utilisée est invalide"
+msgstr "The key used is invalid"
+
+#: ../src/Form.php:157
+msgid "Utilisateur introuvable ou déjà activé"
+msgstr "The user does not exist or has already been activated"
+
+#: ../templates/preview.php:100
+msgid ""
+"Pour prévenir l'utilisateur lorsqu'un formulaire a bien été envoyé avec "
+"success (il n' a pas eu d'erreurs :"
+msgstr ""
+"To tell the user when a form has been send with success (There was no "
+"mistake)"
+
+#: ../templates/form-actions/resetPassword.php:35
+msgid "<?php _e('', 'easy-form'); ?>"
+msgstr ""
+
+#. Name of the plugin
+msgid "Easy WP Form"
+msgstr "Easy WP Form"
+
+#. URI of the plugin
+msgid "http://baltazare.fr"
+msgstr "http://baltazare.fr"
+
+#. Description of the plugin
+msgid "Permet de créer et styliser des formulaires facilement"
+msgstr "Allows you to create and style (css) all your forms easily"
+
+#. Author of the plugin
+msgid "Bastien Malahieude"
+msgstr "Bastien Malahieude"
+
+#. Author URI of the plugin
+msgid "http://bastienmalahieude.fr"
+msgstr "http://bastienmalahieude.fr"
+
+#: ../easy-form.php:112 ../templates/add.php:98 ../templates/index.php:4
+msgid "Ajouter"
+msgstr "Add"
+
+#: ../easy-form.php:114 ../templates/preview.php:161
+msgid "Prévisualiser"
+msgstr "Preview"
+
+#: ../easy-form.php:116 ../templates/import.php:2
+msgid "Importer un formulaire"
+msgstr "Import a form"
+
+#: ../easy-form.php:116 ../templates/import.php:30
+msgid "Importer"
+msgstr "Import"
+
+#: ../easy-form.php:119 ../templates/export.php:2
+msgid "Exporter un formulaire"
+msgstr "Export a form"
+
+#: ../easy-form.php:119 ../templates/export.php:18
+msgid "Exporter"
+msgstr "Export"
+
+#: ../src/FormListTable.php:97
+msgid "Nom"
+msgstr "Name"
+
+#: ../src/FormListTable.php:98
+msgid "Nombre de champs"
+msgstr "Number of fields"
+
+#: ../src/FormListTable.php:99 ../templates/add.php:18
+msgid "Action"
+msgstr "Action"
+
+#: ../templates/add.php:10
+msgid "1 - Informations principales"
+msgstr "1 - Principal informations"
+
+#: ../templates/add.php:14 ../templates/add.php:15
+msgid "Titre du formulaire"
+msgstr "Form title"
+
+#: ../templates/add.php:19
+msgid "Action du formulaire"
+msgstr "Form action"
+
+#: ../templates/add.php:22
+msgid "Class par défaut"
+msgstr "Default Class"
+
+#: ../templates/add.php:23
+msgid "Class par defaut des champs"
+msgstr "Default class for all the fields"
+
+#: ../templates/add.php:28 ../templates/add.php:29
+msgid "Class du formulaire"
+msgstr "Form class"
+
+#: ../templates/add.php:32 ../templates/add.php:33
+msgid "Id du formulaire"
+msgstr "Form id"
+
+#: ../templates/add.php:39
+msgid "Afficher les erreurs de chaque champ"
+msgstr "Display every field's error"
+
+#: ../templates/add.php:43
+msgid "Afficher les erreurs au dessus du champ"
+msgstr "Display the errors above the fields"
+
+#: ../templates/add.php:47
+msgid "2 - Action du formulaire"
+msgstr "2 - Form actions"
+
+#: ../templates/add.php:51
+msgid "Type d'action du formulaire"
+msgstr "Kind of form"
+
+#: ../templates/add.php:53
+msgid "Ajout de post"
+msgstr "Add post"
+
+#: ../templates/add.php:54
+msgid "Connexion"
+msgstr "sign im"
+
+#: ../templates/add.php:55
+msgid "Inscription ou modification"
+msgstr "Sign up or user update"
+
+#: ../templates/add.php:56
+msgid "Envoi de mail"
+msgstr "Send e-mail (contact)"
+
+#: ../templates/add.php:57 ../templates/preview.php:114
+msgid "Réinitialiser le mot de passe"
+msgstr "Reset the password"
+
+#: ../templates/add.php:61
+msgid "Redirection après envoi du formulaire"
+msgstr "Redirection after form send"
+
+#: ../templates/add.php:62
+msgid "Lien de redirection ou ID de page"
+msgstr "Redirection link or Page ID"
+
+#: ../templates/add.php:65
+msgid "Variable passée dans l'url (espacer les variables par des & )"
+msgstr "Vars passed through the url (espace them with & )"
+
+#: ../templates/add.php:66
+msgid "Variable passée dans l'url (sous la forme update=true)"
+msgstr "Variables passed through the url (Example : update=true&foo=bar)"
+
+#: ../templates/add.php:73
+msgid "3 - Les champs"
+msgstr "3 - All Fields"
+
+#: ../templates/add.php:78
+msgid "Ajouter un champ"
+msgstr "Add a field"
+
+#: ../templates/add.php:81
+msgid "4 - Bouton submit"
+msgstr "4 - Submit button"
+
+#: ../templates/add.php:85
+msgid "Valeur de l'envoi"
+msgstr "Submit button value"
+
+#: ../templates/add.php:86
+msgid "Valeur du bouton submit"
+msgstr "Submit button value"
+
+#: ../templates/add.php:89
+msgid "Class de l'input"
+msgstr "Input Class"
+
+#: ../templates/add.php:90
+msgid "Class du bouton submit"
+msgstr "Submit button's Class"
+
+#: ../templates/add.php:98 ../templates/preview.php:141
+msgid "Modifier"
+msgstr "Update"
+
+#: ../templates/add.php:98
+msgid "le formulaire"
+msgstr "the form"
+
+#: ../templates/export.php:6
+msgid "Choisir les formulaires à exporter"
+msgstr "Chose which form to export"
+
+#: ../templates/export.php:7
+msgid ""
+"Les IDs des formulaires ne seront pas exportés, ils seront ajoutés comme de "
+"nouveaux posts pour éviter tout conflit"
+msgstr ""
+"The form'sID will not be exported. the forms will be add as new post to "
+"avoid conflicts"
+
+#: ../templates/export.php:23 ../templates/import.php:35
+msgid "Formulaires exportés"
+msgstr "Forms exported"
+
+#: ../templates/footer.php:8
+msgid "Dupliquer un formulaire"
+msgstr "Duplicate a form"
+
+#: ../templates/footer.php:12 ../templates/footer.php:13 ..
+#: templates/modals/modal-duplicate.php:20
+msgid "Nom du nouveau formulaire"
+msgstr "Name of the new form"
+
+#: ../templates/footer.php:16
+msgid "Dupliquer"
+msgstr "Duplicate"
+
+#: ../templates/import.php:6
+msgid "Séléctionnez votre formulaire Json"
+msgstr "Select your form (json file)"
+
+#: ../templates/import.php:27
+msgid "Séléctionner le fichier"
+msgstr "Select the file"
+
+#: ../templates/index.php:4
+msgid "Formulaires"
+msgstr "Forms"
+
+#: ../templates/preview.php:6
+msgid "Instalation du formulaire"
+msgstr "Installation of the form"
+
+#: ../templates/preview.php:8
+msgid "Initialisation du formulaire"
+msgstr "Initialisation of the form"
+
+#: ../templates/preview.php:9
+msgid ""
+"Pour installer le formulaire Wordpress, sur le template de votre page, créer "
+"un nouveau formulaire"
+msgstr "To install the Wordpress form on your page, create a nem WP_Form"
+
+#: ../templates/preview.php:13 ../templates/preview.php:31
+msgid "// $id doit être l'ID de votre formulaire"
+msgstr "// $id must be your form's ID"
+
+#: ../templates/preview.php:19
+msgid ""
+"Vous pouvez aussi utiliser le slug du formulaire, l'avantage est que vous "
+"pouvez plus facilement exporter et réimporter ces derniers"
+msgstr ""
+"You can also use your form' sllug. The advantage is an easier export and "
+"import"
+
+#: ../templates/preview.php:23
+msgid "// $formSlug doit être le slug de votre formulaire"
+msgstr "// $formSlug ;ust be your form's slug"
+
+#: ../templates/preview.php:28
+msgid ""
+"Si votre formulaire est une modification (utilisateur ou post) ajouter en 2e "
+"argument de la fonction l'id du post/de l'utilisateur à modifier"
+msgstr ""
+"If your form is an update (User or post) add its ID as a second argument to "
+"your function"
+
+#: ../templates/preview.php:34
+msgid "// ici $userId vaut l'id de l'utilisateur en cours"
+msgstr "// here, $userId is the current user's ID"
+
+#: ../templates/preview.php:39
+msgid ""
+"Le formulaire doit être initialisé avant tout texte, avant même le "
+"get_header();."
+msgstr ""
+"The form MUST be initialised before every content, even before the "
+"get_header() function"
+
+#: ../templates/preview.php:41
+msgid "Affichage du formulaire"
+msgstr "Display the form"
+
+#: ../templates/preview.php:43
+msgid "Afficher tout le formulaire d'un coup"
+msgstr "Display all the form"
+
+#: ../templates/preview.php:45
+msgid "Pour afficher le formulaire, il suffit de faire un 'echo'"
+msgstr "To display the form, you just have to 'echo' it"
+
+#: ../templates/preview.php:48
+msgid "// Affichage du formulaire"
+msgstr "// Display the form"
+
+#: ../templates/preview.php:53
+msgid "Afficher les champs uns par uns"
+msgstr "Display every fields one by one"
+
+#: ../templates/preview.php:55
+msgid "Pour afficher les champs là ou on le veut "
+msgstr "To display all fields where you want"
+
+#: ../templates/preview.php:59
+msgid "// Ouverture du formulaire"
+msgstr "// Open the form"
+
+#: ../templates/preview.php:66
+msgid "// Affiche le champ "
+msgstr "// Display the field"
+
+#: ../templates/preview.php:71
+msgid "// Affiche le champ"
+msgstr "// Display the field"
+
+#: ../templates/preview.php:78
+msgid "// Affiche le bouton submit"
+msgstr "// Display the submit button"
+
+#: ../templates/preview.php:81
+msgid "// ferme le formulaire"
+msgstr "// Close the form"
+
+#: ../templates/preview.php:87
+msgid "Gestion des erreurs"
+msgstr "How to handle errors"
+
+#: ../templates/preview.php:88
+msgid "Pour afficher les erreurs des formulaires :"
+msgstr "To display the form's errors"
+
+#: ../templates/preview.php:91
+msgid "// Affichage des erreurs du formulaire"
+msgstr "// Display the form's errors"
+
+#: ../templates/preview.php:98
+msgid "Gestion de l'envoi des formulaires"
+msgstr "Handle the form send"
+
+#: ../templates/preview.php:105
+msgid "le formulaire a bien été envoyé"
+msgstr "The form has been send"
+
+#: ../templates/preview.php:110
+msgid "Page de réinitialisation de mot de passe"
+msgstr "Reset password page"
+
+#: ../templates/preview.php:119
+msgid "// Check si c'est bien une action de reset"
+msgstr "// Check if it's a reset action"
+
+#: ../templates/preview.php:129
+msgid "Votre mot de passe a bien été réinitialisé"
+msgstr "Your password has been reset"
+
+#: ../templates/preview.php:143
+msgid "Prévisualisation du formulaire"
+msgstr "Preview the form"
+
+#: ../templates/preview.php:148
+msgid "Choisissez le formulaire à prévisualiser"
+msgstr "Chose the form you want to preview"
+
+#: ../templates/preview.php:154
+msgid "Formulaire"
+msgstr "Forms"
+
+#: ../templates/form-actions/post.php:13
+msgid "Type de post"
+msgstr "Kind of post"
+
+#: ../templates/form-actions/resetPassword.php:10
+msgid "Type de réintialisation"
+msgstr "Kind of reset"
+
+#: ../templates/form-actions/resetPassword.php:12
+msgid "Réinitialise le mot de passe dans un e-mail"
+msgstr "Reset the password in the e-mail"
+
+#: ../templates/form-actions/resetPassword.php:13
+msgid "Envoi par e-mail un lien de récupération du mot de passe"
+msgstr "Send a reset password link by e-mail"
+
+#: ../templates/form-actions/resetPassword.php:19 ../templates/form-
+#: actions/resetPassword.php:20
+msgid "Objet"
+msgstr "Subject"
+
+#: ../templates/form-actions/resetPassword.php:23
+msgid "Email de l'expéditeur"
+msgstr "Sender E-mail"
+
+#: ../templates/form-actions/resetPassword.php:24
+msgid "Email expéditeur"
+msgstr "Sender E-mail"
+
+#: ../templates/form-actions/resetPassword.php:27
+msgid "Nom de l'expéditeur"
+msgstr "Sender name"
+
+#: ../templates/form-actions/resetPassword.php:28
+msgid "Nom du expéditeur"
+msgstr "Sender name"
+
+#: ../templates/form-actions/resetPassword.php:36
+#, php-format
+msgid ""
+"Utilisez %PASSWORD% à la place du mot de passe et %ID% pour l'identifiant de "
+"l'utilisateur"
+msgstr "Use %PASSWORD% instead of the password and %ID% for the user ID"
+
+#: ../templates/form-actions/resetPassword.php:37 ../templates/form-
+#: actions/resetPassword.php:49
+msgid "Message (texte brut ou HTML)"
+msgstr "Message (brut text or HTML)"
+
+#: ../templates/form-actions/resetPassword.php:38
+msgid ""
+"Vous pouvez aussi créer un fichier EasyFormTemplates/resetPassword.php dans "
+"votre thème en copiant celui du plugin"
+msgstr ""
+"You can also create a EasyFormTemplates/resetPassword.php file in your theme "
+"directory by copying the plugin's one"
+
+#: ../templates/form-actions/resetPassword.php:47
+msgid "Message"
+msgstr "Message"
+
+#: ../templates/form-actions/resetPassword.php:48
+#, php-format
+msgid ""
+"Utilisez %LIEN% pour le lien vers la page de récupération  et %ID% pour "
+"l'identifiant de l'utilisateur"
+msgstr "Use %LIEN% for the retrieve page' link and %ID% for the user ID"
+
+#: ../templates/form-actions/resetPassword.php:50
+msgid ""
+"Vous pouvez aussi créer un fichier EasyFormTemplates/retrievePassword.php "
+"dans votre thème en copiant celui du plugin"
+msgstr ""
+"You can also create a EasyFormTemplates/retrievePassword.php file in your "
+"theme by copying the plugin's one"
+
+#: ../templates/form-actions/resetPassword.php:56
+msgid "Id de la page de récupération de mot de passe"
+msgstr "Id of the retrieve password's page"
+
+#: ../templates/form-actions/resetPassword.php:57
+msgid "Id de la page de récupération"
+msgstr "Id of the retrieve password's page"
+
+#: ../templates/form-actions/resetPassword.php:60
+msgid "Value du bouton submit sur la page de récupération"
+msgstr "Submit button's value on the retrieve password page"
+
+#: ../templates/form-actions/resetPassword.php:61
+msgid "Value du bouton submit"
+msgstr "Submit button's value on the retrieve password page"
+
+#: ../templates/form-actions/user.php:15
+msgid "Rôle actuel"
+msgstr "Current role"
+
+#: ../templates/form-actions/user.php:21
+msgid "Connecter l'utilisateur à l'inscription"
+msgstr "Sign in the user after signing up"
+
+#: ../templates/form-actions/user.php:26
+msgid "Activer l'inscription par e-mail"
+msgstr "Enable the e-mail verification sign up"
+
+#: ../templates/inputs/taxonomy.php:9
+msgid "Taxonomy"
+msgstr "Taxonimy"
+
+#: ../templates/inputs/taxonomy.php:21
+msgid "Type de champ"
+msgstr "Kind of field"
+
+#: ../templates/inputs/taxonomy.php:23
+msgid "Select"
+msgstr "Select"
+
+#: ../templates/inputs/taxonomy.php:24
+msgid "Hidden"
+msgstr "Hidden"
+
+#: ../templates/inputs/taxonomy.php:32
+msgid "Options"
+msgstr "Options"
+
+#: ../templates/inputs/taxonomy.php:38
+msgid "Id du champ"
+msgstr "Field's id"
+
+#: ../templates/inputs/taxonomy.php:41
+msgid "Class du champ"
+msgstr "Field's Class"
+
+#: ../templates/inputs/taxonomy.php:46
+msgid "Valeur du champ vide"
+msgstr "Empty field's value"
+
+#: ../templates/inputs/taxonomy.php:49
+msgid "Valeur du champ"
+msgstr "Field's value"
+
+#: ../templates/inputs/taxonomy.php:54
+msgid "Label"
+msgstr "Label"
+
+#: ../templates/inputs/taxonomy.php:59
+msgid "Class du label"
+msgstr "Label's class"
+
+#: ../templates/inputs/taxonomy.php:66
+msgid "Required"
+msgstr "Required"
+
+#: ../templates/inputs/taxonomy.php:71
+msgid "Placer le label après le champ"
+msgstr "Put the label after the field"
+
+#: ../templates/inputs/taxonomy.php:77
+msgid "Read only"
+msgstr "Read Only"
+
+#: ../templates/modals/modal-duplicate.php:16
+msgid "Dupliquer un champ sur un autre formulaire"
+msgstr "Duplicate a field in another form"
+
+#: ../templates/modals/modal-duplicate.php:37
+msgid "Copier"
+msgstr "Copy"

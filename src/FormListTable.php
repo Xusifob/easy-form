@@ -87,16 +87,16 @@ class FormListTable extends WP_List_Table {
     /**
      * Override the parent columns method. Defines the columns to use in your listing table
      *
-     * @return Array
+     * @return array
      */
     public function get_columns()
     {
         $columns = array(
             'cb'          => '<input type="checkbox">',
-            'id'          => 'ID - SLUG',
-            'name'       => 'Nom',
-            'nb_field' => 'Nombre de champs',
-            'form_action' => 'Action',
+            'id'          => 'ID - slug',
+            'name'       =>  __('Nom', 'easy-form'),
+            'nb_field' => __('Nombre de champs', 'easy-form'),
+            'form_action' => __('Action', 'easy-form'),
         );
 
         return $columns;
@@ -105,7 +105,7 @@ class FormListTable extends WP_List_Table {
     /**
      * Define which columns are hidden
      *
-     * @return Array
+     * @return array
      */
     public function get_hidden_columns()
     {
@@ -131,7 +131,7 @@ class FormListTable extends WP_List_Table {
     /**
      * Get the table data
      *
-     * @return Array
+     * @return array
      */
     private function table_data()
     {
