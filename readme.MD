@@ -24,7 +24,10 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Add attachments to e-mail
  * Update htmlspecialcar on add.php
  * Remove bug on antispam
- * [TODO] Update doc with the support of genesis
+ * Remove add_action init on checkform (bug after WP Update ? )
+ * Correct bug on redirection
+ * Remove some bugs due to sanitization
+ * Add English
 
 ### Version 0.5.2 :
  * Update sanitization

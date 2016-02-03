@@ -30,14 +30,13 @@ class WP_Form
      *
      * @Modified :  - V 0.5
      *              - V 0.5.1 : Add support for slug
-     *              - V 0.5.3 (Add lang for errors)
+     *              - V 0.5.3 (Remove add_action for checkform)
      *
      * WP_Form constructor.
      * @param $formId int|string Id ou slug du form
      * @param null $postId
-     * @param string $lang
      */
-    public function __construct($formId,$postId = null,$lang = 'fr')
+    public function __construct($formId,$postId = null)
     {
         $formId = (int)$formId == 0 ? $formId : (int)$formId;
 
@@ -86,9 +85,6 @@ class WP_Form
             $formArgs['lien'] = get_post_meta($formId,'form-redirect');
             $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args',true);
 
-            /** @Since V 0.5.3 */
-            $formArgs['lang'] = $lang;
-
 
             $form = new FormWordpress($form->post_name,$formMetas['action'][0],$formArgs);
             $this->formId = $formId;
@@ -103,9 +99,10 @@ class WP_Form
             $this->closeForm();
 
 
-
             // I check the form
-            add_action('init',[$this,'CheckForm'],10);
+            /** @Since V 0.5.3 Correct bug on init */
+            $this->CheckForm();
+            //add_action('init',[$this,'CheckForm'],10);
 
             return true;
 
@@ -181,6 +178,7 @@ class WP_Form
     public function CheckForm()
     {
 
+
         if(isset($_POST['_time']) && microtime(true) - $_POST['_time'] < 1)
             die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
 
@@ -196,8 +194,10 @@ class WP_Form
 
         $formType = $this->form->isResetForm() ? 'reset' : null;
 
+
         // If form is valid
         if($this->form->isValid($formType)){
+
             $formType = get_post_meta($this->formId,'form-type')[0];
 
             $lien = get_post_meta($this->formId,'form-redirect')[0];
