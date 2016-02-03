@@ -498,13 +498,13 @@ class FormPlugin
                 if($fileSize < $maxSize){
                     $ext = pathinfo($fileName, PATHINFO_EXTENSION);
                     if($ext == 'json'){
-                        if(is_writable(plugin_dir_path( __FILE__ ).'/library/uploads/')) {
-                            $return = move_uploaded_file($tmpName, plugin_dir_path(__FILE__) . '/library/uploads/' . $fileName);
+                        if(is_writable(plugin_dir_path( __FILE__ ).'library/uploads/')) {
+                            $return = move_uploaded_file($tmpName, plugin_dir_path(__FILE__) . 'library/uploads/' . $fileName);
                             if(!$return)
                                 $error = "Une erreur est survenue lors de l'upload du fichier, veuillez réessayer";
                             return $return;
                         }else{
-                            $error = 'Le dossier <strong>' . plugin_dir_path( __FILE__ ).'/library/uploads/' . ' </strong>n\'a pas pu être ouvert, vérifiez ses droits d\'écriture';
+                            $error = 'Le dossier <strong>' . plugin_dir_path( __FILE__ ).'library/uploads/' . ' </strong>n\'a pas pu être ouvert, vérifiez ses droits d\'écriture';
                         }
                     }else
                         $error = 'Le fichier doit être un .json';
