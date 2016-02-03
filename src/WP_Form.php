@@ -39,6 +39,7 @@ class WP_Form
     {
         $formId = (int)$formId == 0 ? $formId : (int)$formId;
 
+
         if(is_string($formId)) {
 
             $args = array(
@@ -66,6 +67,9 @@ class WP_Form
 
         if(is_object($form) && $form->post_type == 'form-plugin-bastien'){
 
+
+
+
             // All form metas
             $formMetas = get_post_meta($formId);
 
@@ -86,14 +90,17 @@ class WP_Form
             $this->form = $form;
             $this->postId = $postId;
 
+
             // All fields
             $this->setFields();
 
             // Close the form
             $this->closeForm();
 
+
+
             // I check the form
-            add_action('init',[$this,'CheckForm']);
+            add_action('init',[$this,'CheckForm'],10);
 
             return true;
 
@@ -168,7 +175,8 @@ class WP_Form
      */
     public function CheckForm()
     {
-        if(!isset($_POST['_time']) || microtime(true) - $_POST['_time'] < 1)
+
+        if(isset($_POST['_time']) && microtime(true) - $_POST['_time'] < 1)
             die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
 
         if(isset($_POST['url-antispam']) && !empty($_POST['url-antispam']))
@@ -195,6 +203,8 @@ class WP_Form
 
 
             $lien = !empty($lien) ? (is_numeric($lien) ? get_permalink($lien) : $lien) : null;
+
+
             $this->form->SendFormAndRedirect($formType,$lien,$this->postId,$args);
         }
     }
@@ -376,7 +386,5 @@ class WP_Form
     {
         return $this->form->UserIsActivated();
     }
-
-
 
 }

@@ -59,3 +59,32 @@ function switchIds(id1,id2) {
     updateIds(thefield, id1,id2);
     updateIds(fieldBefore, id2,id1);
 }
+
+
+/**
+ *
+ * Add Slash in a string
+ *
+ * @param string
+ * @returns {*}
+ */
+function addslashes(string) {
+    return string.replace(/\\/g, '\\\\').
+    replace(/\u0008/g, '\\b').
+    replace(/\t/g, '\\t').
+    replace(/\n/g, '\\n').
+    replace(/\f/g, '\\f').
+    replace(/\r/g, '\\r').
+    replace(/'/g, '\\\'').
+    replace(/"/g, '\\"');
+}
+
+
+/**
+ *
+ * @param str
+ * @returns {string}
+ */
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}

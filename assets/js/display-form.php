@@ -84,7 +84,16 @@
 
 
 
-    // Récupère le champ lié
+
+    /**
+     *
+     * Récupère le champ lié
+     *
+     * @Updated : V 0.5.3 (Add htmlentities)
+     *
+     * @param field
+     * @returns {*}
+     */
     function getData(field){
 
         // Create a promise
@@ -107,30 +116,30 @@
 
                 // Je remplie les champs
                 data = replace(data, 'fieldId', field.id);
-                data = replace(data, 'field-id', field.args.id);
-                data = replace(data, 'field-name', field.name);
+                data = replace(data, 'field-id', htmlEntities(field.args.id));
+                data = replace(data, 'field-name', htmlEntities(field.name));
 
                 if(field.args.class != undefined)
-                    data = replace(data, 'field-class', field.args.class);
+                    data = replace(data, 'field-class', htmlEntities(field.args.class));
 
                 if(field.args.placeholder != undefined)
-                    data = replace(data, 'field-placeholder', field.args.placeholder);
+                    data = replace(data, 'field-placeholder', htmlEntities(field.args.placeholder));
 
                 if(field.args.value != undefined)
-                    data = replace(data, 'field-value', field.args.value);
+                    data = replace(data, 'field-value', htmlEntities(field.args.value));
 
                 if(field.args.label != undefined)
-                    data = replace(data, 'field-label', field.args.label);
+                    data = replace(data, 'field-label', htmlEntities(field.args.label));
 
                 if(field.args.labelClass != undefined)
-                    data = replace(data, 'field-clas-label', field.args.labelClass);
+                    data = replace(data, 'field-clas-label', htmlEntities(field.args.labelClass));
 
                 // Required
                 if(field.args.required != undefined)
-                    data = replace(data,'field-required-selected',field.args.required ? 'checked' : '');
+                    data = replace(data,'field-required-selected',htmlEntities(field.args.required ? 'checked' : ''));
 
                 if(field.args.labelAfter != undefined)
-                    data = replace(data,'field-label-after-selected',field.args.labelAfter ? 'checked' : '');
+                    data = replace(data,'field-label-after-selected',htmlEntities(field.args.labelAfter ? 'checked' : ''));
 
 
 
@@ -139,13 +148,13 @@
 
                 if(field.type == 'file'){
                     if(field.args.maxSize != undefined)
-                        data = replace(data,'field-max-size',field.args.maxSize);
+                        data = replace(data,'field-max-size',htmlEntities(field.args.maxSize));
 
                     if(field.args.allowed != undefined)
                         data = replace(data,'field-allowed',field.args.allowed.toString());
 
                     if(field.args.acfField != undefined)
-                        data = replace(data,'field-acf-field',field.args.acfField);
+                        data = replace(data,'field-acf-field',htmlEntities(field.args.acfField));
                 }
 
                 // Handle Select Fields
