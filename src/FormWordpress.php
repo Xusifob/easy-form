@@ -1645,25 +1645,6 @@ class FormWordpress extends Form
         }
     }
 
-    /**
-     * Returns the lang overided in theme || the form default template
-     *
-     * @Since V 0.5
-     *
-     * @param $templateName
-     * @return string
-     */
-    private function getLangTemplate($lang)
-    {
-        if ($this->templateExists('langs/' . $lang . '.json')) {
-            return $this->getTemplate(get_template_directory() . '/EasyFormTemplates/langs/' . $lang . '.json');
-        } elseif (is_file(plugin_dir_path(__FILE__) . '/../assets/langs/' . $lang . '.json')) {
-            return $this->getTemplate(plugin_dir_path(__FILE__) . '/../assets/langs/' . $lang . '.json');
-        } else {
-            return $this->getTemplate(plugin_dir_path(__FILE__) . '/../assets/langs/fr.json');
-        }
-    }
-
 
     /**
      * Check if there is unactive users's activation on this page
