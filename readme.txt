@@ -60,7 +60,16 @@ Incomming :
  * New awesome features
 
 
-= 0.5.2 =
+= 0.5.3 =
+ * Add attachments to e-mail
+ * Update htmlspecialcar on add.php
+ * Remove bug on antispam
+ * Remove add_action init on checkform (bug after WP Update ? )
+ * Correct bug on redirection
+ * Remove some bugs due to sanitization
+ * Add English
+
+ = 0.5.2 =
  * Update sanitization
  * Add scripts & css with wp_enqueue_scripts & wp_enqueue_styles
  * Remove jQuery (use WordPress' own jQuery)

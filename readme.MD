@@ -20,10 +20,21 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Crypt Password for new users when authentification by email is needed (In Progress)
  * Update the SQL queries to prepare them (In Progress)
 
+### Version 0.5.3 :
+ * Add attachments to e-mail
+ * Update htmlspecialcar on add.php
+ * Remove bug on antispam
+ * Remove add_action init on checkform (bug after WP Update ? )
+ * Correct bug on redirection
+ * Remove some bugs due to sanitization
+ * Add English
+
 ### Version 0.5.2 :
  * Update sanitization
  * Add scripts & css with wp_enqueue_scripts & wp_enqueue_styles
  * Remove jQuery (use WordPress' own jQuery)
+ * Update more sanitization
+ * Remove Mail() class (use phpmailer for all e-mails)
 
 ### Version 0.5.1 :
  * Add support for displaying a form with it's slug

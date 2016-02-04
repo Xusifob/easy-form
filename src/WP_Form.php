@@ -29,9 +29,10 @@ class WP_Form
      * @since V 0.1
      *
      * @Modified :  - V 0.5
-     *              - V 0.6 : Add support for slug
-     * Constructor
+     *              - V 0.5.1 : Add support for slug
+     *              - V 0.5.3 (Remove add_action for checkform)
      *
+     * WP_Form constructor.
      * @param $formId int|string Id ou slug du form
      * @param null $postId
      */
@@ -39,10 +40,11 @@ class WP_Form
     {
         $formId = (int)$formId == 0 ? $formId : (int)$formId;
 
+
         if(is_string($formId)) {
 
             $args = array(
-                'name'        => $formId,
+                'name'        => filter_var($formId,FILTER_SANITIZE_STRING),
                 'post_type'   => 'form-plugin-bastien',
                 'post_status' => 'publish',
                 'numberposts' => 1
@@ -66,6 +68,9 @@ class WP_Form
 
         if(is_object($form) && $form->post_type == 'form-plugin-bastien'){
 
+
+
+
             // All form metas
             $formMetas = get_post_meta($formId);
 
@@ -76,9 +81,9 @@ class WP_Form
             $formArgs['postId'] = $postId;
             /** @since V 0.4 */
             $formArgs['formId'] = $formId;
-            $formArgs['formType'] = get_post_meta($formId,'form-type')[0];
-            $formArgs['lien'] = get_post_meta($formId,'form-redirect')[0];
-            $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args')[0];
+            $formArgs['formType'] = get_post_meta($formId,'form-type');
+            $formArgs['lien'] = get_post_meta($formId,'form-redirect');
+            $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args',true);
 
 
             $form = new FormWordpress($form->post_name,$formMetas['action'][0],$formArgs);
@@ -86,14 +91,18 @@ class WP_Form
             $this->form = $form;
             $this->postId = $postId;
 
+
             // All fields
             $this->setFields();
 
             // Close the form
             $this->closeForm();
 
+
             // I check the form
-            add_action('init',[$this,'CheckForm']);
+            /** @Since V 0.5.3 Correct bug on init */
+            $this->CheckForm();
+            //add_action('init',[$this,'CheckForm'],10);
 
             return true;
 
@@ -162,15 +171,16 @@ class WP_Form
      *
      * @Modified : - V 0.4
      *             - V 0.5
+     *             - V 0.5.2
      *
      * Check if form is valid and send datas
      */
     public function CheckForm()
     {
-        if(isset($_POST['_time'])) {
-            if(microtime(true) - $_POST['_time'] < 1)
-                die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
-        }
+
+
+        if(isset($_POST['_time']) && microtime(true) - $_POST['_time'] < 1)
+            die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
 
         if(isset($_POST['url-antispam']) && !empty($_POST['url-antispam']))
             die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
@@ -184,8 +194,10 @@ class WP_Form
 
         $formType = $this->form->isResetForm() ? 'reset' : null;
 
+
         // If form is valid
         if($this->form->isValid($formType)){
+
             $formType = get_post_meta($this->formId,'form-type')[0];
 
             $lien = get_post_meta($this->formId,'form-redirect')[0];
@@ -196,6 +208,8 @@ class WP_Form
 
 
             $lien = !empty($lien) ? (is_numeric($lien) ? get_permalink($lien) : $lien) : null;
+
+
             $this->form->SendFormAndRedirect($formType,$lien,$this->postId,$args);
         }
     }
@@ -226,13 +240,16 @@ class WP_Form
      *
      * @since V 0.1
      *
-     * Return the error
+     * @Updated : V 0.5.3 (Add lang)
      *
+     * Return the error based on the asked lang
+     *
+     * @param string $lang
      * @return bool
      */
-    public function getError()
+    public function getError($lang = 'fr')
     {
-        return $this->form->getError();
+        return $this->form->getError($lang);
     }
 
     /**
@@ -377,7 +394,5 @@ class WP_Form
     {
         return $this->form->UserIsActivated();
     }
-
-
 
 }
