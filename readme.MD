@@ -16,9 +16,15 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 ## Changelogs
 
 ### Version 0.6.0 (Still in developement) :
- * Add multilangue French/English (In progress)
  * Crypt Password for new users when authentification by email is needed (In Progress)
  * Update the SQL queries to prepare them (In Progress)
+ * Add an e-mail verification on sign un (Impossible to have 2 users with the same e-mail)
+ * Add the possibility to sign in with id or e-mail
+ * Add Facebook/Google login & Sign-in
+ * Create a uniq id based on some fields ( sign up )
+ * Add a full french/english documentation)
+ * Add Unit Tests
+
 
 ### Version 0.5.3 :
  * Add attachments to e-mail
@@ -27,7 +33,7 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Remove add_action init on checkform (bug after WP Update ? )
  * Correct bug on redirection
  * Remove some bugs due to sanitization
- * Add English
+ * Add English Language support for errors & Back-office
 
 ### Version 0.5.2 :
  * Update sanitization
