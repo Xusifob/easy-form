@@ -138,24 +138,43 @@ class Form
         $this->args['displayErrors'] = isset($args['displayErrors']) ? $args['displayErrors'] : '';
 
 
-        if(function_exists('--')){
-        $this->errorMessages["missing"] = __("Un ou plusieurs champs n'est pas complet");
-        $this->errorMessages["email"] = __("Adresse e-mail invalide");
-        $this->errorMessages["2password"] = __("Veuillez retaper votre mot de passe");
-        $this->errorMessages["samepassword"] = __("Les deux mots de passe entrés doivent être identiques");
-        $this->errorMessages["filetype"] = __("Le type du fichier chargé est incorrect, Les types acceptés sont : ");
-        $this->errorMessages["identifiants"] = __("Identifiants incorrects");
-        $this->errorMessages["empty"] = __("Ce champ doit être rempli");
-        $this->errorMessages["missingfield"] = __("Le formulaire doit avoir un champ ");
-        $this->errorMessages["noUser"] = __("Aucun utilisateur n'a été trouvé avec cet identifiant");
-        $this->errorMessages["noReset"] = __("La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur");
-        $this->errorMessages["error"] = __("Une erreur est survenue");
-        $this->errorMessages["filesize"] = __("La taille du fichier est trop importante, taille maximum : ");
-        $this->errorMessages["errorDatabase"] = __("Une erreur est survenue lors de la modification de l'utilisateur");
-        $this->errorMessages["expiredKey"] = __("La clé utilisée est expirée");
-        $this->errorMessages["invalidKey"] = __("La clé utilisée est invalide");
-        $this->errorMessages["alreadyActivated"] = __("Utilisateur introuvable ou déjà activé");
+        // Handle it here so that they can bee seen as strings to translate
+        if(function_exists('--')) {
+            $this->errorMessages["missing"] = __("Un ou plusieurs champs n'est pas complet", 'easy-form');
+            $this->errorMessages["email"] = __("Adresse e-mail invalide", 'easy-form');
+            $this->errorMessages["2password"] = __("Veuillez retaper votre mot de passe", 'easy-form');
+            $this->errorMessages["samepassword"] = __("Les deux mots de passe entrés doivent être identiques", 'easy-form');
+            $this->errorMessages["filetype"] = __("Le type du fichier chargé est incorrect, Les types acceptés sont : ", 'easy-form');
+            $this->errorMessages["identifiants"] = __("Identifiants incorrects", 'easy-form');
+            $this->errorMessages["empty"] = __("Ce champ doit être rempli", 'easy-form');
+            $this->errorMessages["missingfield"] = __("Le formulaire doit avoir un champ ", 'easy-form');
+            $this->errorMessages["noUser"] = __("Aucun utilisateur n'a été trouvé avec cet identifiant", 'easy-form');
+            $this->errorMessages["noReset"] = __("La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur", 'easy-form');
+            $this->errorMessages["error"] = __("Une erreur est survenue", 'easy-form');
+            $this->errorMessages["filesize"] = __("La taille du fichier est trop importante, taille maximum : ", 'easy-form');
+            $this->errorMessages["errorDatabase"] = __("Une erreur est survenue lors de la modification de l'utilisateur", 'easy-form');
+            $this->errorMessages["expiredKey"] = __("La clé utilisée est expirée", 'easy-form');
+            $this->errorMessages["invalidKey"] = __("La clé utilisée est invalide", 'easy-form');
+            $this->errorMessages["alreadyActivated"] = __("Utilisateur introuvable ou déjà activé", 'easy-form');
+        }else{
+            $this->errorMessages["missing"] = "Un ou plusieurs champs n'est pas complet";
+            $this->errorMessages["email"] = "Adresse e-mail invalide";
+            $this->errorMessages["2password"] = "Veuillez retaper votre mot de passe";
+            $this->errorMessages["samepassword"] = "Les deux mots de passe entrés doivent être identiques";
+            $this->errorMessages["filetype"] = "Le type du fichier chargé est incorrect, Les types acceptés sont : ";
+            $this->errorMessages["identifiants"] = "Identifiants incorrects";
+            $this->errorMessages["empty"] = "Ce champ doit être rempli";
+            $this->errorMessages["missingfield"] = "Le formulaire doit avoir un champ ";
+            $this->errorMessages["noUser"] = "Aucun utilisateur n'a été trouvé avec cet identifiant";
+            $this->errorMessages["noReset"] = "La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur";
+            $this->errorMessages["error"] = "Une erreur est survenue";
+            $this->errorMessages["filesize"] = "La taille du fichier est trop importante, taille maximum : ";
+            $this->errorMessages["errorDatabase"] = "Une erreur est survenue lors de la modification de l'utilisateur";
+            $this->errorMessages["expiredKey"] = "La clé utilisée est expirée";
+            $this->errorMessages["invalidKey"] = "La clé utilisée est invalide";
+            $this->errorMessages["alreadyActivated"] = "Utilisateur introuvable ou déjà activé";
         }
+
 
 
         $this->name = $name;

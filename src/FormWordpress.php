@@ -42,18 +42,13 @@ class FormWordpress extends Form
             $this->id = $args['formId'];
 
 
-        add_action('wp_loaded', [$this,'initLangError']);
-
-    }
-
-
-    public function initLangError(){
-
-
         foreach($this->errorMessages as $key => $error){
             $this->errorMessages[$key] = __($error,'easy-form');
         }
+
     }
+
+
 
     /**
      * Return if the form is able to insert a post
