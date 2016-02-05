@@ -193,19 +193,19 @@ class Form
             $this->args['submitValue'] = isset($args['form-send-args']['submitValue']) ? $args['form-send-args']['submitValue'] : null;
         }
 
-        $template = '<form action="'. $this->action .'" ';
-        $template .= $this->classAndId($args);
-        $template .= isset($args['enctype']) ? 'enctype="' . $args['enctype'] . ' "' : 'enctype="multipart/form-data" ';
-        $template .= isset($args['method']) ? 'method="' . $args['method'] . '" ' : 'method="POST"';
-        $template .= '>';
+        $template['field'] = '<form action="'. $this->action .'" ';
+        $template['field'] .= $this->classAndId($args);
+        $template['field'] .= isset($args['enctype']) ? 'enctype="' . $args['enctype'] . ' "' : 'enctype="multipart/form-data" ';
+        $template['field'] .= isset($args['method']) ? 'method="' . $args['method'] . '" ' : 'method="POST"';
+        $template['field'] .= '>';
 
         // Add Security Nounce
         $nonce = wp_create_nonce($this->name);
 
-        $template .= '<input type="hidden" name="_nounce" value="' . $nonce . '" >';
-        $template .= '<input type="hidden" name="_time" value="' . microtime(true) . '" >';
+        $template['field'] .= '<input type="hidden" name="_nounce" value="' . $nonce . '" >';
+        $template['field'] .= '<input type="hidden" name="_time" value="' . microtime(true) . '" >';
 
-        $template .="
+        $template['field'] .="
 <style>.antispam{display: none !important;}</style>
 <input type='text' name='url-antispam' class='antispam' id='antispam-$this->uniqId'>
                     <label for='antispam-$this->uniqId' class='antispam'>Do not type anything here</label>";
@@ -228,9 +228,9 @@ class Form
     public function openContainer($container,$args = [])
     {
         if(!$this->formFinish) {
-            $template = '<' . $container . ' ';
-            $template .= $this->classAndId($args);
-            $template .= '>';
+            $template['field'] = '<' . $container . ' ';
+            $template['field'] .= $this->classAndId($args);
+            $template['field'] .= '>';
             array_push($this->template, $template);
             array_push($this->containers,$container);
         }
@@ -251,7 +251,7 @@ class Form
             $container = array_pop($this->containers) ;
 
             if($container != null) {
-                $template = '</' . $container . '>';
+                $template['field'] = '</' . $container . '>';
                 array_push($this->template, $template);
             }
         }
@@ -367,7 +367,7 @@ class Form
             }
 
 
-            $template = '';
+            $template['field'] = '';
 
             $inputs = [
                 'text', 'email', 'password', 'repeatPassword', 'number', 'tel', 'date', 'checkbox', 'radio', 'url', 'range', 'color', 'search', 'hidden', 'file',
@@ -391,78 +391,83 @@ class Form
 
             // If it's a field input
             if (in_array($field, $inputs)) {
+
+               /*
                 // I start the field
                 if (!isset($args['labelAfter']) || !$args['labelAfter'])
-                    $template .= $theLabel;
+                    $template .= $theLabel; */
+
+
+
                 // If is a password repeater
                 if ($field == 'repeatPassword')
-                    $template .= '<input type="password" ';
+                    $template['field'] .= '<input type="password" ';
                 else
-                    $template .= '<input type="' . $field . '" ';
+                    $template['field'] .= '<input type="' . $field . '" ';
 
-                $template .= 'id="' . $theId . '" ';
+                $template['field'] .= 'id="' . $theId . '" ';
                 // Handle readonly fields
                 if(!isset($args['readOnly']) || empty($args['readOnly']))
-                    $template .= isset($args['multiple']) && $args['multiple'] && $field == 'file' ? 'name="' . $name . '[]" ' : 'name="' . $name . '" ';
+                    $template['field'] .= isset($args['multiple']) && $args['multiple'] && $field == 'file' ? 'name="' . $name . '[]" ' : 'name="' . $name . '" ';
                 else
-                    $template .= ' readonly disabled ';
+                    $template['field'] .= ' readonly disabled ';
 
-                $template .= 'class="' . $theClass . '" ';
-                $template .= isset($args['multiple']) && $args['multiple'] && $field == 'file' ? 'multiple ' : '';
-                $template .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
+                $template['field'] .= 'class="' . $theClass . '" ';
+                $template['field'] .= isset($args['multiple']) && $args['multiple'] && $field == 'file' ? 'multiple ' : '';
+                $template['field'] .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
                 if($field != 'file') {
                     if (!is_wp_error($theValue))
-                        $template .= $theValue ? 'value="' . $theValue . '" ' : '';
+                        $template['field'] .= $theValue ? 'value="' . $theValue . '" ' : '';
                     else
                         $this->setError('Un ou plusieurs champ est incorrect');
                 }
-                $template .= $theAutocomplete ? 'autocomplete="' . $theAutocomplete . '" ' : '';
+                $template['field'] .= $theAutocomplete ? 'autocomplete="' . $theAutocomplete . '" ' : '';
 
                 // Handle checked
                 if ($field == 'checkbox') {
-                    $template .= (isset($args['checked']) && $args['checked'] == true) ? 'checked ' : '';
+                    $template['field'] .= (isset($args['checked']) && $args['checked'] == true) ? 'checked ' : '';
                 }
-                $template .= $theRequired ? 'required' : '';
-                $template .= '>';
+                $template['field'] .= $theRequired ? 'required' : '';
+                $template['field'] .= '>';
 
                 if($field == 'file' && isset($val) && $args['multiple'] && !is_wp_error($val)){
-                    $template .= '<input type="hidden" value="'. implode(',',$val) .'" name="'.$name . '-values">';
+                    $template['field'] .= '<input type="hidden" value="'. implode(',',$val) .'" name="'.$name . '-values">';
                 }
 
                 //DEPRECIATED WILL BE REMOVES
                 // Second field password
                 if ($field == 'password' && isset($args['multiple']) && $args['multiple'] == true) {
-                    $template .= '<input type="' . $field . '"';
-                    $template .= 'id="' . $theId . '-2"';
-                    $template .= 'name="' . $name . '-2"';
-                    $template .= 'class="' . $theClass . '"';
-                    $template .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '"' : '';
-                    $template .= $theValue ? 'value="' . $theValue . '"' : '';
-                    $template .= $theRequired ? 'required' : '';
-                    $template .= '>';
+                    $template['field'] .= '<input type="' . $field . '"';
+                    $template['field'] .= 'id="' . $theId . '-2"';
+                    $template['field'] .= 'name="' . $name . '-2"';
+                    $template['field'] .= 'class="' . $theClass . '"';
+                    $template['field'] .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '"' : '';
+                    $template['field'] .= $theValue ? 'value="' . $theValue . '"' : '';
+                    $template['field'] .= $theRequired ? 'required' : '';
+                    $template['field'] .= '>';
                 }
                 // DEPRECIATED
 
-                if (isset($args['labelAfter']) && $args['labelAfter'])
-                    $template .= $theLabel;
+                /*if (isset($args['labelAfter']) && $args['labelAfter'])
+                    $template .= $theLabel; */
 
 
             } else {
                 switch ($field) {
                     case 'select':
 
-                        $template .= '<select ';
-                        $template .= 'id="' . $theId . '" ';
+                        $template['field'] .= '<select ';
+                        $template['field'] .= 'id="' . $theId . '" ';
 
                         // Handle multiple
                         if (isset($args['multiple']) && true == $args['multiple'])
-                            $template .= 'name="' . $name . '[]" ';
+                            $template['field'] .= 'name="' . $name . '[]" ';
                         else
-                            $template .= 'name="' . $name . '" ';
-                        $template .= 'class="' . $theClass . '"';
-                        $template .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
-                        $template .= $theRequired ? 'required ' : '';
-                        $template .= '>';
+                            $template['field'] .= 'name="' . $name . '" ';
+                        $template['field'] .= 'class="' . $theClass . '"';
+                        $template['field'] .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
+                        $template['field'] .= $theRequired ? 'required ' : '';
+                        $template['field'] .= '>';
 
                         // Display all options
                         if (is_array($args['options'])):
@@ -478,22 +483,22 @@ class Form
                                 }
                             }
                             foreach ($args['options'] as $option) {
-                                $template .= '<option value="' . $option['value'] . '" ';
+                                $template['field'] .= '<option value="' . $option['value'] . '" ';
 
                                 // Handle the selection
                                 if(isset($val) && !empty($val)){
                                     if($option['value'] == $val)
-                                        $template .= 'selected';
+                                        $template['field'] .= 'selected';
 
                                 }elseif(isset($option['select']) && ($option['select']))
-                                    $template .= 'selected';
+                                    $template['field'] .= 'selected';
 
-                                $template .= ">";
-                                $template .= $option['content'];
-                                $template .= '</option>';
+                                $template['field'] .= ">";
+                                $template['field'] .= $option['content'];
+                                $template['field'] .= '</option>';
                             }
                         endif;
-                        $template .= '</select>';
+                        $template['field'] .= '</select>';
                         break;
 
                     case 'taxonomy':
@@ -503,15 +508,15 @@ class Form
 
                         switch($args['taxonomyType']){
                             case 'select' :
-                                $template .= '<select ';
-                                $template .= 'id="' . $theId . '" ';
+                                $template['field'] .= '<select ';
+                                $template['field'] .= 'id="' . $theId . '" ';
 
 
-                                $template .= 'name="' . $name . '" ';
-                                $template .= 'class="' . $theClass . '"';
-                                $template .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
-                                $template .= $theRequired ? 'required ' : '';
-                                $template .= '>';
+                                $template['field'] .= 'name="' . $name . '" ';
+                                $template['field'] .= 'class="' . $theClass . '"';
+                                $template['field'] .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
+                                $template['field'] .= $theRequired ? 'required ' : '';
+                                $template['field'] .= '>';
 
                                 $taxs = get_terms(substr($name,9),[
                                     'hide_empty' => false,
@@ -520,24 +525,24 @@ class Form
                                 // Display all options
                                 if (is_array($taxs)):
                                     if(isset($args['emptyField']) && !empty($args['emptyField']))
-                                        $template .= '<option>'. $args['emptyField'] .'</option>';
+                                        $template['field'] .= '<option>'. $args['emptyField'] .'</option>';
                                     foreach ($taxs as $option) {
-                                        $template .= '<option value="' . $option->slug . '" ';
+                                        $template['field'] .= '<option value="' . $option->slug . '" ';
 
                                         // Handle the selection
                                         if (isset($val) && !empty($val)) {
                                             if ($option->slug == $val)
-                                                $template .= 'selected';
+                                                $template['field'] .= 'selected';
                                         }
-                                        $template .= ">";
-                                        $template .= $option->name;
-                                        $template .= '</option>';
+                                        $template['field'] .= ">";
+                                        $template['field'] .= $option->name;
+                                        $template['field'] .= '</option>';
                                     }
                                 endif;
-                                $template .= '</select>';
+                                $template['field'] .= '</select>';
                                 break;
                             case 'hidden' :
-                                $template = '<input type="hidden" name="'. $name .'" value="'. $theValue .'">';
+                                $template['field'] = '<input type="hidden" name="'. $name .'" value="'. $theValue .'">';
                                 break;
                         }
 
@@ -546,36 +551,36 @@ class Form
 
                     // Display a textaera
                     case 'textarea' :
-                        $template .= '<textarea ';
-                        $template .= 'id="' . $theId . '" ';
-                        $template .= 'name="' . $name . '" ';
-                        $template .= 'class="' . $theClass . '" ';
-                        $template .= isset($args['rows']) ? 'rows="' . $args['rows'] . '" ' : '';
-                        $template .= isset($args['cols']) ? 'rows="' . $args['cols'] . '" ' : '';
-                        $template .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
-                        $template .= $theRequired ? 'required ' : '';
-                        $template .= '>';
-                        $template .= $theValue ? $theValue : '';
-                        $template .= '</textarea>';
+                        $template['field'] .= '<textarea ';
+                        $template['field'] .= 'id="' . $theId . '" ';
+                        $template['field'] .= 'name="' . $name . '" ';
+                        $template['field'] .= 'class="' . $theClass . '" ';
+                        $template['field'] .= isset($args['rows']) ? 'rows="' . $args['rows'] . '" ' : '';
+                        $template['field'] .= isset($args['cols']) ? 'rows="' . $args['cols'] . '" ' : '';
+                        $template['field'] .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
+                        $template['field'] .= $theRequired ? 'required ' : '';
+                        $template['field'] .= '>';
+                        $template['field'] .= $theValue ? $theValue : '';
+                        $template['field'] .= '</textarea>';
                         break;
 
                     // Display a textaera
                     case 'textaera' :
-                        $template .= '<textarea ';
-                        $template .= 'id="' . $theId . '" ';
-                        $template .= 'name="' . $name . '" ';
-                        $template .= 'class="' . $theClass . '"';
-                        $template .= isset($args['rows']) ? 'rows="' . $args['rows'] . '" ' : '';
-                        $template .= isset($args['cols']) ? 'rows="' . $args['cols'] . '" ' : '';
-                        $template .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
-                        $template .= $theRequired ? 'required ' : '';
-                        $template .= '>';
-                        $template .= $theValue ? $theValue : '';
-                        $template .= '</textarea>';
+                        $template['field'] .= '<textarea ';
+                        $template['field'] .= 'id="' . $theId . '" ';
+                        $template['field'] .= 'name="' . $name . '" ';
+                        $template['field'] .= 'class="' . $theClass . '"';
+                        $template['field'] .= isset($args['rows']) ? 'rows="' . $args['rows'] . '" ' : '';
+                        $template['field'] .= isset($args['cols']) ? 'rows="' . $args['cols'] . '" ' : '';
+                        $template['field'] .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
+                        $template['field'] .= $theRequired ? 'required ' : '';
+                        $template['field'] .= '>';
+                        $template['field'] .= $theValue ? $theValue : '';
+                        $template['field'] .= '</textarea>';
                         break;
 
                     case 'wp_editor' :
-                        $template .= $this->get_wp_editor($theValue, sanitize_title($name), [
+                        $template['field'] .= $this->get_wp_editor($theValue, sanitize_title($name), [
                             'textarea_name' => $name,
                             'textarea_rows' => isset($args['rows']) ? $args['rows'] : 10,
                             'editor_class' => isset($args['class']) ? $args['class'] : '',
@@ -585,6 +590,8 @@ class Form
                 }
             }
 
+            $template['label'] = $theLabel;
+
             // Handle the radio field
             if($field == 'radio') {
                 $rad = 0;
@@ -593,11 +600,11 @@ class Form
                 while(isset($this->template[$name . '_' . $rad]))
                     $rad++;
 
-                $pos = $this->template[$name  .'_' . $rad] = $template;
+                $this->template[$name  .'_' . $rad] = $template;
 
             }
             else
-                $pos = $this->template[$name] = $template;
+                $this->template[$name] = $template;
 
             $thefield = [
                 'name' => $name,
@@ -605,7 +612,6 @@ class Form
                 'required' => $theRequired,
                 'args' => $args,
             ];
-
             $this->fields[$name] = $thefield;
         }
         return $this;
@@ -629,14 +635,14 @@ class Form
 
 
         if(!$this->formFinish) {
-            $template = '<input type="submit" name="' . $this->name . '" value="' . $submitValue . '" ';
-            $template .= $this->classAndId($args);
-            $template .= '>';
+            $template['field'] = '<input type="submit" name="' . $this->name . '" value="' . $submitValue . '" ';
+            $template['field'] .= $this->classAndId($args);
+            $template['field'] .= '>';
             $this->template['submit'] = $template;
 
             $this->closeAllContainers();
 
-            $this->template['close_the_form'] = '</form>';
+            $this->template['close_the_form']['field'] = '</form>';
 
 
             $this->formFinish = true;
@@ -710,6 +716,7 @@ class Form
 
 
         $f = 1;
+
         foreach($this->template as $key => $template){
 
             // Display only a part of the form
@@ -718,17 +725,22 @@ class Form
                     continue;
             }
 
+
+            // I check if the label exists
+            $label = isset($template['label']) ? $template['label'] : '';
+
             // Handle errors
             if(isset($this->args['displayErrorsBefore']) && $this->args['displayErrorsBefore'] ){
                 $templateString .= $this->DisplayOneError($f);
-                $templateString .= $template . "\n";
+                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ?  $template['field'] . $label : $label . $template['field'] . "\n";
             }else{
-                $templateString .= $template . "\n";
+                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ?  $template['field'] . $label : $label . $template['field'] . "\n";
                 $templateString .= $this->DisplayOneError($f);
             }
 
             $f++;
         }
+
         return $templateString;
     }
 
@@ -945,16 +957,30 @@ class Form
      *
      * @since V 0.3
      *
+     * @Updated : V 0.5.4
+     *
      * Return a form field
      *
      * @param $name
-     * @return bool
+     * @param $field null | string
+     * @return bool | string
      */
-    public function get_form_field($name)
+    public function get_form_field($name,$field = null)
     {
+
+        $template = '';
         if(isset($this->template[$name])) {
-            $template = $this->template[$name];
-            unset($this->template[$name]);
+
+            if(isset($field) && null != $field){
+                if(isset($this->template[$name][$field])){
+                    $template = $this->template[$name][$field];
+                    unset($this->template[$name][$field]);
+                }
+            } else {
+
+                    $template = $this->template[$name];
+                    unset($this->template[$name]);
+                }
             return $template;
         }else{
             return false;
@@ -967,11 +993,12 @@ class Form
      *
      * Display a form field
      *
+     * @param $field null | string
      * @param $name
      */
-    public function the_form_field($name)
+    public function the_form_field($name,$field = null)
     {
-        $formField = $this->get_form_field($name);
+        $formField = $this->get_form_field($name,$field);
         if($formField)
             echo $formField;
     }
