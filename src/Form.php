@@ -115,11 +115,12 @@ class Form
     /**
      * @Since V 0.1
      *
-     * @Modified :  - V 0.2
+     * @Updated :  - V 0.2
      *              - V 0.3
      *              - V 0.4
      *              - V 0.5
      *              - V 0.5.3 (Update error message translation)
+     *              - V 0.5.4 (Add style for sr-only)
      *
      *
      * Constructor
@@ -128,7 +129,7 @@ class Form
      * @param string $action
      * @param array $args
      */
-    public function __construct($name,$action = '#',$args = [])
+    public function __construct($name, $action = '#', $args = [])
     {
 
 
@@ -139,7 +140,7 @@ class Form
 
 
         // Handle it here so that they can bee seen as strings to translate
-        if(function_exists('--')) {
+        if (function_exists('--')) {
             $this->errorMessages["missing"] = __("Un ou plusieurs champs n'est pas complet", 'easy-form');
             $this->errorMessages["email"] = __("Adresse e-mail invalide", 'easy-form');
             $this->errorMessages["2password"] = __("Veuillez retaper votre mot de passe", 'easy-form');
@@ -156,7 +157,7 @@ class Form
             $this->errorMessages["expiredKey"] = __("La clé utilisée est expirée", 'easy-form');
             $this->errorMessages["invalidKey"] = __("La clé utilisée est invalide", 'easy-form');
             $this->errorMessages["alreadyActivated"] = __("Utilisateur introuvable ou déjà activé", 'easy-form');
-        }else{
+        } else {
             $this->errorMessages["missing"] = "Un ou plusieurs champs n'est pas complet";
             $this->errorMessages["email"] = "Adresse e-mail invalide";
             $this->errorMessages["2password"] = "Veuillez retaper votre mot de passe";
@@ -176,24 +177,23 @@ class Form
         }
 
 
-
         $this->name = $name;
         $this->uniqId = uniqid();
 
 
         // Save post Id
-        if(isset($args['postId']))
+        if (isset($args['postId']))
             $this->postArgs['id'] = $args['postId'];
 
         // Save post Type
-        if(isset($args['formType']))
+        if (isset($args['formType']))
             $this->postArgs['formType'] = $args['formType'];
 
-        if($this->isResetForm() && $this->resetArgsAvailable()){
+        if ($this->isResetForm() && $this->resetArgsAvailable()) {
             $this->args['submitValue'] = isset($args['form-send-args']['submitValue']) ? $args['form-send-args']['submitValue'] : null;
         }
 
-        $template['field'] = '<form action="'. $this->action .'" ';
+        $template['field'] = '<form action="' . $this->action . '" ';
         $template['field'] .= $this->classAndId($args);
         $template['field'] .= isset($args['enctype']) ? 'enctype="' . $args['enctype'] . ' "' : 'enctype="multipart/form-data" ';
         $template['field'] .= isset($args['method']) ? 'method="' . $args['method'] . '" ' : 'method="POST"';
@@ -205,14 +205,13 @@ class Form
         $template['field'] .= '<input type="hidden" name="_nounce" value="' . $nonce . '" >';
         $template['field'] .= '<input type="hidden" name="_time" value="' . microtime(true) . '" >';
 
-        $template['field'] .="
-<style>.antispam{display: none !important;}</style>
+        $template['field'] .= "
+<style>.sr-only{position: absolute;top: -9999px;left: -9999px;}.antispam{display: none !important;}</style>
 <input type='text' name='url-antispam' class='antispam' id='antispam-$this->uniqId'>
                     <label for='antispam-$this->uniqId' class='antispam'>Do not type anything here</label>";
 
         $this->template['open_the_form'] = $template;
     }
-
 
 
     /**
@@ -225,14 +224,14 @@ class Form
      * @param array $args
      * @return $this
      */
-    public function openContainer($container,$args = [])
+    public function openContainer($container, $args = [])
     {
-        if(!$this->formFinish) {
+        if (!$this->formFinish) {
             $template['field'] = '<' . $container . ' ';
             $template['field'] .= $this->classAndId($args);
             $template['field'] .= '>';
             array_push($this->template, $template);
-            array_push($this->containers,$container);
+            array_push($this->containers, $container);
         }
         return $this;
     }
@@ -247,10 +246,10 @@ class Form
      */
     public function closeContainer()
     {
-        if(!$this->formFinish) {
-            $container = array_pop($this->containers) ;
+        if (!$this->formFinish) {
+            $container = array_pop($this->containers);
 
-            if($container != null) {
+            if ($container != null) {
                 $template['field'] = '</' . $container . '>';
                 array_push($this->template, $template);
             }
@@ -266,7 +265,8 @@ class Form
      * @param string $error
      * @return $this
      */
-    public function setError($error){
+    public function setError($error)
+    {
 
         $this->error = $error;
         return $this;
@@ -277,9 +277,10 @@ class Form
      *
      * @Since V 0.1
      *
-     * @Modified :  - V 0.2
+     * @Updated :   - V 0.2
      *              - V 0.3
      *              - V 0.4
+     *              - v 0.5.4 (Update $template from string to array with label and field keys)
      *
      * add a field in the form
      *
@@ -289,16 +290,16 @@ class Form
      *
      * @return $this
      */
-    public function addField($field,$name,$args = [])
+    public function addField($field, $name, $args = [])
     {
 
         if (!$this->formFinish) {
 
             // Handle an update post
-            if(null != $this->postArgs && isset($this->postArgs['id']) ) {
+            if (null != $this->postArgs && isset($this->postArgs['id'])) {
 
                 // If user & post, full the form
-                if($this->postArgs['formType'] == 'user' || $this->postArgs['formType'] == 'post') {
+                if ($this->postArgs['formType'] == 'user' || $this->postArgs['formType'] == 'post') {
 
                     // If user
                     if ($this->postArgs['formType'] == 'user') {
@@ -315,16 +316,15 @@ class Form
                         ];
 
                         // Val = info (if exists)
-                        if(!in_array($name,$notMetas)) {
+                        if (!in_array($name, $notMetas)) {
                             $val = get_user_meta($this->postArgs['id'], $name);
                             $val = isset($val[0]) ? $val[0] : false;
-                        }
-                        else{
+                        } else {
 
                             // Val = info
                             $user = get_userdata($this->postArgs['id']);
-                            if($name != 'password' && $name != 'repeat-password'){
-                                switch($name){
+                            if ($name != 'password' && $name != 'repeat-password') {
+                                switch ($name) {
                                     case 'email' :
                                         $val = $user->user_email;
                                         break;
@@ -338,28 +338,28 @@ class Form
                                         $val = $user->last_name;
                                         break;
                                     case 'description' :
-                                        $val = FormWordpress::user_meta($this->postArgs['id'],'description');
+                                        $val = FormWordpress::user_meta($this->postArgs['id'], 'description');
                                         break;
                                     case 'content' :
-                                        $val = FormWordpress::user_meta($this->postArgs['id'],'description');
+                                        $val = FormWordpress::user_meta($this->postArgs['id'], 'description');
                                         break;
                                 }
                             }
                         }
 
-                    }elseif ($this->postArgs['formType'] == 'post') {
+                    } elseif ($this->postArgs['formType'] == 'post') {
                         $val = get_post_meta($this->postArgs['id'], $name);
                         $notMetas = ['content', 'title'];
                         // Val = info (if exists)
-                        if(!in_array($name,$notMetas)) {
+                        if (!in_array($name, $notMetas)) {
                             $val = get_post_meta($this->postArgs['id'], $name);
                             $val = isset($val[0]) ? $val[0] : false;
-                        }else{
+                        } else {
                             $thepost = get_post($this->postArgs['id']);
 
-                            if($name == 'content')
+                            if ($name == 'content')
                                 $val = $thepost->post_content;
-                            elseif($name == 'title')
+                            elseif ($name == 'title')
                                 $val = $thepost->post_title;
                         }
                     }
@@ -385,18 +385,17 @@ class Form
             $theLabel .= '</label>';
             $thePlaceholder = isset($args['placeholder']) && !empty($args['placeholder']) ? $args['placeholder'] : false;
             $theAutocomplete = isset($args['autocomplete']) && !empty($args['autocomplete']) ? $args['autocomplete'] : true;
-            $theValue = htmlspecialchars(isset($args['value']) && !empty($args['value']) ? $args['value'] : ((isset($_POST[$name]) ? $_POST[$name] : ((isset($val)) ? $val : false ))));
+            $theValue = htmlspecialchars(isset($args['value']) && !empty($args['value']) ? $args['value'] : ((isset($_POST[$name]) ? $_POST[$name] : ((isset($val)) ? $val : false))));
             $theRequired = isset($args['required']) ? $args['required'] : true;
 
 
             // If it's a field input
             if (in_array($field, $inputs)) {
 
-               /*
-                // I start the field
-                if (!isset($args['labelAfter']) || !$args['labelAfter'])
-                    $template .= $theLabel; */
-
+                /*
+                 // I start the field
+                 if (!isset($args['labelAfter']) || !$args['labelAfter'])
+                     $template .= $theLabel; */
 
 
                 // If is a password repeater
@@ -407,7 +406,7 @@ class Form
 
                 $template['field'] .= 'id="' . $theId . '" ';
                 // Handle readonly fields
-                if(!isset($args['readOnly']) || empty($args['readOnly']))
+                if (!isset($args['readOnly']) || empty($args['readOnly']))
                     $template['field'] .= isset($args['multiple']) && $args['multiple'] && $field == 'file' ? 'name="' . $name . '[]" ' : 'name="' . $name . '" ';
                 else
                     $template['field'] .= ' readonly disabled ';
@@ -415,7 +414,7 @@ class Form
                 $template['field'] .= 'class="' . $theClass . '" ';
                 $template['field'] .= isset($args['multiple']) && $args['multiple'] && $field == 'file' ? 'multiple ' : '';
                 $template['field'] .= $thePlaceholder ? 'placeholder="' . $thePlaceholder . '" ' : '';
-                if($field != 'file') {
+                if ($field != 'file') {
                     if (!is_wp_error($theValue))
                         $template['field'] .= $theValue ? 'value="' . $theValue . '" ' : '';
                     else
@@ -430,8 +429,8 @@ class Form
                 $template['field'] .= $theRequired ? 'required' : '';
                 $template['field'] .= '>';
 
-                if($field == 'file' && isset($val) && $args['multiple'] && !is_wp_error($val)){
-                    $template['field'] .= '<input type="hidden" value="'. implode(',',$val) .'" name="'.$name . '-values">';
+                if ($field == 'file' && isset($val) && $args['multiple'] && !is_wp_error($val)) {
+                    $template['field'] .= '<input type="hidden" value="' . implode(',', $val) . '" name="' . $name . '-values">';
                 }
 
                 //DEPRECIATED WILL BE REMOVES
@@ -472,8 +471,8 @@ class Form
                         // Display all options
                         if (is_array($args['options'])):
 
-                            if(isset($args['orderBy'])){
-                                switch($args['orderBy']){
+                            if (isset($args['orderBy'])) {
+                                switch ($args['orderBy']) {
                                     case 'croissant' :
                                         asort($args['options']);
                                         break;
@@ -486,11 +485,11 @@ class Form
                                 $template['field'] .= '<option value="' . $option['value'] . '" ';
 
                                 // Handle the selection
-                                if(isset($val) && !empty($val)){
-                                    if($option['value'] == $val)
+                                if (isset($val) && !empty($val)) {
+                                    if ($option['value'] == $val)
                                         $template['field'] .= 'selected';
 
-                                }elseif(isset($option['select']) && ($option['select']))
+                                } elseif (isset($option['select']) && ($option['select']))
                                     $template['field'] .= 'selected';
 
                                 $template['field'] .= ">";
@@ -506,7 +505,7 @@ class Form
                         // prevent old version
                         $args['taxonomyType'] = isset($args['taxonomyType']) ? $args['taxonomyType'] : 'select';
 
-                        switch($args['taxonomyType']){
+                        switch ($args['taxonomyType']) {
                             case 'select' :
                                 $template['field'] .= '<select ';
                                 $template['field'] .= 'id="' . $theId . '" ';
@@ -518,14 +517,14 @@ class Form
                                 $template['field'] .= $theRequired ? 'required ' : '';
                                 $template['field'] .= '>';
 
-                                $taxs = get_terms(substr($name,9),[
+                                $taxs = get_terms(substr($name, 9), [
                                     'hide_empty' => false,
                                 ]);
 
                                 // Display all options
                                 if (is_array($taxs)):
-                                    if(isset($args['emptyField']) && !empty($args['emptyField']))
-                                        $template['field'] .= '<option>'. $args['emptyField'] .'</option>';
+                                    if (isset($args['emptyField']) && !empty($args['emptyField']))
+                                        $template['field'] .= '<option>' . $args['emptyField'] . '</option>';
                                     foreach ($taxs as $option) {
                                         $template['field'] .= '<option value="' . $option->slug . '" ';
 
@@ -542,7 +541,7 @@ class Form
                                 $template['field'] .= '</select>';
                                 break;
                             case 'hidden' :
-                                $template['field'] = '<input type="hidden" name="'. $name .'" value="'. $theValue .'">';
+                                $template['field'] = '<input type="hidden" name="' . $name . '" value="' . $theValue . '">';
                                 break;
                         }
 
@@ -593,17 +592,16 @@ class Form
             $template['label'] = $theLabel;
 
             // Handle the radio field
-            if($field == 'radio') {
+            if ($field == 'radio') {
                 $rad = 0;
 
                 // While there is a radio field
-                while(isset($this->template[$name . '_' . $rad]))
+                while (isset($this->template[$name . '_' . $rad]))
                     $rad++;
 
-                $this->template[$name  .'_' . $rad] = $template;
+                $this->template[$name . '_' . $rad] = $template;
 
-            }
-            else
+            } else
                 $this->template[$name] = $template;
 
             $thefield = [
@@ -621,20 +619,21 @@ class Form
      *
      * @Since V 0.1
      *
-     * @Modified : V 0.5
+     * @Updated :   - V 0.5
+     *              - V 0.5.4 (Add $template['field'] instead of $template)
      *
      * @param string $submitValue
      * @param array $args
      */
-    public function finishForm($submitValue = 'Send',$args = [])
+    public function finishForm($submitValue = 'Send', $args = [])
     {
 
-        if($this->isResetForm() && $this->resetArgsAvailable()){
+        if ($this->isResetForm() && $this->resetArgsAvailable()) {
             $submitValue = $this->args['submitValue'] == null ? $submitValue : $this->args['submitValue'];
         }
 
 
-        if(!$this->formFinish) {
+        if (!$this->formFinish) {
             $template['field'] = '<input type="submit" name="' . $this->name . '" value="' . $submitValue . '" ';
             $template['field'] .= $this->classAndId($args);
             $template['field'] .= '>';
@@ -674,7 +673,8 @@ class Form
      * @Since V 0.5
      * @return bool
      */
-    public function isResetForm(){
+    public function isResetForm()
+    {
         return (isset($this->postArgs['formType']) && $this->postArgs['formType'] == 'resetPassword');
     }
 
@@ -683,15 +683,17 @@ class Form
      * @Since V 0.5
      * @return bool
      */
-    public function resetArgsAvailable(){
+    public function resetArgsAvailable()
+    {
         return (isset($_GET['action']) && $_GET['action'] == 'rt' && isset($_GET['key']) && isset($_GET['login']));
     }
 
     /**
      * @Since V 0.1
      *
-     * @Modified :  - V 0.2
+     * @Updated :   - V 0.2
      *              - V 0.5
+     *              - V 0.5.4 (Remove $f and add support for getting label and fields separetly)
      *
      * Display the form
      *
@@ -702,26 +704,24 @@ class Form
 
         $templateString = '';
 
-        if($this->isResetForm()){
+        if ($this->isResetForm()) {
             $availableFields = [
-                'open_the_form','close_the_form','submit'
+                'open_the_form', 'close_the_form', 'submit'
             ];
-            if($this->resetArgsAvailable()) {
+            if ($this->resetArgsAvailable()) {
                 array_push($availableFields, 'password');
                 array_push($availableFields, 'repeat-password');
-            }else
+            } else
                 array_push($availableFields, 'login');
 
         }
 
 
-        $f = 1;
-
-        foreach($this->template as $key => $template){
+        foreach ($this->template as $key => $template) {
 
             // Display only a part of the form
-            if($this->isResetForm()){
-                if(!in_array($key,$availableFields))
+            if ($this->isResetForm()) {
+                if (!in_array($key, $availableFields))
                     continue;
             }
 
@@ -730,15 +730,14 @@ class Form
             $label = isset($template['label']) ? $template['label'] : '';
 
             // Handle errors
-            if(isset($this->args['displayErrorsBefore']) && $this->args['displayErrorsBefore'] ){
-                $templateString .= $this->DisplayOneError($f);
-                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ?  $template['field'] . $label : $label . $template['field'] . "\n";
-            }else{
-                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ?  $template['field'] . $label : $label . $template['field'] . "\n";
-                $templateString .= $this->DisplayOneError($f);
+            if (isset($this->args['displayErrorsBefore']) && $this->args['displayErrorsBefore']) {
+                $templateString .= $this->DisplayOneError($key);
+                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ? $template['field'] . $label : $label . $template['field'] . "\n";
+            } else {
+                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ? $template['field'] . $label : $label . $template['field'] . "\n";
+                $templateString .= $this->DisplayOneError($key);
             }
 
-            $f++;
         }
 
         return $templateString;
@@ -750,22 +749,25 @@ class Form
      *
      * @Since V 0.2
      *
-     * @param $f
+     * @Updated : V 0.5.4 (Add obliged var & changed $f to $key for better understanding)
+     *
+     * @param $key string The field key of the error
+     * @param bool $obliged Return the value anyway
      * @return string
      */
-    public function DisplayOneError($f)
+    public function DisplayOneError($key, $obliged = false)
     {
         $templateString = '';
         // If i display Errors
-        if(isset($this->args['displayErrors']) && true == $this->args['displayErrors']){
+        if ($obliged || (isset($this->args['displayErrors']) && true == $this->args['displayErrors'])) {
 
             // If the field is an input
-            if(isset($this->fields[$f])) {
+            if (isset($this->fields[$key])) {
 
                 // If there is an error i display it
-                if (isset($this->errors[$f])) {
+                if (isset($this->errors[$key])) {
                     $templateString .= isset($this->args['errorsClass']) ? '<span class="' . $this->args['errorsClass'] . '">' : '<span class="warning">';
-                    $templateString .= $this->errors[$f] . "</span>\n";
+                    $templateString .= $this->errors[$key] . "</span>\n";
                 }
             }
         }
@@ -777,26 +779,27 @@ class Form
      * @since V 0.1
      * @Updated :   - V 0.2
      *              - V 0.3
-     *              - v 0.5.3 (remove the return of the foreach)
+     *              - v 0.5.3 (remove the return if the foreach)
      *
-     * @param $formtype
+     * @param $formtype string the type of form, if it's a reset form or not
      * @return bool
      */
     public function isValid($formtype = null)
     {
-        if(isset($_POST[$this->name]) && !empty($_POST[$this->name])) {
+        if (isset($_POST[$this->name]) && !empty($_POST[$this->name])) {
 
-            if ( ! wp_verify_nonce( $_POST['_nounce'], $this->name ) ) {
+            if (!wp_verify_nonce($_POST['_nounce'], $this->name)) {
 
                 die(json_encode(['Wp_Form_Error' => 'Security check']));
 
             } else {
 
-                if($formtype == 'reset' && $this->isResetForm() && !$this->resetArgsAvailable()) {
+                if ($formtype == 'reset' && $this->isResetForm() && !$this->resetArgsAvailable()) {
                     unset($this->fields['password']);
                     unset($this->fields['repeat-password']);
 
-                }if($formtype == 'reset' && $this->isResetForm() && $this->resetArgsAvailable())
+                }
+                if ($formtype == 'reset' && $this->isResetForm() && $this->resetArgsAvailable())
                     unset($this->fields['login']);
 
 
@@ -857,7 +860,7 @@ class Form
                                             // if extension not in array, error
                                             if (!in_array(strtolower($ext), $allowed)) {
                                                 $error = false;
-                                                $errorMsg = $this->errorMessages['filetype']  . implode(',', $allowed);
+                                                $errorMsg = $this->errorMessages['filetype'] . implode(',', $allowed);
                                                 $this->error = $errorMsg;
                                                 $this->errors[$key] = $this->errorMessages['filetype'] . implode(',', $allowed);
                                             }
@@ -870,7 +873,7 @@ class Form
                                             $error = false;
                                             $errorMsg = $this->errorMessages['filetype'] . implode(',', $allowed);
                                             $this->error = $errorMsg;
-                                            $this->errors[$key] = $this->errorMessages['filetype']  . implode(',', $allowed);
+                                            $this->errors[$key] = $this->errorMessages['filetype'] . implode(',', $allowed);
                                         }
                                     }
                                 }
@@ -880,7 +883,7 @@ class Form
                 }
                 return $error;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -893,7 +896,7 @@ class Form
      */
     public function closeAllContainers()
     {
-        foreach($this->containers as $content){
+        foreach ($this->containers as $content) {
             $this->closeContainer();
         }
         return $this;
@@ -926,11 +929,11 @@ class Form
      *
      * @Modify : V 0.4
      *
-     * Displays the error on screen
+     * Displays the form error on screen
      */
     public function theError()
     {
-        if($this->hasError())
+        if ($this->hasError())
             echo $this->error;
     }
 
@@ -938,17 +941,21 @@ class Form
      *
      * @since V 0.1
      *
+     * @Updated : V 0.5.4 (Add a if to check if the function wp_editor exists or not)
+     *
+     * Get the WordPress WYSIWYG editor and return it's code into a string
+     *
      * @param $content
      * @param $editor_id
      * @param array $settings
      * @return string
      */
-    private function get_wp_editor($content,$editor_id,$settings = [])
+    private function get_wp_editor($content, $editor_id, $settings = [])
     {
         ob_start();
-        wp_editor($content,$editor_id,$settings = []);
+        if (function_exists('wp_editor'))
+            wp_editor($content, $editor_id, $settings = []);
         $editor_contents = ob_get_clean();
-
         return $editor_contents;
     }
 
@@ -957,34 +964,56 @@ class Form
      *
      * @since V 0.3
      *
-     * @Updated : V 0.5.4
+     * @Updated : V 0.5.4 (Update to handle second param and getting fields and label separetly. Remove the bool return)
      *
      * Return a form field
      *
      * @param $name
      * @param $field null | string
-     * @return bool | string
+     * @return string
      */
-    public function get_form_field($name,$field = null)
+    public function get_form_field($name, $field = null)
     {
 
-        $template = '';
-        if(isset($this->template[$name])) {
+        // If the label is displayed after the field or not
+        $labelAfter = isset($this->fields[$name]['args']['labelAfter']) ? $this->fields[$name]['args']['labelAfter'] : false;
 
-            if(isset($field) && null != $field){
-                if(isset($this->template[$name][$field])){
-                    $template = $this->template[$name][$field];
-                    unset($this->template[$name][$field]);
+        // init the template variable
+        $template = '';
+
+        // If the template exist
+        if (isset($this->template[$name])) {
+
+            // If there is a field required
+            if (isset($field) && null != $field) {
+
+                // If you display the error
+                if ($field == 'error') {
+                    $template = $this->DisplayOneError($name, true);
+                } else {
+                    // If the existing field exist, I return it
+                    if (isset($this->template[$name][$field])) {
+                        $template = $this->template[$name][$field];
+                        unset($this->template[$name][$field]);
+                    }
                 }
             } else {
+                // I check if the label exists
+                $label = isset($this->template[$name]['label']) ? $this->template[$name]['label'] : '';
 
-                    $template = $this->template[$name];
-                    unset($this->template[$name]);
+                // Handle errors
+                if (isset($this->args['displayErrorsBefore']) && $this->args['displayErrorsBefore']) {
+                    $template .= $this->DisplayOneError($name);
+                    $template .= $labelAfter ? $this->template[$name]['field'] . $label : $label . $this->template[$name]['field'] . "\n";
+                } else {
+                    $template .= $labelAfter ? $this->template[$name]['field'] . $label : $label . $this->template[$name]['field'] . "\n";
+                    $template .= $this->DisplayOneError($name);
                 }
-            return $template;
-        }else{
-            return false;
+                unset($this->template[$name]);
+            }
         }
+
+        return $template;
     }
 
     /**
@@ -993,27 +1022,26 @@ class Form
      *
      * Display a form field
      *
+     * @Updated : V 0.5.4 (Update to handle second param and getting fields and label separetly. Remove the if to check if the field exist)
+     *
      * @param $field null | string
      * @param $name
      */
-    public function the_form_field($name,$field = null)
+    public function the_form_field($name, $field = null)
     {
-        $formField = $this->get_form_field($name,$field);
-        if($formField)
-            echo $formField;
+        echo $this->get_form_field($name, $field);
     }
 
     /**
      *
      * @since V 0.3
      *
-     * Return the open form
+     * Return the open form field. it contains an antispam input, the wp_nounce input,some style and the form opening
      *
      * @return bool
      */
     public function get_open_the_form()
     {
-
         return $this->get_form_field('open_the_form');
     }
 
