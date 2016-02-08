@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://baltazare.fr
 Description: Permet de créer et styliser des formulaires facilement
-Version: 0.5.2
+Version: 0.5.4
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 License: MIT
@@ -69,6 +69,10 @@ class FormPlugin
         add_filter('pre_set_site_transient_update_plugins', [$this,'check_for_plugin_update']);
 
         add_filter('plugins_api', [$this,'plugin_api_call'], 10, 3);
+        add_action('plugins_loaded', 'wan_load_textdomain');
+        function wan_load_textdomain() {
+            load_plugin_textdomain( 'easy-form', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
+        }
 
     }
 
@@ -110,17 +114,17 @@ class FormPlugin
         add_menu_page('Easy Forms','Easy Forms','edit_plugins','forms',[$this,'displayPage'],'dashicons-feedback',21);
 
         // Ajouter/modifier un formulaire
-        add_submenu_page('forms','Ajouter un formulaire','Ajouter','edit_plugins','add-form',[$this,'displayPageAddForm']);
+        add_submenu_page('forms',__('Ajouter un formulaire','easy-form'),__('Ajouter','easy-form'),'edit_plugins','add-form',[$this,'displayPageAddForm']);
         // Prévisualiser son formulaire
-        add_submenu_page('forms','Voir un formulaire','Prévisualiser','edit_plugins','show-form',[$this,'displayPrev']);
+        add_submenu_page('forms',__('Voir un formulaire','easy-form'),__('Prévisualiser','easy-form'),'edit_plugins','show-form',[$this,'displayPrev']);
 
-        add_submenu_page('forms','Importer un formulaire','Importer','edit_plugins','import-form',[$this,'displayImport']);
+        add_submenu_page('forms',__('Importer un formulaire','easy-form'),__('Importer','easy-form'),'edit_plugins','import-form',[$this,'displayImport']);
 
         // Exporter un formulaire
-        add_submenu_page('forms','Exporter un formulaire','Exporter','edit_plugins','export-form',[$this,'displayExport']);
+        add_submenu_page('forms',__('Exporter un formulaire','easy-form'),__('Exporter','easy-form'),'edit_plugins','export-form',[$this,'displayExport']);
 
         // Doc
-        add_submenu_page('forms','Documentation','Doccumentation','edit_plugins','doc-form',[$this,'displayDoc']);
+        add_submenu_page('forms',__('Documentation','easy-form'),__('Documentation','easy-form'),'edit_plugins','doc-form',[$this,'displayDoc']);
 
     }
 
@@ -357,9 +361,11 @@ class FormPlugin
     /**
      * @since V 0.1
      *
-     * @Modified :  - V 0.2
+     * @Updated :  - V 0.2
      *              - V 0.3
      *              - V 0.4
+     *              - V 0.5.2 (Add Sanitization0
+     *              - V 0.5.3 (Remove sanitization for label & update sanitization for id)
      *
      *
      * Check if add form is send
@@ -422,10 +428,10 @@ class FormPlugin
                                 case 'file' :
                                     $fi = [
                                         'args' => [
-                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_STRING),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'multiple' => (isset($field['form-multiple'])),
-                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'label' => $field['form-label'],FILTER_SANITIZE_STRING,
                                             'labelClass' => filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => (isset($field['form-required'])),
                                             'labelAfter' => (isset($field['form-label-after'])),
@@ -439,10 +445,10 @@ class FormPlugin
                                 case 'taxonomy' :
                                     $fi = [
                                         'args' => [
-                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_STRING),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'value' => filter_var($field['form-value'],FILTER_SANITIZE_STRING),
-                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'label' => $field['form-label'],
                                             'labelClass' => filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => isset($field['form-required']),
                                             'autocomplete' => isset($field['form-autocomplete']),
@@ -459,11 +465,11 @@ class FormPlugin
 
                                     $fi = [
                                         'args' => [
-                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_NUMBER_INT),
+                                            'id' => filter_var($field['form-id'],FILTER_SANITIZE_STRING),
                                             'class' => filter_var($field['form-class'],FILTER_SANITIZE_STRING),
                                             'placeholder' => isset($field['form-placeholder']) ? $field['form-placeholder'] : '' ,
                                             'value' => isset($field['form-value']) ? $field['form-value'] : '',
-                                            'label' => filter_var($field['form-label'],FILTER_SANITIZE_STRING),
+                                            'label' => $field['form-label'],FILTER_SANITIZE_STRING,
                                             'labelClass' =>filter_var($field['form-label-class'],FILTER_SANITIZE_STRING),
                                             'required' => isset($field['form-required']),
                                             'autocomplete' => isset($field['form-autocomplete']),
@@ -590,13 +596,13 @@ class FormPlugin
                 if($fileSize < $maxSize){
                     $ext = pathinfo($fileName, PATHINFO_EXTENSION);
                     if($ext == 'json'){
-                        if(is_writable(plugin_dir_path( __FILE__ ).'/library/uploads/')) {
-                            $return = move_uploaded_file($tmpName, plugin_dir_path(__FILE__) . '/library/uploads/' . $fileName);
+                        if(is_writable(plugin_dir_path( __FILE__ ).'library/uploads/')) {
+                            $return = move_uploaded_file($tmpName, plugin_dir_path(__FILE__) . 'library/uploads/' . $fileName);
                             if(!$return)
                                 $error = "Une erreur est survenue lors de l'upload du fichier, veuillez réessayer";
                             return $return;
                         }else{
-                            $error = 'Le dossier <strong>' . plugin_dir_path( __FILE__ ).'/library/uploads/' . ' </strong>n\'a pas pu être ouvert, vérifiez ses droits d\'écriture';
+                            $error = 'Le dossier <strong>' . plugin_dir_path( __FILE__ ).'library/uploads/' . ' </strong>n\'a pas pu être ouvert, vérifiez ses droits d\'écriture';
                         }
                     }else
                         $error = 'Le fichier doit être un .json';

@@ -93,7 +93,24 @@ class Form
      *
      * @var array
      */
-    protected $errorMessages = [];
+    protected $errorMessages = [
+        "missing" => "Un ou plusieurs champs n'est pas complet",
+        "email" => "Adresse e-mail invalide",
+        "2password" => "Veuillez retaper votre mot de passe",
+        "samepassword" => "Les deux mots de passe entrés doivent être identiques",
+        "filetype" => "Le type du fichier chargé est incorrect, Les types acceptés sont : ",
+        "identifiants" => "Identifiants incorrects",
+        "empty" => "Ce champ doit être rempli",
+        "missingfield" => "Le formulaire doit avoir un champ ",
+        "noUser" => "Aucun utilisateur n'a été trouvé avec cet identifiant",
+        "noReset" => "La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur",
+        "error" => "Une erreur est survenue",
+        "filesize" => "La taille du fichier est trop importante, taille maximum : ",
+        "errorDatabase" => "Une erreur est survenue lors de la modification de l'utilisateur",
+        "expiredKey" => "La clé utilisée est expirée",
+        "invalidKey" => "La clé utilisée est invalide",
+        "alreadyActivated" => "Utilisateur introuvable ou déjà activé"
+    ];
 
     /**
      * @Since V 0.1
@@ -102,6 +119,7 @@ class Form
      *              - V 0.3
      *              - V 0.4
      *              - V 0.5
+     *              - V 0.5.3 (Update error message translation)
      *
      *
      * Constructor
@@ -113,15 +131,49 @@ class Form
     public function __construct($name,$action = '#',$args = [])
     {
 
-        $fr = file_get_contents(__DIR__ . '/../assets/langs/fr.json');
-
-        $this->errorMessages = json_decode($fr,true);
 
         // Args action & name
         $this->action = $action;
         $this->args['defaultclass'] = isset($args['defaultClass']) ? $args['defaultClass'] : '';
         $this->args['displayErrors'] = isset($args['displayErrors']) ? $args['displayErrors'] : '';
 
+
+        // Handle it here so that they can bee seen as strings to translate
+        if(function_exists('--')) {
+            $this->errorMessages["missing"] = __("Un ou plusieurs champs n'est pas complet", 'easy-form');
+            $this->errorMessages["email"] = __("Adresse e-mail invalide", 'easy-form');
+            $this->errorMessages["2password"] = __("Veuillez retaper votre mot de passe", 'easy-form');
+            $this->errorMessages["samepassword"] = __("Les deux mots de passe entrés doivent être identiques", 'easy-form');
+            $this->errorMessages["filetype"] = __("Le type du fichier chargé est incorrect, Les types acceptés sont : ", 'easy-form');
+            $this->errorMessages["identifiants"] = __("Identifiants incorrects", 'easy-form');
+            $this->errorMessages["empty"] = __("Ce champ doit être rempli", 'easy-form');
+            $this->errorMessages["missingfield"] = __("Le formulaire doit avoir un champ ", 'easy-form');
+            $this->errorMessages["noUser"] = __("Aucun utilisateur n'a été trouvé avec cet identifiant", 'easy-form');
+            $this->errorMessages["noReset"] = __("La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur", 'easy-form');
+            $this->errorMessages["error"] = __("Une erreur est survenue", 'easy-form');
+            $this->errorMessages["filesize"] = __("La taille du fichier est trop importante, taille maximum : ", 'easy-form');
+            $this->errorMessages["errorDatabase"] = __("Une erreur est survenue lors de la modification de l'utilisateur", 'easy-form');
+            $this->errorMessages["expiredKey"] = __("La clé utilisée est expirée", 'easy-form');
+            $this->errorMessages["invalidKey"] = __("La clé utilisée est invalide", 'easy-form');
+            $this->errorMessages["alreadyActivated"] = __("Utilisateur introuvable ou déjà activé", 'easy-form');
+        }else{
+            $this->errorMessages["missing"] = "Un ou plusieurs champs n'est pas complet";
+            $this->errorMessages["email"] = "Adresse e-mail invalide";
+            $this->errorMessages["2password"] = "Veuillez retaper votre mot de passe";
+            $this->errorMessages["samepassword"] = "Les deux mots de passe entrés doivent être identiques";
+            $this->errorMessages["filetype"] = "Le type du fichier chargé est incorrect, Les types acceptés sont : ";
+            $this->errorMessages["identifiants"] = "Identifiants incorrects";
+            $this->errorMessages["empty"] = "Ce champ doit être rempli";
+            $this->errorMessages["missingfield"] = "Le formulaire doit avoir un champ ";
+            $this->errorMessages["noUser"] = "Aucun utilisateur n'a été trouvé avec cet identifiant";
+            $this->errorMessages["noReset"] = "La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur";
+            $this->errorMessages["error"] = "Une erreur est survenue";
+            $this->errorMessages["filesize"] = "La taille du fichier est trop importante, taille maximum : ";
+            $this->errorMessages["errorDatabase"] = "Une erreur est survenue lors de la modification de l'utilisateur";
+            $this->errorMessages["expiredKey"] = "La clé utilisée est expirée";
+            $this->errorMessages["invalidKey"] = "La clé utilisée est invalide";
+            $this->errorMessages["alreadyActivated"] = "Utilisateur introuvable ou déjà activé";
+        }
 
 
 
@@ -711,8 +763,9 @@ class Form
 
     /**
      * @since V 0.1
-     * @Modified :  - V 0.2
+     * @Updated :   - V 0.2
      *              - V 0.3
+     *              - v 0.5.3 (remove the return of the foreach)
      *
      * @param $formtype
      * @return bool
@@ -736,8 +789,8 @@ class Form
 
 
                 $error = true;
-                foreach ($this->fields as $key => $field) {
 
+                foreach ($this->fields as $key => $field) {
                     if (!isset($field['args']['readOnly']) || empty($field['args']['readOnly'])) {
                         // Check if isset & !empty
                         if ($field['required'] && $field['type'] != 'file') {
@@ -748,6 +801,8 @@ class Form
                                 $this->errors[$key] = $this->errorMessages['empty'];
                             }
                         }
+
+
                         // Check if e-mail is a good e-mail format
                         switch ($field['type']) {
                             case 'email' :
@@ -778,7 +833,6 @@ class Form
                                     (!is_array($_FILES[$field['name']]['name']) && !empty($_FILES[$field['name']]['name']))
                                 ) {
 
-
                                     // Default extensions allowed if not in args
                                     $allowed = (isset($field['args']['allowed'][0]) && !empty($field['args']['allowed'][0])) ? $field['args']['allowed'] : ['gif', 'png', 'jpg', 'jpeg', 'pdf'];
 
@@ -791,9 +845,9 @@ class Form
                                             // if extension not in array, error
                                             if (!in_array(strtolower($ext), $allowed)) {
                                                 $error = false;
-                                                $errorMsg = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                                $errorMsg = $this->errorMessages['filetype']  . implode(',', $allowed);
                                                 $this->error = $errorMsg;
-                                                $this->errors[$key] = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                                $this->errors[$key] = $this->errorMessages['filetype'] . implode(',', $allowed);
                                             }
                                         }
 
@@ -802,17 +856,17 @@ class Form
                                         $ext = pathinfo($_FILES[$field['name']]['name'], PATHINFO_EXTENSION);
                                         if (!in_array(strtolower($ext), $allowed)) {
                                             $error = false;
-                                            $errorMsg = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                            $errorMsg = $this->errorMessages['filetype'] . implode(',', $allowed);
                                             $this->error = $errorMsg;
-                                            $this->errors[$key] = $this->errorMessages['filetype'] . 'Les types acceptés sont : ' . implode(',', $allowed);
+                                            $this->errors[$key] = $this->errorMessages['filetype']  . implode(',', $allowed);
                                         }
                                     }
-                                    break;
                                 }
+                                break;
                         }
                     }
-                    return $error;
                 }
+                return $error;
             }
         }else{
             return false;

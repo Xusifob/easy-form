@@ -16,29 +16,39 @@ class FormWordpress extends Form
      */
     protected $id;
 
+
+
+
     /**
      * Constructor
      *
      * @Since V 0.4
      *
+     * @Updated : V 0.5.3 (Add lang support)
+     *
      * @param string $name
      * @param string $action
      * @param array $args
      */
-    public function __construct($name,$action = '#',$args = [])
+    public function __construct($name, $action = '#', $args = [])
     {
 
 
-        parent::__construct($name,$action,$args);
+        parent::__construct($name, $action, $args);
 
-        $json = $this->getLangTemplate('fr');
-
-        $this->errorMessages = json_decode($json,true);
 
         // store the form Id
-        if(isset($args['formId']))
+        if (isset($args['formId']))
             $this->id = $args['formId'];
+
+
+        foreach($this->errorMessages as $key => $error){
+            $this->errorMessages[$key] = __($error,'easy-form');
+        }
+
     }
+
+
 
     /**
      * Return if the form is able to insert a post
@@ -54,17 +64,17 @@ class FormWordpress extends Form
 
         // By default, the field does not exist
         $insert = false;
-        foreach($this->fields as $field){
+        foreach ($this->fields as $field) {
 
             // IF the field exist, then I insert it
-            if($field['name'] == 'title' && $field['required']) {
+            if ($field['name'] == 'title' && $field['required']) {
                 $insert = true;
                 break;
             }
         }
 
         // Else, I display the error
-        if(!$insert)
+        if (!$insert)
             $this->setError($this->errorMessages['missingfield'] . 'title');
 
         return $insert;
@@ -92,17 +102,17 @@ class FormWordpress extends Form
         foreach ($this->fields as $field) {
             if ($field['name'] == 'email' || (isset($args['senderEmail']) && !empty($args['senderEmail'])))
                 $insert['email'] = true;
-            elseif ($field['name'] == 'sendername' || (isset($args['sendername']) && !empty($args['sendername']) ))
+            elseif ($field['name'] == 'sendername' || (isset($args['sendername']) && !empty($args['sendername'])))
                 $insert['sendername'] = true;
             elseif ($field['name'] == 'message' || (isset($args['message']) && !empty($args['message']))) {
                 $insert['message'] = true;
             }
         }
 
-        if(!($insert['sendername'] && $insert['email'] && $insert['message'])){
+        if (!($insert['sendername'] && $insert['email'] && $insert['message'])) {
             $error = '';
-            foreach($insert as $key => $val){
-                if(!$val){
+            foreach ($insert as $key => $val) {
+                if (!$val) {
                     $error .= $this->errorMessages['missingfield'] . $key . ' ';
                 }
             }
@@ -142,17 +152,17 @@ class FormWordpress extends Form
                     $insert['password'] = true;
             }
 
-            if(!($insert['login'] && $insert['email'])){
+            if (!($insert['login'] && $insert['email'])) {
                 $error = '';
-                foreach($insert as $key => $val){
-                    if(!$val){
+                foreach ($insert as $key => $val) {
+                    if (!$val) {
                         $error .= $this->errorMessages['missingfield'] . $key . ' ';
                     }
                 }
                 $this->setError($error);
             }
             return ($insert['password'] && $insert['email']);
-        }else{
+        } else {
             // Else, if there is already a user, I can update whatever I want
             return true;
         }
@@ -180,20 +190,20 @@ class FormWordpress extends Form
 
 
         // Check fields
-        foreach($this->fields as $field){
-            if($field['name'] == 'login'){
+        foreach ($this->fields as $field) {
+            if ($field['name'] == 'login') {
                 $insert['login'] = true;
-            }elseif($field['name'] == 'password'){
+            } elseif ($field['name'] == 'password') {
                 $insert['password'] = true;
             }
         }
 
 
         // display errors
-        if(!($insert['login'] && $insert['password'])){
+        if (!($insert['login'] && $insert['password'])) {
             $error = '';
-            foreach($insert as $key => $val){
-                if(!$val){
+            foreach ($insert as $key => $val) {
+                if (!$val) {
                     $error .= $this->errorMessages['missingfield'] . $key . ' ';
                 }
             }
@@ -218,13 +228,13 @@ class FormWordpress extends Form
     {
 
         $insert = false;
-        if($this->resetArgsAvailable()){
+        if ($this->resetArgsAvailable()) {
             // Check fields
-            foreach($this->fields as $field){
-                if($field['name'] == 'password')
+            foreach ($this->fields as $field) {
+                if ($field['name'] == 'password')
                     $insert = true;
             }
-        }else {
+        } else {
 
             // Check fields
             foreach ($this->fields as $field) {
@@ -234,14 +244,13 @@ class FormWordpress extends Form
         }
 
         // display error
-        if(!$insert) {
+        if (!$insert) {
             $error = $this->errorMessages['missingfield'] . $this->resetArgsAvailable() ? 'password' : 'login';
             $this->setError($error);
         }
 
         return $insert;
     }
-
 
 
     /**
@@ -256,20 +265,19 @@ class FormWordpress extends Form
      * @param array $args
      * @return bool|int|null|WP_Error
      */
-    public function insertPost($postId = null,$args = [])
+    public function insertPost($postId = null, $args = [])
     {
-
 
 
         // If i can insert the post, else if it's an update
         if ($this->canInsertPost() || null != $postId) {
             $postarr = [
-                'post_title' => filter_var($_POST['title'],FILTER_SANITIZE_STRING),
-                'post_type' => isset($args['post_type']) ? filter_var($args['post_type'],FILTER_SANITIZE_STRING) : 'post',
-                'post_content' => isset($_POST['content']) ? filter_var($_POST['content'],FILTER_SANITIZE_STRING) : '',
-                'post_name' => filter_var(sanitize_title($_POST['title']),FILTER_SANITIZE_STRING),
-                'post_status' => isset($args['post_status']) ? filter_var($args['post_status'],FILTER_SANITIZE_STRING) : 'publish',
-                'post_author' => isset($args['post_author']) ? filter_var($args['post_author'],FILTER_SANITIZE_NUMBER_INT) : get_current_user_id(),
+                'post_title' => filter_var($_POST['title'], FILTER_SANITIZE_STRING),
+                'post_type' => isset($args['post_type']) ? filter_var($args['post_type'], FILTER_SANITIZE_STRING) : 'post',
+                'post_content' => isset($_POST['content']) ? filter_var($_POST['content'], FILTER_SANITIZE_STRING) : '',
+                'post_name' => filter_var(sanitize_title($_POST['title']), FILTER_SANITIZE_STRING),
+                'post_status' => isset($args['post_status']) ? filter_var($args['post_status'], FILTER_SANITIZE_STRING) : 'publish',
+                'post_author' => isset($args['post_author']) ? filter_var($args['post_author'], FILTER_SANITIZE_NUMBER_INT) : get_current_user_id(),
             ];
 
 
@@ -278,7 +286,7 @@ class FormWordpress extends Form
                 $postarr['ID'] = $postId;
 
             // If there is fields that belong here, i insert the post
-            if($this->canInsertPost())
+            if ($this->canInsertPost())
                 $postId = wp_insert_post($postarr);
 
             if (!is_wp_error($postId)) {
@@ -293,12 +301,11 @@ class FormWordpress extends Form
                             if ($field['type'] == 'taxonomy') {
                                 wp_set_object_terms($postId, $_POST[$field['name']], substr($field['name'], 9));
 
-                            } elseif(in_array($field['type'],['checkbox','radio'])) {
-                                if(isset($_POST[$field['name']]))
-                                    update_post_meta($postId, $field['name'], filter_var($_POST[$field['name']],FILTER_SANITIZE_STRING));
-                            }
-                            else {
-                                update_post_meta($postId, $field['name'], $this->sanitizeField($_POST[$field['name']],$field['type']));
+                            } elseif (in_array($field['type'], ['checkbox', 'radio'])) {
+                                if (isset($_POST[$field['name']]))
+                                    update_post_meta($postId, $field['name'], filter_var($_POST[$field['name']], FILTER_SANITIZE_STRING));
+                            } else {
+                                update_post_meta($postId, $field['name'], $this->sanitizeField($_POST[$field['name']], $field['type']));
                             }
                         }
                     } else {
@@ -311,22 +318,22 @@ class FormWordpress extends Form
 
                         // If it's a file
                         if (
-                            (isset($_FILES[$field['name']]['name']) && is_array($_FILES[$field['name']]['name']) &&  !empty($_FILES[$field['name']]['name'][0])) ||
+                            (isset($_FILES[$field['name']]['name']) && is_array($_FILES[$field['name']]['name']) && !empty($_FILES[$field['name']]['name'][0])) ||
                             (isset($_FILES[$field['name']]['name']) && !is_array($_FILES[$field['name']]['name']) && !empty($_FILES[$field['name']]['name']))
-                        ){
+                        ) {
                             $key = $field['name'];
                             $val = $_FILES[$field['name']];
                             $sizeOk = true;
 
-                            if (isset($field['args']['maxSize']) && !empty($field['args']['maxSize'])){
+                            if (isset($field['args']['maxSize']) && !empty($field['args']['maxSize'])) {
                                 foreach ($val['size'] as $siz) {
-                                    if($siz > (int)$field['args']['maxSize']*1000) {
+                                    if ($siz > (int)$field['args']['maxSize'] * 1000) {
                                         $sizeOk = false;
-                                        $this->setError($this->errorMessages['filesize']  . $field['args']['maxSize'] . 'ko');
+                                        $this->setError($this->errorMessages['filesize'] . $field['args']['maxSize'] . 'ko');
                                     }
                                 }
                             }
-                            if($sizeOk) {
+                            if ($sizeOk) {
                                 // Handle multiple upload
                                 if (is_array($val['name'])) {
                                     $vals = [];
@@ -348,23 +355,23 @@ class FormWordpress extends Form
                                             array_push($vals, (int)$oldval);
                                         }
                                         // Gestion des anciennes images
-                                        update_post_meta($postId, $key, filter_var($vals,FILTER_SANITIZE_STRING));
-                                        update_post_meta($postId, '_' . $key, filter_var($field['args']['acfField']),FILTER_SANITIZE_STRING);
+                                        update_post_meta($postId, $key, filter_var($vals, FILTER_SANITIZE_STRING));
+                                        update_post_meta($postId, '_' . $key, filter_var($field['args']['acfField']), FILTER_SANITIZE_STRING);
                                     }
                                 } else {
                                     $this->insert_attachment($key, $postId);
                                 }
-                            }else
+                            } else
                                 return false;
-                        }else{
+                        } else {
                             // Il a modifié des anciennes photos mais pas de nouvelles
-                            if(null != $oldvals) {
-                                $oldvals = explode(',', filter_var($_POST[$field['name'] . '-values'],FILTER_SANITIZE_STRING));
-                                update_post_meta($postId, filter_var($field['name'],FILTER_SANITIZE_STRING), filter_var($oldvals,FILTER_SANITIZE_STRING));
+                            if (null != $oldvals) {
+                                $oldvals = explode(',', filter_var($_POST[$field['name'] . '-values'], FILTER_SANITIZE_STRING));
+                                update_post_meta($postId, filter_var($field['name'], FILTER_SANITIZE_STRING), filter_var($oldvals, FILTER_SANITIZE_STRING));
 
                                 // Handle ACF field
-                                if(isset($field['args']['acfField']) && !empty($field['args']['acfField']))
-                                    update_post_meta($postId, '_' . $field['name'], filter_var($field['args']['acfField'],FILTER_SANITIZE_STRING));
+                                if (isset($field['args']['acfField']) && !empty($field['args']['acfField']))
+                                    update_post_meta($postId, '_' . $field['name'], filter_var($field['args']['acfField'], FILTER_SANITIZE_STRING));
                             }
                         }
                     }
@@ -378,11 +385,48 @@ class FormWordpress extends Form
 
 
     /**
+     * @Since V 0.5.3
+     *
+     * return the full current url without the $_GET params
+     *
+     * @param $s
+     * @param bool $use_forwarded_host
+     * @return string
+     */
+    public static function url_origin( $s, $use_forwarded_host = false )
+    {
+        $ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
+        $sp       = strtolower( $s['SERVER_PROTOCOL'] );
+        $protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
+        $port     = $s['SERVER_PORT'];
+        $port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
+        $host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
+        $host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
+        return $protocol . '://' . $host;
+    }
+
+    /**
+     * @Since V 0.5.3
+     *
+     * return the full current url with the $_GET params
+     *
+     * @param $s
+     * @param bool $use_forwarded_host
+     * @return string
+     */
+    public static function full_url( $s, $use_forwarded_host = false )
+    {
+        return self::url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
+    }
+
+
+    /**
      *
      * @since V 0.1
      *
      * @Updated - V 0.4
      *          - V 0.5.2 (Add Sanitization)
+     *          - V 0.5.3 (Add full url function)
      *
      * Insert a wp_post and redirect after it to the page with the name of the form at true
      *
@@ -392,90 +436,93 @@ class FormWordpress extends Form
      * @param array $args
      * @return bool
      */
-    public function SendFormAndRedirect($type = 'post',$lien = null,$postId = null,$args = [])
+    public function SendFormAndRedirect($type = 'post', $lien = null, $postId = null, $args = [])
     {
 
-        $lien = ($lien == null || $lien == '' || $lien == false)  ? get_permalink() : $lien;
+        $lien = ($lien == null || $lien == '' || $lien == false) ? get_permalink() : $lien;
 
 
-        if($lien === false)
-            $lien = home_url();
+        if ($lien === false)
+            $lien = self::full_url( $_SERVER );
+
 
         $varURl = (isset($args['varURl']) && $lien != 'newpost') ?
-            ( strpos($lien,'?')  ? '&' . $args['varURl'] : '?' . $args['varURl'] )
+            (strpos($lien, '?') ? '&' . $args['varURl'] : '?' . $args['varURl'])
             : '';
 
         $thepostId = $postId;
 
-        switch($type) :
+        switch ($type) :
 
             // If it's a post
             case 'post' :
 
                 /* @since V 0.4 add hooks Before Send */
-                do_action('form/BeforeInsertOrModifyPost',$postId);
-                do_action('form/BeforeInsertOrModifyPost-' . $this->id,$postId);
-                if(isset($this->postArgs['id'])) {
-                    do_action('form/BeforeModifyPost-' . $this->id,$postId);
-                    do_action('form/BeforeModifyPost',$postId);
-                }
-                else {
-                    do_action('form/BeforeInsertPost-' . $this->id,$postId);
-                    do_action('form/BeforeInsertPost',$postId);
+                do_action('form/BeforeInsertOrModifyPost', $postId);
+                do_action('form/BeforeInsertOrModifyPost-' . $this->id, $postId);
+                if (isset($this->postArgs['id'])) {
+                    do_action('form/BeforeModifyPost-' . $this->id, $postId);
+                    do_action('form/BeforeModifyPost', $postId);
+                } else {
+                    do_action('form/BeforeInsertPost-' . $this->id, $postId);
+                    do_action('form/BeforeInsertPost', $postId);
                 }
 
-                if($postId = $this->insertPost($postId,$args)) {
+                if ($postId = $this->insertPost($postId, $args)) {
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
-                    do_action('form/insertOrModifyPost',$postId);
-                    do_action('form/insertOrModifyPost-' . $this->id,$postId);
+                    do_action('form/insertOrModifyPost', $postId);
+                    do_action('form/insertOrModifyPost-' . $this->id, $postId);
 
-                    if(isset($this->postArgs['id'])) {
-                        do_action('form/ModifyPost-' . $this->id,$postId);
-                        do_action('form/ModifyPost',$postId);
-                    }
-                    else {
-                        do_action('form/InsertPost-' . $this->id,$postId);
-                        do_action('form/InsertPost',$postId);
+
+                    // Keep compatibility with old version, deprecated
+                    do_action('form/insertOrModifyPost', $postId);
+                    do_action('form/insertOrModifyPost-' . $this->id, $postId);
+                    if (isset($this->postArgs['id'])) {
+                        do_action('form/ModifyPost-' . $this->id, $postId);
+                        do_action('form/ModifyPost', $postId);
+                    } else {
+                        do_action('form/InsertPost-' . $this->id, $postId);
+                        do_action('form/InsertPost', $postId);
 
                         // Keep compatibility with old version, deprecated
-                        do_action('form/insertPost-' . $this->id,$postId);
-                        do_action('form/insertPost',$postId);
+                        do_action('form/insertPost-' . $this->id, $postId);
+                        do_action('form/insertPost', $postId);
                     }
 
                     // If lien == newpost redirect to the new post page
-                    if($lien == 'newpost') {
+                    if ($lien == 'newpost') {
 
                         /* @since V 0.4 */
                         if (isset($args['varURl']) && !empty($args['varURl'])) {
                             $union = self::getunion($lien);
 
-                            $lien = filter_var(get_permalink($postId) . $union . $args['varURl'],FILTER_SANITIZE_URL);
+                            $lien = filter_var(get_permalink($postId) . $union . $args['varURl'], FILTER_SANITIZE_URL);
                             wp_redirect($lien);
-                        }else{
+                        } else {
                             wp_redirect(get_permalink($postId));
                         }
-                    }else
-                        wp_redirect($lien  . $varURl);
+                    } else
+                        wp_redirect($lien . $varURl);
 
                     // Exit after redirect
                     exit();
-                }else{
+                } else {
                     return false;
                 }
                 break;
             case 'user' :
                 // Actions
                 /* @since V 0.4 add hooks */
-                do_action('form/BeforeInsertOrModifyUser',$postId);
-                do_action('form/BeforeInsertOrModifyUser-' . $this->id,$postId);
-                if(isset($this->postArgs['id'])) {
-                    do_action('form/ModifyUser',$postId);
-                    do_action('form/ModifyUser-' . $this->id,$postId);
+                do_action('form/BeforeInsertOrModifyUser', $postId);
+                do_action('form/BeforeInsertOrModifyUser-' . $this->id, $postId);
+                if (isset($this->postArgs['id'])) {
+                    do_action('form/ModifyUser', $postId);
+                    do_action('form/ModifyUser-' . $this->id, $postId);
                 } else {
-                    do_action('form/BeforeInsertUser',$postId);
-                    do_action('form/BeforeInsertUser-' . $this->id,$postId);
+                    do_action('form/BeforeInsertUser', $postId);
+                    do_action('form/BeforeInsertUser-' . $this->id, $postId);
                 }
 
                 $lien = ($lien == 'newpost') ? null : $lien;
@@ -502,11 +549,12 @@ class FormWordpress extends Form
                         // Keep compatibility with old version, deprecated
                         do_action('form/insertUser',$postId);
                         do_action('form/insertUser-' . $this->id,$userId);
+
                     }
 
                     wp_redirect($lien . $varURl);
                     exit();
-                }else{
+                } else {
                     return false;
                 }
                 break;
@@ -515,7 +563,7 @@ class FormWordpress extends Form
 
                 do_action('form/BeforeSendMail');
                 do_action('form/BeforeSendMail-' . $this->id);
-                if($this->sendMail($args)) {
+                if ($this->sendMail($args)) {
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
@@ -525,21 +573,22 @@ class FormWordpress extends Form
                     // Keep compatibility with old version, deprecated
                     do_action('form/sendMail');
                     do_action('form/sendMail-' . $this->id);
+
                     wp_redirect($lien . $varURl);
                     exit();
-                }else{
+                } else {
                     return false;
                 }
                 break;
             case 'connexion' :
                 $lien = ($lien == 'newpost') ? null : $lien;
 
-                if($user = $this->connectUser($args)){
+                if ($user = $this->connectUser($args)) {
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
-                    do_action('form/ConnectUser',$user->ID);
-                    do_action('form/ConnectUser-' . $this->id,$user->ID);
+                    do_action('form/ConnectUser', $user->ID);
+                    do_action('form/ConnectUser-' . $this->id, $user->ID);
                     wp_redirect($lien . $varURl);
                     exit();
                 }
@@ -551,7 +600,7 @@ class FormWordpress extends Form
                 do_action('form/BeforeResetPassword-' . $this->id);
 
                 $lien = ($lien == 'newpost') ? null : $lien;
-                if($this->resetPassword($args)){
+                if ($this->resetPassword($args)) {
                     $this->setFormSend($thepostId);
 
                     /* @since V 0.4 add hooks */
@@ -564,7 +613,7 @@ class FormWordpress extends Form
 
                     wp_redirect($lien . $varURl);
                     exit();
-                }elseif(!$this->hasError())
+                } elseif (!$this->hasError())
                     $this->setError($this->errorMessages['error']);
 
                 break;
@@ -582,7 +631,7 @@ class FormWordpress extends Form
      */
     protected function setFormSend($thepostId = null)
     {
-        if(null == $thepostId)
+        if (null == $thepostId)
             $_SESSION[$this->name] = true;
         else
             $_SESSION[$this->name . $thepostId] = true;
@@ -602,20 +651,20 @@ class FormWordpress extends Form
      */
     public function resetPassword($args = [])
     {
-        if($this->canResetPassword()){
+        if ($this->canResetPassword()) {
 
-            /**@var $user WP_User **/
-            if($user = $this->checkResetPage()) {
+            /**@var $user WP_User * */
+            if ($user = $this->checkResetPage()) {
                 wp_set_password($_POST['password'], $user->data->ID);
                 return true;
-            }else {
+            } else {
 
                 $user_login = $_POST['login'];
 
                 if (strpos($user_login, '@')) {
                     $user_data = get_user_by('email', trim($user_login));
 
-                    if(empty($user_data) || !$user_data)
+                    if (empty($user_data) || !$user_data)
                         $user_data = get_user_by('login', trim($user_login));
 
                 } else {
@@ -649,7 +698,6 @@ class FormWordpress extends Form
                         $mail->setFrom($senderEmail, $senderName);
                         $mail->addAddress($user_data->user_email, $user_data->user_login);
                         $mail->Subject = $subject;
-
 
 
                         if ($args['resetAction'] == 'reset-password-email') {
@@ -722,7 +770,7 @@ class FormWordpress extends Form
                     return false;
                 }
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -736,7 +784,8 @@ class FormWordpress extends Form
      * @param $lien
      * @return string
      */
-    public static function getunion($lien){
+    public static function getunion($lien)
+    {
         return strpos($lien, '?') === false ? '?' : '&';
 
     }
@@ -744,7 +793,8 @@ class FormWordpress extends Form
     /**
      * @return Phpmailerform
      */
-    public function prepareMail(){
+    public function prepareMail()
+    {
         $mail = new Phpmailerform();
         $mail->isHTML(true);
         $mail->setLanguage('fr');
@@ -760,28 +810,29 @@ class FormWordpress extends Form
      *
      * @param : $user_login string
      *
-     * @global wpdb         $wpdb      WordPress database abstraction object.
+     * @global wpdb $wpdb WordPress database abstraction object.
      * @global PasswordHash $wp_hasher Portable PHP password hashing framework.
      *
      * @return bool|WP_Error True: when finish. WP_Error on error
      */
-    public function retrieve_password($user_login) {
+    public function retrieve_password($user_login)
+    {
 
         /** @var $wpdb wpdb */
         global $wpdb;
 
         // Generate something random for a password reset key.
-        $key = wp_generate_password( 20, false );
+        $key = wp_generate_password(20, false);
 
-        do_action( 'retrieve_password_key', $user_login, $key );
+        do_action('retrieve_password_key', $user_login, $key);
 
         // Now insert the key, hashed, into the DB.
-        if ( empty( $wp_hasher ) ) {
+        if (empty($wp_hasher)) {
             require_once ABSPATH . WPINC . '/class-phpass.php';
-            $wp_hasher = new PasswordHash( 8, true );
+            $wp_hasher = new PasswordHash(8, true);
         }
-        $hashed = $wp_hasher->HashPassword( $key );
-        $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+        $hashed = $wp_hasher->HashPassword($key);
+        $wpdb->update($wpdb->users, array('user_activation_key' => $hashed), array('user_login' => $user_login));
 
 
         return $key;
@@ -793,8 +844,9 @@ class FormWordpress extends Form
      *
      * @return bool|WP_User
      */
-    public function checkResetPage(){
-        if(!$this->resetArgsAvailable())
+    public function checkResetPage()
+    {
+        if (!$this->resetArgsAvailable())
             return false;
 
         if (isset($_GET['key']) && isset($_GET['login'])) {
@@ -805,7 +857,7 @@ class FormWordpress extends Form
             return false;
         }
 
-        if(is_wp_error($user)) {
+        if (is_wp_error($user)) {
 
 
             if ($user && $user->get_error_code() === 'expired_key')
@@ -817,16 +869,13 @@ class FormWordpress extends Form
         }
 
 
-        if(is_object($user) && !is_wp_error($user))
+        if (is_object($user) && !is_wp_error($user))
             return $user;
 
         do_action('validate_password_reset', [], $user);
 
         return false;
     }
-
-
-
 
 
     /**
@@ -840,7 +889,7 @@ class FormWordpress extends Form
     public function hasBeenSend($postId = null)
     {
 
-        if(null == $postId) {
+        if (null == $postId) {
             // If there is a session with the name
             if (isset($_SESSION[$this->name])) {
                 // I unset the session
@@ -851,7 +900,7 @@ class FormWordpress extends Form
                 // Else, the form has not been send
             } else
                 return false;
-        }else{
+        } else {
             // If there is a session with the name
             if (isset($_SESSION[$this->name . $postId])) {
                 // I unset the session
@@ -875,7 +924,8 @@ class FormWordpress extends Form
      * @param int $post_id
      * @return int|WP_Error
      */
-    public static function insert_file($file_handler,$post_id = 0){
+    public static function insert_file($file_handler, $post_id = 0)
+    {
         // Get all images
         require_once(ABSPATH . "wp-admin" . '/includes/image.php');
         require_once(ABSPATH . "wp-admin" . '/includes/file.php');
@@ -904,11 +954,12 @@ class FormWordpress extends Form
      *
      * @return int|WP_Error
      */
-    protected function insert_attachment($file_handler,$post_id,$post_type = 'post') {
+    protected function insert_attachment($file_handler, $post_id, $post_type = 'post')
+    {
 
-        $attach_id = self::insert_file($file_handler,$post_id);
+        $attach_id = self::insert_file($file_handler, $post_id);
 
-        if($attach_id) {
+        if ($attach_id) {
             if ($post_type == 'post') {
                 if ($file_handler == 'thumbnail')
                     update_post_meta($post_id, '_thumbnail_id', $attach_id);
@@ -934,68 +985,68 @@ class FormWordpress extends Form
      * @param array $args
      * @return bool
      */
-    public function insertUser($postId = null,$args = [])
+    public function insertUser($postId = null, $args = [])
     {
-        if($this->canInsertUser($postId)) {
+        if ($this->canInsertUser($postId)) {
 
             // Handle User has to be activated by e-mail
             $ActivateUser = isset($args['emailUser']) && true === $args['emailUser'];
 
 
-            if(isset($args['role'])){
-                if($args['role'] == 'current'){
-                    if(is_user_logged_in())
+            if (isset($args['role'])) {
+                if ($args['role'] == 'current') {
+                    if (is_user_logged_in())
                         $role = $this->get_user_role($postId);
                     else
                         $role = 'subscriber';
-                }else
+                } else
                     $role = $args['role'];
-            }else
+            } else
                 $role = 'subscriber';
 
 
             // If there is an id it's an update, else it's an insert
-            if(isset($postId) && null != ($postId)) {
+            if (isset($postId) && null != ($postId)) {
                 $postarr = [
-                    'ID' => filter_var($postId,FILTER_SANITIZE_STRING),
-                    'user_email' => isset($_POST['email']) ? filter_var($_POST['email'],FILTER_SANITIZE_EMAIL) : '',
-                    'user_url' => isset($_POST['url']) ? filter_var($_POST['url'],FILTER_SANITIZE_URL) : '',
-                    'first_name' => isset($_POST['first_name']) ? filter_var($_POST['first_name'],FILTER_SANITIZE_STRING) : '',
-                    'last_name' => isset($_POST['last_name']) ? filter_var($_POST['last_name'],FILTER_SANITIZE_STRING) : '',
-                    'description' => isset($_POST['content']) ? filter_var($_POST['content'],FILTER_SANITIZE_STRING) : '',
-                    'role' => filter_var($role,FILTER_SANITIZE_STRING),
+                    'ID' => filter_var($postId, FILTER_SANITIZE_STRING),
+                    'user_email' => isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '',
+                    'user_url' => isset($_POST['url']) ? filter_var($_POST['url'], FILTER_SANITIZE_URL) : '',
+                    'first_name' => isset($_POST['first_name']) ? filter_var($_POST['first_name'], FILTER_SANITIZE_STRING) : '',
+                    'last_name' => isset($_POST['last_name']) ? filter_var($_POST['last_name'], FILTER_SANITIZE_STRING) : '',
+                    'description' => isset($_POST['content']) ? filter_var($_POST['content'], FILTER_SANITIZE_STRING) : '',
+                    'role' => filter_var($role, FILTER_SANITIZE_STRING),
                 ];
 
                 // Role
-                $postarr['role'] = filter_var($role,FILTER_SANITIZE_STRING);
+                $postarr['role'] = filter_var($role, FILTER_SANITIZE_STRING);
 
                 // Password
-                if(isset($_POST['password']) && !empty($_POST['password']))
+                if (isset($_POST['password']) && !empty($_POST['password']))
                     $postarr['user_pass'] = $_POST['password'];
 
                 // Update user
                 $postId = wp_update_user($postarr);
-            }else{
+            } else {
 
                 $postarr = [
-                    'ID' => filter_var($postId,FILTER_SANITIZE_NUMBER_INT),
-                    'user_email' => isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL): '',
-                    'user_login' => isset($_POST['login']) ? filter_var($_POST['login'], FILTER_SANITIZE_STRING): filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
-                    'user_url' => isset($_POST['url']) ? filter_var($_POST['url'], FILTER_SANITIZE_URL): '',
-                    'first_name' => isset($_POST['first_name']) ? filter_var($_POST['first_name'], FILTER_SANITIZE_STRING): '',
-                    'last_name' => isset($_POST['last_name']) ? filter_var($_POST['last_name'], FILTER_SANITIZE_STRING): '',
-                    'description' => isset($_POST['content']) ? filter_var($_POST['content'], FILTER_SANITIZE_STRING): '',
+                    'ID' => filter_var($postId, FILTER_SANITIZE_NUMBER_INT),
+                    'user_email' => isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '',
+                    'user_login' => isset($_POST['login']) ? filter_var($_POST['login'], FILTER_SANITIZE_STRING) : filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
+                    'user_url' => isset($_POST['url']) ? filter_var($_POST['url'], FILTER_SANITIZE_URL) : '',
+                    'first_name' => isset($_POST['first_name']) ? filter_var($_POST['first_name'], FILTER_SANITIZE_STRING) : '',
+                    'last_name' => isset($_POST['last_name']) ? filter_var($_POST['last_name'], FILTER_SANITIZE_STRING) : '',
+                    'description' => isset($_POST['content']) ? filter_var($_POST['content'], FILTER_SANITIZE_STRING) : '',
                     'role' => $role,
                 ];
 
-                if(isset($_POST['password']) && !empty($_POST['password']))
+                if (isset($_POST['password']) && !empty($_POST['password']))
                     $postarr['user_pass'] = $_POST['password'];
 
 
-                if($ActivateUser) {
-                    /** @Since V 0.5 **/
+                if ($ActivateUser) {
+                    /** @Since V 0.5 * */
                     $postId = $this->InsertUnactiveUser($postarr);
-                }else{
+                } else {
                     $postId = wp_insert_user($postarr);
                 }
             }
@@ -1003,7 +1054,7 @@ class FormWordpress extends Form
             /**
              * Check if there is an error
              */
-            if(is_wp_error($postId)){
+            if (is_wp_error($postId)) {
                 $this->error = $postId->get_error_message();
                 return false;
             }
@@ -1023,27 +1074,27 @@ class FormWordpress extends Form
             ];
 
             // For all fields
-            foreach($this->fields as $field){
+            foreach ($this->fields as $field) {
                 // If it's nor a file
-                if($field['type'] != 'file') {
+                if ($field['type'] != 'file') {
                     if (!in_array($field['name'], $notField)) {
                         if (isset($field['multiple']) && $field['multiple'] && is_array($_POST[$field['name']])) {
                             foreach ($_POST[$field['name']] as $val) {
-                                if($ActivateUser){
-                                    $this->addUnactiveUserMeta($postId,$field['name'],$this->sanitizeField($val,$field['type']));
-                                }else {
-                                    add_user_meta($postId, $field['name'], $this->sanitizeField($val,$field['type']));
+                                if ($ActivateUser) {
+                                    $this->addUnactiveUserMeta($postId, $field['name'], $this->sanitizeField($val, $field['type']));
+                                } else {
+                                    add_user_meta($postId, $field['name'], $this->sanitizeField($val, $field['type']));
                                 }
                             }
                         } else {
-                            if($ActivateUser){
-                                $this->addUnactiveUserMeta($postId,$field['name'],$this->sanitizeField($_POST[$field['name']],$field['type']));
-                            }else {
-                                update_user_meta($postId, $field['name'], $this->sanitizeField($_POST[$field['name']],$field['type']));
+                            if ($ActivateUser) {
+                                $this->addUnactiveUserMeta($postId, $field['name'], $this->sanitizeField($_POST[$field['name']], $field['type']));
+                            } else {
+                                update_user_meta($postId, $field['name'], $this->sanitizeField($_POST[$field['name']], $field['type']));
                             }
                         }
                     }
-                }else {
+                } else {
                     // If it's a file
                     if (isset($_FILES[$field['name']]['name']) && !empty($_FILES[$field['name']]['name'])) {
                         $key = $field['name'];
@@ -1070,7 +1121,7 @@ class FormWordpress extends Form
             /**
              * If the forms asks to connect the user (you can't connect & have to activate the user)
              */
-            if($args['connectUser'] && !$ActivateUser){
+            if ($args['connectUser'] && !$ActivateUser) {
                 $creds = [
                     'user_login' => isset($_POST['login']) ? $_POST['login'] : $_POST['email'],
                     'user_password' => $_POST['password'],
@@ -1084,7 +1135,7 @@ class FormWordpress extends Form
             $this->sendMailActivate($postId);
 
             return $postId;
-        }else{
+        } else {
             return false;
         }
     }
@@ -1099,7 +1150,8 @@ class FormWordpress extends Form
      * @param $fieldType string the field type
      * @return mixed
      */
-    public function sanitizeField($field,$fieldType){
+    public function sanitizeField($field, $fieldType)
+    {
 
         // Array of filters
         $filters = [
@@ -1108,7 +1160,7 @@ class FormWordpress extends Form
             'email' => FILTER_SANITIZE_EMAIL,
         ];
 
-        return filter_var($field,in_array($fieldType,$filters) ? $filters[$fieldType] : FILTER_SANITIZE_STRING);
+        return filter_var($field, in_array($fieldType, $filters) ? $filters[$fieldType] : FILTER_SANITIZE_STRING);
     }
 
 
@@ -1117,50 +1169,66 @@ class FormWordpress extends Form
      *
      * @Since V 0.1
      *
+     * @Updated :   - V 0.5.2 (Remove Mail class and use PhpMailer Instead
+     *              - V 0.5.3 (Add attachment for e-mail)
+     *
      * @param array $args
      * @return bool
      */
     public function sendMail($args = [])
     {
-        if($this->canSendMail($args)){
+
+
+        if ($this->canSendMail($args)) {
 
             try {
 
                 /** @var Phpmailerform $mail */
                 $mail = $this->prepareMail();
                 $mail->setFrom(
-                    isset($args['senderEmail']) ? $args['senderEmail'] : filter_var($_POST['email']),FILTER_SANITIZE_EMAIL,
-                    isset($args['sendername']) ? $args['sendername'] : filter_var($_POST['sendername'],FILTER_SANITIZE_STRING)
+                    isset($args['senderEmail']) ? $args['senderEmail'] : filter_var($_POST['email'],FILTER_SANITIZE_EMAIL),
+                    isset($args['sendername']) ? $args['sendername'] : filter_var($_POST['sendername'], FILTER_SANITIZE_STRING)
                 );
                 $mail->addAddress(
                     isset($args['recipientEmail']) ? $args['recipientEmail'] : get_option('admin_email'),
                     isset($args['recipientName']) ? $args['recipientName'] : get_option('blogname')
                 );
-                $mail->Subject = isset($args['subject']) ? $args['subject'] : (isset($_POST['subject']) ? filter_var($_POST['subject'],FILTER_SANITIZE_STRING) : '');
+                $mail->Subject = isset($args['subject']) ? $args['subject'] : (isset($_POST['subject']) ? filter_var($_POST['subject'], FILTER_SANITIZE_STRING) : '');
+
 
 
                 $message = isset($args['message']) ? $args['message'] : $_POST['message'];
 
                 $notField = ['message', 'email', 'sendername', 'subject'];
 
+
                 // For all fields
                 foreach ($this->fields as $key => $field) {
                     if (!in_array($field['name'], $notField)) {
-                        $message .= "\n\r" . $field['name'] . ' : ' . $_POST[$field['name']];
+
+                        if ($field['type'] != 'file' && (is_string($_POST[$field['name']]) || is_int($_POST[$field['name']]) || is_bool($_POST[$field['name']])))
+                            $message .= "\n\r" . $field['name'] . ' : ' . $_POST[$field['name']];
+                        else {
+                            if (isset($_FILES[$field['name']]) &&
+                                $_FILES[$field['name']]['error'] == UPLOAD_ERR_OK) {
+                                $mail->AddAttachment($_FILES[$field['name']]['tmp_name'],
+                                    $_FILES[$field['name']]['name']);
+                            }
+                        }
                     }
                 }
+
                 $mail->Body = $message;
 
                 try {
                     return $mail->send();
-                }
-                catch(Exception $e){
+                } catch (Exception $e) {
                     $this->error = $e->getMessage();
                 }
             } catch (Exception $e) {
                 $this->error = $e->getMessage();
             }
-        }else {
+        } else {
             return false;
         }
 
@@ -1183,7 +1251,7 @@ class FormWordpress extends Form
     public function connectUser($args = [])
     {
         // If he can connect
-        if($this->canConnect()){
+        if ($this->canConnect()) {
             $creds = [
                 'user_login' => $_POST['login'],
                 'user_password' => $_POST['password'],
@@ -1191,11 +1259,11 @@ class FormWordpress extends Form
             ];
             /* @since V 0.4 */
 
-            do_action('form/BeforeConnectUser',$creds);
-            do_action('form/BeforeConnectUser-' .$this->id,$creds);
+            do_action('form/BeforeConnectUser', $creds);
+            do_action('form/BeforeConnectUser-' . $this->id, $creds);
 
             return $this->doConnexion($creds);
-        }else{
+        } else {
             return false;
         }
     }
@@ -1211,11 +1279,11 @@ class FormWordpress extends Form
     public function doConnexion($creds)
     {
 
-        $usr = wp_signon($creds,false);
-        if(is_wp_error($usr)){
+        $usr = wp_signon($creds, false);
+        if (is_wp_error($usr)) {
             $this->setError($this->errorMessages['identifiants']);
             return false;
-        }else{
+        } else {
             return $usr;
         }
     }
@@ -1255,14 +1323,15 @@ class FormWordpress extends Form
      * @param $car
      * @return string
      */
-    protected static function random($car) {
+    protected static function random($car)
+    {
         $string = '';
 
         // Every carac
         $chaine = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$0123456789sdfhDFHGgfdhg';
-        srand((double)microtime()*time());
-        for($i=0; $i<$car; $i++) {
-            $string .= $chaine[rand()%strlen($chaine)];
+        srand((double)microtime() * time());
+        for ($i = 0; $i < $car; $i++) {
+            $string .= $chaine[rand() % strlen($chaine)];
         }
         return $string;
     }
@@ -1291,9 +1360,9 @@ class FormWordpress extends Form
      * @param bool|false $single
      * @return bool
      */
-    public static function user_meta($userid,$key,$single = false)
+    public static function user_meta($userid, $key, $single = false)
     {
-        $userMeta = get_user_meta($userid,$key,$single);
+        $userMeta = get_user_meta($userid, $key, $single);
 
         return isset($userMeta[0]) && is_string($userMeta[0]) ? $userMeta[0] : false;
     }
@@ -1309,9 +1378,9 @@ class FormWordpress extends Form
      * @param bool|false $single
      * @return bool
      */
-    public static function post_meta($postID,$key,$single = false)
+    public static function post_meta($postID, $key, $single = false)
     {
-        $postMeta = get_post_meta($postID,$key,$single);
+        $postMeta = get_post_meta($postID, $key, $single);
 
         return isset($postMeta[0]) && is_string($postMeta[0]) ? $postMeta[0] : false;
     }
@@ -1335,16 +1404,17 @@ class FormWordpress extends Form
      * @param $postarr
      * @return WP_Error|mixed
      */
-    private function InsertUnactiveUser($postarr){
+    private function InsertUnactiveUser($postarr)
+    {
 
-        $user = get_user_by('login',$postarr['user_login']);
+        $user = get_user_by('login', $postarr['user_login']);
 
 
-        if($user)
-            return new WP_Error(99,"Un utilisateur avec le même identifiant a été trouvé");
+        if ($user)
+            return new WP_Error(99, "Un utilisateur avec le même identifiant a été trouvé");
 
-        if($this->SelectUnactiveUser('user_login',$postarr['user_login']))
-            return new WP_Error(99,"Un utilisateur avec le même identifiant a été trouvé");
+        if ($this->SelectUnactiveUser('user_login', $postarr['user_login']))
+            return new WP_Error(99, "Un utilisateur avec le même identifiant a été trouvé");
 
         /** @var $wpdb wpdb */
         global $wpdb;
@@ -1369,19 +1439,19 @@ class FormWordpress extends Form
         $wpdb->query($sql);
 
         // Get User Id
-        $userId = $this->SelectUnactiveUser('user_login',$postarr['user_login'])->ID;
+        $userId = $this->SelectUnactiveUser('user_login', $postarr['user_login'])->ID;
 
-        if(isset($postarr['first_name']))
-            $this->addUnactiveUserMeta($userId,'first_name',$postarr['first_name']);
+        if (isset($postarr['first_name']))
+            $this->addUnactiveUserMeta($userId, 'first_name', $postarr['first_name']);
 
-        if(isset($postarr['last_name']))
-            $this->addUnactiveUserMeta($userId,'last_name',$postarr['last_name']);
+        if (isset($postarr['last_name']))
+            $this->addUnactiveUserMeta($userId, 'last_name', $postarr['last_name']);
 
-        if(isset($postarr['description']))
-            $this->addUnactiveUserMeta($userId,'description',$postarr['description']);
+        if (isset($postarr['description']))
+            $this->addUnactiveUserMeta($userId, 'description', $postarr['description']);
 
-        if(isset($postarr['role']))
-            $this->addUnactiveUserMeta($userId,'role',$postarr['role']);
+        if (isset($postarr['role']))
+            $this->addUnactiveUserMeta($userId, 'role', $postarr['role']);
 
         return $userId;
     }
@@ -1393,7 +1463,8 @@ class FormWordpress extends Form
      * @param $val
      * @return mixed
      */
-    private function SelectUnactiveUser($key,$val){
+    private function SelectUnactiveUser($key, $val)
+    {
         /** @var $wpdb wpdb */
         global $wpdb;
 
@@ -1412,24 +1483,25 @@ class FormWordpress extends Form
      * @param string $key
      * @return mixed
      */
-    private function SelectUnactiveUserMeta($userId,$key = null){
+    private function SelectUnactiveUserMeta($userId, $key = null)
+    {
         /** @var $wpdb wpdb */
         global $wpdb;
 
         $table = $wpdb->prefix . 'easy_form_usermeta';
         $sql = "SELECT * FROM $table WHERE (user_id = '{$userId}')";
 
-        if($key !== null)
+        if ($key !== null)
             $sql .= "AND ( meta_key  = '{$key}' )";
 
         $results = $wpdb->get_results($sql);
 
         $resultSorted = new stdClass();
-        if(is_array($results)) {
+        if (is_array($results)) {
             foreach ($results as $result) {
                 $resultSorted->{$result->meta_key} = $result->meta_value;
             }
-        }else
+        } else
             $resultSorted = $results;
 
         return $resultSorted;
@@ -1441,7 +1513,8 @@ class FormWordpress extends Form
      * @param $value
      * @return false|int
      */
-    private function addUnactiveUserMeta($userId,$key,$value){
+    private function addUnactiveUserMeta($userId, $key, $value)
+    {
 
         /** @var $wpdb wpdb */
         global $wpdb;
@@ -1468,8 +1541,8 @@ class FormWordpress extends Form
      * @param $userId
      * @return false|int
      */
-    private function removeUnactiveUser($userId){
-
+    private function removeUnactiveUser($userId)
+    {
 
 
         /** @var $wpdb wpdb */
@@ -1492,10 +1565,11 @@ class FormWordpress extends Form
      * @param $userId
      * @return bool
      */
-    private function sendMailActivate($userId){
+    private function sendMailActivate($userId)
+    {
 
         /** @var $user */
-        $user = $this->SelectUnactiveUser('ID',$userId);
+        $user = $this->SelectUnactiveUser('ID', $userId);
 
         $metas = $this->SelectUnactiveUserMeta($user->ID);
 
@@ -1503,8 +1577,8 @@ class FormWordpress extends Form
         $email = get_option('admin_email');
         $name = get_option('blogname');
         $mail = $this->prepareMail();
-        $mail->setFrom($email,$name);
-        $mail->addAddress($user->user_email,$metas->first_name . ' ' . $metas->last_name);
+        $mail->setFrom($email, $name);
+        $mail->addAddress($user->user_email, $metas->first_name . ' ' . $metas->last_name);
 
         $mail->Subject = "Inscription sur $name Confirmation de l'e-mail";
 
@@ -1513,17 +1587,17 @@ class FormWordpress extends Form
 
         $lien = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://';
 
-        $lien.= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $lien .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
         $union = self::getunion($lien);
 
 
-        $lien .= $union .  'key=' . $user->user_activation_key . '&login=' . $user->user_login;
+        $lien .= $union . 'key=' . $user->user_activation_key . '&login=' . $user->user_login;
 
-        $message = str_replace('%NOM%',$metas->first_name,$message);
-        $message = str_replace('%/LIEN%','</a>',$message);
-        $message = str_replace('%LIEN%','<a href="'. $lien .'">',$message);
-        $message = str_replace('%BLOGNAME%',$name,$message);
+        $message = str_replace('%NOM%', $metas->first_name, $message);
+        $message = str_replace('%/LIEN%', '</a>', $message);
+        $message = str_replace('%LIEN%', '<a href="' . $lien . '">', $message);
+        $message = str_replace('%BLOGNAME%', $name, $message);
 
         $_SESSION['message'] = $lien;
 
@@ -1537,13 +1611,14 @@ class FormWordpress extends Form
      * @param $templateUrl
      * @return string
      */
-    private function getTemplate($templateUrl){
-        if(file_exists($templateUrl)) {
+    private function getTemplate($templateUrl)
+    {
+        if (file_exists($templateUrl)) {
             ob_start();
             require $templateUrl;
             $var = ob_get_clean();
             return $var;
-        }else
+        } else
             return '';
     }
 
@@ -1552,7 +1627,8 @@ class FormWordpress extends Form
      * @param $templateName
      * @return bool
      */
-    private function templateExists($templateName){
+    private function templateExists($templateName)
+    {
         return file_exists(get_template_directory() . '/EasyFormTemplates/' . $templateName);
     }
 
@@ -1562,29 +1638,12 @@ class FormWordpress extends Form
      * @param $templateName
      * @return string
      */
-    private function getFormTemplate($templateName){
-        if($this->templateExists($templateName)){
+    private function getFormTemplate($templateName)
+    {
+        if ($this->templateExists($templateName)) {
             return $this->getTemplate(get_template_directory() . '/EasyFormTemplates/' . $templateName);
-        }else{
-            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../templates/mail/' . $templateName);
-        }
-    }
-
-    /**
-     * Returns the lang overided in theme || the form default template
-     *
-     * @Since V 0.5
-     *
-     * @param $templateName
-     * @return string
-     */
-    private function getLangTemplate($lang){
-        if($this->templateExists('langs/' . $lang . '.json')){
-            return $this->getTemplate(get_template_directory() . '/EasyFormTemplates/langs/' . $lang . '.json');
-        }elseif(is_file(plugin_dir_path( __FILE__ ).'/../assets/langs/' . $lang . '.json')){
-            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../assets/langs/' . $lang . '.json');
-        }else{
-            return $this->getTemplate(plugin_dir_path( __FILE__ ).'/../assets/langs/fr.json');
+        } else {
+            return $this->getTemplate(plugin_dir_path(__FILE__) . '/../templates/mail/' . $templateName);
         }
     }
 
@@ -1594,22 +1653,23 @@ class FormWordpress extends Form
      *
      * @return bool
      */
-    public function CheckUnactiveUsers($args){
+    public function CheckUnactiveUsers($args)
+    {
 
 
-        if(!isset($_GET['key']) || !isset($_GET['login']))
+        if (!isset($_GET['key']) || !isset($_GET['login']))
             return false;
 
 
-        $user = $this->SelectUnactiveUser('user_login',$_GET['login']);
+        $user = $this->SelectUnactiveUser('user_login', $_GET['login']);
 
-        if(NULL === $user) {
+        if (NULL === $user) {
             $this->error = $this->errorMessages['alreadyActivated'];
             return false;
         }
 
 
-        if($user->user_activation_key != $_GET['key']) {
+        if ($user->user_activation_key != $_GET['key']) {
             $this->error = $this->errorMessages['invalidKey'];
             return false;
         }
@@ -1618,33 +1678,33 @@ class FormWordpress extends Form
 
 
         $postarr = [
-            'user_email' => filter_var($user->user_email,FILTER_SANITIZE_EMAIL),
-            'user_url' => filter_var($user->user_url,FILTER_SANITIZE_URL),
-            'user_pass' => filter_var($user->user_pass,FILTER_SANITIZE_STRING),
-            'user_login' => filter_var($user->user_login,FILTER_SANITIZE_STRING),
-            'first_name' => isset($metas->first_name) ? filter_var($metas->first_name,FILTER_SANITIZE_STRING) : '',
-            'last_name' => isset($metas->last_name) ? filter_var($metas->last_name,FILTER_SANITIZE_STRING) : '',
-            'description' => isset($metas->description) ? filter_var($metas->description,FILTER_SANITIZE_STRING) : '',
+            'user_email' => filter_var($user->user_email, FILTER_SANITIZE_EMAIL),
+            'user_url' => filter_var($user->user_url, FILTER_SANITIZE_URL),
+            'user_pass' => filter_var($user->user_pass, FILTER_SANITIZE_STRING),
+            'user_login' => filter_var($user->user_login, FILTER_SANITIZE_STRING),
+            'first_name' => isset($metas->first_name) ? filter_var($metas->first_name, FILTER_SANITIZE_STRING) : '',
+            'last_name' => isset($metas->last_name) ? filter_var($metas->last_name, FILTER_SANITIZE_STRING) : '',
+            'description' => isset($metas->description) ? filter_var($metas->description, FILTER_SANITIZE_STRING) : '',
             'role' => $metas->role,
         ];
 
         $userId = wp_insert_user($postarr);
 
-        if(is_wp_error($userId)) {
+        if (is_wp_error($userId)) {
             $this->error = $userId->get_error_message();
             return false;
         }
 
-        $forgetMeta = ['role','last_name','description','first_name',];
+        $forgetMeta = ['role', 'last_name', 'description', 'first_name',];
 
-        foreach ($metas as $key => $val){
-            if(!in_array($key,$forgetMeta))
-                add_user_meta($userId, $key, filter_var($val,FILTER_SANITIZE_STRING));
+        foreach ($metas as $key => $val) {
+            if (!in_array($key, $forgetMeta))
+                add_user_meta($userId, $key, filter_var($val, FILTER_SANITIZE_STRING));
         }
 
         $this->setUserActive();
 
-        if(isset($args['connectUser']) & $args['connectUser']){
+        if (isset($args['connectUser']) & $args['connectUser']) {
             $creds = [
                 'user_login' => $user->user_login,
                 'user_password' => $user->user_pass,
@@ -1663,7 +1723,8 @@ class FormWordpress extends Form
      *
      * @Since V 0.5
      */
-    private function setUserActive(){
+    private function setUserActive()
+    {
         $_SESSION['user_activated'] = true;
     }
 
@@ -1671,12 +1732,13 @@ class FormWordpress extends Form
     /**
      * @return bool
      */
-    public function UserIsActivated(){
+    public function UserIsActivated()
+    {
         if (isset($_SESSION['user_activated'])) {
             // I unset the session
             unset($_SESSION['user_activated']);
             return true;
-        }else
+        } else
             return false;
     }
 

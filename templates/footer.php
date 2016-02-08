@@ -5,15 +5,15 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <?php /** @var $form WP_Post */ ?>
-                    <h4 class="modal-title">Dupliquer un formulaire</h4>
+                    <h4 class="modal-title"><?php _e('Dupliquer un formulaire', 'easy-form'); ?></h4>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="form-duplicate-id"/>
-                    <label for="form-duplicate-name">Nom du nouveau formulaire</label>
-                    <input type="text" class="form-control" required placeholder="Nom du nouveau formulaire" name="form-duplicate-name" id="form-duplicate-name" />
+                    <label for="form-duplicate-name"><?php _e('Nom du nouveau formulaire', 'easy-form'); ?></label>
+                    <input type="text" class="form-control" required placeholder="<?php _e('Nom du nouveau formulaire', 'easy-form'); ?>" name="form-duplicate-name" id="form-duplicate-name" />
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" value="Dupliquer" class="button button-primary button-large left" name="form-duplicate"/>
+                    <input type="submit" value="<?php _e('Dupliquer', 'easy-form'); ?>" class="button button-primary button-large left" name="form-duplicate"/>
                 </div>
             </form>
         </div>

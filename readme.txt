@@ -55,12 +55,27 @@ Fell free to ask me a lot :)
 == Changelog ==
 
 Incomming :
- * Full translation french/english
- * Better documentation
+ * Crypt Password for new users when authentification by email is needed (In Progress)
+ * Update the SQL queries to prepare them (In Progress)
+ * Add an e-mail verification on sign un (Impossible to have 2 users with the same e-mail)
+ * Add the possibility to sign in with id or e-mail
+ * Add Facebook/Google login & Sign-in
+ * Create a uniq id based on some fields ( sign up )
+ * Add a full french/english documentation)
+ * Add Unit Tests
  * New awesome features
 
 
-= 0.5.2 =
+= 0.5.3 =
+ * Add attachments to e-mail
+ * Update htmlspecialcar on add.php
+ * Remove bug on antispam
+ * Remove add_action init on checkform (bug after WP Update ? )
+ * Correct bug on redirection
+ * Remove some bugs due to sanitization
+ * Add English Language support for errors & Back-office
+
+ = 0.5.2 =
  * Update sanitization
  * Add scripts & css with wp_enqueue_scripts & wp_enqueue_styles
  * Remove jQuery (use WordPress' own jQuery)

@@ -1,9 +1,9 @@
 <div class="wrap gf_browser_chrome">
-    <h2>Importer un formulaire</h2>
+    <h2><?php _e('Importer un formulaire', 'easy-form'); ?></h2>
     <section class="panel-wordpress">
         <div class="form-group">
             <div class="form-group">
-                <h2>Séléctionnez votre formulaire Json</h2>
+                <h2><?php _e('Séléctionnez votre formulaire Json', 'easy-form'); ?></h2>
             </div>
         </div>
 
@@ -24,15 +24,15 @@
         <form action="#" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="file" name="import-form" id="import-form" class="sr-only"/>
-                <label for="import-form" class="button button-primary button-large">Séléctionner le fichier</label>
+                <label for="import-form" class="button button-primary button-large"><?php _e('Séléctionner le fichier', 'easy-form'); ?></label>
             </div>
             <div class="form-group">
-                <input type="submit" class="button button-primary button-large" name="import-forms-bastien" value="importer"/>
+                <input type="submit" class="button button-primary button-large" name="import-forms-bastien" value="<?php _e('Importer', 'easy-form'); ?>"/>
             </div>
         </form>
         <?php if(isset($downloadButton)): ?>
             <hr>
-            <h2>Formulaires exportés</h2>
+            <h2><?php _e('Formulaires exportés', 'easy-form'); ?></h2>
             <?php echo $downloadButton; ?>
         <?php endif; ?>
     </section>
