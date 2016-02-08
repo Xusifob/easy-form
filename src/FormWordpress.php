@@ -475,6 +475,7 @@ class FormWordpress extends Form
                     do_action('form/insertOrModifyPost', $postId);
                     do_action('form/insertOrModifyPost-' . $this->id, $postId);
 
+
                     // Keep compatibility with old version, deprecated
                     do_action('form/insertOrModifyPost', $postId);
                     do_action('form/insertOrModifyPost-' . $this->id, $postId);
@@ -526,28 +527,29 @@ class FormWordpress extends Form
 
                 $lien = ($lien == 'newpost') ? null : $lien;
 
-                if ($postId = $this->insertUser($postId, $args)) {
+                if($userId  = $this->insertUser($postId,$args)) {
                     $this->setFormSend($thepostId);
 
                     // Actions
                     /* @since V 0.4 add hooks */
-                    do_action('form/InsertOrModifyUser', $postId);
-                    do_action('form/InsertOrModifyUser-' . $this->id, $postId);
+                    do_action('form/InsertOrModifyUser',$userId);
+                    do_action('form/InsertOrModifyUser-' . $this->id,$userId);
 
                     // Keep compatibility with old version, deprecated
-                    do_action('form/insertOrModifyUser', $postId);
-                    do_action('form/insertOrModifyUser-' . $this->id, $postId);
-                    if (isset($this->postArgs['id'])) {
-                        do_action('form/ModifyUser', $postId);
-                        do_action('form/ModifyUser-' . $this->id, $postId);
+                    do_action('form/insertOrModifyUser',$userId);
+                    do_action('form/insertOrModifyUser-' . $this->id,$userId);
+                    if(isset($this->postArgs['id'])) {
+                        do_action('form/ModifyUser',$userId);
+                        do_action('form/ModifyUser-' . $this->id,$userId);
                     } else {
 
-                        do_action('form/InsertUser', $postId);
-                        do_action('form/InsertUser-' . $this->id, $postId);
+                        do_action('form/InsertUser',$userId);
+                        do_action('form/InsertUser-' . $this->id,$userId);
 
                         // Keep compatibility with old version, deprecated
-                        do_action('form/insertUser', $postId);
-                        do_action('form/insertUser-' . $this->id, $postId);
+                        do_action('form/insertUser',$postId);
+                        do_action('form/insertUser-' . $this->id,$userId);
+
                     }
 
                     wp_redirect($lien . $varURl);

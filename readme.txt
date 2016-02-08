@@ -65,6 +65,11 @@ Incomming :
  * Add Unit Tests
  * New awesome features
 
+= 0.5.4 =
+ * Add Notification update
+ * Add more english
+ * Start work with trash & bulk actions
+ * Add possibility to retrieve fields one by one
 
 = 0.5.3 =
  * Add attachments to e-mail
