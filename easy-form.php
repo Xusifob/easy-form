@@ -73,11 +73,57 @@ class FormPlugin
         add_filter('pre_set_site_transient_update_plugins', [$this,'check_for_plugin_update']);
 
         add_filter('plugins_api', [$this,'plugin_api_call'], 10, 3);
-        add_action('plugins_loaded', 'wan_load_textdomain');
-        function wan_load_textdomain() {
-            load_plugin_textdomain( 'easy-form', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
-        }
+        add_action('plugins_loaded', [$this,'wan_load_textdomain']);
 
+
+        //
+        add_action( 'wp_ajax_input_template', [$this,'input_template'] );
+        add_action( 'wp_ajax_form_action', [$this,'action_template'] );
+
+    }
+
+
+    /**
+     * @Since V 0.5.4
+     */
+    function input_template(){
+        if(isset($_GET['input']) && !empty($_GET['input'])){
+            if(file_exists(__DIR__ . '/templates/inputs/' . $_GET['input'] . '.php'))
+                include __DIR__ . '/templates/inputs/' . $_GET['input'] . '.php';
+        }
+        die();
+    }
+
+    /**
+     * @Since V 0.5.4
+     * Return the form action template
+     */
+    function action_template(){
+        if(isset($_GET['form_action']) && !empty($_GET['form_action'])){
+            if(file_exists(__DIR__ . '/templates/form-actions/' . $_GET['form_action'] . '.php'))
+                include __DIR__ . '/templates/form-actions/' . $_GET['form_action'] . '.php';
+        }
+        die();
+    }
+
+
+
+    function mon_action() {
+
+        $param = $_POST['param'];
+
+        echo $param;
+
+        die();
+    }
+
+    /**
+     * Load the traduction for easy-form
+     *
+     * @Since V 0.5.4
+     */
+    public function wan_load_textdomain() {
+        load_plugin_textdomain( 'easy-form', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
     }
 
     /**
@@ -152,8 +198,8 @@ class FormPlugin
         global $api_url, $plugin_slug, $wp_version;
 
         //Comment out these two lines during testing.
-        /*if (empty($checked_data->checked))
-            return $checked_data;*/
+        if (empty($checked_data->checked))
+            return $checked_data;
 
         $args = array(
             'slug' => $plugin_slug,
@@ -174,7 +220,7 @@ class FormPlugin
         if (!is_wp_error($raw_response) && ($raw_response['response']['code'] == 200))
             $response = unserialize($raw_response['body']);
 
-        if (is_object($response) && !empty($response)) // Feed the update data into WP updater
+        if (isset($response) && is_object($response) && !empty($response)) // Feed the update data into WP updater
             $checked_data->response[$plugin_slug .'/'. $plugin_slug .'.php'] = $response;
 
         return $checked_data;
@@ -224,6 +270,7 @@ class FormPlugin
 
         return $res;
     }
+
 
 
 

@@ -1,6 +1,6 @@
 <?php
 function load_custom_wp_admin_style() {
-    $relPath = plugins_url() . '/easy-form/';
+    $relPath = plugins_url( '../', __FILE__ );
 
 
     /** All JS files */
@@ -17,6 +17,19 @@ function load_custom_wp_admin_style() {
     wp_enqueue_script( 'shBrushJScript-js' );
     wp_enqueue_script( 'shBrushPhp-js' );
     wp_enqueue_script( 'functions-js' );
+
+  /*  if($_GET['page'] == 'add-form'){
+        wp_register_script('empty-inputs-js',$relPath . 'assets/js/empty-inputs.js');
+        wp_register_script('draggable-js',$relPath . 'assets/js/draggable.js');
+        wp_register_script('functions2-js',$relPath . 'assets/js/functions.js');
+        wp_register_script('actions-js',$relPath . 'assets/js/actions.js');
+
+        wp_enqueue_script( 'functions2-js' );
+        wp_enqueue_script( 'empty-inputs-js' );
+        wp_enqueue_script( 'draggable-js' );
+        wp_enqueue_script( 'actions-js' );
+    }*/
+
 
     /** All Css Files */
 

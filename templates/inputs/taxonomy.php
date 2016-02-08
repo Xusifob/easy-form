@@ -1,8 +1,4 @@
-<?php
-define('WP_USE_THEMES', false);
-global $wp, $wp_query, $wp_the_query, $wp_rewrite, $wp_did_header;
-require(__DIR__ . '/../../../../../wp-load.php');
-?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="options-fieldId" style="display: none;">
     <div class="row form-group">
         <div class="col-sm-4">

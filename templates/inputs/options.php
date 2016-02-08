@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="row option-select" id="option-selectfieldId-fieldSubId">
     <div class="col-sm-4">
         <div class="form-group">

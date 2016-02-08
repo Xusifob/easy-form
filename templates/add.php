@@ -109,7 +109,13 @@
     var $ = jQuery;
 
 
-    var templatePath = '<?php echo plugins_url() . '/easy-form/templates'; ?>';
+    var ajaxUrl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
+
+    $.get(ajaxUrl,{input : 'input-empty',action:'input_template'},function(data){
+
+    });
+
+    var templatePath = '<?php echo plugins_url( '/', __FILE__ ) ; ?>';
 
 </script>
 

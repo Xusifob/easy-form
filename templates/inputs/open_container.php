@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="row form-group">
     <div class="col-md-4">
         <input type="text" name="field[fieldId][form-container]" class="form-control" value="div" placeholder="Type du container"/>
