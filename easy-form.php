@@ -16,6 +16,10 @@ ini_set('max_execution_time',3600);
 class FormPlugin
 {
     /**
+     * @Since V 0.1
+     *
+     * @Updated V 0.5.3 Add support for multi languages
+     *
      * Constructeur
      */
     public function __construct()
@@ -77,6 +81,8 @@ class FormPlugin
     }
 
     /**
+     * @Since V 0.1
+     *
      * Called on plugin activation : Create user & usermeta tabs
      */
     public function activate(){
@@ -106,7 +112,10 @@ class FormPlugin
 
 
     /**
-     * Ajoute le menu
+     *
+     * @Since V 0.1
+     *
+     * Add All Admin's Menu tab
      */
     public function addAdminMenu()
     {
@@ -127,6 +136,7 @@ class FormPlugin
         add_submenu_page('forms',__('Documentation','easy-form'),__('Documentation','easy-form'),'edit_plugins','doc-form',[$this,'displayDoc']);
 
     }
+
 
 
     /**
@@ -215,16 +225,6 @@ class FormPlugin
         return $res;
     }
 
-
-    /**
-     *
-     * Create a header not in admin
-     *
-     */
-    public function includeHead()
-    {
-        require_once __DIR__ . '/templates/head.php';
-    }
 
 
     /**
