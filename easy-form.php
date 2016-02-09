@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://baltazare.fr
 Description: Permet de créer et styliser des formulaires facilement
-Version: 0.5.3
+Version: 0.5.4
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 License: MIT
@@ -16,6 +16,11 @@ ini_set('max_execution_time',3600);
 class FormPlugin
 {
     /**
+     * @Since V 0.1
+     *
+     * @Updated - V 0.5.3 (Add support for multi languages)
+     *          - V 0.5.4 (Add support for update check)
+     *
      * Constructeur
      */
     public function __construct()
@@ -52,6 +57,8 @@ class FormPlugin
                 require_once __DIR__ . '/templates/head-admin.php';
                 add_action('admin_footer', [$this, 'includeFooterAdmin']);
             }
+
+
             add_action('admin_menu', [$this, 'addAdminMenu']);
         }else{
             // use of sessions
@@ -64,14 +71,81 @@ class FormPlugin
             }
         }
 
-        add_action('plugins_loaded', 'wan_load_textdomain');
-        function wan_load_textdomain() {
-            load_plugin_textdomain( 'easy-form', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
-        }
+
+        // Used for the update check of the plugin
+       // set_site_transient('update_plugins', null);
+        add_filter('pre_set_site_transient_update_plugins', [$this,'check_for_plugin_update']);
+        add_filter('plugins_api', [$this,'plugin_api_call'], 10, 3);
+
+        // Add action for multilingual traduction
+        add_action('plugins_loaded', [$this,'wan_load_textdomain']);
+
+
+        // Add action for ajax calls in add.php template (page add-form)
+        add_action( 'wp_ajax_input_template', [$this,'input_template'] );
+        add_action( 'wp_ajax_form_action', [$this,'action_template'] );
+
+        // Hook for the display-form.php file
+        add_action( 'wp_ajax_display_form', [$this,'display_form'] );
+        add_action( 'wp_ajax_nopriv_display_form', [$this,'display_form'] );
 
     }
 
+
     /**
+     *
+     * Return the display-form.php file on ajax call (to display as a js file)
+     *
+     * @Since V 0.5.4
+     */
+    public function display_form(){
+
+        header('Content-Type: application/javascript');
+        if(file_exists(__DIR__ . '/assets/js/display-form.php'))
+                include __DIR__ . '/assets/js/display-form.php';
+        die();
+    }
+
+    /**
+     *
+     * Return the template of the correct input if it exist
+     *
+     * @Since V 0.5.4
+     */
+    public function input_template(){
+        if(isset($_GET['input']) && !empty($_GET['input'])){
+            if(file_exists(__DIR__ . '/templates/inputs/' . $_GET['input'] . '.php'))
+                include __DIR__ . '/templates/inputs/' . $_GET['input'] . '.php';
+        }
+        die();
+    }
+
+    /**
+     * @Since V 0.5.4
+     * Return the form action template
+     */
+    public function action_template(){
+        if(isset($_GET['form_action']) && !empty($_GET['form_action'])){
+            if(file_exists(__DIR__ . '/templates/form-actions/' . $_GET['form_action'] . '.php'))
+                include __DIR__ . '/templates/form-actions/' . $_GET['form_action'] . '.php';
+        }
+        die();
+    }
+
+
+
+    /**
+     * Load the traduction for easy-form
+     *
+     * @Since V 0.5.4
+     */
+    public function wan_load_textdomain() {
+        load_plugin_textdomain( 'easy-form', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
+    }
+
+    /**
+     * @Since V 0.1
+     *
      * Called on plugin activation : Create user & usermeta tabs
      */
     public function activate(){
@@ -101,7 +175,10 @@ class FormPlugin
 
 
     /**
-     * Ajoute le menu
+     *
+     * @Since V 0.1
+     *
+     * Add All Admin's Menu tab
      */
     public function addAdminMenu()
     {
@@ -124,15 +201,94 @@ class FormPlugin
     }
 
 
+
     /**
      *
-     * Create a header not in admin
+     * Check if the plugin needs updates
      *
+     * @Since V 0.5.4
+     *
+     * @param $checked_data
+     * @return mixed
      */
-    public function includeHead()
-    {
-        require_once __DIR__ . '/templates/head.php';
+    function check_for_plugin_update($checked_data) {
+        global $api_url, $plugin_slug, $wp_version;
+
+        //Comment out these two lines during testing.
+        if (empty($checked_data->checked))
+            return $checked_data;
+
+        $args = array(
+            'slug' => $plugin_slug,
+            'version' => $checked_data->checked[$plugin_slug .'/'. $plugin_slug .'.php'],
+        );
+        $request_string = array(
+            'body' => array(
+                'action' => 'basic_check',
+                'request' => serialize($args),
+                'api-key' => md5(get_bloginfo('url'))
+            ),
+            'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo('url')
+        );
+
+        // Start checking for an update
+        $raw_response = wp_remote_post($api_url, $request_string);
+
+        if (!is_wp_error($raw_response) && ($raw_response['response']['code'] == 200))
+            $response = unserialize($raw_response['body']);
+
+        if (isset($response) && is_object($response) && !empty($response)) // Feed the update data into WP updater
+            $checked_data->response[$plugin_slug .'/'. $plugin_slug .'.php'] = $response;
+
+        return $checked_data;
     }
+
+
+    /**
+     * Take over the info's screen
+     *
+     * @Since V 0.5.4
+     *
+     * @param $def
+     * @param $action
+     * @param $args
+     * @return bool|mixed|WP_Error
+     */
+    public function plugin_api_call($def, $action, $args) {
+        global $plugin_slug, $api_url, $wp_version;
+
+        if (!isset($args->slug) || ($args->slug != $plugin_slug))
+            return false;
+
+        // Get the current version
+        $plugin_info = get_site_transient('update_plugins');
+        $current_version = $plugin_info->checked[$plugin_slug .'/'. $plugin_slug .'.php'];
+        $args->version = $current_version;
+
+        $request_string = array(
+            'body' => array(
+                'action' => $action,
+                'request' => serialize($args),
+                'api-key' => md5(get_bloginfo('url'))
+            ),
+            'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo('url')
+        );
+
+        $request = wp_remote_post($api_url, $request_string);
+
+        if (is_wp_error($request)) {
+            $res = new WP_Error('plugins_api_failed', __('An Unexpected HTTP Error occurred during the API request.</p> <p><a href="?" onclick="document.location.reload(); return false;">Try again</a>'), $request->get_error_message());
+        } else {
+            $res = unserialize($request['body']);
+
+            if ($res === false)
+                $res = new WP_Error('plugins_api_failed', __('An unknown error occurred'), $request['body']);
+        }
+
+        return $res;
+    }
+
+
 
 
     /**
@@ -234,7 +390,7 @@ class FormPlugin
         if(isset($_GET['id']) && !empty($_GET['id'])){
             $form = new WP_Form($_GET['id']);
 
-            $formFields = get_post_meta($_GET['id'],'form-fields')[0];
+            $formFields = get_post_meta(filter_var($_GET['id'],FILTER_SANITIZE_NUMBER_INT),'form-fields')[0];
         }
         else{
             // Getting all forms

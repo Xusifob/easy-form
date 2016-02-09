@@ -26,6 +26,13 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Add Unit Tests
 
 
+### Version 0.5.4 :
+ * Add Notification update
+ * Add more english
+ * Start work with trash & bulk actions
+ * Add possibility to retrieve fields one by one
+ * Remove head.php & method add_header
+
 ### Version 0.5.3 :
  * Add attachments to e-mail
  * Update htmlspecialcar on add.php

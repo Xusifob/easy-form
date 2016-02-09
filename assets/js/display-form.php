@@ -1,5 +1,6 @@
-<script type="text/javascript">
-    // Set all fields depending on modify or add
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
+// Set all fields depending on modify or add
     <?php
     if(isset($formFields[0])):
         echo 'var fields = ' .  json_encode($formFields[0]) . ';';
@@ -100,15 +101,14 @@
         var dfd = new $.Deferred();
 
         // Je récupère la base
-        $.get('<?php echo plugins_url()?>/easy-form/templates/inputs/input-empty.php',function(base){
-
+        $.get(ajaxUrl,{input : 'input-empty',action:'input_template'},function(base){
 
             if($.inArray(field.type,inputs) !== -1) {
-                var template = templatePath + '/inputs/input.php';
+                var template = 'input';
             }else {
-                var template = templatePath + '/inputs/' + field.type + '.php';
+                var template = field.type;
             }
-            $.get(template, function () {
+            $.get(ajaxUrl,{input : template,action:'input_template'},function(){
             }).always(function(data){
 
                 // Je met la base
@@ -159,7 +159,7 @@
 
                 // Handle Select Fields
                 if(field.type == 'select'){
-                    $.get(templatePath + '/inputs/options.php',function(optionTemplate) {
+                    $.get(ajaxUrl,{input : 'options',action:'input_template'},function(optionTemplate){
                         // Create the opts
                         var opts = '';
                         for(opt = 0; opt< field.args.options.length;opt++){
@@ -196,7 +196,7 @@
         // Create a promise
         var dfd = new $.Deferred();
 
-        $.get(templatePath + '/inputs/options.php',function(optionTemplate) {
+        $.get(ajaxUrl,{input : 'options',action:'input_template'},function(optionTemplate){
 
             // Replace the sub field Id
             optionTemplate = replace(optionTemplate, 'fieldSubId',field.nbOptions);
@@ -210,5 +210,3 @@
         });
         return dfd.promise();
     }
-
-</script>

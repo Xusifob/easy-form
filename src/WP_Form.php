@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class WP_Form
 {
 
@@ -240,16 +242,14 @@ class WP_Form
      *
      * @since V 0.1
      *
-     * @Updated : V 0.5.3 (Add lang)
      *
      * Return the error based on the asked lang
      *
-     * @param string $lang
      * @return bool
      */
-    public function getError($lang = 'fr')
+    public function getError()
     {
-        return $this->form->getError($lang);
+        return $this->form->getError();
     }
 
     /**
@@ -270,14 +270,33 @@ class WP_Form
      *
      * @since V 0.3
      *
+     * @Updated : V 0.5.4 (Handle the 2nd parameters ti display only a part of the field (label,error,field) )
+     *
      * Return a form field
      *
      * @param $name
-     * @return bool
+     * @param $field null | string
+     * @return bool | string
      */
-    public function get_form_field($name)
+    public function get_form_field($name,$field = null)
     {
-        $this->form->get_form_field($name);
+        $this->form->get_form_field($name,$field);
+    }
+
+    /**
+     *
+     * @since V 0.3
+     *
+     * @Updated : V 0.5.4 (Handle the 2nd parameters ti display only a part of the field (label,error,field) )
+     *
+     * Display a form field
+     *
+     * @param $name string The name of the field
+     * @param $field null | string
+     */
+    public function the_form_field($name,$field = null)
+    {
+        $this->form->the_form_field($name,$field);
     }
 
 
@@ -304,18 +323,7 @@ class WP_Form
         $this->form->the_form_uniqId();
     }
 
-    /**
-     *
-     * @since V 0.3
-     *
-     * Display a form field
-     *
-     * @param $name
-     */
-    public function the_form_field($name)
-    {
-        $this->form->the_form_field($name);
-    }
+
 
     /**
      *

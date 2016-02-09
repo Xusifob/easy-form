@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="row">
     <div class="col-sm-4">
         <input type="checkbox" name="form-send-remember" ConnectUserChecked id="form-send-remember" value="1"/>

@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="options-fieldId" style="display: none;">
     <div class="row">
         <div class="col-sm-12">

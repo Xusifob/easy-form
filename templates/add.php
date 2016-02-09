@@ -1,3 +1,4 @@
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="wrap gf_browser_chrome">
     <form action="<?php echo $_SERVER['REQUEST_URI'];?>&noheader=true" novalidate method="post">
         <?php
@@ -109,20 +110,17 @@
     var $ = jQuery;
 
 
-    var templatePath = '<?php echo plugins_url() . '/easy-form/templates'; ?>';
+    var ajaxUrl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
+
+    $.get(ajaxUrl,{input : 'input-empty',action:'input_template'},function(data){
+
+    });
+
+    var templatePath = '<?php echo plugins_url( '/', __FILE__ ) ; ?>';
 
 </script>
 
-<script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/empty-inputs.js'; ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/draggable.js'; ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/functions.js'; ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url() . '/easy-form/assets/js/actions.js'; ?>"></script>
-
-<!-- Permet d'afficher les formulaires -->
-<?php include __DIR__ . '/../assets/js/display-form.php'; ?>
 
 <script type="text/javascript">
-
     var nbfield = <?php echo isset($i) ? ($i-1) : 1; ?> ;
-
 </script>

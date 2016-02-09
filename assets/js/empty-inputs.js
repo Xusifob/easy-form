@@ -1,6 +1,6 @@
 // All inputs available
 var inputs = [
-    'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'radio', 'url', 'range', 'color', 'search', 'hidden','textarea'
+    'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'radio', 'url', 'range', 'color', 'search', 'hidden','textarea','wp_editor'
 ];
 
 

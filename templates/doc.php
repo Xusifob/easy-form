@@ -1,3 +1,5 @@
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <div class="wrap gf_browser_chrome">
     <h2>Documentation</h2>
     <section class="panel-wordpress">
