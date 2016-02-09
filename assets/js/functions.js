@@ -1,3 +1,5 @@
+var $ = jQuery;
+
 /**
  *  Handle hidden fields on certains kinds of fields
  *

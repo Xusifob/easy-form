@@ -1,5 +1,6 @@
 // Use to display the duplication field modal
-$('.move').on('click',function() {
+$('body').on('click','.move',function() {
+
     var fieldId = $(this).attr('data-field');
     $('#form-duplicate-field-id').val(fieldId);
     $('#modal-move').modal('show');
@@ -211,7 +212,7 @@ function displayReinitialiseUtility(val){
  * @param formSendArgs
  */
 function getUtilities(val,formSendArgs){
-    $.get(templatePath + '/form-actions/' + val + '.php' , function (data) {
+    $.get(ajaxUrl,{form_action : val,action:'form_action'},function(data){
         switch (val){
             case 'post':
                 data = replace(data, 'value="' +formSendArgs.post_type+ '"', 'value="' +formSendArgs.post_type + '" selected');

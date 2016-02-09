@@ -70,6 +70,13 @@ Incomming :
  * Add more english
  * Start work with trash & bulk actions
  * Add possibility to retrieve fields one by one
+ * Update bug on wp_editor
+ * Update error on wp_update_post
+ * Update ajax calls on add.php
+ * Update all scripts and put them in a wp_enqueue_scripts
+ * Update preview page after a few bug with traduction
+ * Add Abspath on each file
+ * Remove jQuery-ui, use WordPress core jQuery-ui
 
 = 0.5.3 =
  * Add attachments to e-mail

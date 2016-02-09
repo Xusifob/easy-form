@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 // Getting all forms
 $args = [
     'post_type' => 'form-plugin-bastien',

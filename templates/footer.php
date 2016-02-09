@@ -1,4 +1,24 @@
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="modal-duplicate" role="dialog" aria-labelledby="mySmallModalLabel">
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
+<?php
+
+if($_GET['page'] == 'add-form'){
+    $relPath = plugins_url( '../', __FILE__ );
+    wp_register_script('empty-inputs-js',$relPath . 'assets/js/empty-inputs.js');
+    wp_register_script('draggable-js',$relPath . 'assets/js/draggable.js');
+    wp_register_script('functions2-js',$relPath . 'assets/js/functions.js');
+    wp_register_script('actions-js',$relPath . 'assets/js/actions.js');
+    wp_register_script('display-form',admin_url( 'admin-ajax.php' ) . '?action=display_form' );
+
+    wp_enqueue_script( 'functions2-js' );
+    wp_enqueue_script( 'empty-inputs-js' );
+    wp_enqueue_script( 'draggable-js' );
+    wp_enqueue_script( 'actions-js' );
+    wp_enqueue_script( 'display-form' );
+}
+
+
+?><div class="modal fade bs-example-modal-sm" tabindex="-1" id="modal-duplicate" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <form action="<?php echo $_SERVER['REQUEST_URI'];?>&noheader=true" method="post">

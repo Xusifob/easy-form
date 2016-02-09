@@ -1,3 +1,4 @@
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="wrap gf_browser_chrome">
     <h2><?php _e('Importer un formulaire', 'easy-form'); ?></h2>
     <section class="panel-wordpress">
