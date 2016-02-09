@@ -1,3 +1,4 @@
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="wrap gf_browser_chrome">
     <div class="wrap">
         <div id="icon-users" class="icon32"></div>

@@ -18,7 +18,8 @@ class FormPlugin
     /**
      * @Since V 0.1
      *
-     * @Updated V 0.5.3 Add support for multi languages
+     * @Updated - V 0.5.3 (Add support for multi languages)
+     *          - V 0.5.4 (Add support for update check)
      *
      * Constructeur
      */
@@ -56,6 +57,8 @@ class FormPlugin
                 require_once __DIR__ . '/templates/head-admin.php';
                 add_action('admin_footer', [$this, 'includeFooterAdmin']);
             }
+
+
             add_action('admin_menu', [$this, 'addAdminMenu']);
         }else{
             // use of sessions
@@ -68,25 +71,48 @@ class FormPlugin
             }
         }
 
-        set_site_transient('update_plugins', null);
 
+        // Used for the update check of the plugin
+       // set_site_transient('update_plugins', null);
         add_filter('pre_set_site_transient_update_plugins', [$this,'check_for_plugin_update']);
-
         add_filter('plugins_api', [$this,'plugin_api_call'], 10, 3);
+
+        // Add action for multilingual traduction
         add_action('plugins_loaded', [$this,'wan_load_textdomain']);
 
 
-        //
+        // Add action for ajax calls in add.php template (page add-form)
         add_action( 'wp_ajax_input_template', [$this,'input_template'] );
         add_action( 'wp_ajax_form_action', [$this,'action_template'] );
+
+        // Hook for the display-form.php file
+        add_action( 'wp_ajax_display_form', [$this,'display_form'] );
+        add_action( 'wp_ajax_nopriv_display_form', [$this,'display_form'] );
 
     }
 
 
     /**
+     *
+     * Return the display-form.php file on ajax call (to display as a js file)
+     *
      * @Since V 0.5.4
      */
-    function input_template(){
+    public function display_form(){
+
+        header('Content-Type: application/javascript');
+        if(file_exists(__DIR__ . '/assets/js/display-form.php'))
+                include __DIR__ . '/assets/js/display-form.php';
+        die();
+    }
+
+    /**
+     *
+     * Return the template of the correct input if it exist
+     *
+     * @Since V 0.5.4
+     */
+    public function input_template(){
         if(isset($_GET['input']) && !empty($_GET['input'])){
             if(file_exists(__DIR__ . '/templates/inputs/' . $_GET['input'] . '.php'))
                 include __DIR__ . '/templates/inputs/' . $_GET['input'] . '.php';
@@ -98,7 +124,7 @@ class FormPlugin
      * @Since V 0.5.4
      * Return the form action template
      */
-    function action_template(){
+    public function action_template(){
         if(isset($_GET['form_action']) && !empty($_GET['form_action'])){
             if(file_exists(__DIR__ . '/templates/form-actions/' . $_GET['form_action'] . '.php'))
                 include __DIR__ . '/templates/form-actions/' . $_GET['form_action'] . '.php';
@@ -107,15 +133,6 @@ class FormPlugin
     }
 
 
-
-    function mon_action() {
-
-        $param = $_POST['param'];
-
-        echo $param;
-
-        die();
-    }
 
     /**
      * Load the traduction for easy-form
@@ -373,7 +390,7 @@ class FormPlugin
         if(isset($_GET['id']) && !empty($_GET['id'])){
             $form = new WP_Form($_GET['id']);
 
-            $formFields = get_post_meta($_GET['id'],'form-fields')[0];
+            $formFields = get_post_meta(filter_var($_GET['id'],FILTER_SANITIZE_NUMBER_INT),'form-fields')[0];
         }
         else{
             // Getting all forms

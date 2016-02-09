@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * Phpmailerform - PHP email creation and transport class.
  * PHP Version 5.0.0

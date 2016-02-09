@@ -1,5 +1,6 @@
-<script type="text/javascript">
-    // Set all fields depending on modify or add
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
+// Set all fields depending on modify or add
     <?php
     if(isset($formFields[0])):
         echo 'var fields = ' .  json_encode($formFields[0]) . ';';
@@ -209,5 +210,3 @@
         });
         return dfd.promise();
     }
-
-</script>

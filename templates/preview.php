@@ -1,3 +1,4 @@
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <!--
 @Updated : V 0.5.3
 -->
@@ -11,6 +12,7 @@
             <pre class="brush: php">
                 &lt;?php
                 <?php _e('// $id doit être l\'ID de votre formulaire', 'easy-form'); ?>
+
                 $formId = <?php echo $_GET['id']; ?>;
                 $form = new WP_Form($formId);
                 ?&gt;
@@ -19,8 +21,9 @@
             <p><?php _e('Vous pouvez aussi utiliser le slug du formulaire, l\'avantage est que vous pouvez plus facilement exporter et réimporter ces derniers', 'easy-form'); ?></p>
             <pre class="brush: php">
                 <?php $theform = get_post($_GET['id']); ?>
-                &lt;?php
+&lt;?php
                 <?php _e('// $formSlug doit être le slug de votre formulaire', 'easy-form'); ?>
+
                 $formSlug = "<?php echo $theform->post_name; ?>";
                 $form = new WP_Form($formSlug);
                 ?&gt;
@@ -29,9 +32,11 @@
             <pre class="brush: php">
                 &lt;?php
                 <?php _e('// $id doit être l\'ID de votre formulaire', 'easy-form'); ?>
+
                 $formId = <?php echo $_GET['id']; ?>;
-                // $userId = get_current_user_id();
+                $userId = get_current_user_id();
                 <?php _e('// ici $userId vaut l\'id de l\'utilisateur en cours', 'easy-form'); ?>
+
                 $form = new WP_Form($formId,$userId);
                 ?&gt;
             </pre>
@@ -46,6 +51,7 @@
             <pre class="brush: php">
                 &lt;?php
                 <?php _e('// Affichage du formulaire', 'easy-form'); ?>
+
                 echo $form;
                 ?&gt;
             </pre>
@@ -56,7 +62,8 @@
 
             <pre class="brush: php">
 &lt;?php
-                <?php _e('// Ouverture du formulaire', 'easy-form'); ?>
+<?php _e('// Ouverture du formulaire', 'easy-form'); ?>
+
 $form->open_the_form();
                 <?php if(is_array($formFields)) foreach($formFields as $field){ ?>
                     <?php echo "\n"; ?>
@@ -76,9 +83,11 @@ $form->open_the_form();
                 ?>
 
 <?php _e('// Affiche le bouton submit', 'easy-form'); ?>
+
 $form->the_form_field('submit');
 
 <?php _e('// ferme le formulaire', 'easy-form'); ?>
+
 $form->close_the_form();
 ?&gt;
             </pre>
@@ -89,6 +98,7 @@ $form->close_the_form();
             <pre class="brush: php">
                 &lt;?php
                 <?php _e('// Affichage des erreurs du formulaire', 'easy-form'); ?>
+
                 if($form->hasError()):
                     $form->theError();
                 endif;
