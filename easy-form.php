@@ -269,11 +269,12 @@ class FormPlugin
     /**
      * @since V 0.1
      *
-     * @Updated :  - V 0.2
+     * @Updated :   - V 0.2
      *              - V 0.3
      *              - V 0.4
-     *              - V 0.5.2 (Add Sanitization0
+     *              - V 0.5.2 (Add Sanitization)
      *              - V 0.5.3 (Remove sanitization for label & update sanitization for id)
+     *              - v 0.5.4 (Add form- before post_title to avoid duplicate slug and conflicts with pages, Add $postInfos['ID'] to avoid bug)
      *
      *
      * Check if add form is send
@@ -288,13 +289,14 @@ class FormPlugin
             // If the form has a title
             if(isset($_POST['form-title'])){
                 $postInfos = [
-                    'post_name' => sanitize_title(filter_var($_POST['form-title']),FILTER_SANITIZE_STRING),
+                    'post_name' => sanitize_title('form-' . filter_var($_POST['form-title']),FILTER_SANITIZE_STRING),
                     'post_title' => filter_var($_POST['form-title'],FILTER_SANITIZE_STRING),
                     'post_status' => 'publish',
                     'post_type' => 'form-plugin-bastien',
                 ];
                 if(isset($_POST['form-id']) && !empty($_POST['form-id'])) {
                     // I insert the post
+                    $postInfos['ID'] = filter_var($_POST['form-id'],FILTER_SANITIZE_NUMBER_INT);
                     wp_update_post($postInfos);
                     $pid = filter_var($_POST['form-id'],FILTER_SANITIZE_NUMBER_INT);
                 }else{
