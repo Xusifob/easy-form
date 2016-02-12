@@ -1,174 +1,240 @@
-<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
-// Set all fields depending on modify or add
+    <?php  if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
+
+    // Set all fields depending on modify or add
     <?php
     if(isset($formFields[0])):
-        echo 'var fields = ' .  json_encode($formFields[0]) . ';';
+        echo 'var fields = ' . json_encode($formFields[0]) . ';';
     else : ?>
     var fd = getInput({
-        id : 1,
-        type : 'text',
-        name : ''
+        id: 1,
+        type: 'text',
+        name: ''
     });
     var fields = [fd];
     <?php endif; ?>
 
 
+    // Object containing all templates when they are load once. (improve loading time)
+    var templates = {};
+
+    // Object containing all utilities template when they are load once. (improve loading time)
+    var utilities = {};
+
+
     var utilitiesEmpty = {
-        post : {
+        post: {
             post_type: "post",
             post_status: "publish"
         },
-        connexion : {
+        connexion: {
             remember: true
         },
-        user :  {
+        user: {
             role: "current",
             connectUser: true,
-            emailUser : false
+            emailUser: false
         },
-        email : {
+        email: {
             subject: "",
             recipientEmail: "<?php echo get_option('admin_email'); ?>",
             recipientName: "<?php echo get_option('blogname'); ?>"
         },
-        resetPassword :
-        {
+        resetPassword: {
             subject: "Réinitialisation du mot de passe",
             senderEmail: "<?php echo get_option('admin_email'); ?>",
             senderName: "<?php echo get_option('blogname'); ?>",
             message: "",
             resetAction: "reset-password-email",
-            pageId : "",
-            submitValue : 'Réinitialiser'
+            pageId: "",
+            submitValue: 'Réinitialiser'
         }
     };
 
 
     var formType = "<?php echo isset($formMetas['form-type'][0]) ? $formMetas['form-type'][0] : 'post'; ?>";
-    var formSendArgs = <?php echo isset($formSendArgs[0]) ?  json_encode($formSendArgs[0]) : '""'; ?>;
+    var formSendArgs = <?php echo isset($formSendArgs[0]) ? json_encode($formSendArgs[0]) : '""'; ?>;
 
-    getUtilities(formType,formSendArgs);
+    getUtilities(formType, formSendArgs);
 
     // Set the nb of fields at 0 for the start
     var fieldIncrement = 0;
 
-    // Affiche toutes les données des champs
-    function retrieveData(){
-        if(fieldIncrement <fields.length){
+    /**
+     *
+     * @Since V 0.5.0
+     *
+     * Display all the fields on the page as long as there are some fields
+     */
+    function retrieveData() {
+        if (fieldIncrement < fields.length) {
             displayData(fields[fieldIncrement]);
-        }
+        } else
+            $('#spinner-fields').hide();
     }
 
-    // Get the data and display it on the page
-    function displayData(field,expand){
+    /**
+     * Get the data and display it on the page
+     *
+     * @Since V 0.5.0
+     *
+     * @Updated V 0.5.4 (Return a promise)
+     *
+     *
+     * @param field string the kind of field you want to display (input, select...)
+     * @param expand If you want to expand the current field or let it closed
+     * @returns {*}
+     */
+    function displayData(field, expand) {
 
-        getData(field).done(function(data){
+        var dfd = new $.Deferred();
+        getData(field).done(function (data) {
             // J'affiche les champs
             $("#fld").append(data);
             // Je rend le champ draggable
             $('#field-' + field.id).draggable(DraggableArgs);
             // Je m'occupe de certains champs à cacher
-            handleHiddenFields(field.id,field.type);
+            handleHiddenFields(field.id, field.type);
 
-            if(expand === true)
-                $('a[data-field="'+ field.id +'"].open').click();
+            if (expand === true)
+                $('a[data-field="' + field.id + '"].open').click();
 
             // J'incrémente le nombre de champs
             fieldIncrement++;
 
             // J'affiche les données
             retrieveData();
+            dfd.resolve(data);
+
         });
+
+        // Return a promise
+        return dfd.promise();
+
     }
-
-
-
 
 
     /**
      *
-     * Récupère le champ lié
+     * Return the input template of the template asked if it has already been loaded, else it load it and and put it into a variable.
      *
-     * @Updated : V 0.5.3 (Add htmlentities)
+     * @Since V 0.5.4
      *
-     * @param field
+     * @params template string the template you want to load
+     * @return {*} promise
+     *
+     */
+    function getTemplate(template) {
+        // Create a promise
+        var dfd = new $.Deferred();
+
+        // If it's an imput
+        if ($.inArray(template, inputs) !== -1) {
+            template = 'input';
+        }
+
+        if (templates[template] && templates[template] != undefined && templates[template] != '') {
+            console.log('input already loaded');
+            dfd.resolve(templates[template]);
+        } else {
+            // Get the template
+            $.get(ajaxUrl, {input: template, action: 'input_template'}, function () {
+            }).always(function (data) {
+
+                console.log('load template ' + template);
+
+                templates[template] = data;
+
+                // I send back the data
+                dfd.resolve(data);
+            });
+        }
+
+
+        // Return a promise
+        return dfd.promise();
+    }
+
+
+    /**
+     *
+     * Get a field's template.
+     *
+     * @Since V 0.5.0
+     *
+     * @Updated :   - V 0.5.3 (Add htmlentities)
+     *              - V 0.5.4 (Update ajax urls to use WordPress' ones & change to getbase)
+     *
+     * @param field string the kind of field you want to get (input, select...)
      * @returns {*}
      */
-    function getData(field){
+    function getData(field) {
 
         // Create a promise
         var dfd = new $.Deferred();
 
         // Je récupère la base
-        $.get(ajaxUrl,{input : 'input-empty',action:'input_template'},function(base){
+        getTemplate('input-empty').done(function (base) {
 
-            if($.inArray(field.type,inputs) !== -1) {
-                var template = 'input';
-            }else {
-                var template = field.type;
-            }
-            $.get(ajaxUrl,{input : template,action:'input_template'},function(){
-            }).always(function(data){
+            getTemplate(field.type).done(function (data) {
 
                 // Je met la base
-                data = replace(base,'input-content',data);
+                data = replace(base, 'input-content', data);
 
                 // Je remplie les champs
                 data = replace(data, 'fieldId', field.id);
                 data = replace(data, 'field-id', htmlEntities(field.args.id));
                 data = replace(data, 'field-name', htmlEntities(field.name));
 
-                if(field.args.class != undefined)
+                if (field.args.class != undefined)
                     data = replace(data, 'field-class', htmlEntities(field.args.class));
 
-                if(field.args.placeholder != undefined)
+                if (field.args.placeholder != undefined)
                     data = replace(data, 'field-placeholder', htmlEntities(field.args.placeholder));
 
-                if(field.args.value != undefined)
+                if (field.args.value != undefined)
                     data = replace(data, 'field-value', htmlEntities(field.args.value));
 
-                if(field.args.label != undefined)
+                if (field.args.label != undefined)
                     data = replace(data, 'field-label', htmlEntities(field.args.label));
 
-                if(field.args.labelClass != undefined)
+                if (field.args.labelClass != undefined)
                     data = replace(data, 'field-clas-label', htmlEntities(field.args.labelClass));
 
                 // Required
-                if(field.args.required != undefined)
-                    data = replace(data,'field-required-selected',htmlEntities(field.args.required ? 'checked' : ''));
+                if (field.args.required != undefined)
+                    data = replace(data, 'field-required-selected', htmlEntities(field.args.required ? 'checked' : ''));
 
-                if(field.args.labelAfter != undefined)
-                    data = replace(data,'field-label-after-selected',htmlEntities(field.args.labelAfter ? 'checked' : ''));
-
+                if (field.args.labelAfter != undefined)
+                    data = replace(data, 'field-label-after-selected', htmlEntities(field.args.labelAfter ? 'checked' : ''));
 
 
                 // Select
-                data = replace(data, 'option value="'+ field.type +'"', 'option selected value="'+ field.type +'"');
+                data = replace(data, 'option value="' + field.type + '"', 'option selected value="' + field.type + '"');
 
-                if(field.type == 'file'){
-                    if(field.args.maxSize != undefined)
-                        data = replace(data,'field-max-size',htmlEntities(field.args.maxSize));
+                if (field.type == 'file') {
+                    if (field.args.maxSize != undefined)
+                        data = replace(data, 'field-max-size', htmlEntities(field.args.maxSize));
 
-                    if(field.args.allowed != undefined)
-                        data = replace(data,'field-allowed',field.args.allowed.toString());
+                    if (field.args.allowed != undefined)
+                        data = replace(data, 'field-allowed', field.args.allowed.toString());
 
-                    if(field.args.acfField != undefined)
-                        data = replace(data,'field-acf-field',htmlEntities(field.args.acfField));
+                    if (field.args.acfField != undefined)
+                        data = replace(data, 'field-acf-field', htmlEntities(field.args.acfField));
                 }
 
                 // Handle Select Fields
-                if(field.type == 'select'){
-                    $.get(ajaxUrl,{input : 'options',action:'input_template'},function(optionTemplate){
+                if (field.type == 'select') {
+                    $.get(ajaxUrl, {input: 'options', action: 'input_template'}, function (optionTemplate) {
                         // Create the opts
                         var opts = '';
-                        for(opt = 0; opt< field.args.options.length;opt++){
+                        for (opt = 0; opt < field.args.options.length; opt++) {
 
                             // Define the option
                             var option = field.args.options[opt];
                             tmpOption = optionTemplate;
                             // Replace the sub field Id
-                            tmpOption = replace(tmpOption, 'fieldSubId',opt);
+                            tmpOption = replace(tmpOption, 'fieldSubId', opt);
                             tmpOption = replace(tmpOption, 'fieldId', field.id);
                             tmpOption = replace(tmpOption, 'OptionName', option.content);
                             tmpOption = replace(tmpOption, 'OptionValue', option.value);
@@ -176,10 +242,10 @@
                             opts += tmpOption;
                         }
                         // Add the options in the template
-                        data = replace(data,'optionsFields',opts);
+                        data = replace(data, 'optionsFields', opts);
                         dfd.resolve(data);
                     });
-                }else{
+                } else {
                     dfd.resolve(data);
                 }
             });
@@ -191,15 +257,27 @@
     // J'affiche tous les champs sur la page
     retrieveData();
 
-    function getOption(field){
+
+    /**
+     *
+     * Get the option template
+     *
+     * @Since V O.5.0
+     *
+     * @Updated V 0.5.4 (Update ajax urls to use WordPress ones)
+     *
+     * @param field string the sub field data to display on the option
+     * @returns {*}
+     */
+    function getOption(field) {
 
         // Create a promise
         var dfd = new $.Deferred();
 
-        $.get(ajaxUrl,{input : 'options',action:'input_template'},function(optionTemplate){
+        getTemplate('options').done(function (optionTemplate) {
 
             // Replace the sub field Id
-            optionTemplate = replace(optionTemplate, 'fieldSubId',field.nbOptions);
+            optionTemplate = replace(optionTemplate, 'fieldSubId', field.nbOptions);
             optionTemplate = replace(optionTemplate, 'fieldId', field.id);
             optionTemplate = replace(optionTemplate, 'OptionName', field.option.content);
             optionTemplate = replace(optionTemplate, 'OptionValue', field.option.value);

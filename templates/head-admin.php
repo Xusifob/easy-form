@@ -1,6 +1,4 @@
-<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
-
-<?php
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 function load_custom_wp_admin_style() {
     $relPath = plugins_url( '../', __FILE__ );
 

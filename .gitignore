@@ -1,3 +1,4 @@
 .idea
-/library/uploads/*
-/tests
+library/uploads/*
+tests
+assets/fields_traductions.php
