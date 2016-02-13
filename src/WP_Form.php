@@ -174,12 +174,12 @@ class WP_Form
      * @Modified : - V 0.4
      *             - V 0.5
      *             - V 0.5.2
+     *              - V 0.5.4 (Transform public to private)
      *
      * Check if form is valid and send datas
      */
-    public function CheckForm()
+    private function CheckForm()
     {
-
 
         if(isset($_POST['_time']) && microtime(true) - $_POST['_time'] < 1)
             die(json_encode(['Wp_Form_Error' => 'Anti Spam Triggered']));
@@ -241,7 +241,6 @@ class WP_Form
     /**
      *
      * @since V 0.1
-     *
      *
      * Return the error based on the asked lang
      *

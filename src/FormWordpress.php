@@ -428,6 +428,7 @@ class FormWordpress extends Form
      * @Updated - V 0.4
      *          - V 0.5.2 (Add Sanitization)
      *          - V 0.5.3 (Add full url function)
+     *          - V 0.5.4 (Add hooks before connexion)
      *
      * Insert a wp_post and redirect after it to the page with the name of the form at true
      *
@@ -583,6 +584,11 @@ class FormWordpress extends Form
                 break;
             case 'connexion' :
                 $lien = ($lien == 'newpost') ? null : $lien;
+
+
+                /* @since V 0.5.4 Update hooks */
+                do_action('form/BeforeConnectUser');
+                do_action('form/BeforeConnectUser-' . $this->id);
 
                 if ($user = $this->connectUser($args)) {
                     $this->setFormSend($thepostId);
