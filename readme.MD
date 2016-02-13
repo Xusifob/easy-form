@@ -24,6 +24,8 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Create a uniq id based on some fields ( sign up )
  * Add a full french/english documentation)
  * Add Unit Tests
+ * Add an impression cout & a send count
+ * Add hooks with slug
 
 
 ### Version 0.5.4 :
