@@ -7,28 +7,29 @@ body .panel-wordpress {
   margin-top: 20px;
   padding: 50px;
   margin-bottom: 40px;
+  position: relative;
 }
 body .panel-wordpress button.btn-actions {
   /* border:1px solid #cccccc;
-        padding: 10px;
-        font-size: 1.5em;
-        color: #cccccc;
-        font-weight: 800;
-        width: 25px;
-        height: 25px;
-        background: #fafafa;
-        border-radius: 50%;
-        &:hover{
-          text-decoration: none;
-          color: #aaa;
-          font-weight: 800;
-        }
-        &:active{
-          text-decoration: none;
-        }
-        &:visited{
-          color: #cccccc;
-        } */
+         padding: 10px;
+         font-size: 1.5em;
+         color: #cccccc;
+         font-weight: 800;
+         width: 25px;
+         height: 25px;
+         background: #fafafa;
+         border-radius: 50%;
+         &:hover{
+           text-decoration: none;
+           color: #aaa;
+           font-weight: 800;
+         }
+         &:active{
+           text-decoration: none;
+         }
+         &:visited{
+           color: #cccccc;
+         } */
   width: 25px;
   height: 25px;
   background: #fafafa;
@@ -116,4 +117,26 @@ body .panel-wordpress .infos {
 body .panel-wordpress textarea {
   resize: vertical;
   width: 100%;
+}
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  visibility: visible;
+  float: none;
+  z-index: 1;
+  opacity: 1;
+}
+.spinner-container .spinner {
+  position: absolute;
+  visibility: visible;
+  float: none;
+  opacity: 1;
+  top: 50%;
+  z-index: 2;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

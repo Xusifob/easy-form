@@ -6,6 +6,7 @@ var inputs = [
 
 // All empty inputs with theirs attributs
 function getInput(args) {
+
     var emptyInputs = {
         input: {
             args: {
@@ -90,7 +91,37 @@ function getInput(args) {
             id: args.id,
             name: args.name,
             type: args.type
-        }
+        },
+        open_container : {
+            args: {
+
+                class: "",
+                id: "",
+            },
+            id: args.id,
+            name: args.name,
+            type: args.type
+        },
+        close_container : {
+            args: {
+
+                class: "",
+                id: "",
+            },
+            id: args.id,
+            name: args.name,
+            type: args.type
+        },
+        close_all_container : {
+            args: {
+
+                class: "",
+                id: "",
+            },
+            id: args.id,
+            name: args.name,
+            type: args.type
+        },
     };
 
     if($.inArray(args.type,inputs) != -1)

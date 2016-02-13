@@ -58,6 +58,7 @@ class FormListTable extends WP_List_Table {
 
         $action = $this->current_action();
 
+
         switch ( $action ) {
 
             case 'delete':
@@ -118,7 +119,7 @@ class FormListTable extends WP_List_Table {
     /**
      * Define the sortable columns
      *
-     * @return Array
+     * @return array
      */
     public function get_sortable_columns()
     {
@@ -169,10 +170,10 @@ class FormListTable extends WP_List_Table {
     public function column_id($item)
     {
         $actions = array(
-            'shw'      => sprintf('<a href="' . menu_page_url('show-form',false) . '&id='. $item['id'] .'">Afficher</a>',$_REQUEST['page'],'show',$item['id']),
-            'edit'      => sprintf('<a href="' . menu_page_url('add-form',false) . '&modify='. $item['id'] .'">Modifier</a>',$_REQUEST['page'],'edit',$item['id']),
-            'duplicate'      => sprintf('<a href="#" data-toggle="modal" data-target="#modal-duplicate" data-form="'. $item['id'] .'" >Dupliquer</a>',$_REQUEST['page'],'duplicate',$item['id']),
-            'delete'    => sprintf('<a href="?page=%s&action=%s&form=%s" onclick="if(!confirm(\'Êtes vous sur de vouloir supprimer ce formulaire ?\')) return false;">Supprimer</a>',$_REQUEST['page'],'delete',$item['id']),
+            'shw'      => sprintf('<a href="' . menu_page_url('show-form',false) . '&id='. $item['id'] .'">'. __('Afficher', 'easy-form') .'</a>',$_REQUEST['page'],'show',$item['id']),
+            'edit'      => sprintf('<a href="' . menu_page_url('add-form',false) . '&modify='. $item['id'] .'">'. __('Modifier', 'easy-form') .'</a>',$_REQUEST['page'],'edit',$item['id']),
+            'duplicate'      => sprintf('<a href="#" data-toggle="modal" data-target="#modal-duplicate" data-form="'. $item['id'] .'" >'. __('Dupliquer', 'easy-form') .'</a>',$_REQUEST['page'],'duplicate',$item['id']),
+            'delete'    => sprintf('<a href="?page=%s&action=%s&form=%s" onclick="if(!confirm(\''. __('Êtes vous sur de vouloir supprimer ce formulaire ?', 'easy-form') .'\')) return false;">'. __('Supprimer', 'easy-form') .'</a>',$_REQUEST['page'],'delete',$item['id']),
         );
         return sprintf('%1$s %2$s', '<a href="'. menu_page_url('show-form',false) .'&id='. $item['id'] .'">' . $item['id'] . ' -  ' . $item['slug'] .'</a>', $this->row_actions($actions) );
     }
@@ -188,7 +189,7 @@ class FormListTable extends WP_List_Table {
     // used to put the bulk action select
     function get_bulk_actions() {
         $actions = array(
-            'delete'    => 'Supprimer'
+            'delete'    =>  __('Supprimer', 'easy-form')
         );
         return $actions;
     }
@@ -197,7 +198,7 @@ class FormListTable extends WP_List_Table {
     /**
      * Define what data to show on each column of the table
      *
-     * @param  Array $item        Data
+     * @param  array $item        Data
      * @param  String $column_name - Current column name
      *
      * @return Mixed

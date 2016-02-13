@@ -77,6 +77,12 @@ Incomming :
  * Update preview page after a few bug with traduction
  * Add Abspath on each file
  * Remove jQuery-ui, use WordPress core jQuery-ui
+ * Correct some bugs on form Id, form Redirection & errors.
+ * Update plugin website
+ * Add spinner when loading data
+ * Add more documentation in JS
+ * Update the ajax request not to load templates if they have already been loaded.
+ * Add English translation in all fields rows
 
 = 0.5.3 =
  * Add attachments to e-mail

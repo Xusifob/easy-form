@@ -24,6 +24,7 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Create a uniq id based on some fields ( sign up )
  * Add a full french/english documentation)
  * Add Unit Tests
+ * Add textaera & file options (max width ...)
  * Add an impression cout & a send count
  * Add hooks with slug
 
@@ -40,6 +41,14 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Update preview page after a few bug with traduction
  * Add Abspath on each file
  * Remove jQuery-ui, use WordPress core jQuery-ui
+ * Correct some bugs on form Id, form Redirection & errors.
+ * Update plugin website
+ * Add spinner when loading data
+ * Add more documentation in JS
+ * Update the ajax request not to load templates if they have already been loaded.
+ * Add English translation in all fields rows
+  * Add english translation in all fields (front office)
+
 
 ### Version 0.5.3 :
  * Add attachments to e-mail
