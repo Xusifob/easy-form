@@ -142,7 +142,7 @@ class Form
 
 
         // Handle it here so that they can bee seen as strings to translate
-        if (function_exists('--')) {
+        if (function_exists('__')) {
             $this->errorMessages["missing"] = __("Un ou plusieurs champs n'est pas complet", 'easy-form');
             $this->errorMessages["email"] = __("Adresse e-mail invalide", 'easy-form');
             $this->errorMessages["2password"] = __("Veuillez retaper votre mot de passe", 'easy-form');
@@ -282,7 +282,7 @@ class Form
      * @Updated :   - V 0.2
      *              - V 0.3
      *              - V 0.4
-     *              - v 0.5.4 (Update $template from string to array with label and field keys)
+     *              - v 0.5.4 (Update $template from string to array with label and field keys, add __() function in placeholder value and label)
      *
      * add a field in the form
      *
@@ -383,11 +383,11 @@ class Form
             $theLabel = '<label for="' . $theId . '" ';
             $theLabel .= isset($args['labelClass']) && !empty($args['labelClass']) ? 'class="' . $args['labelClass'] . ' "' : (isset($args['label']) && !empty($args['label']) ? '' : 'class="sr-only" ');
             $theLabel .= '>';
-            $theLabel .= isset($args['label']) && !empty($args['label']) ? $args['label'] : $name;
+            $theLabel .= isset($args['label']) && !empty($args['label']) ? (function_exists('__') ? __($args['label'],'easy-form-userData') : $args['label'] ) : $name;
             $theLabel .= '</label>';
-            $thePlaceholder = isset($args['placeholder']) && !empty($args['placeholder']) ? $args['placeholder'] : false;
+            $thePlaceholder = isset($args['placeholder']) && !empty($args['placeholder']) ? (function_exists('__') ? __($args['placeholder'],'easy-form-userData') : $args['placeholder'] ) : false;
             $theAutocomplete = isset($args['autocomplete']) && !empty($args['autocomplete']) ? $args['autocomplete'] : true;
-            $theValue = htmlspecialchars(isset($args['value']) && !empty($args['value']) ? $args['value'] : ((isset($_POST[$name]) ? $_POST[$name] : ((isset($val)) ? $val : false))));
+            $theValue = htmlspecialchars(isset($args['value']) && !empty($args['value']) ? (function_exists('__') ? __($args['value'],'easy-form-userData') : $args['value'] ) : ((isset($_POST[$name]) ? $_POST[$name] : ((isset($val)) ? $val : false))));
             $theRequired = isset($args['required']) ? $args['required'] : true;
 
 
