@@ -35,16 +35,16 @@ class FormPlugin
             include_once plugin_dir_path(__FILE__) . '/src/FormWordpress.php';
 
         if (!class_exists('FormListTable'))
-            include_once plugin_dir_path(__FILE__) . '/src/FormListTable.php';
+            include_once plugin_dir_path(__FILE__) . '/library/php/FormListTable.php';
 
         if (!class_exists('WP_Form'))
             include_once plugin_dir_path(__FILE__) . '/src/WP_Form.php';
 
         if (!class_exists('Phpmailerform'))
-            include_once plugin_dir_path(__FILE__) . '/src/class-phpmailer.php';
+            include_once plugin_dir_path(__FILE__) . '/library/php/class-phpmailer.php';
 
         if (!class_exists('Mobile_Detect'))
-            include_once plugin_dir_path(__FILE__) . '/src/Mobile_Detect.php';
+            include_once plugin_dir_path(__FILE__) . '/library/php/Mobile_Detect.php';
 
         // Gestion de la partie admin
         if (is_admin()) {

@@ -172,6 +172,7 @@ class FormListTable extends WP_List_Table {
         $actions = array(
             'shw'      => sprintf('<a href="' . menu_page_url('show-form',false) . '&id='. $item['id'] .'">'. __('Afficher', 'easy-form') .'</a>',$_REQUEST['page'],'show',$item['id']),
             'edit'      => sprintf('<a href="' . menu_page_url('add-form',false) . '&modify='. $item['id'] .'">'. __('Modifier', 'easy-form') .'</a>',$_REQUEST['page'],'edit',$item['id']),
+            'stat'      => sprintf('<a href="' . menu_page_url('stat-form',false) . '&id='. $item['id'] .'">'. __('Statistiques', 'easy-form') .'</a>',$_REQUEST['page'],'show',$item['id']),
             'duplicate'      => sprintf('<a href="#" data-toggle="modal" data-target="#modal-duplicate" data-form="'. $item['id'] .'" >'. __('Dupliquer', 'easy-form') .'</a>',$_REQUEST['page'],'duplicate',$item['id']),
             'delete'    => sprintf('<a href="?page=%s&action=%s&form=%s" onclick="if(!confirm(\''. __('Êtes vous sur de vouloir supprimer ce formulaire ?', 'easy-form') .'\')) return false;">'. __('Supprimer', 'easy-form') .'</a>',$_REQUEST['page'],'delete',$item['id']),
         );
