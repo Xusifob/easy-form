@@ -436,17 +436,17 @@ class FormPlugin
     {
         if (isset($_GET['id']) && !empty($_GET['id'])) {
             $form = new WP_Form($_GET['id']);
-
             $formFields = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'form-fields')[0];
-        } else {
-            // Getting all forms
-            $args = [
-                'post_type' => 'form-plugin-bastien',
-                'posts_per_page' => -1,
-            ];
-
-            $my_query = new WP_Query($args);
         }
+
+        // Getting all forms
+        $args = [
+            'post_type' => 'form-plugin-bastien',
+            'posts_per_page' => -1,
+        ];
+
+        $my_query = new WP_Query($args);
+
         include __DIR__ . '/templates/preview.php';
     }
 

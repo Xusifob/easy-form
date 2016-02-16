@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"PO-Revision-Date: Tue Feb 16 2016 17:30:00 GMT+0000 (GMT)\n"
+"PO-Revision-Date: Tue Feb 16 2016 17:48:44 GMT+0000 (GMT)\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
 "Language: English\n"
@@ -22,77 +22,14 @@ msgstr ""
 "X-Loco-Target-Locale: en_US\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: ../templates/stats.php:153
-msgid "Type de visiteurs total"
-msgstr "Total visitors"
-
-#: ../templates/stats.php:155
-msgid "Taux de visiteurs pour les impressions et les conversions"
-msgstr "Visitors rate for impressions & conversions"
-
-#: ../templates/stats.php:164
-msgid "Appareils pour impression"
-msgstr "Device for impressions"
-
-#: ../templates/stats.php:167
-msgid "Types d'appareil pour les impressions"
-msgstr "Device used for impressions"
-
-#: ../templates/stats.php:175
-msgid "Appareils pour conversion"
-msgstr "Device for conversion"
-
-#: ../templates/stats.php:178
-msgid "Types d'appareil pour les conversions"
-msgstr "Device used for conversions"
-
-#: ../templates/stats.php:186
-msgid "Visiteurs pour impression"
-msgstr "Visitors for impression"
-
-#: ../templates/stats.php:189
-msgid "Types de visiteurs pour les impressions"
-msgstr "Visitors for impressions"
-
-#: ../templates/stats.php:197
-msgid "Visiteurs pour conversion"
-msgstr "Device for conversion"
-
-#: ../templates/stats.php:200
-msgid "Types de visiteurs pour les conversions"
-msgstr "Visitors for conversions"
-
-#: ../templates/stats.php:224
-msgid "Conversion"
-msgstr "Conversion"
-
-#: ../templates/stats.php:234
-msgid "Impression"
-msgstr "Impression"
-
-#: ../templates/stats.php:259 ../templates/stats.php:279
-msgid "Mobile"
-msgstr "Mobile"
-
-#: ../templates/stats.php:265 ../templates/stats.php:285
-msgid "Tablette"
-msgstr "Tablet"
-
-#: ../templates/stats.php:271 ../templates/stats.php:291
-msgid "Ordinateur"
-msgstr "Desktop"
-
-#: ../templates/stats.php:310 ../templates/stats.php:324 ../templates/stats.php:338
-msgid "Anciens visiteurs"
-msgstr "Returning visitors"
-
-#: ../templates/stats.php:382
-msgid "Moins de filtres"
-msgstr "Less filters"
-
-#: ../templates/inputs/input.php:56
-msgid "Trier les statistiques avec ce champ"
-msgstr "Filter statistics with this field"
+#: ../templates/preview.php:195
+msgid ""
+"Ceci est la prévisualisation de votre formulaire, elle ne prends pas en "
+"compte votre propre style, il est possible que votre formulaire final ne "
+"ressemble pas à ça."
+msgstr ""
+"This is your form preview. It does not take care of your own style, Your "
+"final form may not look like this one."
 
 #. Name of the plugin
 msgid "Easy WP Form"
@@ -130,7 +67,7 @@ msgstr "Add"
 msgid "Voir un formulaire"
 msgstr "See A Form"
 
-#: ../easy-form.php:235 ../templates/preview.php:181
+#: ../easy-form.php:235 ../templates/preview.php:29
 msgid "Prévisualiser"
 msgstr "Preview"
 
@@ -263,7 +200,7 @@ msgid "Afficher"
 msgstr "View"
 
 #: ../src/FormListTable.php:174 ../templates/add.php:153 ../templates/preview.php:
-#: 159
+#: 189
 msgid "Modifier"
 msgstr "Update"
 
@@ -340,7 +277,7 @@ msgstr "Sign up or user update"
 msgid "Envoi de mail"
 msgstr "Send e-mail (contact)"
 
-#: ../templates/add.php:88 ../templates/preview.php:132
+#: ../templates/add.php:88 ../templates/preview.php:161
 msgid "Réinitialiser le mot de passe"
 msgstr "Reset the password"
 
@@ -426,20 +363,32 @@ msgid "Formulaires"
 msgstr "Forms"
 
 #: ../templates/preview.php:9
+msgid "Choisissez le formulaire à prévisualiser"
+msgstr "Chose the form you want to preview"
+
+#: ../templates/preview.php:14 ../templates/stats.php:14
+msgid "Choix du formulaire"
+msgstr "Pick up a form"
+
+#: ../templates/preview.php:17 ../templates/stats.php:17
+msgid "Séléctionnez votre formulaire"
+msgstr "Pick up a form"
+
+#: ../templates/preview.php:38
 msgid "Initialisation du formulaire"
 msgstr "Initialisation of the form"
 
-#: ../templates/preview.php:11
+#: ../templates/preview.php:40
 msgid ""
 "Pour installer le formulaire Wordpress, sur le template de votre page, créer "
 "un nouveau formulaire"
 msgstr "To install the Wordpress form on your page, create a nem WP_Form"
 
-#: ../templates/preview.php:15 ../templates/preview.php:35
+#: ../templates/preview.php:44 ../templates/preview.php:64
 msgid "// $id doit être l'ID de votre formulaire"
 msgstr "// $id must be your form's ID"
 
-#: ../templates/preview.php:22
+#: ../templates/preview.php:51
 msgid ""
 "Vous pouvez aussi utiliser le slug du formulaire, l'avantage est que vous "
 "pouvez plus facilement exporter et réimporter ces derniers"
@@ -447,11 +396,11 @@ msgstr ""
 "You can also use your form' sllug. The advantage is an easier export and "
 "import"
 
-#: ../templates/preview.php:26
+#: ../templates/preview.php:55
 msgid "// $formSlug doit être le slug de votre formulaire"
 msgstr "// $formSlug ;ust be your form's slug"
 
-#: ../templates/preview.php:32
+#: ../templates/preview.php:61
 msgid ""
 "Si votre formulaire est une modification (utilisateur ou post) ajouter en 2e "
 "argument de la fonction l'id du post/de l'utilisateur à modifier"
@@ -459,11 +408,11 @@ msgstr ""
 "If your form is an update (User or post) add its ID as a second argument to "
 "your function"
 
-#: ../templates/preview.php:39
+#: ../templates/preview.php:68
 msgid "// ici $userId vaut l'id de l'utilisateur en cours"
 msgstr "// here, $userId is the current user's ID"
 
-#: ../templates/preview.php:45
+#: ../templates/preview.php:74
 msgid ""
 "Le formulaire doit être initialisé avant tout texte, avant même le "
 "get_header();."
@@ -471,67 +420,67 @@ msgstr ""
 "The form MUST be initialised before every content, even before the "
 "get_header() function"
 
-#: ../templates/preview.php:48
+#: ../templates/preview.php:78
 msgid "Affichage du formulaire"
 msgstr "Display the form"
 
-#: ../templates/preview.php:51
+#: ../templates/preview.php:81
 msgid "Afficher tout le formulaire d'un coup"
 msgstr "Display all the form"
 
-#: ../templates/preview.php:53
+#: ../templates/preview.php:83
 msgid "Pour afficher le formulaire, il suffit de faire un 'echo'"
 msgstr "To display the form, you just have to 'echo' it"
 
-#: ../templates/preview.php:56
+#: ../templates/preview.php:86
 msgid "// Affichage du formulaire"
 msgstr "// Display the form"
 
-#: ../templates/preview.php:62
+#: ../templates/preview.php:92
 msgid "Afficher les champs uns par uns"
 msgstr "Display every fields one by one"
 
-#: ../templates/preview.php:64
+#: ../templates/preview.php:94
 msgid "Pour afficher les champs là ou on le veut "
 msgstr "To display all fields where you want"
 
-#: ../templates/preview.php:68
+#: ../templates/preview.php:99
 msgid "// Ouverture du formulaire"
 msgstr "// Open the form"
 
-#: ../templates/preview.php:76
+#: ../templates/preview.php:105
 msgid "// Affiche le champ "
 msgstr "// Display the field"
 
-#: ../templates/preview.php:81
+#: ../templates/preview.php:111
 msgid "// Affiche le champ"
 msgstr "// Display the field"
 
-#: ../templates/preview.php:88
+#: ../templates/preview.php:118
 msgid "// Affiche le bouton submit"
 msgstr "// Display the submit button"
 
-#: ../templates/preview.php:92
+#: ../templates/preview.php:121
 msgid "// ferme le formulaire"
 msgstr "// Close the form"
 
-#: ../templates/preview.php:99
+#: ../templates/preview.php:128
 msgid "Gestion des erreurs"
 msgstr "How to handle errors"
 
-#: ../templates/preview.php:101
+#: ../templates/preview.php:130
 msgid "Pour afficher les erreurs des formulaires :"
 msgstr "To display the form's errors"
 
-#: ../templates/preview.php:104
+#: ../templates/preview.php:133
 msgid "// Affichage des erreurs du formulaire"
 msgstr "// Display the form's errors"
 
-#: ../templates/preview.php:113
+#: ../templates/preview.php:142
 msgid "Gestion de l'envoi des formulaires"
 msgstr "Handle the form send"
 
-#: ../templates/preview.php:116
+#: ../templates/preview.php:145
 msgid ""
 "Pour prévenir l'utilisateur lorsqu'un formulaire a bien été envoyé avec "
 "success (il n' a pas eu d'erreurs :"
@@ -539,33 +488,25 @@ msgstr ""
 "To tell the user when a form has been send with success (There was no "
 "mistake)"
 
-#: ../templates/preview.php:121
+#: ../templates/preview.php:150
 msgid "le formulaire a bien été envoyé"
 msgstr "The form has been send"
 
-#: ../templates/preview.php:127
+#: ../templates/preview.php:156
 msgid "Page de réinitialisation de mot de passe"
 msgstr "Reset password page"
 
-#: ../templates/preview.php:137
+#: ../templates/preview.php:166
 msgid "// Check si c'est bien une action de reset"
 msgstr "// Check if it's a reset action"
 
-#: ../templates/preview.php:147
+#: ../templates/preview.php:176
 msgid "Votre mot de passe a bien été réinitialisé"
 msgstr "Your password has been reset"
 
-#: ../templates/preview.php:163
+#: ../templates/preview.php:193
 msgid "Prévisualisation du formulaire"
 msgstr "Preview the form"
-
-#: ../templates/preview.php:168
-msgid "Choisissez le formulaire à prévisualiser"
-msgstr "Chose the form you want to preview"
-
-#: ../templates/preview.php:174
-msgid "Formulaire"
-msgstr "Forms"
 
 #: ../templates/stats.php:8
 msgid "Filtres"
@@ -574,14 +515,6 @@ msgstr "Filters"
 #: ../templates/stats.php:12 ../templates/stats.php:378
 msgid "Plus de filtres"
 msgstr "More filters"
-
-#: ../templates/stats.php:14
-msgid "Choix du formulaire"
-msgstr "Pick up a form"
-
-#: ../templates/stats.php:17
-msgid "Séléctionnez votre formulaire"
-msgstr "Pick up a form"
 
 #: ../templates/stats.php:27
 msgid "Tri customisé"
@@ -679,6 +612,74 @@ msgstr "visitor"
 #: ../templates/stats.php:145
 msgid "Impression et conversions"
 msgstr "Impressions and conversions"
+
+#: ../templates/stats.php:153
+msgid "Type de visiteurs total"
+msgstr "Total visitors"
+
+#: ../templates/stats.php:155
+msgid "Taux de visiteurs pour les impressions et les conversions"
+msgstr "Visitors rate for impressions & conversions"
+
+#: ../templates/stats.php:164
+msgid "Appareils pour impression"
+msgstr "Device for impressions"
+
+#: ../templates/stats.php:167
+msgid "Types d'appareil pour les impressions"
+msgstr "Device used for impressions"
+
+#: ../templates/stats.php:175
+msgid "Appareils pour conversion"
+msgstr "Device for conversion"
+
+#: ../templates/stats.php:178
+msgid "Types d'appareil pour les conversions"
+msgstr "Device used for conversions"
+
+#: ../templates/stats.php:186
+msgid "Visiteurs pour impression"
+msgstr "Visitors for impression"
+
+#: ../templates/stats.php:189
+msgid "Types de visiteurs pour les impressions"
+msgstr "Visitors for impressions"
+
+#: ../templates/stats.php:197
+msgid "Visiteurs pour conversion"
+msgstr "Device for conversion"
+
+#: ../templates/stats.php:200
+msgid "Types de visiteurs pour les conversions"
+msgstr "Visitors for conversions"
+
+#: ../templates/stats.php:224
+msgid "Conversion"
+msgstr "Conversion"
+
+#: ../templates/stats.php:234
+msgid "Impression"
+msgstr "Impression"
+
+#: ../templates/stats.php:259 ../templates/stats.php:279
+msgid "Mobile"
+msgstr "Mobile"
+
+#: ../templates/stats.php:265 ../templates/stats.php:285
+msgid "Tablette"
+msgstr "Tablet"
+
+#: ../templates/stats.php:271 ../templates/stats.php:291
+msgid "Ordinateur"
+msgstr "Desktop"
+
+#: ../templates/stats.php:310 ../templates/stats.php:324 ../templates/stats.php:338
+msgid "Anciens visiteurs"
+msgstr "Returning visitors"
+
+#: ../templates/stats.php:382
+msgid "Moins de filtres"
+msgstr "Less filters"
 
 #: ../templates/form-actions/post.php:10
 msgid "Type de post"
@@ -857,6 +858,10 @@ msgstr "Field's value"
 #: ../templates/inputs/input.php:44
 msgid "Autocomplete"
 msgstr "Enable Autocomplete"
+
+#: ../templates/inputs/input.php:56
+msgid "Trier les statistiques avec ce champ"
+msgstr "Filter statistics with this field"
 
 #: ../templates/inputs/open_container.php:11
 msgid "Type du container"
