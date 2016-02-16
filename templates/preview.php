@@ -4,9 +4,10 @@
 -->
 <div class="wrap gf_browser_chrome">
     <?php if(isset($form)): ?>
-        <h2><?php _e('Instalation du formulaire', 'easy-form'); ?></h2>
         <section class="panel-wordpress">
-            <h2><?php _e('Initialisation du formulaire', 'easy-form'); ?></h2>
+            <div class="head">
+                <h2><?php _e('Initialisation du formulaire', 'easy-form'); ?></h2>
+            </div>
             <p><?php _e('Pour installer le formulaire Wordpress, sur le template de votre page, créer un nouveau formulaire', 'easy-form'); ?></p>
 
             <pre class="brush: php">
@@ -43,7 +44,9 @@
 
             <p><?php _e('Le formulaire doit être initialisé avant tout texte, avant même le get_header();.', 'easy-form'); ?></p>
 
-            <h2><?php _e('Affichage du formulaire', 'easy-form'); ?></h2>
+            <div class="head">
+                <h2><?php _e('Affichage du formulaire', 'easy-form'); ?></h2>
+            </div>
 
             <h4><?php _e('Afficher tout le formulaire d\'un coup', 'easy-form'); ?></h4>
 
@@ -92,8 +95,9 @@ $form->close_the_form();
 ?&gt;
             </pre>
 
-
-            <h2><?php _e('Gestion des erreurs', 'easy-form'); ?></h2>
+            <div class="head">
+                <h2><?php _e('Gestion des erreurs', 'easy-form'); ?></h2>
+            </div>
             <p><?php _e('Pour afficher les erreurs des formulaires :', 'easy-form'); ?></p>
             <pre class="brush: php">
                 &lt;?php
@@ -105,7 +109,9 @@ $form->close_the_form();
 
             </pre>
 
-            <h2><?php _e('Gestion de l\'envoi des formulaires', 'easy-form'); ?></h2>
+            <div class="head">
+                <h2><?php _e('Gestion de l\'envoi des formulaires', 'easy-form'); ?></h2>
+            </div>
 
             <p><?php _e('Pour prévenir l\'utilisateur lorsqu\'un formulaire a bien été envoyé avec success (il n\' a pas eu d\'erreurs :', 'easy-form'); ?></p>
 
@@ -117,7 +123,9 @@ $form->close_the_form();
             </pre>
 
             <?php if($form->isResetForm()): ?>
-                <h2><?php _e('Page de réinitialisation de mot de passe', 'easy-form'); ?></h2>
+                <div class="head">
+                    <h2><?php _e('Page de réinitialisation de mot de passe', 'easy-form'); ?></h2>
+                </div>
                 <pre class="brush: php">
  &lt;?php
 /*
@@ -150,8 +158,10 @@ get_header(); ?>
 
             <a href="<?php echo menu_page_url('add-form',false) . '&modify='. $_GET['id']; ?>" class="button button-primary button-large"><?php _e('Modifier', 'easy-form'); ?></a>
         </section>
-        <h2><?php _e('Prévisualisation du formulaire', 'easy-form'); ?></h2>
-        <section class="panel-wordpress">
+        <section class="panel-wordpress preview-form">
+            <div class="head">
+                <h2><?php _e('Prévisualisation du formulaire', 'easy-form'); ?></h2>
+            </div>
             <?php echo $form; ?>
         </section>
     <?php else : ?>
@@ -174,3 +184,7 @@ get_header(); ?>
         </section>
     <?php endif; ?>
 </div>
+
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>

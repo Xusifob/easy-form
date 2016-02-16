@@ -1,0 +1,28 @@
+{
+  "name": "easy-form",
+  "homepage": "https://github.com/xusifob/easy-form",
+  "authors": [
+    "Xusifob <bastien@bastienmalahieude.fr>"
+  ],
+  "description": "Easy Form est un plugin de formulaires pour WordPress",
+  "main": "easy-form.php",
+  "moduleType": [],
+  "keywords": [
+    "Forms",
+    "Easy",
+    "Plugin",
+    "WordPress"
+  ],
+  "license": "GPU",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.5.0",
+    "bootstrap": "^3.3.6"
+  }
+}

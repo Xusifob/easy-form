@@ -50,4 +50,11 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input type="checkbox" id="field[fieldId][form-sort-stats]" name="field[fieldId][form-sort-stats]" field-sort-stats-selected value="1"/> <label for="field[fieldId][form-sort-stats]" class="label-checkbox"><?php _e('Trier les statistiques avec ce champ', 'easy-form'); ?></label>
+            </div>
+        </div>
+    </div>
 </div>
