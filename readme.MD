@@ -31,9 +31,10 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 
 ### Version 0.5.5 :
   * Remove functions.js
-  * Add an impression cout & conversion count + stats
+  * Add form stats
   * Put the form duplicate modal only on the index.php page
   * Update some CSS
+  * Update preview page
 
 
 ### Version 0.5.4 :
