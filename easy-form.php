@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://easyform.bastienmalahieude.fr
 Description: Permet de créer et styliser des formulaires facilement. Ce plugin a été créé conjointement par Bastien Malahieude et Baltazare (http://baltazare.fr).
-Version: 0.5.4
+Version: 0.5.5
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 Copyright: Bastien Malahieude
@@ -12,7 +12,7 @@ License: GPL
 */
 
 
-ini_set('max_execution_time', 3600);
+ini_set('max_execution_time', 120);
 
 class FormPlugin
 {
@@ -21,6 +21,7 @@ class FormPlugin
      *
      * @Updated - V 0.5.3 (Add support for multi languages)
      *          - V 0.5.4 (Add support for update check)
+     *          - V 0.5.5 (Add stat-form in the pages & add Mobile_Detect lib)
      *
      * Constructeur
      */
@@ -34,13 +35,16 @@ class FormPlugin
             include_once plugin_dir_path(__FILE__) . '/src/FormWordpress.php';
 
         if (!class_exists('FormListTable'))
-            include_once plugin_dir_path(__FILE__) . '/src/FormListTable.php';
+            include_once plugin_dir_path(__FILE__) . '/library/php/FormListTable.php';
 
         if (!class_exists('WP_Form'))
             include_once plugin_dir_path(__FILE__) . '/src/WP_Form.php';
 
-        if (!class_exists('PHPMailer'))
-            include_once plugin_dir_path(__FILE__) . '/src/class-phpmailer.php';
+        if (!class_exists('Phpmailerform'))
+            include_once plugin_dir_path(__FILE__) . '/library/php/class-phpmailer.php';
+
+        if (!class_exists('Mobile_Detect'))
+            include_once plugin_dir_path(__FILE__) . '/library/php/Mobile_Detect.php';
 
         // Gestion de la partie admin
         if (is_admin()) {
@@ -51,6 +55,7 @@ class FormPlugin
                 'import-form',
                 'export-form',
                 'doc-form',
+                'stat-form',
 
             ];
 
@@ -97,10 +102,15 @@ class FormPlugin
      *
      * Return the display-form.php file on ajax call (to display as a js file)
      *
+     *
+     * @Updated : V 0.5.5 (Add sanitization)
+     *
      * @Since V 0.5.4
      */
     public function display_form()
     {
+
+        $_GET['modify'] = (int)$_GET['modify'];
 
         $form = get_post($_GET['modify']);
         if ($this->isForm($_GET['modify'])) {
@@ -126,7 +136,7 @@ class FormPlugin
             'text', 'email', 'password', 'repeatPassword', 'number', 'tel', 'date', 'checkbox', 'select', 'radio', 'url', 'range', 'color', 'search', 'hidden', 'file', 'textarea', 'taxonomy', 'wp_editor', 'open container', 'close container', 'close all container',
         ];
 
-        $roles = FormPlugin::GetAllRoles();
+        $roles = self::GetAllRoles();
 
 
         header('Content-Type: application/javascript');
@@ -209,7 +219,8 @@ class FormPlugin
      *
      * @Since V 0.1
      *
-     * @Updated : V 0.5.4 (Change capacities from edit_plugins to edit_pages this add editor support )
+     * @Updated :   - V 0.5.4 (Change capacities from edit_plugins to edit_pages this add editor support )
+     *              - V 0.5.5 (Add the page stat-form)
      *
      * Add All Admin's Menu tab
      */
@@ -228,8 +239,12 @@ class FormPlugin
         // Exporter un formulaire
         add_submenu_page('forms', __('Exporter un formulaire', 'easy-form'), __('Exporter', 'easy-form'), 'edit_pages', 'export-form', [$this, 'displayExport']);
 
+        // Stats
+        add_submenu_page('forms', __('Statistiques', 'easy-form'), __('Statistiques', 'easy-form'), 'edit_pages', 'stat-form', [$this, 'displayStat']);
+
         // Doc
         add_submenu_page('forms', __('Documentation', 'easy-form'), __('Documentation', 'easy-form'), 'edit_pages', 'doc-form', [$this, 'displayDoc']);
+
 
     }
 
@@ -421,17 +436,17 @@ class FormPlugin
     {
         if (isset($_GET['id']) && !empty($_GET['id'])) {
             $form = new WP_Form($_GET['id']);
-
             $formFields = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'form-fields')[0];
-        } else {
-            // Getting all forms
-            $args = [
-                'post_type' => 'form-plugin-bastien',
-                'posts_per_page' => -1,
-            ];
-
-            $my_query = new WP_Query($args);
         }
+
+        // Getting all forms
+        $args = [
+            'post_type' => 'form-plugin-bastien',
+            'posts_per_page' => -1,
+        ];
+
+        $my_query = new WP_Query($args);
+
         include __DIR__ . '/templates/preview.php';
     }
 
@@ -539,6 +554,7 @@ class FormPlugin
                                             'allowed' => explode(',', filter_var($field['form-allowed']), FILTER_SANITIZE_STRING),
                                             'acfField' => filter_var($field['form-acf-field'], FILTER_SANITIZE_STRING),
                                             'maxSize' => filter_var($field['form-max-size'], FILTER_SANITIZE_NUMBER_INT),
+                                            'statsSelected' => isset($field['form-sort-stats']),
                                         ]
                                     ];
                                     break;
@@ -558,6 +574,8 @@ class FormPlugin
                                             'emptyField' => filter_var($field['form-empty-field'], FILTER_SANITIZE_STRING),
                                             'taxonomyType' => filter_var($field['form-taxonomy-type'], FILTER_SANITIZE_STRING),
                                             'readOnly' => isset($field['form-readonly']),
+                                            'statsSelected' => isset($field['form-sort-stats']),
+
 
                                         ]
                                     ];
@@ -576,6 +594,7 @@ class FormPlugin
                                             'autocomplete' => isset($field['form-autocomplete']),
                                             'labelAfter' => isset($field['form-label-after']),
                                             'readOnly' => isset($field['form-readonly']),
+                                            'statsSelected' => isset($field['form-sort-stats']),
                                         ]
                                     ];
 
@@ -965,6 +984,177 @@ class FormPlugin
     public function displayDoc()
     {
         include __DIR__ . '/templates/doc.php';
+    }
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * Display the stats page
+     */
+    public function displayStat()
+    {
+
+        $_GET['id'] = (int)$_GET['id'];
+
+        if (isset($_GET['id']) && !empty($_GET['id'])) {
+            $form = new WP_Form($_GET['id']);
+
+            // Get the row impressions
+            $impressions = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'impressions');
+            $conversions = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'conversions');
+
+            // Data from the user
+            $start = isset($_GET['period']) ? filter_var($_GET['period'], FILTER_SANITIZE_STRING) : '1 month ago';
+            $end = 'today';
+            $filter = isset($_GET['groupby']) ? filter_var($_GET['groupby'], FILTER_SANITIZE_STRING) : 'days';
+            $format = isset($_GET['format']) ? $_GET['format'] : 'd/m/Y';
+            $device = isset($_GET['device']) && in_array($_GET['device'], ['mobile', 'desktop', 'tablet', 'all']) ? $_GET['device'] : 'all';
+
+
+            /** Fixed vars : **/
+
+            // Data linked to impressions
+            $imps = [
+                'ips' => [],
+                'total' => 0,
+                'data' => [],
+                'devices' => [
+                    'mobile' => 0,
+                    'tablet' => 0,
+                    'desktop' => 0
+                ],
+                'custom_datas' => []
+            ];
+
+            // Data linked to conversions
+            $convs = [
+                'ips' => [],
+                'total' => 0,
+                'data' => [],
+                'devices' => [
+                    'mobile' => 0,
+                    'tablet' => 0,
+                    'desktop' => 0
+                ],
+                'custom_datas' => []
+            ];
+            $startTimestamp = strtotime($start);
+            $endTimestamp = strtotime($end . "+ 1 $filter");
+
+            // This is all the data used
+            $nbj = 0;
+            while (strtotime("$start  + $nbj $filter") <= $endTimestamp) {
+                $dt = date($format, strtotime("$start + $nbj $filter"));
+                if (!isset($imps['data'][$dt]))
+                    $imps['data'][$dt] = 0;
+                if (!isset($convs['data'][$dt]))
+                    $convs['data'][$dt] = 0;
+                $nbj++;
+            }
+
+
+            $args = [
+                'start' => $startTimestamp,
+                'end' => $endTimestamp,
+                'format' => $format,
+                'unique' => isset($_GET['unique']),
+                'device' => $device,
+                'custom_data' => isset($_GET['custom_data']) && !empty($_GET['custom_data']) ? $_GET['custom_data'] : null,
+            ];
+
+
+            foreach ($impressions as $impression) {
+                $imps = self::putInTab($imps, $impression, $args);
+            }
+            foreach ($conversions as $conversion) {
+                $convs = self::putInTab($convs, $conversion, $args);
+
+            }
+
+
+        }
+
+        // Getting all forms
+        $args = [
+            'post_type' => 'form-plugin-bastien',
+            'posts_per_page' => -1,
+        ];
+
+        $my_query = new WP_Query($args);
+
+
+        include __DIR__ . '/templates/stats.php';
+    }
+
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * Add the value in the chart datas if needed
+     *
+     * @param $tab array The values to put data in
+     * @param $value int the value to put in the chart
+     * @param $args array start of the chart
+     *          * start int start of the chart
+     *          * end int end of the chart
+     *          * format string the format of the date
+     *          * unique bool  if the visitor is unique or not
+     *          * device int the device used (mobile, desktop...) with FormWordPress consts
+     *          * custom_data string a data used to filter more
+     *
+     * @return array the array with all the datas
+     */
+    protected static function putInTab($tab, $value, $args)
+    {
+
+
+        if ($value['time'] > $args['end'])
+            return $tab;
+        elseif ($value['time'] < $args['start'])
+            return $tab;
+        else {
+            // Sort by custom data
+            if (($args['custom_data'] == null || $args['custom_data'] == $value['custom_data'])) {
+
+                // Sort by uniq value
+                if ((!$args['unique'] || !in_array($value['ip'], $tab['ips']))) {
+
+                    // If the date is one we want to display
+                    if (isset($tab['data'][date($args['format'], $value['time'])])) {
+
+                        // Increment the date (+1 Visit)
+                        $tab['data'][date($args['format'], $value['time'])]++;
+
+                        // Put the user IP in the ip tabs (in case we want unique users)
+                        if (!in_array($value['ip'], $tab['ips']))
+                            array_push($tab['ips'], $value['ip']);
+
+                        // Put the user IP in the ip tabs (in case we want unique users)
+                        if (!in_array($value['custom_data'], $tab['custom_datas']) && $value['custom_data'] != null)
+                            array_push($tab['custom_datas'], $value['custom_data']);
+
+                        // Switch the device value
+                        $value['device'] = isset($value['device']) ? $value['device'] : 'desktop';
+                        switch ($value['device']) {
+                            case FormWordpress::_MOBILE:
+                                $tab['devices']['mobile']++;
+                                break;
+                            case FormWordpress::_TABLET:
+                                $tab['devices']['tablet']++;
+                                break;
+                            case FormWordpress::_DESKTOP:
+                                $tab['devices']['desktop']++;
+                                break;
+                        }
+                    }
+                }
+                $tab['total']++;
+            }
+
+            return $tab;
+        }
     }
 
     /**

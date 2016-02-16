@@ -1,11 +1,13 @@
 <?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
 <div class="wrap gf_browser_chrome">
-    <h2><?php _e('Exporter un formulaire', 'easy-form'); ?></h2>
     <section class="panel-wordpress">
+        <div class="head">
+            <h2><?php _e('Exporter un formulaire', 'easy-form'); ?></h2>
+        </div>
         <div class="form-group">
             <div class="form-group">
-                <h2><?php _e('Choisir les formulaires à exporter', 'easy-form'); ?></h2>
+                <p><?php _e('Choisir les formulaires à exporter', 'easy-form'); ?></p>
                 <p><?php _e('Les IDs des formulaires ne seront pas exportés, ils seront ajoutés comme de nouveaux posts pour éviter tout conflit', 'easy-form'); ?></p>
             </div>
         </div>

@@ -255,13 +255,17 @@ class WP_Form
      *
      * @since V 0.1
      *
-     * Return if the form has been send
+     * @Updated : V 0.5.5 (Add $unset var)
      *
+     * Return if the form has been send. It can be used only once, except if you put $unset to false
+     *
+     *
+     * @param bool $unset if true, the var will be unset and if you call hasBeenSend after, it will return false
      * @return bool
      */
-    public function hasBeenSend()
+    public function hasBeenSend($unset = true)
     {
-        return $this->form->hasBeenSend($this->postId);
+        return $this->form->hasBeenSend($this->postId,$unset);
     }
 
 
@@ -328,24 +332,32 @@ class WP_Form
      *
      * @since V 0.3
      *
-     * Return the open form
+     * @Updated : V 0.5.5 (Add $statValue)
      *
-     * @return bool
+     * Return the open form template
+     *
+     * @param null|string $statValue a custom value used for cusotm data
+     * @return string the template of the form opening
      */
-    public function get_open_the_form()
+    public function get_open_the_form($statValue = null)
     {
-        return $this->form->get_open_the_form();
+        return $this->form->get_open_the_form($statValue);
     }
+
 
     /**
      *
      * @since V 0.3
      *
-     * Display the open form
+     * @Updated : V 0.5.5 (Add $statValue)
+     *
+     * display the open form template
+     *
+     * @param null|string $statValue a custom value used for cusotm data
      */
-    public function open_the_form()
+    public function open_the_form($statValue = null)
     {
-        $this->form->open_the_form();
+        $this->form->open_the_form($statValue);
     }
 
     /**
