@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"PO-Revision-Date: Tue Feb 16 2016 17:48:44 GMT+0000 (GMT)\n"
+"PO-Revision-Date: Wed Feb 17 2016 09:28:15 GMT+0000 (GMT)\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
 "Language: English\n"
@@ -22,14 +22,9 @@ msgstr ""
 "X-Loco-Target-Locale: en_US\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: ../templates/preview.php:195
-msgid ""
-"Ceci est la prévisualisation de votre formulaire, elle ne prends pas en "
-"compte votre propre style, il est possible que votre formulaire final ne "
-"ressemble pas à ça."
-msgstr ""
-"This is your form preview. It does not take care of your own style, Your "
-"final form may not look like this one."
+#: ../templates/stats.php:91
+msgid "Prendre en compte mes visites"
+msgstr "Display my visits"
 
 #. Name of the plugin
 msgid "Easy WP Form"
@@ -87,7 +82,7 @@ msgstr "Export a form"
 msgid "Exporter"
 msgstr "Export"
 
-#: ../easy-form.php:243 ../easy-form.php:243
+#: ../easy-form.php:243 ../easy-form.php:243 ../library/php/FormListTable.php:175
 msgid "Statistiques"
 msgstr "Statistics"
 
@@ -118,6 +113,40 @@ msgstr "E-Mail"
 #: ../assets/fields_traductions.php:1
 msgid "Attach Your CV <i class=\\\"fa fa-paperclip\\\"></i>"
 msgstr "Attachez votre CV <i class=\\\"fa fa-paperclip\\\"></i>"
+
+#: ../library/php/FormListTable.php:100
+msgid "Nom"
+msgstr "Name"
+
+#: ../library/php/FormListTable.php:101
+msgid "Nombre de champs"
+msgstr "Number of fields"
+
+#: ../library/php/FormListTable.php:102 ../templates/add.php:24
+msgid "Action"
+msgstr "Action"
+
+#: ../library/php/FormListTable.php:173
+msgid "Afficher"
+msgstr "View"
+
+#: ../library/php/FormListTable.php:174 ../templates/add.php:153 ..
+#: templates/preview.php:189
+msgid "Modifier"
+msgstr "Update"
+
+#: ../library/php/FormListTable.php:176 ../templates/footer.php:46 ..
+#: templates/inputs/input-empty.php:26
+msgid "Dupliquer"
+msgstr "Duplicate"
+
+#: ../library/php/FormListTable.php:177
+msgid "Êtes vous sur de vouloir supprimer ce formulaire ?"
+msgstr "Are you sure you want to delete this form ?"
+
+#: ../library/php/FormListTable.php:177 ../library/php/FormListTable.php:193
+msgid "Supprimer"
+msgstr "Delete"
 
 #: ../src/Form.php:146
 msgid "Un ou plusieurs champs n'est pas complet"
@@ -182,40 +211,6 @@ msgstr "The key used is invalid"
 #: ../src/Form.php:161
 msgid "Utilisateur introuvable ou déjà activé"
 msgstr "The user does not exist or has already been activated"
-
-#: ../src/FormListTable.php:100
-msgid "Nom"
-msgstr "Name"
-
-#: ../src/FormListTable.php:101
-msgid "Nombre de champs"
-msgstr "Number of fields"
-
-#: ../src/FormListTable.php:102 ../templates/add.php:24
-msgid "Action"
-msgstr "Action"
-
-#: ../src/FormListTable.php:173
-msgid "Afficher"
-msgstr "View"
-
-#: ../src/FormListTable.php:174 ../templates/add.php:153 ../templates/preview.php:
-#: 189
-msgid "Modifier"
-msgstr "Update"
-
-#: ../src/FormListTable.php:175 ../templates/footer.php:46 ..
-#: templates/inputs/input-empty.php:26
-msgid "Dupliquer"
-msgstr "Duplicate"
-
-#: ../src/FormListTable.php:176
-msgid "Êtes vous sur de vouloir supprimer ce formulaire ?"
-msgstr "Are you sure you want to delete this form ?"
-
-#: ../src/FormListTable.php:176 ../src/FormListTable.php:192
-msgid "Supprimer"
-msgstr "Delete"
 
 #: ../templates/add.php:13
 msgid "1 - Informations principales"
@@ -508,11 +503,20 @@ msgstr "Your password has been reset"
 msgid "Prévisualisation du formulaire"
 msgstr "Preview the form"
 
+#: ../templates/preview.php:195
+msgid ""
+"Ceci est la prévisualisation de votre formulaire, elle ne prends pas en "
+"compte votre propre style, il est possible que votre formulaire final ne "
+"ressemble pas à ça."
+msgstr ""
+"This is your form preview. It does not take care of your own style, Your "
+"final form may not look like this one."
+
 #: ../templates/stats.php:8
 msgid "Filtres"
 msgstr "Filters"
 
-#: ../templates/stats.php:12 ../templates/stats.php:378
+#: ../templates/stats.php:12 ../templates/stats.php:389
 msgid "Plus de filtres"
 msgstr "More filters"
 
@@ -524,160 +528,160 @@ msgstr "Custom sorting"
 msgid "Séléctionnez une valeur"
 msgstr "Select a value"
 
-#: ../templates/stats.php:42
+#: ../templates/stats.php:43
 msgid "Période à afficher"
 msgstr "Period"
 
-#: ../templates/stats.php:45
+#: ../templates/stats.php:46
 msgid "1 jour"
 msgstr "1 day"
 
-#: ../templates/stats.php:47
+#: ../templates/stats.php:48
 msgid "1 semaine"
 msgstr "1 week"
 
-#: ../templates/stats.php:49
+#: ../templates/stats.php:50
 msgid "1 mois"
 msgstr "1 month"
 
-#: ../templates/stats.php:51
+#: ../templates/stats.php:52
 msgid "1 an"
 msgstr "1 year"
 
-#: ../templates/stats.php:55
+#: ../templates/stats.php:56
 msgid "Grouper par"
 msgstr "Group by"
 
-#: ../templates/stats.php:58
+#: ../templates/stats.php:59
 msgid "Jours"
 msgstr "days"
 
-#: ../templates/stats.php:60
+#: ../templates/stats.php:61
 msgid "Heures"
 msgstr "hours"
 
-#: ../templates/stats.php:62
+#: ../templates/stats.php:63
 msgid "Semaines"
 msgstr "weeks"
 
-#: ../templates/stats.php:64
+#: ../templates/stats.php:65
 msgid "An"
 msgstr "years"
 
-#: ../templates/stats.php:68 ../templates/stats.php:72
+#: ../templates/stats.php:69 ../templates/stats.php:73
 msgid "Format de date"
 msgstr "Date format"
 
-#: ../templates/stats.php:70
+#: ../templates/stats.php:71
 msgid "Quel format&nbsp;?"
 msgstr "Which format&nbsp;?"
 
-#: ../templates/stats.php:76 ../templates/stats.php:81
+#: ../templates/stats.php:83
 msgid "Visiteurs uniques"
 msgstr "Unique visitors"
 
-#: ../templates/stats.php:88
+#: ../templates/stats.php:99
 msgid "Filtrer"
 msgstr "Filter"
 
-#: ../templates/stats.php:99
+#: ../templates/stats.php:110
 msgid "Taux de conversion"
 msgstr "Conversion Rate"
 
-#: ../templates/stats.php:110
+#: ../templates/stats.php:121
 msgid "Nombre d'impression"
 msgstr "Number of impressions"
 
-#: ../templates/stats.php:113
+#: ../templates/stats.php:124
 msgid "vues"
 msgstr "impressions"
 
-#: ../templates/stats.php:120
+#: ../templates/stats.php:131
 msgid "Nombre de conversion"
 msgstr "Number of conversion"
 
-#: ../templates/stats.php:123
+#: ../templates/stats.php:134
 msgid "conversion"
 msgstr "conversion"
 
-#: ../templates/stats.php:132 ../templates/stats.php:304 ../templates/stats.php:
-#: 318 ../templates/stats.php:332
+#: ../templates/stats.php:143 ../templates/stats.php:315 ../templates/stats.php:
+#: 329 ../templates/stats.php:343
 msgid "Nouveaux visiteurs"
 msgstr "New visitors"
 
-#: ../templates/stats.php:135
+#: ../templates/stats.php:146
 msgid "visiteur"
 msgstr "visitor"
 
-#: ../templates/stats.php:145
+#: ../templates/stats.php:156
 msgid "Impression et conversions"
 msgstr "Impressions and conversions"
 
-#: ../templates/stats.php:153
+#: ../templates/stats.php:164
 msgid "Type de visiteurs total"
 msgstr "Total visitors"
 
-#: ../templates/stats.php:155
+#: ../templates/stats.php:166
 msgid "Taux de visiteurs pour les impressions et les conversions"
 msgstr "Visitors rate for impressions & conversions"
 
-#: ../templates/stats.php:164
+#: ../templates/stats.php:175
 msgid "Appareils pour impression"
 msgstr "Device for impressions"
 
-#: ../templates/stats.php:167
+#: ../templates/stats.php:178
 msgid "Types d'appareil pour les impressions"
 msgstr "Device used for impressions"
 
-#: ../templates/stats.php:175
+#: ../templates/stats.php:186
 msgid "Appareils pour conversion"
 msgstr "Device for conversion"
 
-#: ../templates/stats.php:178
+#: ../templates/stats.php:189
 msgid "Types d'appareil pour les conversions"
 msgstr "Device used for conversions"
 
-#: ../templates/stats.php:186
+#: ../templates/stats.php:197
 msgid "Visiteurs pour impression"
 msgstr "Visitors for impression"
 
-#: ../templates/stats.php:189
+#: ../templates/stats.php:200
 msgid "Types de visiteurs pour les impressions"
 msgstr "Visitors for impressions"
 
-#: ../templates/stats.php:197
+#: ../templates/stats.php:208
 msgid "Visiteurs pour conversion"
 msgstr "Device for conversion"
 
-#: ../templates/stats.php:200
+#: ../templates/stats.php:211
 msgid "Types de visiteurs pour les conversions"
 msgstr "Visitors for conversions"
 
-#: ../templates/stats.php:224
+#: ../templates/stats.php:235
 msgid "Conversion"
 msgstr "Conversion"
 
-#: ../templates/stats.php:234
+#: ../templates/stats.php:245
 msgid "Impression"
 msgstr "Impression"
 
-#: ../templates/stats.php:259 ../templates/stats.php:279
+#: ../templates/stats.php:270 ../templates/stats.php:290
 msgid "Mobile"
 msgstr "Mobile"
 
-#: ../templates/stats.php:265 ../templates/stats.php:285
+#: ../templates/stats.php:276 ../templates/stats.php:296
 msgid "Tablette"
 msgstr "Tablet"
 
-#: ../templates/stats.php:271 ../templates/stats.php:291
+#: ../templates/stats.php:282 ../templates/stats.php:302
 msgid "Ordinateur"
 msgstr "Desktop"
 
-#: ../templates/stats.php:310 ../templates/stats.php:324 ../templates/stats.php:338
+#: ../templates/stats.php:321 ../templates/stats.php:335 ../templates/stats.php:349
 msgid "Anciens visiteurs"
 msgstr "Returning visitors"
 
-#: ../templates/stats.php:382
+#: ../templates/stats.php:393
 msgid "Moins de filtres"
 msgstr "Less filters"
 

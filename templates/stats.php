@@ -37,7 +37,8 @@
                 <?php } ?>
             </div>
             <input type="hidden" name="page" value="<?php echo $_GET['page']; ?>">
-            <div class="row mg-top-25" id="filter-plus" style="display: none;">
+            <div id="filter-plus" style="display: none;" >
+            <div class="row mg-top-25" >
                 <div class="col-sm-3">
                     <label for="period"><?php _e("Période à afficher", 'easy-form'); ?></label>
                     <select name="period" id="period">
@@ -72,8 +73,9 @@
                            placeholder="<?php _e("Format de date", 'easy-form'); ?>"
                            value="<?php echo isset($_GET['format']) ? $_GET['format'] : 'd/m/Y'; ?>">
                 </div>
+            </div>
+            <div class="row margin-top-25">
                 <div class="col-sm-3">
-                    <label for="unique" class="invisible"><?php _e("Visiteurs uniques", 'easy-form'); ?></label>
                     <label for="unique">
                         <input
                             type="checkbox" <?php echo isset($_GET['unique']) && $_GET['unique'] == 'true' ? 'checked' : ''; ?>
@@ -81,6 +83,15 @@
                         <?php _e("Visiteurs uniques", 'easy-form'); ?>
                     </label>
                 </div>
+                <div class="col-sm-3">
+                    <label for="include_my_ip">
+                        <input
+                            type="checkbox" <?php echo isset($_GET['include_my_ip']) && $_GET['include_my_ip'] == 'true' ? 'checked' : ''; ?>
+                            id="include_my_ip" value="true" name="include_my_ip">
+                        <?php _e("Prendre en compte mes visites", 'easy-form'); ?>
+                    </label>
+                </div>
+            </div>
             </div>
             <div class="row mg-top-25">
                 <div class="col-sm-3">
@@ -99,7 +110,7 @@
                     <h2><?php _e("Taux de conversion", 'easy-form'); ?></h2>
                 </div>
                 <i class="fa fa-area-chart"></i>
-                <h3 class="bigtitle"><?php echo number_format(($convs['total'] / $imps['total']) * 100, 2); ?>
+                <h3 class="bigtitle"><?php echo  $imps['total'] != 0 ? number_format(($convs['total'] / $imps['total']) * 100, 2) : '-' ; ?>
                     <span>%</span></h3>
                 <div class="row"></div>
             </div>
@@ -298,13 +309,13 @@
                 ?>
                 visitors: [
                     {
-                        value: <?php echo number_format(($ips / $total) * 100, 0); ?>,
+                        value: <?php echo $total != 0 ? number_format(($ips / $total) * 100, 0) : 0; ?>,
                         color: "#043582",
                         highlight: "#034FC5",
                         label: "<?php _e("Nouveaux visiteurs", 'easy-form'); ?>"
                     },
                     {
-                        value: <?php echo number_format(((1 - $ips / $total) * 100), 0); ?>,
+                        value: <?php echo $total != 0 ? number_format(((1 - $ips / $total) * 100), 0) : 0; ?>,
                         color: "#9BC11E",
                         highlight: "#B1DC23",
                         label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
@@ -312,13 +323,13 @@
                 ],
                 visitors_impressions: [
                     {
-                        value: <?php echo number_format((count($imps['ips']) / $imps['total']) * 100, 0); ?>,
+                        value: <?php echo $imps['total'] != 0 ? number_format((count($imps['ips']) / $imps['total']) * 100, 0) : 0; ?>,
                         color: "#043582",
                         highlight: "#034FC5",
                         label: "<?php _e("Nouveaux visiteurs", 'easy-form'); ?>"
                     },
                     {
-                        value: <?php echo number_format(((1 - count($imps['ips']) / $imps['total']) * 100), 0); ?>,
+                        value: <?php echo $imps['total'] != 0 ? number_format(((1 - count($imps['ips']) / $imps['total']) * 100), 0) : 0; ?>,
                         color: "#9BC11E",
                         highlight: "#B1DC23",
                         label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
@@ -326,13 +337,13 @@
                 ],
                 visitors_conversions: [
                     {
-                        value: <?php echo number_format((count($convs['ips']) / $convs['total']) * 100, 0); ?>,
+                        value: <?php echo $convs['total'] != 0 ? number_format((count($convs['ips']) / $convs['total']) * 100, 0) : 0; ?>,
                         color: "#043582",
                         highlight: "#034FC5",
                         label: "<?php _e("Nouveaux visiteurs", 'easy-form'); ?>"
                     },
                     {
-                        value: <?php echo number_format(((1 - count($convs['ips']) / $convs['total']) * 100), 0); ?>,
+                        value: <?php echo $convs['total'] != 0 ? number_format(((1 - count($convs['ips']) / $convs['total']) * 100), 0) : 0; ?>,
                         color: "#9BC11E",
                         highlight: "#B1DC23",
                         label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Tue Feb 16 2016 17:48:11 GMT+0000 (GMT)\n"
+"POT-Revision-Date: Wed Feb 17 2016 09:27:47 GMT+0000 (GMT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
@@ -79,7 +79,7 @@ msgstr ""
 msgid "Exporter"
 msgstr ""
 
-#: ../easy-form.php:243 ../easy-form.php:243
+#: ../easy-form.php:243 ../easy-form.php:243 ../library/php/FormListTable.php:175
 msgid "Statistiques"
 msgstr ""
 
@@ -107,6 +107,40 @@ msgstr ""
 
 #: ../assets/fields_traductions.php:1
 msgid "Attach Your CV <i class=\\\"fa fa-paperclip\\\"></i>"
+msgstr ""
+
+#: ../library/php/FormListTable.php:100
+msgid "Nom"
+msgstr ""
+
+#: ../library/php/FormListTable.php:101
+msgid "Nombre de champs"
+msgstr ""
+
+#: ../library/php/FormListTable.php:102 ../templates/add.php:24
+msgid "Action"
+msgstr ""
+
+#: ../library/php/FormListTable.php:173
+msgid "Afficher"
+msgstr ""
+
+#: ../library/php/FormListTable.php:174 ../templates/add.php:153 ..
+#: /templates/preview.php:189
+msgid "Modifier"
+msgstr ""
+
+#: ../library/php/FormListTable.php:176 ../templates/footer.php:46 ..
+#: /templates/inputs/input-empty.php:26
+msgid "Dupliquer"
+msgstr ""
+
+#: ../library/php/FormListTable.php:177
+msgid "Êtes vous sur de vouloir supprimer ce formulaire ?"
+msgstr ""
+
+#: ../library/php/FormListTable.php:177 ../library/php/FormListTable.php:193
+msgid "Supprimer"
 msgstr ""
 
 #: ../src/Form.php:146
@@ -171,40 +205,6 @@ msgstr ""
 
 #: ../src/Form.php:161
 msgid "Utilisateur introuvable ou déjà activé"
-msgstr ""
-
-#: ../src/FormListTable.php:100
-msgid "Nom"
-msgstr ""
-
-#: ../src/FormListTable.php:101
-msgid "Nombre de champs"
-msgstr ""
-
-#: ../src/FormListTable.php:102 ../templates/add.php:24
-msgid "Action"
-msgstr ""
-
-#: ../src/FormListTable.php:173
-msgid "Afficher"
-msgstr ""
-
-#: ../src/FormListTable.php:174 ../templates/add.php:153 ../templates/preview.php:
-#: 189
-msgid "Modifier"
-msgstr ""
-
-#: ../src/FormListTable.php:175 ../templates/footer.php:46 ..
-#: /templates/inputs/input-empty.php:26
-msgid "Dupliquer"
-msgstr ""
-
-#: ../src/FormListTable.php:176
-msgid "Êtes vous sur de vouloir supprimer ce formulaire ?"
-msgstr ""
-
-#: ../src/FormListTable.php:176 ../src/FormListTable.php:192
-msgid "Supprimer"
 msgstr ""
 
 #: ../templates/add.php:13
@@ -499,7 +499,7 @@ msgstr ""
 msgid "Filtres"
 msgstr ""
 
-#: ../templates/stats.php:12 ../templates/stats.php:378
+#: ../templates/stats.php:12 ../templates/stats.php:389
 msgid "Plus de filtres"
 msgstr ""
 
@@ -511,160 +511,164 @@ msgstr ""
 msgid "Séléctionnez une valeur"
 msgstr ""
 
-#: ../templates/stats.php:42
+#: ../templates/stats.php:43
 msgid "Période à afficher"
 msgstr ""
 
-#: ../templates/stats.php:45
+#: ../templates/stats.php:46
 msgid "1 jour"
 msgstr ""
 
-#: ../templates/stats.php:47
+#: ../templates/stats.php:48
 msgid "1 semaine"
 msgstr ""
 
-#: ../templates/stats.php:49
+#: ../templates/stats.php:50
 msgid "1 mois"
 msgstr ""
 
-#: ../templates/stats.php:51
+#: ../templates/stats.php:52
 msgid "1 an"
 msgstr ""
 
-#: ../templates/stats.php:55
+#: ../templates/stats.php:56
 msgid "Grouper par"
 msgstr ""
 
-#: ../templates/stats.php:58
+#: ../templates/stats.php:59
 msgid "Jours"
 msgstr ""
 
-#: ../templates/stats.php:60
+#: ../templates/stats.php:61
 msgid "Heures"
 msgstr ""
 
-#: ../templates/stats.php:62
+#: ../templates/stats.php:63
 msgid "Semaines"
 msgstr ""
 
-#: ../templates/stats.php:64
+#: ../templates/stats.php:65
 msgid "An"
 msgstr ""
 
-#: ../templates/stats.php:68 ../templates/stats.php:72
+#: ../templates/stats.php:69 ../templates/stats.php:73
 msgid "Format de date"
 msgstr ""
 
-#: ../templates/stats.php:70
+#: ../templates/stats.php:71
 msgid "Quel format&nbsp;?"
 msgstr ""
 
-#: ../templates/stats.php:76 ../templates/stats.php:81
+#: ../templates/stats.php:83
 msgid "Visiteurs uniques"
 msgstr ""
 
-#: ../templates/stats.php:88
-msgid "Filtrer"
+#: ../templates/stats.php:91
+msgid "Prendre en compte mes visites"
 msgstr ""
 
 #: ../templates/stats.php:99
-msgid "Taux de conversion"
+msgid "Filtrer"
 msgstr ""
 
 #: ../templates/stats.php:110
+msgid "Taux de conversion"
+msgstr ""
+
+#: ../templates/stats.php:121
 msgid "Nombre d'impression"
 msgstr ""
 
-#: ../templates/stats.php:113
+#: ../templates/stats.php:124
 msgid "vues"
 msgstr ""
 
-#: ../templates/stats.php:120
+#: ../templates/stats.php:131
 msgid "Nombre de conversion"
 msgstr ""
 
-#: ../templates/stats.php:123
+#: ../templates/stats.php:134
 msgid "conversion"
 msgstr ""
 
-#: ../templates/stats.php:132 ../templates/stats.php:304 ../templates/stats.php:
-#: 318 ../templates/stats.php:332
+#: ../templates/stats.php:143 ../templates/stats.php:315 ../templates/stats.php:
+#: 329 ../templates/stats.php:343
 msgid "Nouveaux visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:135
+#: ../templates/stats.php:146
 msgid "visiteur"
 msgstr ""
 
-#: ../templates/stats.php:145
+#: ../templates/stats.php:156
 msgid "Impression et conversions"
 msgstr ""
 
-#: ../templates/stats.php:153
+#: ../templates/stats.php:164
 msgid "Type de visiteurs total"
 msgstr ""
 
-#: ../templates/stats.php:155
+#: ../templates/stats.php:166
 msgid "Taux de visiteurs pour les impressions et les conversions"
 msgstr ""
 
-#: ../templates/stats.php:164
+#: ../templates/stats.php:175
 msgid "Appareils pour impression"
 msgstr ""
 
-#: ../templates/stats.php:167
+#: ../templates/stats.php:178
 msgid "Types d'appareil pour les impressions"
 msgstr ""
 
-#: ../templates/stats.php:175
+#: ../templates/stats.php:186
 msgid "Appareils pour conversion"
 msgstr ""
 
-#: ../templates/stats.php:178
+#: ../templates/stats.php:189
 msgid "Types d'appareil pour les conversions"
 msgstr ""
 
-#: ../templates/stats.php:186
+#: ../templates/stats.php:197
 msgid "Visiteurs pour impression"
 msgstr ""
 
-#: ../templates/stats.php:189
+#: ../templates/stats.php:200
 msgid "Types de visiteurs pour les impressions"
 msgstr ""
 
-#: ../templates/stats.php:197
+#: ../templates/stats.php:208
 msgid "Visiteurs pour conversion"
 msgstr ""
 
-#: ../templates/stats.php:200
+#: ../templates/stats.php:211
 msgid "Types de visiteurs pour les conversions"
 msgstr ""
 
-#: ../templates/stats.php:224
+#: ../templates/stats.php:235
 msgid "Conversion"
 msgstr ""
 
-#: ../templates/stats.php:234
+#: ../templates/stats.php:245
 msgid "Impression"
 msgstr ""
 
-#: ../templates/stats.php:259 ../templates/stats.php:279
+#: ../templates/stats.php:270 ../templates/stats.php:290
 msgid "Mobile"
 msgstr ""
 
-#: ../templates/stats.php:265 ../templates/stats.php:285
+#: ../templates/stats.php:276 ../templates/stats.php:296
 msgid "Tablette"
 msgstr ""
 
-#: ../templates/stats.php:271 ../templates/stats.php:291
+#: ../templates/stats.php:282 ../templates/stats.php:302
 msgid "Ordinateur"
 msgstr ""
 
-#: ../templates/stats.php:310 ../templates/stats.php:324 ../templates/stats.php:338
+#: ../templates/stats.php:321 ../templates/stats.php:335 ../templates/stats.php:349
 msgid "Anciens visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:382
+#: ../templates/stats.php:393
 msgid "Moins de filtres"
 msgstr ""
 

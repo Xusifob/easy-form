@@ -1061,6 +1061,7 @@ class FormPlugin
                 'unique' => isset($_GET['unique']),
                 'device' => $device,
                 'custom_data' => isset($_GET['custom_data']) && !empty($_GET['custom_data']) ? $_GET['custom_data'] : null,
+                'include_my_ip' => isset($_GET['include_my_ip'])
             ];
 
 
@@ -1118,6 +1119,8 @@ class FormPlugin
             // Sort by custom data
             if (($args['custom_data'] == null || $args['custom_data'] == $value['custom_data'])) {
 
+                if($args['include_my_ip'] || ($value['ip'] != $_SERVER['REMOTE_ADDR'] )){
+
                 // Sort by uniq value
                 if ((!$args['unique'] || !in_array($value['ip'], $tab['ips']))) {
 
@@ -1151,6 +1154,7 @@ class FormPlugin
                     }
                 }
                 $tab['total']++;
+            }
             }
 
             return $tab;
