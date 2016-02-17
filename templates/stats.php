@@ -22,13 +22,13 @@
                         <?php } ?>
                     </select>
                 </div>
-                <?php if (isset($convs['custom_datas']) && is_array($convs['custom_datas'])) { ?>
+                <?php if (isset($imps['custom_datas']) && is_array($imps['custom_datas'])) { ?>
                     <div class="col-sm-3">
                         <label for="form-id"><?php _e("Tri customisé", 'easy-form'); ?></label>
                         <select name="custom_data" id="form-id">
                             <option value=""><?php _e("Séléctionnez une valeur", 'easy-form'); ?></option>
                             <?php /** @var WP_Post $oneForm * */
-                            foreach ($convs['custom_datas'] as $data) { ?>
+                            foreach ($imps['custom_datas'] as $data) { ?>
                                 <option <?php echo $data == $_GET['custom_data'] ? 'selected' : ''; ?>
                                     value="<?php echo $data; ?>"><?php echo $data; ?></option>
                             <?php } ?>
@@ -161,14 +161,33 @@
         <div class="col-sm-3">
             <div class="data panel-wordpress">
                 <div class="head">
+                    <h2><?php _e("Appareils", 'easy-form'); ?></h2>
+                </div>
+                <p><?php _e("Types d'appareils utilisés", 'easy-form'); ?></p>
+                <canvas id="devices" width="300" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="data panel-wordpress">
+                <div class="head">
                     <h2><?php _e("Type de visiteurs total", 'easy-form'); ?></h2>
                 </div>
                 <p><?php _e("Taux de visiteurs pour les impressions et les conversions", 'easy-form'); ?></p>
                 <canvas id="visitors" width="300" height="300"></canvas>
             </div>
         </div>
+        <div class="col-sm-9">
+            <div class="data panel-wordpress">
+                <div class="head">
+                    <h2><?php _e("Provenance des utilisateurs", 'easy-form'); ?></h2>
+                </div>
+                <div id="world-map" style="width: 100%; height: 335px;"></div>
+            </div>
+        </div>
     </div>
-    <div class="row">
+   <!-- <div class="row">
         <div class="col-sm-3">
             <div class="data panel-wordpress">
                 <div class="head">
@@ -213,7 +232,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
     <script type="text/javascript">
 
@@ -262,7 +281,7 @@
 
         var doughnutChart = {
             data: {
-                conversions: [
+            /*    conversions: [
                     {
                         value: <?php echo $convs['devices']['mobile']; ?>,
                         color: "#F7464A",
@@ -301,6 +320,26 @@
                         highlight: "#FFC870",
                         label: "<?php _e("Ordinateur", 'easy-form'); ?>"
                     }
+                ], */
+                total: [
+                    {
+                        value: <?php echo $imps['devices']['mobile'] + $convs['devices']['mobile']; ?>,
+                        color: "#F7464A",
+                        highlight: "#FF5A5E",
+                        label: "<?php _e("Mobile", 'easy-form'); ?>"
+                    },
+                    {
+                        value: <?php echo $imps['devices']['tablet'] + $convs['devices']['tablet'];  ?>,
+                        color: "#46BFBD",
+                        highlight: "#5AD3D1",
+                        label: "<?php _e("Tablette", 'easy-form'); ?>"
+                    },
+                    {
+                        value: <?php echo $imps['devices']['desktop'] + $convs['devices']['desktop']; ?>,
+                        color: "#FDB45C",
+                        highlight: "#FFC870",
+                        label: "<?php _e("Ordinateur", 'easy-form'); ?>"
+                    }
                 ],
 
                 <?php
@@ -321,7 +360,7 @@
                         label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
                     }
                 ],
-                visitors_impressions: [
+            /*    visitors_impressions: [
                     {
                         value: <?php echo $imps['total'] != 0 ? number_format((count($imps['ips']) / $imps['total']) * 100, 0) : 0; ?>,
                         color: "#043582",
@@ -348,7 +387,7 @@
                         highlight: "#B1DC23",
                         label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
                     }
-                ],
+                ], */
             },
             options: {
                 legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
@@ -357,29 +396,37 @@
 
 
         // Impression & conversions
-        var DoughnutChartImpressions = new Chart(document.getElementById("doughnut-impressions").getContext("2d")).Doughnut(doughnutChart.data.impressions, doughnutChart.options);
-        var DoughnutChartConversions = new Chart(document.getElementById("doughnut-conversions").getContext("2d")).Doughnut(doughnutChart.data.conversions, doughnutChart.options);
-
+      //  var DoughnutChartImpressions = new Chart(document.getElementById("doughnut-impressions").getContext("2d")).Doughnut(doughnutChart.data.impressions, doughnutChart.options);
+      //  var DoughnutChartConversions = new Chart(document.getElementById("doughnut-conversions").getContext("2d")).Doughnut(doughnutChart.data.conversions, doughnutChart.options);
+        var DevicesChart = new Chart(document.getElementById("devices").getContext("2d")).Doughnut(doughnutChart.data.total, doughnutChart.options);
         Chart.defaults.global.tooltipTemplate = "<%if (label){%><%=label%>: <%}%><%= value %>%";
+        var VisitorsChart = new Chart(document.getElementById("visitors").getContext("2d")).Pie(doughnutChart.data.visitors, doughnutChart.options);
 
-        var DoughnutChartVisitors = new Chart(document.getElementById("visitors").getContext("2d")).Pie(doughnutChart.data.visitors, doughnutChart.options);
-        var DoughnutChartVisitors_impressions = new Chart(document.getElementById("visitors-impressions").getContext("2d")).Pie(doughnutChart.data.visitors_impressions, doughnutChart.options);
-        var DoughnutChartVisitors_conversions = new Chart(document.getElementById("visitors-conversions").getContext("2d")).Pie(doughnutChart.data.visitors_conversions, doughnutChart.options);
+        // Display legends
+        legend = DevicesChart.generateLegend();
+        jQuery('#doughnut-total').after(legend);
 
+        legend = VisitorsChart.generateLegend();
+        jQuery('#visitors').after(legend);
+
+        /*
         legend = DoughnutChartImpressions.generateLegend();
         jQuery('#doughnut-impressions').after(legend);
 
         legend = DoughnutChartConversions.generateLegend();
-        jQuery('#doughnut-conversions').after(legend);
+        jQuery('#doughnut-conversions').after(legend); */
 
-        legend = DoughnutChartVisitors.generateLegend();
-        jQuery('#visitors').after(legend);
+
+/*
+ var DoughnutChartVisitors_impressions = new Chart(document.getElementById("visitors-impressions").getContext("2d")).Pie(doughnutChart.data.visitors_impressions, doughnutChart.options);
+ var DoughnutChartVisitors_conversions = new Chart(document.getElementById("visitors-conversions").getContext("2d")).Pie(doughnutChart.data.visitors_conversions, doughnutChart.options);
+
 
         legend = DoughnutChartVisitors_conversions.generateLegend();
         jQuery('#visitors-conversions').after(legend);
 
         legend = DoughnutChartVisitors_impressions.generateLegend();
-        jQuery('#visitors-impressions').after(legend);
+        jQuery('#visitors-impressions').after(legend); */
 
 
         jQuery('#plus').on('click', function () {
@@ -394,6 +441,48 @@
             }
         });
 
+
+        jQuery(function(){
+
+            var $ = jQuery;
+
+            $('#world-map').vectorMap({
+                map: 'world_mill_en',
+                normalizeFunction: 'polynomial',
+                hoverOpacity: 0.7,
+                hoverColor: false,
+                backgroundColor: 'transparent',
+                regionStyle: {
+                    initial: {
+                        fill: 'rgba(210, 214, 222, 1)',
+                        "fill-opacity": 1,
+                        stroke: 'none',
+                        "stroke-width": 0,
+                        "stroke-opacity": 1
+                    },
+                    hover: {
+                        "fill-opacity": 0.7,
+                        cursor: 'pointer'
+                    },
+                    selected: {
+                        fill: 'yellow'
+                    },
+                    selectedHover: {}
+                },
+                markerStyle: {
+                    initial: {
+                        fill: '#9BC11E',
+                        stroke: 'none'
+                    }
+                },
+                markers: [
+                    <?php if(is_array($imps)) foreach($imps['ips'] as $ip){ ?>
+                    {latLng: [<?php echo $ip['lat']; ?>,<?php echo $ip['lng']; ?>], name: '<?php echo $ip['region']; ?>'},
+                <?php } ?>
+                ]
+            });
+
+        });
 
     </script>
 <?php else : ?>

@@ -1090,6 +1090,28 @@ class FormPlugin
 
 
     /**
+     * @Since V 0.5.5
+     *
+     * @param $ip string the user Ip Address
+     * @return array
+     */
+    private function getIpData($ip)
+    {
+        $ip_addr = '31.221.68.82';
+        $geoplugin = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $ip_addr));
+
+
+        $data = [
+            'lng' => is_numeric($geoplugin['geoplugin_longitude']) ? $geoplugin['geoplugin_longitude'] : 0,
+            'lat' => is_numeric($geoplugin['geoplugin_latitude']) ? $geoplugin['geoplugin_latitude'] : 0,
+            'region' => $geoplugin['geoplugin_regionName'],
+        ];
+
+        return $data;
+
+    }
+
+    /**
      *
      * @Since V 0.5.5
      *
@@ -1119,43 +1141,44 @@ class FormPlugin
             // Sort by custom data
             if (($args['custom_data'] == null || $args['custom_data'] == $value['custom_data'])) {
 
-                if($args['include_my_ip'] || ($value['ip'] != $_SERVER['REMOTE_ADDR'] )){
+                if ($args['include_my_ip'] || ($value['ip'] != $_SERVER['REMOTE_ADDR'])) {
 
-                // Sort by uniq value
-                if ((!$args['unique'] || !in_array($value['ip'], $tab['ips']))) {
+                    // Sort by uniq value
+                    if ((!$args['unique'] || !in_array($value['ip'], $tab['ips']))) {
 
-                    // If the date is one we want to display
-                    if (isset($tab['data'][date($args['format'], $value['time'])])) {
+                        // If the date is one we want to display
+                        if (isset($tab['data'][date($args['format'], $value['time'])])) {
 
-                        // Increment the date (+1 Visit)
-                        $tab['data'][date($args['format'], $value['time'])]++;
+                            // Increment the date (+1 Visit)
+                            $tab['data'][date($args['format'], $value['time'])]++;
 
-                        // Put the user IP in the ip tabs (in case we want unique users)
-                        if (!in_array($value['ip'], $tab['ips']))
-                            array_push($tab['ips'], $value['ip']);
+                            // Put the user IP in the ip tabs (in case we want unique users)
+                            if (!array_key_exists($value['ip'], $tab['ips'])) {
+                                $tab['ips'][$value['ip']] = self::getIpData($value['ip']);
+                            }
 
-                        // Put the user IP in the ip tabs (in case we want unique users)
-                        if (!in_array($value['custom_data'], $tab['custom_datas']) && $value['custom_data'] != null)
-                            array_push($tab['custom_datas'], $value['custom_data']);
 
-                        // Switch the device value
-                        $value['device'] = isset($value['device']) ? $value['device'] : 'desktop';
-                        switch ($value['device']) {
-                            case FormWordpress::_MOBILE:
-                                $tab['devices']['mobile']++;
-                                break;
-                            case FormWordpress::_TABLET:
-                                $tab['devices']['tablet']++;
-                                break;
-                            case FormWordpress::_DESKTOP:
-                                $tab['devices']['desktop']++;
-                                break;
+                            // Switch the device value
+                            $value['device'] = isset($value['device']) ? $value['device'] : 'desktop';
+                            switch ($value['device']) {
+                                case FormWordpress::_MOBILE:
+                                    $tab['devices']['mobile']++;
+                                    break;
+                                case FormWordpress::_TABLET:
+                                    $tab['devices']['tablet']++;
+                                    break;
+                                case FormWordpress::_DESKTOP:
+                                    $tab['devices']['desktop']++;
+                                    break;
+                            }
                         }
                     }
+                    $tab['total']++;
                 }
-                $tab['total']++;
             }
-            }
+            // Put the custom data so it will always be available
+            if (!in_array($value['custom_data'], $tab['custom_datas']) && $value['custom_data'] != null)
+                array_push($tab['custom_datas'], $value['custom_data']);
 
             return $tab;
         }

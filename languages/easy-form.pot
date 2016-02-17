@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Wed Feb 17 2016 09:27:47 GMT+0000 (GMT)\n"
+"POT-Revision-Date: Wed Feb 17 2016 15:08:55 GMT+0000 (GMT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
@@ -499,7 +499,7 @@ msgstr ""
 msgid "Filtres"
 msgstr ""
 
-#: ../templates/stats.php:12 ../templates/stats.php:389
+#: ../templates/stats.php:12 ../templates/stats.php:436
 msgid "Plus de filtres"
 msgstr ""
 
@@ -591,8 +591,8 @@ msgstr ""
 msgid "conversion"
 msgstr ""
 
-#: ../templates/stats.php:143 ../templates/stats.php:315 ../templates/stats.php:
-#: 329 ../templates/stats.php:343
+#: ../templates/stats.php:143 ../templates/stats.php:354 ../templates/stats.php:
+#: 368 ../templates/stats.php:382
 msgid "Nouveaux visiteurs"
 msgstr ""
 
@@ -605,70 +605,82 @@ msgid "Impression et conversions"
 msgstr ""
 
 #: ../templates/stats.php:164
-msgid "Type de visiteurs total"
+msgid "Appareils"
 msgstr ""
 
 #: ../templates/stats.php:166
-msgid "Taux de visiteurs pour les impressions et les conversions"
+msgid "Types d'appareils utilisés"
 msgstr ""
 
 #: ../templates/stats.php:175
+msgid "Type de visiteurs total"
+msgstr ""
+
+#: ../templates/stats.php:177
+msgid "Taux de visiteurs pour les impressions et les conversions"
+msgstr ""
+
+#: ../templates/stats.php:184
+msgid "Provenance des utilisateurs"
+msgstr ""
+
+#: ../templates/stats.php:194
 msgid "Appareils pour impression"
 msgstr ""
 
-#: ../templates/stats.php:178
+#: ../templates/stats.php:197
 msgid "Types d'appareil pour les impressions"
 msgstr ""
 
-#: ../templates/stats.php:186
+#: ../templates/stats.php:205
 msgid "Appareils pour conversion"
 msgstr ""
 
-#: ../templates/stats.php:189
+#: ../templates/stats.php:208
 msgid "Types d'appareil pour les conversions"
 msgstr ""
 
-#: ../templates/stats.php:197
+#: ../templates/stats.php:216
 msgid "Visiteurs pour impression"
 msgstr ""
 
-#: ../templates/stats.php:200
+#: ../templates/stats.php:219
 msgid "Types de visiteurs pour les impressions"
 msgstr ""
 
-#: ../templates/stats.php:208
+#: ../templates/stats.php:227
 msgid "Visiteurs pour conversion"
 msgstr ""
 
-#: ../templates/stats.php:211
+#: ../templates/stats.php:230
 msgid "Types de visiteurs pour les conversions"
 msgstr ""
 
-#: ../templates/stats.php:235
+#: ../templates/stats.php:254
 msgid "Conversion"
 msgstr ""
 
-#: ../templates/stats.php:245
+#: ../templates/stats.php:264
 msgid "Impression"
 msgstr ""
 
-#: ../templates/stats.php:270 ../templates/stats.php:290
+#: ../templates/stats.php:289 ../templates/stats.php:309 ../templates/stats.php:329
 msgid "Mobile"
 msgstr ""
 
-#: ../templates/stats.php:276 ../templates/stats.php:296
+#: ../templates/stats.php:295 ../templates/stats.php:315 ../templates/stats.php:335
 msgid "Tablette"
 msgstr ""
 
-#: ../templates/stats.php:282 ../templates/stats.php:302
+#: ../templates/stats.php:301 ../templates/stats.php:321 ../templates/stats.php:341
 msgid "Ordinateur"
 msgstr ""
 
-#: ../templates/stats.php:321 ../templates/stats.php:335 ../templates/stats.php:349
+#: ../templates/stats.php:360 ../templates/stats.php:374 ../templates/stats.php:388
 msgid "Anciens visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:393
+#: ../templates/stats.php:440
 msgid "Moins de filtres"
 msgstr ""
 
