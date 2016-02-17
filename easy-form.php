@@ -16,28 +16,6 @@ ini_set('max_execution_time', 120);
 
 class FormPlugin
 {
-
-    /**
-     *
-     * Api url for update
-     *
-     * @Since V 0.5.4
-     *
-     * @var string
-     */
-    protected $api_url;
-
-    /**
-     *
-     * Plugin slug
-     *
-     * @Since V 0.5.4
-     *
-     * @var string
-     */
-    protected $plugin_slug;
-
-
     /**
      * @Since V 0.1
      *
@@ -87,12 +65,6 @@ class FormPlugin
             }
 
 
-            $this->api_url = 'http://easyform.bastienmalahieude.fr/api/';
-            $this->plugin_slug = basename(dirname(__FILE__));
-
-            // Used for the update check of the plugin
-            //set_site_transient('update_plugins', null);
-
             add_action('admin_menu', [$this, 'addAdminMenu']);
         } else {
             // use of sessions
@@ -106,6 +78,8 @@ class FormPlugin
         }
 
 
+        // Used for the update check of the plugin
+        // set_site_transient('update_plugins', null);
         add_filter('pre_set_site_transient_update_plugins', [$this, 'check_for_plugin_update']);
         add_filter('plugins_api', [$this, 'plugin_api_call'], 10, 3);
 
@@ -286,20 +260,15 @@ class FormPlugin
      */
     function check_for_plugin_update($checked_data)
     {
-        global $wp_version;
+        global $api_url, $plugin_slug, $wp_version;
 
-        if (
-            !isset($checked_data->checked) ||
-            empty($checked_data->checked) ||
-            !isset($checked_data->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php']) ||
-            empty($checked_data->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php'])
-        )
+        //Comment out these two lines during testing.
+        if (empty($checked_data->checked))
             return $checked_data;
 
-
         $args = array(
-            'slug' => $this->plugin_slug,
-            'version' => $checked_data->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php'],
+            'slug' => $plugin_slug,
+            'version' => $checked_data->checked[$plugin_slug . '/' . $plugin_slug . '.php'],
         );
         $request_string = array(
             'body' => array(
@@ -311,13 +280,13 @@ class FormPlugin
         );
 
         // Start checking for an update
-        $raw_response = wp_remote_post($this->api_url, $request_string);
+        $raw_response = wp_remote_post($api_url, $request_string);
 
         if (!is_wp_error($raw_response) && ($raw_response['response']['code'] == 200))
             $response = unserialize($raw_response['body']);
 
         if (isset($response) && is_object($response) && !empty($response)) // Feed the update data into WP updater
-            $checked_data->response[$this->plugin_slug . '/' . $this->plugin_slug . '.php'] = $response;
+            $checked_data->response[$plugin_slug . '/' . $plugin_slug . '.php'] = $response;
 
         return $checked_data;
     }
@@ -335,14 +304,14 @@ class FormPlugin
      */
     public function plugin_api_call($def, $action, $args)
     {
-        global $wp_version;
+        global $plugin_slug, $api_url, $wp_version;
 
-        if (!isset($args->slug) || ($args->slug != $this->plugin_slug))
+        if (!isset($args->slug) || ($args->slug != $plugin_slug))
             return false;
 
         // Get the current version
         $plugin_info = get_site_transient('update_plugins');
-        $current_version = $plugin_info->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php'];
+        $current_version = $plugin_info->checked[$plugin_slug . '/' . $plugin_slug . '.php'];
         $args->version = $current_version;
 
         $request_string = array(
@@ -354,7 +323,7 @@ class FormPlugin
             'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo('url')
         );
 
-        $request = wp_remote_post($this->api_url, $request_string);
+        $request = wp_remote_post($api_url, $request_string);
 
         if (is_wp_error($request)) {
             $res = new WP_Error('plugins_api_failed', __('Une erreur HTTP est arrivée lors du chargement du plugin.</p> <p><a href="?" onclick="document.location.reload(); return false;">Réessayer</a>', 'easy-form'), $request->get_error_message());
