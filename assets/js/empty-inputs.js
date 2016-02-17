@@ -19,7 +19,8 @@ function getInput(args) {
                 placeholder: '',
                 readOnly: false,
                 required: true,
-                value: ''
+                value: '',
+                statsSelected : false,
             },
             id: args.id,
             name: args.name,
@@ -38,6 +39,7 @@ function getInput(args) {
                 readOnly: false,
                 required: true,
                 value: null,
+                statsSelected : false,
                 // All options of the select
                 options: [
                     {
@@ -64,6 +66,7 @@ function getInput(args) {
                 required: true,
                 taxonomy: "",
                 taxonomyType: "select",
+                statsSelected : false,
                 value: ""
             },
             id: args.id,
@@ -86,7 +89,8 @@ function getInput(args) {
                 labelClass: "",
                 maxSize: "",
                 multiple: false,
-                required: false
+                required: false,
+                statsSelected : false,
             },
             id: args.id,
             name: args.name,

@@ -1,5 +1,4 @@
-
-    <?php  if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
+ <?php  if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 
     // Set all fields depending on modify or add
     <?php
@@ -203,10 +202,13 @@
 
                 // Required
                 if (field.args.required != undefined)
-                    data = replace(data, 'field-required-selected', htmlEntities(field.args.required ? 'checked' : ''));
+                    data = replace(data, 'field-required-selected', (field.args.required ? 'checked' : ''));
 
                 if (field.args.labelAfter != undefined)
-                    data = replace(data, 'field-label-after-selected', htmlEntities(field.args.labelAfter ? 'checked' : ''));
+                    data = replace(data, 'field-label-after-selected', (field.args.labelAfter ? 'checked' : ''));
+
+                if (field.args.statsSelected != undefined)
+                    data = replace(data, 'field-sort-stats-selected', (field.args.statsSelected ? 'checked' : ''));
 
 
                 // Select

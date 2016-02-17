@@ -63,7 +63,16 @@ Incomming :
  * Create a uniq id based on some fields ( sign up )
  * Add a full french/english documentation)
  * Add Unit Tests
- * New awesome features
+ * Add textaera & file options (max width ...)
+ * Add hooks with slug
+ * Possibility to add a value in php in code (Id, post name...)
+
+= 0.5.5 =
+  * Remove functions.js
+  * Add form stats
+  * Put the form duplicate modal only on the index.php page
+  * Update some CSS
+  * Update preview page
 
 = 0.5.4 =
  * Add Notification update

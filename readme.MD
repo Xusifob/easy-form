@@ -25,8 +25,16 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Add a full french/english documentation)
  * Add Unit Tests
  * Add textaera & file options (max width ...)
- * Add an impression cout & a send count
  * Add hooks with slug
+ * Possibility to add a value in php in code (Id, post name...)
+
+
+### Version 0.5.5 :
+  * Remove functions.js
+  * Add form stats
+  * Put the form duplicate modal only on the index.php page
+  * Update some CSS
+  * Update preview page
 
 
 ### Version 0.5.4 :
