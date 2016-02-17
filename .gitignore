@@ -1,4 +1,6 @@
 .idea
 library/uploads/*
 tests
-assets/fields_traductions.php
+assets/fields_traductions.php`
+languages/*.po~
+languages/*.pot~

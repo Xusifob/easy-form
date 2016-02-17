@@ -246,6 +246,10 @@ function displayReinitialiseUtility(val) {
  */
 function getUtilities(val, formSendArgs) {
 
+
+    if(formSendArgs == undefined)
+        formSendArgs = utilitiesEmpty[val];
+
     $('#spinner-utility').show();
 
     getUtilyTemplate(val).done(function (data) {

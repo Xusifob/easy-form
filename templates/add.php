@@ -8,8 +8,10 @@
         if (isset($form)): ?>
             <input type="hidden" name="form-id" value="<?php echo $form->ID; ?>">
         <?php endif; ?>
-        <h2><?php _e('1 - Informations principales', 'easy-form'); ?> </h2>
         <section class="panel-wordpress">
+            <div class="head">
+                <h2><?php _e('1 - Informations principales', 'easy-form'); ?> </h2>
+            </div>
             <div class="row form-group">
                 <div class="col-sm-6">
                     <label for="form-title"><?php _e('Titre du formulaire', 'easy-form'); ?></label>
@@ -63,8 +65,10 @@
                 </div>
             </div>
         </section>
-        <h2><?php _e('2 - Action du formulaire', 'easy-form'); ?></h2>
         <section class="panel-wordpress">
+            <div class="head">
+                <h2><?php _e('2 - Action du formulaire', 'easy-form'); ?></h2>
+            </div>
             <div class="row form-group">
                 <div class="spinner-container" id="spinner-utility">
                     <div class="spinner"></div>
@@ -103,8 +107,10 @@
             <div class="utilities form-group">
             </div>
         </section>
-        <h2><?php _e('3 - Les champs', 'easy-form'); ?></h2>
         <section class="panel-wordpress" id="allfields">
+            <div class="head">
+                <h2><?php _e('3 - Les champs', 'easy-form'); ?></h2>
+            </div>
             <div id="fld">
                 <div class="spinner-container" id="spinner-fields">
                     <div class="spinner"></div>
@@ -116,8 +122,10 @@
                 </button>
             </div>
         </section>
-        <h2><?php _e('4 - Bouton submit', 'easy-form'); ?></h2>
         <section class="panel-wordpress">
+            <div class="head">
+                <h2><?php _e('4 - Bouton submit', 'easy-form'); ?></h2>
+            </div>
             <div class="row form-group">
                 <div class="col-sm-4">
                     <label for="form-button-send"><?php _e('Valeur de l\'envoi', 'easy-form'); ?></label>

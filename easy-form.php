@@ -3,7 +3,7 @@
 Plugin Name: Easy WP Form
 Plugin URI: http://easyform.bastienmalahieude.fr
 Description: Permet de créer et styliser des formulaires facilement. Ce plugin a été créé conjointement par Bastien Malahieude et Baltazare (http://baltazare.fr).
-Version: 0.5.4
+Version: 0.5.5
 Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 Copyright: Bastien Malahieude
@@ -12,7 +12,7 @@ License: GPL
 */
 
 
-ini_set('max_execution_time', 3600);
+ini_set('max_execution_time', 120);
 
 class FormPlugin
 {
@@ -38,11 +38,13 @@ class FormPlugin
     protected $plugin_slug;
 
 
+
     /**
      * @Since V 0.1
      *
      * @Updated - V 0.5.3 (Add support for multi languages)
      *          - V 0.5.4 (Add support for update check)
+     *          - V 0.5.5 (Add stat-form in the pages & add Mobile_Detect lib)
      *
      * Constructeur
      */
@@ -56,13 +58,16 @@ class FormPlugin
             include_once plugin_dir_path(__FILE__) . '/src/FormWordpress.php';
 
         if (!class_exists('FormListTable'))
-            include_once plugin_dir_path(__FILE__) . '/src/FormListTable.php';
+            include_once plugin_dir_path(__FILE__) . '/library/php/FormListTable.php';
 
         if (!class_exists('WP_Form'))
             include_once plugin_dir_path(__FILE__) . '/src/WP_Form.php';
 
-        if (!class_exists('PHPMailer'))
-            include_once plugin_dir_path(__FILE__) . '/src/class-phpmailer.php';
+        if (!class_exists('Phpmailerform'))
+            include_once plugin_dir_path(__FILE__) . '/library/php/class-phpmailer.php';
+
+        if (!class_exists('Mobile_Detect'))
+            include_once plugin_dir_path(__FILE__) . '/library/php/Mobile_Detect.php';
 
         // Gestion de la partie admin
         if (is_admin()) {
@@ -73,6 +78,7 @@ class FormPlugin
                 'import-form',
                 'export-form',
                 'doc-form',
+                'stat-form',
 
             ];
 
@@ -81,12 +87,6 @@ class FormPlugin
                 add_action('admin_footer', [$this, 'includeFooterAdmin']);
             }
 
-
-            $this->api_url = 'http://easyform.bastienmalahieude.fr/api/';
-            $this->plugin_slug = basename(dirname(__FILE__));
-
-            // Used for the update check of the plugin
-            //set_site_transient('update_plugins', null);
 
             add_action('admin_menu', [$this, 'addAdminMenu']);
         } else {
@@ -101,6 +101,8 @@ class FormPlugin
         }
 
 
+        // Used for the update check of the plugin
+        // set_site_transient('update_plugins', null);
         add_filter('pre_set_site_transient_update_plugins', [$this, 'check_for_plugin_update']);
         add_filter('plugins_api', [$this, 'plugin_api_call'], 10, 3);
 
@@ -123,10 +125,15 @@ class FormPlugin
      *
      * Return the display-form.php file on ajax call (to display as a js file)
      *
+     *
+     * @Updated : V 0.5.5 (Add sanitization)
+     *
      * @Since V 0.5.4
      */
     public function display_form()
     {
+
+        $_GET['modify'] = (int)$_GET['modify'];
 
         $form = get_post($_GET['modify']);
         if ($this->isForm($_GET['modify'])) {
@@ -152,7 +159,7 @@ class FormPlugin
             'text', 'email', 'password', 'repeatPassword', 'number', 'tel', 'date', 'checkbox', 'select', 'radio', 'url', 'range', 'color', 'search', 'hidden', 'file', 'textarea', 'taxonomy', 'wp_editor', 'open container', 'close container', 'close all container',
         ];
 
-        $roles = FormPlugin::GetAllRoles();
+        $roles = self::GetAllRoles();
 
 
         header('Content-Type: application/javascript');
@@ -235,27 +242,32 @@ class FormPlugin
      *
      * @Since V 0.1
      *
-     * @Updated : V 0.5.4 (Change capacities from edit_plugins to edit_pages this add editor support )
+     * @Updated :   - V 0.5.4 (Change capacities from edit_plugins to edit_pages this add editor support )
+     *              - V 0.5.5 (Add the page stat-form & update )
      *
      * Add All Admin's Menu tab
      */
     public function addAdminMenu()
     {
         // Menu formulaire/Tous les formulaires
-        add_menu_page('Easy Forms', 'Easy Forms', 'edit_plugins', 'forms', [$this, 'displayPage'], 'dashicons-feedback', 21);
+        add_menu_page('Easy Forms', 'Easy Forms', 'edit_posts', 'forms', [$this, 'displayPage'], 'dashicons-feedback', 21);
 
         // Ajouter/modifier un formulaire
         add_submenu_page('forms', __('Ajouter un formulaire', 'easy-form'), __('Ajouter', 'easy-form'), 'edit_pages', 'add-form', [$this, 'displayPageAddForm']);
         // Prévisualiser son formulaire
-        add_submenu_page('forms', __('Voir un formulaire', 'easy-form'), __('Prévisualiser', 'easy-form'), 'edit_pages', 'show-form', [$this, 'displayPrev']);
+        add_submenu_page('forms', __('Voir un formulaire', 'easy-form'), __('Prévisualiser', 'easy-form'), 'edit_posts', 'show-form', [$this, 'displayPrev']);
 
         add_submenu_page('forms', __('Importer un formulaire', 'easy-form'), __('Importer', 'easy-form'), 'edit_pages', 'import-form', [$this, 'displayImport']);
 
         // Exporter un formulaire
         add_submenu_page('forms', __('Exporter un formulaire', 'easy-form'), __('Exporter', 'easy-form'), 'edit_pages', 'export-form', [$this, 'displayExport']);
 
+        // Stats
+        add_submenu_page('forms', __('Statistiques', 'easy-form'), __('Statistiques', 'easy-form'), 'edit_posts', 'stat-form', [$this, 'displayStat']);
+
         // Doc
         add_submenu_page('forms', __('Documentation', 'easy-form'), __('Documentation', 'easy-form'), 'edit_pages', 'doc-form', [$this, 'displayDoc']);
+
 
     }
 
@@ -271,20 +283,15 @@ class FormPlugin
      */
     function check_for_plugin_update($checked_data)
     {
-        global $wp_version;
+        global $api_url, $plugin_slug, $wp_version;
 
-        if (
-            !isset($checked_data->checked) ||
-            empty($checked_data->checked) ||
-            !isset($checked_data->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php']) ||
-            empty($checked_data->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php'])
-        )
+        //Comment out these two lines during testing.
+        if (empty($checked_data->checked))
             return $checked_data;
 
-
         $args = array(
-            'slug' => $this->plugin_slug,
-            'version' => $checked_data->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php'],
+            'slug' => $plugin_slug,
+            'version' => $checked_data->checked[$plugin_slug . '/' . $plugin_slug . '.php'],
         );
         $request_string = array(
             'body' => array(
@@ -296,13 +303,13 @@ class FormPlugin
         );
 
         // Start checking for an update
-        $raw_response = wp_remote_post($this->api_url, $request_string);
+        $raw_response = wp_remote_post($api_url, $request_string);
 
         if (!is_wp_error($raw_response) && ($raw_response['response']['code'] == 200))
             $response = unserialize($raw_response['body']);
 
         if (isset($response) && is_object($response) && !empty($response)) // Feed the update data into WP updater
-            $checked_data->response[$this->plugin_slug . '/' . $this->plugin_slug . '.php'] = $response;
+            $checked_data->response[$plugin_slug . '/' . $plugin_slug . '.php'] = $response;
 
         return $checked_data;
     }
@@ -320,14 +327,14 @@ class FormPlugin
      */
     public function plugin_api_call($def, $action, $args)
     {
-        global $wp_version;
+        global $plugin_slug, $api_url, $wp_version;
 
-        if (!isset($args->slug) || ($args->slug != $this->plugin_slug))
+        if (!isset($args->slug) || ($args->slug != $plugin_slug))
             return false;
 
         // Get the current version
         $plugin_info = get_site_transient('update_plugins');
-        $current_version = $plugin_info->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php'];
+        $current_version = $plugin_info->checked[$plugin_slug . '/' . $plugin_slug . '.php'];
         $args->version = $current_version;
 
         $request_string = array(
@@ -339,7 +346,7 @@ class FormPlugin
             'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo('url')
         );
 
-        $request = wp_remote_post($this->api_url, $request_string);
+        $request = wp_remote_post($api_url, $request_string);
 
         if (is_wp_error($request)) {
             $res = new WP_Error('plugins_api_failed', __('Une erreur HTTP est arrivée lors du chargement du plugin.</p> <p><a href="?" onclick="document.location.reload(); return false;">Réessayer</a>', 'easy-form'), $request->get_error_message());
@@ -452,17 +459,17 @@ class FormPlugin
     {
         if (isset($_GET['id']) && !empty($_GET['id'])) {
             $form = new WP_Form($_GET['id']);
-
             $formFields = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'form-fields')[0];
-        } else {
-            // Getting all forms
-            $args = [
-                'post_type' => 'form-plugin-bastien',
-                'posts_per_page' => -1,
-            ];
-
-            $my_query = new WP_Query($args);
         }
+
+        // Getting all forms
+        $args = [
+            'post_type' => 'form-plugin-bastien',
+            'posts_per_page' => -1,
+        ];
+
+        $my_query = new WP_Query($args);
+
         include __DIR__ . '/templates/preview.php';
     }
 
@@ -570,6 +577,7 @@ class FormPlugin
                                             'allowed' => explode(',', filter_var($field['form-allowed']), FILTER_SANITIZE_STRING),
                                             'acfField' => filter_var($field['form-acf-field'], FILTER_SANITIZE_STRING),
                                             'maxSize' => filter_var($field['form-max-size'], FILTER_SANITIZE_NUMBER_INT),
+                                            'statsSelected' => isset($field['form-sort-stats']),
                                         ]
                                     ];
                                     break;
@@ -589,6 +597,8 @@ class FormPlugin
                                             'emptyField' => filter_var($field['form-empty-field'], FILTER_SANITIZE_STRING),
                                             'taxonomyType' => filter_var($field['form-taxonomy-type'], FILTER_SANITIZE_STRING),
                                             'readOnly' => isset($field['form-readonly']),
+                                            'statsSelected' => isset($field['form-sort-stats']),
+
 
                                         ]
                                     ];
@@ -607,6 +617,7 @@ class FormPlugin
                                             'autocomplete' => isset($field['form-autocomplete']),
                                             'labelAfter' => isset($field['form-label-after']),
                                             'readOnly' => isset($field['form-readonly']),
+                                            'statsSelected' => isset($field['form-sort-stats']),
                                         ]
                                     ];
 
@@ -996,6 +1007,215 @@ class FormPlugin
     public function displayDoc()
     {
         include __DIR__ . '/templates/doc.php';
+    }
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * Display the stats page
+     */
+    public function displayStat()
+    {
+
+        $_GET['id'] = (int)$_GET['id'];
+
+        if (isset($_GET['id']) && !empty($_GET['id'])) {
+            $form = new WP_Form($_GET['id']);
+
+            // Get the row impressions
+            $impressions = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'impressions');
+            $conversions = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'conversions');
+
+            // Data from the user
+            $start = isset($_GET['period']) ? filter_var($_GET['period'], FILTER_SANITIZE_STRING) : '1 month ago';
+            $end = 'today';
+            $filter = isset($_GET['groupby']) ? filter_var($_GET['groupby'], FILTER_SANITIZE_STRING) : 'days';
+            $format = isset($_GET['format']) ? $_GET['format'] : 'd/m/Y';
+            $device = isset($_GET['device']) && in_array($_GET['device'], ['mobile', 'desktop', 'tablet', 'all']) ? $_GET['device'] : 'all';
+
+
+            /** Fixed vars : **/
+
+            // Data linked to impressions
+            $imps = [
+                'ips' => [],
+                'total' => 0,
+                'data' => [],
+                'devices' => [
+                    'mobile' => 0,
+                    'tablet' => 0,
+                    'desktop' => 0
+                ],
+                'regions' => [],
+                'custom_datas' => []
+            ];
+
+            // Data linked to conversions
+            $convs = [
+                'ips' => [],
+                'total' => 0,
+                'data' => [],
+                'devices' => [
+                    'mobile' => 0,
+                    'tablet' => 0,
+                    'desktop' => 0
+                ],
+                'regions' => [],
+                'custom_datas' => []
+            ];
+            $startTimestamp = strtotime($start);
+            $endTimestamp = strtotime($end . "+ 1 $filter");
+
+            // This is all the data used
+            $nbj = 0;
+            while (strtotime("$start  + $nbj $filter") <= $endTimestamp) {
+                $dt = date($format, strtotime("$start + $nbj $filter"));
+                if (!isset($imps['data'][$dt]))
+                    $imps['data'][$dt] = 0;
+                if (!isset($convs['data'][$dt]))
+                    $convs['data'][$dt] = 0;
+                $nbj++;
+            }
+
+
+            $args = [
+                'start' => $startTimestamp,
+                'end' => $endTimestamp,
+                'format' => $format,
+                'unique' => isset($_GET['unique']),
+                'device' => $device,
+                'custom_data' => isset($_GET['custom_data']) && !empty($_GET['custom_data']) ? $_GET['custom_data'] : null,
+                'include_my_ip' => isset($_GET['include_my_ip'])
+            ];
+
+
+            foreach ($impressions as $impression) {
+                $imps = self::putInTab($imps, $impression, $args);
+            }
+            foreach ($conversions as $conversion) {
+                $convs = self::putInTab($convs, $conversion, $args);
+
+            }
+
+
+            foreach ($imps['ips'] as $ip) {
+                if (!array_key_exists($ip['region'],$imps['regions'])) {
+                    $imps['regions'][$ip['region']] = 1;
+                } else {
+                    $imps['regions'][$ip['region']]++;
+                }
+            }
+            arsort($imps['regions']);
+        }
+
+        // Getting all forms
+        $args = [
+            'post_type' => 'form-plugin-bastien',
+            'posts_per_page' => -1,
+        ];
+
+        $my_query = new WP_Query($args);
+
+
+        include __DIR__ . '/templates/stats.php';
+    }
+
+
+    /**
+     * @Since V 0.5.5
+     *
+     * @param $ip string the user Ip Address
+     * @return array
+     */
+    private function getIpData($ip)
+    {
+        $geoplugin = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $ip));
+
+
+        $data = [
+            'lng' => is_numeric($geoplugin['geoplugin_longitude']) ? $geoplugin['geoplugin_longitude'] : 0,
+            'lat' => is_numeric($geoplugin['geoplugin_latitude']) ? $geoplugin['geoplugin_latitude'] : 0,
+            'region' => $geoplugin['geoplugin_regionName'] == null ? $geoplugin['geoplugin_countryName'] : $geoplugin['geoplugin_regionName'],
+            'number' => 1,
+        ];
+
+        return $data;
+
+    }
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * Add the value in the chart datas if needed
+     *
+     * @param $tab array The values to put data in
+     * @param $value int the value to put in the chart
+     * @param $args array start of the chart
+     *          * start int start of the chart
+     *          * end int end of the chart
+     *          * format string the format of the date
+     *          * unique bool  if the visitor is unique or not
+     *          * device int the device used (mobile, desktop...) with FormWordPress consts
+     *          * custom_data string a data used to filter more
+     *
+     * @return array the array with all the datas
+     */
+    protected static function putInTab($tab, $value, $args)
+    {
+
+
+        if ($value['time'] > $args['end'])
+            return $tab;
+        elseif ($value['time'] < $args['start'])
+            return $tab;
+        else {
+            // Sort by custom data
+            if (($args['custom_data'] == null || $args['custom_data'] == $value['custom_data'])) {
+
+                if ($args['include_my_ip'] || ($value['ip'] != $_SERVER['REMOTE_ADDR'])) {
+
+                    // Sort by uniq value
+                    if ((!$args['unique'] || !in_array($value['ip'], $tab['ips']))) {
+
+                        // If the date is one we want to display
+                        if (isset($tab['data'][date($args['format'], $value['time'])])) {
+
+                            // Increment the date (+1 Visit)
+                            $tab['data'][date($args['format'], $value['time'])]++;
+
+                            // Put the user IP in the ip tabs (in case we want unique users)
+                            if (!array_key_exists($value['ip'], $tab['ips'])) {
+                                $tab['ips'][$value['ip']] = self::getIpData($value['ip']);
+                            } else
+                                $tab['ips'][$value['ip']]['number']++;
+
+
+                            // Switch the device value
+                            $value['device'] = isset($value['device']) ? $value['device'] : 'desktop';
+                            switch ($value['device']) {
+                                case FormWordpress::_MOBILE:
+                                    $tab['devices']['mobile']++;
+                                    break;
+                                case FormWordpress::_TABLET:
+                                    $tab['devices']['tablet']++;
+                                    break;
+                                case FormWordpress::_DESKTOP:
+                                    $tab['devices']['desktop']++;
+                                    break;
+                            }
+                        }
+                    }
+                    $tab['total']++;
+                }
+            }
+            // Put the custom data so it will always be available
+            if (!in_array($value['custom_data'], $tab['custom_datas']) && $value['custom_data'] != null)
+                array_push($tab['custom_datas'], $value['custom_data']);
+
+            return $tab;
+        }
     }
 
     /**

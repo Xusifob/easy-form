@@ -1,5 +1,20 @@
 var $ = jQuery;
 
+
+/**
+ *
+ * Permet de remplacer toutes les occurences d'une chaine dans une chaine par une autre chaine
+ *
+ * @param data
+ * @param find
+ * @param replace
+ * @returns {*}
+ */
+function replace(data,find,replace){
+    var re = new RegExp(find, 'g');
+    return data.replace(re,replace);
+}
+
 /**
  *  Handle hidden fields on certains kinds of fields
  *
@@ -13,6 +28,16 @@ function handleHiddenFields(id,type){
             $('input[name="field[' + id + '][form-placeholder]"]').css('visibility', 'hidden').val('');
             $('input[name="field[' + id + '][form-autocomplete]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-required]"]').removeAttr('checked');
+        }
+        if(type == 'hidden'){
+            $('input[name="field[' + id + '][form-autocomplete]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-label-after]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-required]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-class]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-id]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-value]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-label]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-label-class]"]').parent().parent().remove();
         }
     }
 }

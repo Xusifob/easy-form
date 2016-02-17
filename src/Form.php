@@ -706,6 +706,8 @@ class Form
 
         $templateString = '';
 
+        // Handle Reset Form options,
+        // In a reset form, some fields are displays only if the reset form is available, else only the login field is displayed.
         if ($this->isResetForm()) {
             $availableFields = [
                 'open_the_form', 'close_the_form', 'submit'
@@ -715,7 +717,6 @@ class Form
                 array_push($availableFields, 'repeat-password');
             } else
                 array_push($availableFields, 'login');
-
         }
 
 
@@ -726,7 +727,6 @@ class Form
                 if (!in_array($key, $availableFields))
                     continue;
             }
-
 
             // I check if the label exists
             $label = isset($template['label']) ? $template['label'] : '';
@@ -1044,6 +1044,7 @@ class Form
      */
     public function get_open_the_form()
     {
+
         return $this->get_form_field('open_the_form');
     }
 

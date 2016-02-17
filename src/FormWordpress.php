@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
  * Class FormWordpress
@@ -13,11 +13,56 @@ class FormWordpress extends Form
      *
      * @since V 0.4
      *
+     * @var int $id the Id of the WP_Form
+     */
+    protected $id = 0;
+
+
+    /**
+     *
+     * If the current user is on mobile
+     *
+     * @Since V 0.5.5
+     */
+    const _MOBILE = 0;
+
+
+    /**
+     *
+     * If the current user is on tablet
+     *
+     * @Since V 0.5.5
+     */
+    const _TABLET = 1;
+
+    /**
+     *
+     * If the current user is on desktop
+     *
+     * @Since V 0.5.5
+     */
+    const  _DESKTOP = 2;
+
+
+    /**
+     * Return the current user's device
+     *
+     * @Since V 0.5.5
+     *
      * @var int
      */
-    protected $id;
+    public $device = self::_DESKTOP;
 
 
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * The statistiques value to compare impressions with conversions
+     *
+     * @var mixed
+     */
+    protected $statValue = '';
 
 
     /**
@@ -25,7 +70,8 @@ class FormWordpress extends Form
      *
      * @Since V 0.4
      *
-     * @Updated : V 0.5.3 (Add lang support)
+     * @Updated :   - V 0.5.3 (Add lang support)
+     *              - V 0.5.5 (Add kind of device support for impressions)
      *
      * @param string $name
      * @param string $action
@@ -43,12 +89,21 @@ class FormWordpress extends Form
             $this->id = $args['formId'];
 
 
-        foreach($this->errorMessages as $key => $error){
-            $this->errorMessages[$key] = __($error,'easy-form');
+        foreach ($this->errorMessages as $key => $error) {
+            $this->errorMessages[$key] = __($error, 'easy-form');
         }
 
-    }
 
+        /** Detect the current device */
+        $detect = new Mobile_Detect();
+        if ($detect->isTablet())
+            $this->device = self::_TABLET;
+        elseif ($detect->isMobile())
+            $this->device = self::_MOBILE;
+        else
+            $this->device = self::_DESKTOP;
+
+    }
 
 
     /**
@@ -394,15 +449,15 @@ class FormWordpress extends Form
      * @param bool $use_forwarded_host
      * @return string
      */
-    public static function url_origin( $s, $use_forwarded_host = false )
+    public static function url_origin($s, $use_forwarded_host = false)
     {
-        $ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
-        $sp       = strtolower( $s['SERVER_PROTOCOL'] );
-        $protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
-        $port     = $s['SERVER_PORT'];
-        $port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
-        $host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
-        $host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
+        $ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on');
+        $sp = strtolower($s['SERVER_PROTOCOL']);
+        $protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+        $port = $s['SERVER_PORT'];
+        $port = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ':' . $port;
+        $host = ($use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST'])) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
+        $host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
         return $protocol . '://' . $host;
     }
 
@@ -415,9 +470,9 @@ class FormWordpress extends Form
      * @param bool $use_forwarded_host
      * @return string
      */
-    public static function full_url( $s, $use_forwarded_host = false )
+    public static function full_url($s, $use_forwarded_host = false)
     {
-        return self::url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
+        return self::url_origin($s, $use_forwarded_host) . $s['REQUEST_URI'];
     }
 
 
@@ -445,7 +500,7 @@ class FormWordpress extends Form
 
 
         if ($lien === false)
-            $lien = self::full_url( $_SERVER );
+            $lien = self::full_url($_SERVER);
 
 
         $varURl = (isset($args['varURl']) && $lien != 'newpost') ?
@@ -529,28 +584,28 @@ class FormWordpress extends Form
 
                 $lien = ($lien == 'newpost') ? null : $lien;
 
-                if($userId  = $this->insertUser($postId,$args)) {
+                if ($userId = $this->insertUser($postId, $args)) {
                     $this->setFormSend($thepostId);
 
                     // Actions
                     /* @since V 0.4 add hooks */
-                    do_action('form/InsertOrModifyUser',$userId);
-                    do_action('form/InsertOrModifyUser-' . $this->id,$userId);
+                    do_action('form/InsertOrModifyUser', $userId);
+                    do_action('form/InsertOrModifyUser-' . $this->id, $userId);
 
                     // Keep compatibility with old version, deprecated
-                    do_action('form/insertOrModifyUser',$userId);
-                    do_action('form/insertOrModifyUser-' . $this->id,$userId);
-                    if(isset($this->postArgs['id'])) {
-                        do_action('form/ModifyUser',$userId);
-                        do_action('form/ModifyUser-' . $this->id,$userId);
+                    do_action('form/insertOrModifyUser', $userId);
+                    do_action('form/insertOrModifyUser-' . $this->id, $userId);
+                    if (isset($this->postArgs['id'])) {
+                        do_action('form/ModifyUser', $userId);
+                        do_action('form/ModifyUser-' . $this->id, $userId);
                     } else {
 
-                        do_action('form/InsertUser',$userId);
-                        do_action('form/InsertUser-' . $this->id,$userId);
+                        do_action('form/InsertUser', $userId);
+                        do_action('form/InsertUser-' . $this->id, $userId);
 
                         // Keep compatibility with old version, deprecated
-                        do_action('form/insertUser',$postId);
-                        do_action('form/insertUser-' . $this->id,$userId);
+                        do_action('form/insertUser', $postId);
+                        do_action('form/insertUser-' . $this->id, $userId);
 
                     }
 
@@ -634,14 +689,36 @@ class FormWordpress extends Form
      *
      * @since V 0.4
      *
+     * @Updated : - V 0.5.5 (Add conversions)
+     *
      * @param $thepostId
      */
     protected function setFormSend($thepostId = null)
     {
+
+        $custom_data = '';
+
         if (null == $thepostId)
             $_SESSION[$this->name] = true;
         else
             $_SESSION[$this->name . $thepostId] = true;
+
+        foreach ($this->fields as $field) {
+            if (isset($field['args']['statsSelected']) && $field['args']['statsSelected']) {
+                $custom_data = htmlentities(filter_var($_POST[$field['name']], FILTER_SANITIZE_STRING));
+                break;
+            }
+        }
+
+        // Add conversions
+        $data = [
+            'time' => time(),
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'device' => $this->device,
+            'custom_data' => $custom_data
+        ];
+
+        add_post_meta($this->id, 'conversions', $data);
     }
 
     /**
@@ -890,17 +967,21 @@ class FormWordpress extends Form
      *
      * @since V 0.1
      *
+     * @Updated : V 0.5.5 (Add Unset)
+     *
      * @param $postId
+     * @param bool $unset
      * @return bool
      */
-    public function hasBeenSend($postId = null)
+    public function hasBeenSend($postId = null, $unset = true)
     {
 
         if (null == $postId) {
             // If there is a session with the name
             if (isset($_SESSION[$this->name])) {
                 // I unset the session
-                unset($_SESSION[$this->name]);
+                if ($unset)
+                    unset($_SESSION[$this->name]);
 
                 // I return if there is no error
                 return (!$this->hasError());
@@ -911,7 +992,8 @@ class FormWordpress extends Form
             // If there is a session with the name
             if (isset($_SESSION[$this->name . $postId])) {
                 // I unset the session
-                unset($_SESSION[$this->name . $postId]);
+                if ($unset)
+                    unset($_SESSION[$this->name . $postId]);
 
                 // I return if there is no error
                 return (!$this->hasError());
@@ -1193,7 +1275,7 @@ class FormWordpress extends Form
                 /** @var Phpmailerform $mail */
                 $mail = $this->prepareMail();
                 $mail->setFrom(
-                    isset($args['senderEmail']) ? $args['senderEmail'] : filter_var($_POST['email'],FILTER_SANITIZE_EMAIL),
+                    isset($args['senderEmail']) ? $args['senderEmail'] : filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
                     isset($args['sendername']) ? $args['sendername'] : filter_var($_POST['sendername'], FILTER_SANITIZE_STRING)
                 );
                 $mail->addAddress(
@@ -1201,7 +1283,6 @@ class FormWordpress extends Form
                     isset($args['recipientName']) ? $args['recipientName'] : get_option('blogname')
                 );
                 $mail->Subject = isset($args['subject']) ? $args['subject'] : (isset($_POST['subject']) ? filter_var($_POST['subject'], FILTER_SANITIZE_STRING) : '');
-
 
 
                 $message = isset($args['message']) ? $args['message'] : $_POST['message'];
@@ -1214,10 +1295,11 @@ class FormWordpress extends Form
                     if (!in_array($field['name'], $notField)) {
 
                         if ($field['type'] != 'file' && (is_string($_POST[$field['name']]) || is_int($_POST[$field['name']]) || is_bool($_POST[$field['name']])))
-                            $message .= "\n\r" . $field['name'] . ' : ' . $_POST[$field['name']];
+                            $message .= "\n\r<br>" . $field['name'] . ' : ' . $_POST[$field['name']];
                         else {
                             if (isset($_FILES[$field['name']]) &&
-                                $_FILES[$field['name']]['error'] == UPLOAD_ERR_OK) {
+                                $_FILES[$field['name']]['error'] == UPLOAD_ERR_OK
+                            ) {
                                 $mail->AddAttachment($_FILES[$field['name']]['tmp_name'],
                                     $_FILES[$field['name']]['name']);
                             }
@@ -1640,7 +1722,7 @@ class FormWordpress extends Form
     }
 
     /**
-     * Returns the template overided in theme || the form default template
+     * Returns the template override in theme || the form default template
      *
      * @param $templateName
      * @return string
@@ -1737,6 +1819,50 @@ class FormWordpress extends Form
 
 
     /**
+     *
+     * @since V 0.5.5 (Add Impressions to post meta)
+     *
+     * Return the open form field. it contains an antispam input, the wp_nounce input,some style and the form opening
+     *
+     * @override Form::get_open_the_form
+     *
+     * @return string
+     */
+    public function get_open_the_form()
+    {
+
+        $data = [
+            'time' => time(),
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'device' => $this->device,
+            'custom_data' => $this->getStatValue(),
+        ];
+
+        // If there is an error, it's not an impression
+        if (!$this->hasError() && !$this->hasBeenSend(null, true))
+            add_post_meta($this->id, 'impressions', $data);
+
+        return $this->get_form_field('open_the_form');
+    }
+
+
+    /**
+     *
+     * @since V 0.5.4
+     *
+     *
+     * Display the open form
+     *
+     * @override Form::open_the_form
+     *
+     */
+    public function open_the_form()
+    {
+        echo $this->get_open_the_form();
+    }
+
+
+    /**
      * @return bool
      */
     public function UserIsActivated()
@@ -1748,5 +1874,37 @@ class FormWordpress extends Form
         } else
             return false;
     }
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * Return the stat value
+     *
+     * @return mixed
+     */
+    public function getStatValue()
+    {
+        return $this->statValue;
+    }
+
+
+    /**
+     *
+     * Set the stat value
+     *
+     * @Since V 0.5.5
+     *
+     * @param $statValue mixed the value to set
+     * @return $this
+     */
+    public function setStatValue($statValue)
+    {
+        $this->statValue = $statValue;
+        return $this;
+    }
+
+
+
 
 }
