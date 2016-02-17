@@ -37,61 +37,61 @@
                 <?php } ?>
             </div>
             <input type="hidden" name="page" value="<?php echo $_GET['page']; ?>">
-            <div id="filter-plus" style="display: none;" >
-            <div class="row mg-top-25" >
-                <div class="col-sm-3">
-                    <label for="period"><?php _e("Période à afficher", 'easy-form'); ?></label>
-                    <select name="period" id="period">
-                        <option
-                            value="1 day ago" <?php echo isset($_GET['period']) && $_GET['period'] == '1 day ago' ? 'selected' : ''; ?> ><?php _e("1 jour", 'easy-form'); ?></option>
-                        <option
-                            value="1 week ago" <?php echo isset($_GET['period']) && $_GET['period'] == '1 week ago' ? 'selected' : ''; ?> ><?php _e("1 semaine", 'easy-form'); ?></option>
-                        <option
-                            value="1 month ago" <?php echo (isset($_GET['period']) && $_GET['period'] == '1 month ago' || !isset($_GET['period'])) ? 'selected' : ''; ?> ><?php _e("1 mois", 'easy-form'); ?></option>
-                        <option
-                            value="1 year ago" <?php echo isset($_GET['period']) && $_GET['period'] == '1 year ago' ? 'selected' : ''; ?> ><?php _e("1 an", 'easy-form'); ?></option>
-                    </select>
+            <div id="filter-plus" style="display: none;">
+                <div class="row mg-top-25">
+                    <div class="col-sm-3">
+                        <label for="period"><?php _e("Période à afficher", 'easy-form'); ?></label>
+                        <select name="period" id="period">
+                            <option
+                                value="1 day ago" <?php echo isset($_GET['period']) && $_GET['period'] == '1 day ago' ? 'selected' : ''; ?> ><?php _e("1 jour", 'easy-form'); ?></option>
+                            <option
+                                value="1 week ago" <?php echo isset($_GET['period']) && $_GET['period'] == '1 week ago' ? 'selected' : ''; ?> ><?php _e("1 semaine", 'easy-form'); ?></option>
+                            <option
+                                value="1 month ago" <?php echo (isset($_GET['period']) && $_GET['period'] == '1 month ago' || !isset($_GET['period'])) ? 'selected' : ''; ?> ><?php _e("1 mois", 'easy-form'); ?></option>
+                            <option
+                                value="1 year ago" <?php echo isset($_GET['period']) && $_GET['period'] == '1 year ago' ? 'selected' : ''; ?> ><?php _e("1 an", 'easy-form'); ?></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="groupby"><?php _e("Grouper par", 'easy-form'); ?></label>
+                        <select name="groupby" id="groupby">
+                            <option
+                                value="days" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'days' ? 'selected' : ''; ?> ><?php _e("Jours", 'easy-form'); ?></option>
+                            <option
+                                value="hours" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'hours' ? 'selected' : ''; ?> ><?php _e("Heures", 'easy-form'); ?></option>
+                            <option
+                                value="weeks" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'weeks' ? 'selected' : ''; ?> ><?php _e("Semaines", 'easy-form'); ?></option>
+                            <option
+                                value="years" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'years' ? 'selected' : ''; ?> ><?php _e("An", 'easy-form'); ?></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="format"><?php _e("Format de date", 'easy-form'); ?> <a
+                                href="http://php.net/manual/en/function.date.php" class="small-info"
+                                target="_blank"><?php _e("Quel format&nbsp;?", 'easy-form'); ?></a></label>
+                        <input type="text" name="format" class="form-control"
+                               placeholder="<?php _e("Format de date", 'easy-form'); ?>"
+                               value="<?php echo isset($_GET['format']) ? $_GET['format'] : 'd/m/Y'; ?>">
+                    </div>
                 </div>
-                <div class="col-sm-3">
-                    <label for="groupby"><?php _e("Grouper par", 'easy-form'); ?></label>
-                    <select name="groupby" id="groupby">
-                        <option
-                            value="days" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'days' ? 'selected' : ''; ?> ><?php _e("Jours", 'easy-form'); ?></option>
-                        <option
-                            value="hours" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'hours' ? 'selected' : ''; ?> ><?php _e("Heures", 'easy-form'); ?></option>
-                        <option
-                            value="weeks" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'weeks' ? 'selected' : ''; ?> ><?php _e("Semaines", 'easy-form'); ?></option>
-                        <option
-                            value="years" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'years' ? 'selected' : ''; ?> ><?php _e("An", 'easy-form'); ?></option>
-                    </select>
+                <div class="row margin-top-25">
+                    <div class="col-sm-3">
+                        <label for="unique">
+                            <input
+                                type="checkbox" <?php echo isset($_GET['unique']) && $_GET['unique'] == 'true' ? 'checked' : ''; ?>
+                                id="unique" value="true" name="unique">
+                            <?php _e("Visiteurs uniques", 'easy-form'); ?>
+                        </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="include_my_ip">
+                            <input
+                                type="checkbox" <?php echo isset($_GET['include_my_ip']) && $_GET['include_my_ip'] == 'true' ? 'checked' : ''; ?>
+                                id="include_my_ip" value="true" name="include_my_ip">
+                            <?php _e("Prendre en compte mes visites", 'easy-form'); ?>
+                        </label>
+                    </div>
                 </div>
-                <div class="col-sm-3">
-                    <label for="format"><?php _e("Format de date", 'easy-form'); ?> <a
-                            href="http://php.net/manual/en/function.date.php" class="small-info"
-                            target="_blank"><?php _e("Quel format&nbsp;?", 'easy-form'); ?></a></label>
-                    <input type="text" name="format" class="form-control"
-                           placeholder="<?php _e("Format de date", 'easy-form'); ?>"
-                           value="<?php echo isset($_GET['format']) ? $_GET['format'] : 'd/m/Y'; ?>">
-                </div>
-            </div>
-            <div class="row margin-top-25">
-                <div class="col-sm-3">
-                    <label for="unique">
-                        <input
-                            type="checkbox" <?php echo isset($_GET['unique']) && $_GET['unique'] == 'true' ? 'checked' : ''; ?>
-                            id="unique" value="true" name="unique">
-                        <?php _e("Visiteurs uniques", 'easy-form'); ?>
-                    </label>
-                </div>
-                <div class="col-sm-3">
-                    <label for="include_my_ip">
-                        <input
-                            type="checkbox" <?php echo isset($_GET['include_my_ip']) && $_GET['include_my_ip'] == 'true' ? 'checked' : ''; ?>
-                            id="include_my_ip" value="true" name="include_my_ip">
-                        <?php _e("Prendre en compte mes visites", 'easy-form'); ?>
-                    </label>
-                </div>
-            </div>
             </div>
             <div class="row mg-top-25">
                 <div class="col-sm-3">
@@ -105,18 +105,17 @@
     <!-- Color panels -->
     <div class="row">
         <div class="col-sm-4 col-md-3">
-            <div class="tab-head panel-wordpress panel-blue datas">
+            <div class="tab-head panel-wordpress panel-blue datas same-height" data-height-id="1">
                 <div class="head">
                     <h2><?php _e("Taux de conversion", 'easy-form'); ?></h2>
                 </div>
                 <i class="fa fa-area-chart"></i>
-                <h3 class="bigtitle"><?php echo  $imps['total'] != 0 ? number_format(($convs['total'] / $imps['total']) * 100, 2) : '-' ; ?>
-                    <span>%</span></h3>
+                <h3 class="bigtitle"><?php echo $imps['total'] != 0 ? number_format(($convs['total'] / $imps['total']) * 100, 2) : '-'; ?><span>%</span></h3>
                 <div class="row"></div>
             </div>
         </div>
         <div class="col-sm-4 col-md-3">
-            <div class="tab-head panel-wordpress panel-red datas">
+            <div class="tab-head panel-wordpress panel-red datas same-height" data-height-id="1">
                 <div class="head">
                     <h2><?php _e("Nombre d'impression", 'easy-form'); ?></h2>
                 </div>
@@ -126,7 +125,7 @@
             </div>
         </div>
         <div class="col-sm-4 col-md-3">
-            <div class="tab-head panel-wordpress panel-green datas">
+            <div class="tab-head panel-wordpress panel-green datas same-height" data-height-id="1">
                 <div class="head">
                     <h2><?php _e("Nombre de conversion", 'easy-form'); ?></h2>
                 </div>
@@ -138,7 +137,7 @@
             </div>
         </div>
         <div class="col-sm-4 col-md-3 hidden-sm">
-            <div class="tab-head panel-wordpress panel-yellow datas">
+            <div class="tab-head panel-wordpress panel-yellow datas same-height" data-height-id="1">
                 <div class="head">
                     <h2><?php _e("Nouveaux visiteurs", 'easy-form'); ?></h2>
                 </div>
@@ -151,7 +150,7 @@
     </div>
     <div class="row">
         <div class="col-sm-9">
-            <div class="data panel-wordpress">
+            <div class="data panel-wordpress same-height" data-height-id="2">
                 <div class="head">
                     <h2><?php _e("Impression et conversions", 'easy-form'); ?></h2>
                 </div>
@@ -159,7 +158,7 @@
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="data panel-wordpress">
+            <div class="data panel-wordpress same-height" data-height-id="2">
                 <div class="head">
                     <h2><?php _e("Appareils", 'easy-form'); ?></h2>
                 </div>
@@ -170,7 +169,7 @@
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <div class="data panel-wordpress">
+            <div class="data panel-wordpress same-height" data-height-id="3">
                 <div class="head">
                     <h2><?php _e("Type de visiteurs total", 'easy-form'); ?></h2>
                 </div>
@@ -179,15 +178,40 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <div class="data panel-wordpress">
+            <div class="data panel-wordpress same-height" data-height-id="3">
                 <div class="head">
                     <h2><?php _e("Provenance des utilisateurs", 'easy-form'); ?></h2>
                 </div>
-                <div id="world-map" style="width: 100%; height: 335px;"></div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div id="world-map" style="width: 100%; height: 335px;"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <th><i class="fa fa-trophy"></i></th>
+                                <th><?php _e("Région", 'easy-form'); ?></th>
+                                <th><?php _e("Visiteurs", 'easy-form'); ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i=1; foreach ($imps['regions'] as $region => $nb) { ?>
+                                <tr>
+                                    <th scope="row"><?php echo $i; ?></th>
+                                    <td><?php echo $region; ?></td>
+                                    <td><?php echo $nb; ?></td>
+                                </tr>
+                            <?php $i++; } ?>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-   <!-- <div class="row">
+    <!-- <div class="row">
         <div class="col-sm-3">
             <div class="data panel-wordpress">
                 <div class="head">
@@ -281,46 +305,46 @@
 
         var doughnutChart = {
             data: {
-            /*    conversions: [
-                    {
-                        value: <?php echo $convs['devices']['mobile']; ?>,
-                        color: "#F7464A",
-                        highlight: "#FF5A5E",
-                        label: "<?php _e("Mobile", 'easy-form'); ?>"
-                    },
-                    {
-                        value: <?php echo $convs['devices']['tablet']; ?>,
-                        color: "#46BFBD",
-                        highlight: "#5AD3D1",
-                        label: "<?php _e("Tablette", 'easy-form'); ?>"
-                    },
-                    {
-                        value: <?php echo $convs['devices']['desktop']; ?>,
-                        color: "#FDB45C",
-                        highlight: "#FFC870",
-                        label: "<?php _e("Ordinateur", 'easy-form'); ?>"
-                    }
-                ],
-                impressions: [
-                    {
-                        value: <?php echo $imps['devices']['mobile']; ?>,
-                        color: "#F7464A",
-                        highlight: "#FF5A5E",
-                        label: "<?php _e("Mobile", 'easy-form'); ?>"
-                    },
-                    {
-                        value: <?php echo $imps['devices']['tablet']; ?>,
-                        color: "#46BFBD",
-                        highlight: "#5AD3D1",
-                        label: "<?php _e("Tablette", 'easy-form'); ?>"
-                    },
-                    {
-                        value: <?php echo $imps['devices']['desktop']; ?>,
-                        color: "#FDB45C",
-                        highlight: "#FFC870",
-                        label: "<?php _e("Ordinateur", 'easy-form'); ?>"
-                    }
-                ], */
+                /*    conversions: [
+                 {
+                 value: <?php echo $convs['devices']['mobile']; ?>,
+                 color: "#F7464A",
+                 highlight: "#FF5A5E",
+                 label: "<?php _e("Mobile", 'easy-form'); ?>"
+                 },
+                 {
+                 value: <?php echo $convs['devices']['tablet']; ?>,
+                 color: "#46BFBD",
+                 highlight: "#5AD3D1",
+                 label: "<?php _e("Tablette", 'easy-form'); ?>"
+                 },
+                 {
+                 value: <?php echo $convs['devices']['desktop']; ?>,
+                 color: "#FDB45C",
+                 highlight: "#FFC870",
+                 label: "<?php _e("Ordinateur", 'easy-form'); ?>"
+                 }
+                 ],
+                 impressions: [
+                 {
+                 value: <?php echo $imps['devices']['mobile']; ?>,
+                 color: "#F7464A",
+                 highlight: "#FF5A5E",
+                 label: "<?php _e("Mobile", 'easy-form'); ?>"
+                 },
+                 {
+                 value: <?php echo $imps['devices']['tablet']; ?>,
+                 color: "#46BFBD",
+                 highlight: "#5AD3D1",
+                 label: "<?php _e("Tablette", 'easy-form'); ?>"
+                 },
+                 {
+                 value: <?php echo $imps['devices']['desktop']; ?>,
+                 color: "#FDB45C",
+                 highlight: "#FFC870",
+                 label: "<?php _e("Ordinateur", 'easy-form'); ?>"
+                 }
+                 ], */
                 total: [
                     {
                         value: <?php echo $imps['devices']['mobile'] + $convs['devices']['mobile']; ?>,
@@ -360,34 +384,34 @@
                         label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
                     }
                 ],
-            /*    visitors_impressions: [
-                    {
-                        value: <?php echo $imps['total'] != 0 ? number_format((count($imps['ips']) / $imps['total']) * 100, 0) : 0; ?>,
-                        color: "#043582",
-                        highlight: "#034FC5",
-                        label: "<?php _e("Nouveaux visiteurs", 'easy-form'); ?>"
-                    },
-                    {
-                        value: <?php echo $imps['total'] != 0 ? number_format(((1 - count($imps['ips']) / $imps['total']) * 100), 0) : 0; ?>,
-                        color: "#9BC11E",
-                        highlight: "#B1DC23",
-                        label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
-                    }
-                ],
-                visitors_conversions: [
-                    {
-                        value: <?php echo $convs['total'] != 0 ? number_format((count($convs['ips']) / $convs['total']) * 100, 0) : 0; ?>,
-                        color: "#043582",
-                        highlight: "#034FC5",
-                        label: "<?php _e("Nouveaux visiteurs", 'easy-form'); ?>"
-                    },
-                    {
-                        value: <?php echo $convs['total'] != 0 ? number_format(((1 - count($convs['ips']) / $convs['total']) * 100), 0) : 0; ?>,
-                        color: "#9BC11E",
-                        highlight: "#B1DC23",
-                        label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
-                    }
-                ], */
+                /*    visitors_impressions: [
+                 {
+                 value: <?php echo $imps['total'] != 0 ? number_format((count($imps['ips']) / $imps['total']) * 100, 0) : 0; ?>,
+                 color: "#043582",
+                 highlight: "#034FC5",
+                 label: "<?php _e("Nouveaux visiteurs", 'easy-form'); ?>"
+                 },
+                 {
+                 value: <?php echo $imps['total'] != 0 ? number_format(((1 - count($imps['ips']) / $imps['total']) * 100), 0) : 0; ?>,
+                 color: "#9BC11E",
+                 highlight: "#B1DC23",
+                 label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
+                 }
+                 ],
+                 visitors_conversions: [
+                 {
+                 value: <?php echo $convs['total'] != 0 ? number_format((count($convs['ips']) / $convs['total']) * 100, 0) : 0; ?>,
+                 color: "#043582",
+                 highlight: "#034FC5",
+                 label: "<?php _e("Nouveaux visiteurs", 'easy-form'); ?>"
+                 },
+                 {
+                 value: <?php echo $convs['total'] != 0 ? number_format(((1 - count($convs['ips']) / $convs['total']) * 100), 0) : 0; ?>,
+                 color: "#9BC11E",
+                 highlight: "#B1DC23",
+                 label: "<?php _e("Anciens visiteurs", 'easy-form'); ?>"
+                 }
+                 ], */
             },
             options: {
                 legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
@@ -396,57 +420,42 @@
 
 
         // Impression & conversions
-      //  var DoughnutChartImpressions = new Chart(document.getElementById("doughnut-impressions").getContext("2d")).Doughnut(doughnutChart.data.impressions, doughnutChart.options);
-      //  var DoughnutChartConversions = new Chart(document.getElementById("doughnut-conversions").getContext("2d")).Doughnut(doughnutChart.data.conversions, doughnutChart.options);
+        //  var DoughnutChartImpressions = new Chart(document.getElementById("doughnut-impressions").getContext("2d")).Doughnut(doughnutChart.data.impressions, doughnutChart.options);
+        //  var DoughnutChartConversions = new Chart(document.getElementById("doughnut-conversions").getContext("2d")).Doughnut(doughnutChart.data.conversions, doughnutChart.options);
         var DevicesChart = new Chart(document.getElementById("devices").getContext("2d")).Doughnut(doughnutChart.data.total, doughnutChart.options);
         Chart.defaults.global.tooltipTemplate = "<%if (label){%><%=label%>: <%}%><%= value %>%";
         var VisitorsChart = new Chart(document.getElementById("visitors").getContext("2d")).Pie(doughnutChart.data.visitors, doughnutChart.options);
 
         // Display legends
         legend = DevicesChart.generateLegend();
-        jQuery('#doughnut-total').after(legend);
+        jQuery('#devices').after(legend);
 
         legend = VisitorsChart.generateLegend();
         jQuery('#visitors').after(legend);
 
         /*
-        legend = DoughnutChartImpressions.generateLegend();
-        jQuery('#doughnut-impressions').after(legend);
+         legend = DoughnutChartImpressions.generateLegend();
+         jQuery('#doughnut-impressions').after(legend);
 
-        legend = DoughnutChartConversions.generateLegend();
-        jQuery('#doughnut-conversions').after(legend); */
-
-
-/*
- var DoughnutChartVisitors_impressions = new Chart(document.getElementById("visitors-impressions").getContext("2d")).Pie(doughnutChart.data.visitors_impressions, doughnutChart.options);
- var DoughnutChartVisitors_conversions = new Chart(document.getElementById("visitors-conversions").getContext("2d")).Pie(doughnutChart.data.visitors_conversions, doughnutChart.options);
+         legend = DoughnutChartConversions.generateLegend();
+         jQuery('#doughnut-conversions').after(legend); */
 
 
-        legend = DoughnutChartVisitors_conversions.generateLegend();
-        jQuery('#visitors-conversions').after(legend);
-
-        legend = DoughnutChartVisitors_impressions.generateLegend();
-        jQuery('#visitors-impressions').after(legend); */
+        /*
+         var DoughnutChartVisitors_impressions = new Chart(document.getElementById("visitors-impressions").getContext("2d")).Pie(doughnutChart.data.visitors_impressions, doughnutChart.options);
+         var DoughnutChartVisitors_conversions = new Chart(document.getElementById("visitors-conversions").getContext("2d")).Pie(doughnutChart.data.visitors_conversions, doughnutChart.options);
 
 
-        jQuery('#plus').on('click', function () {
-            var filter = jQuery('#filter-plus');
-            if (filter.is(':visible')) {
-                filter.hide(200);
-                jQuery(this).html('<?php _e("Plus de filtres", 'easy-form'); ?>');
+         legend = DoughnutChartVisitors_conversions.generateLegend();
+         jQuery('#visitors-conversions').after(legend);
 
-            } else {
-                filter.show(200);
-                jQuery(this).html('<?php _e("Moins de filtres", 'easy-form'); ?>');
-            }
-        });
+         legend = DoughnutChartVisitors_impressions.generateLegend();
+         jQuery('#visitors-impressions').after(legend); */
 
 
-        jQuery(function(){
+        jQuery(function () {
 
-            var $ = jQuery;
-
-            $('#world-map').vectorMap({
+            jQuery('#world-map').vectorMap({
                 map: 'world_mill_en',
                 normalizeFunction: 'polynomial',
                 hoverOpacity: 0.7,
@@ -476,15 +485,52 @@
                     }
                 },
                 markers: [
-                    <?php if(is_array($imps)) foreach($imps['ips'] as $ip){ ?>
-                    {latLng: [<?php echo $ip['lat']; ?>,<?php echo $ip['lng']; ?>], name: '<?php echo $ip['region']; ?>'},
-                <?php } ?>
+                    <?php if(is_array($imps)) foreach($imps['ips'] as $ip){
+                    if($ip['lat'] != 0 && $ip['lng'] != 0) {
+                    ?>
+                    {
+                        latLng: [<?php echo $ip['lat']; ?>,<?php echo $ip['lng']; ?>],
+                        name: '<?php echo $ip['region']; ?> (<?php echo $imps['regions'][$ip['region']]; ?>)'
+                    },
+                    <?php } } ?>
                 ]
             });
 
+
         });
 
+
+        jQuery(document).ready(sameHeight);
+        jQuery(window).resize(sameHeight);
+
+        function sameHeight(){
+            var atts = 3;
+            for (var i = 1; i <= atts; i++) {
+                var maxheight = 0;
+                jQuery('.same-height[data-height-id="' + i + '"]')
+                    .each(function () {
+                        jQuery(this).attr('style','');
+                        maxheight = Math.max(maxheight, jQuery(this).height())
+                    }).each(function () {
+                    jQuery(this).height(maxheight)
+                });
+                console.log(i);
+            }
+        }
+
+
     </script>
-<?php else : ?>
 <?php endif; ?>
-</div>
+<script type="text/javascript">
+    jQuery('#plus').on('click', function () {
+        var filter = jQuery('#filter-plus');
+        if (filter.is(':visible')) {
+            filter.hide(200);
+            jQuery(this).html('<?php _e("Plus de filtres", 'easy-form'); ?>');
+
+        } else {
+            filter.show(200);
+            jQuery(this).html('<?php _e("Moins de filtres", 'easy-form'); ?>');
+        }
+    });
+</script>

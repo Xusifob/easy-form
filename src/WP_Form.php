@@ -332,16 +332,14 @@ class WP_Form
      *
      * @since V 0.3
      *
-     * @Updated : V 0.5.5 (Add $statValue)
      *
      * Return the open form template
      *
-     * @param null|string $statValue a custom value used for cusotm data
      * @return string the template of the form opening
      */
-    public function get_open_the_form($statValue = null)
+    public function get_open_the_form()
     {
-        return $this->form->get_open_the_form($statValue);
+        return $this->form->get_open_the_form();
     }
 
 
@@ -349,15 +347,13 @@ class WP_Form
      *
      * @since V 0.3
      *
-     * @Updated : V 0.5.5 (Add $statValue)
      *
      * display the open form template
      *
-     * @param null|string $statValue a custom value used for cusotm data
      */
-    public function open_the_form($statValue = null)
+    public function open_the_form()
     {
-        $this->form->open_the_form($statValue);
+        $this->form->open_the_form();
     }
 
     /**
@@ -412,6 +408,36 @@ class WP_Form
     public function UserIsActivated()
     {
         return $this->form->UserIsActivated();
+    }
+
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * Return the stat value
+     *
+     * @return mixed
+     */
+    public function getStatValue()
+    {
+        return $this->form->getStatValue();
+    }
+
+
+    /**
+     *
+     * Set the stat value
+     *
+     * @Since V 0.5.5
+     *
+     * @param $statValue mixed the value to set
+     * @return $this
+     */
+    public function setStatValue($statValue)
+    {
+        $this->form->setStatValue($statValue);
+        return $this;
     }
 
 }

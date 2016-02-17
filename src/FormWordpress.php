@@ -53,6 +53,18 @@ class FormWordpress extends Form
      */
     public $device = self::_DESKTOP;
 
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * The statistiques value to compare impressions with conversions
+     *
+     * @var mixed
+     */
+    protected $statValue = '';
+
+
     /**
      * Constructor
      *
@@ -1710,7 +1722,7 @@ class FormWordpress extends Form
     }
 
     /**
-     * Returns the template overided in theme || the form default template
+     * Returns the template override in theme || the form default template
      *
      * @param $templateName
      * @return string
@@ -1812,20 +1824,18 @@ class FormWordpress extends Form
      *
      * Return the open form field. it contains an antispam input, the wp_nounce input,some style and the form opening
      *
-     * @overide Form::get_open_the_form
+     * @override Form::get_open_the_form
      *
-     *
-     * @param null|string $statValue a custom value used for cusotm data
      * @return string
      */
-    public function get_open_the_form($statValue = null)
+    public function get_open_the_form()
     {
 
         $data = [
             'time' => time(),
             'ip' => $_SERVER['REMOTE_ADDR'],
             'device' => $this->device,
-            'custom_data' => $statValue,
+            'custom_data' => $this->getStatValue(),
         ];
 
         // If there is an error, it's not an impression
@@ -1840,17 +1850,15 @@ class FormWordpress extends Form
      *
      * @since V 0.5.4
      *
-     * @Updated : V 0.5.5 (Add $statValue)
      *
      * Display the open form
      *
-     * @overide Form::open_the_form
+     * @override Form::open_the_form
      *
-     * @param null|string $statValue a custom value used for cusotm data
      */
-    public function open_the_form($statValue = null)
+    public function open_the_form()
     {
-        echo $this->get_open_the_form($statValue);
+        echo $this->get_open_the_form();
     }
 
 
@@ -1866,5 +1874,37 @@ class FormWordpress extends Form
         } else
             return false;
     }
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * Return the stat value
+     *
+     * @return mixed
+     */
+    public function getStatValue()
+    {
+        return $this->statValue;
+    }
+
+
+    /**
+     *
+     * Set the stat value
+     *
+     * @Since V 0.5.5
+     *
+     * @param $statValue mixed the value to set
+     * @return $this
+     */
+    public function setStatValue($statValue)
+    {
+        $this->statValue = $statValue;
+        return $this;
+    }
+
+
+
 
 }

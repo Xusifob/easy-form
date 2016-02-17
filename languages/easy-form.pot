@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Wed Feb 17 2016 15:08:55 GMT+0000 (GMT)\n"
+"POT-Revision-Date: Wed Feb 17 2016 17:23:01 GMT+0000 (GMT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
@@ -499,7 +499,7 @@ msgstr ""
 msgid "Filtres"
 msgstr ""
 
-#: ../templates/stats.php:12 ../templates/stats.php:436
+#: ../templates/stats.php:12 ../templates/stats.php:529
 msgid "Plus de filtres"
 msgstr ""
 
@@ -575,112 +575,120 @@ msgstr ""
 msgid "Taux de conversion"
 msgstr ""
 
-#: ../templates/stats.php:121
+#: ../templates/stats.php:120
 msgid "Nombre d'impression"
 msgstr ""
 
-#: ../templates/stats.php:124
+#: ../templates/stats.php:123
 msgid "vues"
 msgstr ""
 
-#: ../templates/stats.php:131
+#: ../templates/stats.php:130
 msgid "Nombre de conversion"
 msgstr ""
 
-#: ../templates/stats.php:134
+#: ../templates/stats.php:133
 msgid "conversion"
 msgstr ""
 
-#: ../templates/stats.php:143 ../templates/stats.php:354 ../templates/stats.php:
-#: 368 ../templates/stats.php:382
+#: ../templates/stats.php:142 ../templates/stats.php:378 ../templates/stats.php:
+#: 392 ../templates/stats.php:406
 msgid "Nouveaux visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:146
+#: ../templates/stats.php:145
 msgid "visiteur"
 msgstr ""
 
-#: ../templates/stats.php:156
+#: ../templates/stats.php:155
 msgid "Impression et conversions"
 msgstr ""
 
-#: ../templates/stats.php:164
+#: ../templates/stats.php:163
 msgid "Appareils"
 msgstr ""
 
-#: ../templates/stats.php:166
+#: ../templates/stats.php:165
 msgid "Types d'appareils utilisés"
 msgstr ""
 
-#: ../templates/stats.php:175
+#: ../templates/stats.php:174
 msgid "Type de visiteurs total"
 msgstr ""
 
-#: ../templates/stats.php:177
+#: ../templates/stats.php:176
 msgid "Taux de visiteurs pour les impressions et les conversions"
 msgstr ""
 
-#: ../templates/stats.php:184
+#: ../templates/stats.php:183
 msgid "Provenance des utilisateurs"
 msgstr ""
 
 #: ../templates/stats.php:194
+msgid "Région"
+msgstr ""
+
+#: ../templates/stats.php:195
+msgid "Visiteurs"
+msgstr ""
+
+#: ../templates/stats.php:218
 msgid "Appareils pour impression"
 msgstr ""
 
-#: ../templates/stats.php:197
+#: ../templates/stats.php:221
 msgid "Types d'appareil pour les impressions"
 msgstr ""
 
-#: ../templates/stats.php:205
+#: ../templates/stats.php:229
 msgid "Appareils pour conversion"
 msgstr ""
 
-#: ../templates/stats.php:208
+#: ../templates/stats.php:232
 msgid "Types d'appareil pour les conversions"
 msgstr ""
 
-#: ../templates/stats.php:216
+#: ../templates/stats.php:240
 msgid "Visiteurs pour impression"
 msgstr ""
 
-#: ../templates/stats.php:219
+#: ../templates/stats.php:243
 msgid "Types de visiteurs pour les impressions"
 msgstr ""
 
-#: ../templates/stats.php:227
+#: ../templates/stats.php:251
 msgid "Visiteurs pour conversion"
 msgstr ""
 
-#: ../templates/stats.php:230
+#: ../templates/stats.php:254
 msgid "Types de visiteurs pour les conversions"
 msgstr ""
 
-#: ../templates/stats.php:254
+#: ../templates/stats.php:278
 msgid "Conversion"
 msgstr ""
 
-#: ../templates/stats.php:264
+#: ../templates/stats.php:288
 msgid "Impression"
 msgstr ""
 
-#: ../templates/stats.php:289 ../templates/stats.php:309 ../templates/stats.php:329
+#: ../templates/stats.php:313 ../templates/stats.php:333 ../templates/stats.php:353
 msgid "Mobile"
 msgstr ""
 
-#: ../templates/stats.php:295 ../templates/stats.php:315 ../templates/stats.php:335
+#: ../templates/stats.php:319 ../templates/stats.php:339 ../templates/stats.php:359
 msgid "Tablette"
 msgstr ""
 
-#: ../templates/stats.php:301 ../templates/stats.php:321 ../templates/stats.php:341
+#: ../templates/stats.php:325 ../templates/stats.php:345 ../templates/stats.php:365
 msgid "Ordinateur"
 msgstr ""
 
-#: ../templates/stats.php:360 ../templates/stats.php:374 ../templates/stats.php:388
+#: ../templates/stats.php:384 ../templates/stats.php:398 ../templates/stats.php:412
 msgid "Anciens visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:440
+#: ../templates/stats.php:533
 msgid "Moins de filtres"
 msgstr ""
 

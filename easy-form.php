@@ -220,19 +220,19 @@ class FormPlugin
      * @Since V 0.1
      *
      * @Updated :   - V 0.5.4 (Change capacities from edit_plugins to edit_pages this add editor support )
-     *              - V 0.5.5 (Add the page stat-form)
+     *              - V 0.5.5 (Add the page stat-form & update )
      *
      * Add All Admin's Menu tab
      */
     public function addAdminMenu()
     {
         // Menu formulaire/Tous les formulaires
-        add_menu_page('Easy Forms', 'Easy Forms', 'edit_plugins', 'forms', [$this, 'displayPage'], 'dashicons-feedback', 21);
+        add_menu_page('Easy Forms', 'Easy Forms', 'edit_posts', 'forms', [$this, 'displayPage'], 'dashicons-feedback', 21);
 
         // Ajouter/modifier un formulaire
         add_submenu_page('forms', __('Ajouter un formulaire', 'easy-form'), __('Ajouter', 'easy-form'), 'edit_pages', 'add-form', [$this, 'displayPageAddForm']);
         // Prévisualiser son formulaire
-        add_submenu_page('forms', __('Voir un formulaire', 'easy-form'), __('Prévisualiser', 'easy-form'), 'edit_pages', 'show-form', [$this, 'displayPrev']);
+        add_submenu_page('forms', __('Voir un formulaire', 'easy-form'), __('Prévisualiser', 'easy-form'), 'edit_posts', 'show-form', [$this, 'displayPrev']);
 
         add_submenu_page('forms', __('Importer un formulaire', 'easy-form'), __('Importer', 'easy-form'), 'edit_pages', 'import-form', [$this, 'displayImport']);
 
@@ -240,7 +240,7 @@ class FormPlugin
         add_submenu_page('forms', __('Exporter un formulaire', 'easy-form'), __('Exporter', 'easy-form'), 'edit_pages', 'export-form', [$this, 'displayExport']);
 
         // Stats
-        add_submenu_page('forms', __('Statistiques', 'easy-form'), __('Statistiques', 'easy-form'), 'edit_pages', 'stat-form', [$this, 'displayStat']);
+        add_submenu_page('forms', __('Statistiques', 'easy-form'), __('Statistiques', 'easy-form'), 'edit_posts', 'stat-form', [$this, 'displayStat']);
 
         // Doc
         add_submenu_page('forms', __('Documentation', 'easy-form'), __('Documentation', 'easy-form'), 'edit_pages', 'doc-form', [$this, 'displayDoc']);
@@ -1024,6 +1024,7 @@ class FormPlugin
                     'tablet' => 0,
                     'desktop' => 0
                 ],
+                'regions' => [],
                 'custom_datas' => []
             ];
 
@@ -1037,6 +1038,7 @@ class FormPlugin
                     'tablet' => 0,
                     'desktop' => 0
                 ],
+                'regions' => [],
                 'custom_datas' => []
             ];
             $startTimestamp = strtotime($start);
@@ -1074,6 +1076,14 @@ class FormPlugin
             }
 
 
+            foreach ($imps['ips'] as $ip) {
+                if (!array_key_exists($ip['region'],$imps['regions'])) {
+                    $imps['regions'][$ip['region']] = 1;
+                } else {
+                    $imps['regions'][$ip['region']]++;
+                }
+            }
+            arsort($imps['regions']);
         }
 
         // Getting all forms
@@ -1097,14 +1107,14 @@ class FormPlugin
      */
     private function getIpData($ip)
     {
-        $ip_addr = '31.221.68.82';
-        $geoplugin = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $ip_addr));
+        $geoplugin = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $ip));
 
 
         $data = [
             'lng' => is_numeric($geoplugin['geoplugin_longitude']) ? $geoplugin['geoplugin_longitude'] : 0,
             'lat' => is_numeric($geoplugin['geoplugin_latitude']) ? $geoplugin['geoplugin_latitude'] : 0,
-            'region' => $geoplugin['geoplugin_regionName'],
+            'region' => $geoplugin['geoplugin_regionName'] == null ? $geoplugin['geoplugin_countryName'] : $geoplugin['geoplugin_regionName'],
+            'number' => 1,
         ];
 
         return $data;
@@ -1155,7 +1165,8 @@ class FormPlugin
                             // Put the user IP in the ip tabs (in case we want unique users)
                             if (!array_key_exists($value['ip'], $tab['ips'])) {
                                 $tab['ips'][$value['ip']] = self::getIpData($value['ip']);
-                            }
+                            } else
+                                $tab['ips'][$value['ip']]['number']++;
 
 
                             // Switch the device value
