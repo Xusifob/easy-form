@@ -21,7 +21,7 @@ class FormPlugin
      *
      * Api url for update
      *
-     * @Since V 0.5.4
+     * @Since V 0.5.5
      *
      * @var string
      */
@@ -31,7 +31,7 @@ class FormPlugin
      *
      * Plugin slug
      *
-     * @Since V 0.5.4
+     * @Since V 0.5.5
      *
      * @var string
      */
