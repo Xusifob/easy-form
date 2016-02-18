@@ -62,6 +62,8 @@
                             <option
                                 value="weeks" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'weeks' ? 'selected' : ''; ?> ><?php _e("Semaines", 'easy-form'); ?></option>
                             <option
+                                value="months" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'months' ? 'selected' : ''; ?> ><?php _e("Mois", 'easy-form'); ?></option>
+                            <option
                                 value="years" <?php echo isset($_GET['groupby']) && $_GET['groupby'] == 'years' ? 'selected' : ''; ?> ><?php _e("An", 'easy-form'); ?></option>
                         </select>
                     </div>
