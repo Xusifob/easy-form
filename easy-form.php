@@ -16,28 +16,24 @@ ini_set('max_execution_time', 120);
 
 class FormPlugin
 {
-
     /**
      *
      * Api url for update
      *
-     * @Since V 0.5.4
+     * @Since V 0.5.5
      *
      * @var string
      */
     protected $api_url;
-
     /**
      *
      * Plugin slug
      *
-     * @Since V 0.5.4
+     * @Since V 0.5.5
      *
      * @var string
      */
     protected $plugin_slug;
-
-
     /**
      * @Since V 0.1
      *
@@ -85,13 +81,11 @@ class FormPlugin
                 require_once __DIR__ . '/templates/head-admin.php';
                 add_action('admin_footer', [$this, 'includeFooterAdmin']);
             }
-
-
             $this->api_url = 'http://easyform.bastienmalahieude.fr/api/';
             $this->plugin_slug = basename(dirname(__FILE__));
-
             // Used for the update check of the plugin
             //set_site_transient('update_plugins', null);
+
 
             add_action('admin_menu', [$this, 'addAdminMenu']);
         } else {
@@ -104,8 +98,8 @@ class FormPlugin
                     session_start();
             }
         }
-
-
+// Used for the update check of the plugin
+        // set_site_transient('update_plugins', null);
         add_filter('pre_set_site_transient_update_plugins', [$this, 'check_for_plugin_update']);
         add_filter('plugins_api', [$this, 'plugin_api_call'], 10, 3);
 
@@ -287,7 +281,6 @@ class FormPlugin
     function check_for_plugin_update($checked_data)
     {
         global $wp_version;
-
         if (
             !isset($checked_data->checked) ||
             empty($checked_data->checked) ||
@@ -295,7 +288,6 @@ class FormPlugin
             empty($checked_data->checked[$this->plugin_slug . '/' . $this->plugin_slug . '.php'])
         )
             return $checked_data;
-
 
         $args = array(
             'slug' => $this->plugin_slug,
@@ -477,6 +469,7 @@ class FormPlugin
         ];
 
         $my_query = new WP_Query($args);
+
 
         include __DIR__ . '/templates/preview.php';
     }
@@ -1247,6 +1240,4 @@ if (class_exists('FormPlugin')) {
 
     $formPlugin = new FormPlugin();
     register_activation_hook(__FILE__, array($formPlugin, 'activate'));
-
-
 }
