@@ -110,7 +110,8 @@
                     <h2><?php _e("Taux de conversion", 'easy-form'); ?></h2>
                 </div>
                 <i class="fa fa-area-chart"></i>
-                <h3 class="bigtitle"><?php echo $imps['total'] != 0 ? number_format(($convs['total'] / $imps['total']) * 100, 2) : '-'; ?><span>%</span></h3>
+                <h3 class="bigtitle"><?php echo $imps['total'] != 0 ? number_format(($convs['total'] / $imps['total']) * 100, 2) : '-'; ?>
+                    <span>%</span></h3>
                 <div class="row"></div>
             </div>
         </div>
@@ -196,18 +197,62 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $i=1; foreach ($imps['regions'] as $region => $nb) { ?>
+                            <?php $i = 1;
+                            foreach ($imps['regions'] as $region => $nb) { ?>
                                 <tr>
                                     <th scope="row"><?php echo $i; ?></th>
                                     <td><?php echo $region; ?></td>
                                     <td><?php echo $nb; ?></td>
                                 </tr>
-                            <?php $i++; } ?>
+                                <?php $i++;
+                            } ?>
                             </tbody>
                         </table>
 
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="data panel-wordpress">
+                <div class="head">
+                    <h2><?php _e("Détail des visiteurs", 'easy-form'); ?></h2>
+                </div>
+                <table class="table table-hover table-condensed table-overflow">
+                    <thead>
+                    <tr>
+                        <th><?php _e("Date", 'easy-form'); ?></th>
+                        <th><?php _e("Adresse IP", 'easy-form'); ?></th>
+                        <th><?php _e("Région", 'easy-form'); ?></th>
+                        <th><?php _e("Appareil", 'easy-form'); ?></th>
+                        <th><?php _e("Champ Personnalisé", 'easy-form'); ?></th>
+                        <th><?php _e("Nombre de visites", 'easy-form'); ?></th>
+                        <th><?php _e("Conversion", 'easy-form'); ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php $devices = [
+                        FormWordpress::_DESKTOP => __('Ordinateur', 'easy-form'),
+                        FormWordpress::_MOBILE => __('Mobile', 'easy-form'),
+                        FormWordpress::_TABLET => __("Tablette", 'easy-form'),
+                    ]; ?>
+
+                    <?php foreach ($tabData as $data) { ?>
+                        <tr>
+                            <td><?php echo $data['date']; ?></td>
+                            <td><?php echo $data['ip']; ?></td>
+                            <td><?php echo $data['location']; ?></td>
+                            <td><?php echo $devices[$data['device']]; ?></td>
+                            <td><?php echo $data['custom_data']; ?></td>
+                            <td><?php echo $data['nb_impression']; ?></td>
+                            <td><?php echo $data['conversion'] ? '<i class="fa fa-check green-txt">' : '<i class="fa fa-times red-txt">'; ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -499,22 +544,35 @@
 
         });
 
+        function viewport() {
+            var e = window, a = 'inner';
+            if (!('innerWidth' in window )) {
+                a = 'client';
+                e = document.documentElement || document.body;
+            }
+            return {width: e[a + 'Width'], height: e[a + 'Height']};
+        }
 
         jQuery(document).ready(sameHeight);
         jQuery(window).resize(sameHeight);
 
-        function sameHeight(){
-            var atts = 3;
-            for (var i = 1; i <= atts; i++) {
-                var maxheight = 0;
-                jQuery('.same-height[data-height-id="' + i + '"]')
-                    .each(function () {
-                        jQuery(this).attr('style','');
-                        maxheight = Math.max(maxheight, jQuery(this).height())
-                    }).each(function () {
-                    jQuery(this).height(maxheight)
+        function sameHeight() {
+            if (viewport().width > 768) {
+                var atts = 3;
+                for (var i = 1; i <= atts; i++) {
+                    var maxheight = 0;
+                    jQuery('.same-height[data-height-id="' + i + '"]')
+                        .each(function () {
+                            jQuery(this).attr('style', '');
+                            maxheight = Math.max(maxheight, jQuery(this).height())
+                        }).each(function () {
+                        jQuery(this).height(maxheight)
+                    });
+                }
+            } else {
+                jQuery('.same-height').each(function () {
+                    jQuery(this).attr('style', '');
                 });
-                console.log(i);
             }
         }
 

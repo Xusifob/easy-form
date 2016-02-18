@@ -34,6 +34,7 @@ class FormPlugin
      * @var string
      */
     protected $plugin_slug;
+
     /**
      * @Since V 0.1
      *
@@ -1101,13 +1102,37 @@ class FormPlugin
 
 
             foreach ($imps['ips'] as $ip) {
-                if (!array_key_exists($ip['region'],$imps['regions'])) {
+                if (!array_key_exists($ip['region'], $imps['regions'])) {
                     $imps['regions'][$ip['region']] = 1;
                 } else {
                     $imps['regions'][$ip['region']]++;
                 }
             }
             arsort($imps['regions']);
+
+
+            $tabData = [];
+
+            foreach ($impressions as $impression) {
+                if (!isset($tabData[$impression['ip']])) {
+                    if ($impression['ip'] != $_SERVER['REMOTE_ADDR'] || isset($_GET['include_my_ip'])) {
+                        $tmp = [
+                            'date' => date('d-m-Y H:i', $impression['time']),
+                            'ip' => $impression['ip'],
+                            'location' => isset($imps['ips'][$impression['ip']]['region']) ? $imps['ips'][$impression['ip']]['region'] : ' - ',
+                            'custom_data' => isset($impression['custom_data']) && !empty($impression['custom_data']) ? $impression['custom_data'] : ' - ' ,
+                            'nb_impression' => $imps['ips'][$impression['ip']]['number'],
+                            'device' => $impression['device'],
+                            'conversion' => array_key_exists($impression['ip'],$convs['ips']),
+                        ];
+
+                        $tabData[$impression['ip']] = $tmp;
+                    }
+                }
+            }
+            $tabData = array_reverse($tabData,true);
+
+
         }
 
         // Getting all forms
@@ -1117,7 +1142,6 @@ class FormPlugin
         ];
 
         $my_query = new WP_Query($args);
-
 
         include __DIR__ . '/templates/stats.php';
     }

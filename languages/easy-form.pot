@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Wed Feb 17 2016 17:23:01 GMT+0000 (GMT)\n"
+"POT-Revision-Date: Thu Feb 18 2016 17:27:29 GMT+0000 (GMT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
@@ -47,53 +47,53 @@ msgstr ""
 msgid "http://bastienmalahieude.fr"
 msgstr ""
 
-#: ../easy-form.php:233
+#: ../easy-form.php:254
 msgid "Ajouter un formulaire"
 msgstr ""
 
-#: ../easy-form.php:233 ../templates/add.php:153 ../templates/index.php:5
+#: ../easy-form.php:254 ../templates/add.php:153 ../templates/index.php:5
 msgid "Ajouter"
 msgstr ""
 
-#: ../easy-form.php:235
+#: ../easy-form.php:256
 msgid "Voir un formulaire"
 msgstr ""
 
-#: ../easy-form.php:235 ../templates/preview.php:29
+#: ../easy-form.php:256 ../templates/preview.php:29
 msgid "Prévisualiser"
 msgstr ""
 
-#: ../easy-form.php:237 ../templates/import.php:5
+#: ../easy-form.php:258 ../templates/import.php:5
 msgid "Importer un formulaire"
 msgstr ""
 
-#: ../easy-form.php:237 ../templates/import.php:33
+#: ../easy-form.php:258 ../templates/import.php:33
 msgid "Importer"
 msgstr ""
 
-#: ../easy-form.php:240 ../templates/export.php:6
+#: ../easy-form.php:261 ../templates/export.php:6
 msgid "Exporter un formulaire"
 msgstr ""
 
-#: ../easy-form.php:240 ../templates/export.php:22
+#: ../easy-form.php:261 ../templates/export.php:22
 msgid "Exporter"
 msgstr ""
 
-#: ../easy-form.php:243 ../easy-form.php:243 ../library/php/FormListTable.php:175
+#: ../easy-form.php:264 ../easy-form.php:264 ../library/php/FormListTable.php:175
 msgid "Statistiques"
 msgstr ""
 
-#: ../easy-form.php:246 ../easy-form.php:246
+#: ../easy-form.php:267 ../easy-form.php:267
 msgid "Documentation"
 msgstr ""
 
-#: ../easy-form.php:329
+#: ../easy-form.php:353
 msgid ""
 "Une erreur HTTP est arrivée lors du chargement du plugin.</p> <p><a href=\"?\" "
 "onclick=\"document.location.reload(); return false;\">Réessayer</a>"
 msgstr ""
 
-#: ../easy-form.php:334
+#: ../easy-form.php:358
 msgid "An unknown error occurred"
 msgstr ""
 
@@ -499,7 +499,7 @@ msgstr ""
 msgid "Filtres"
 msgstr ""
 
-#: ../templates/stats.php:12 ../templates/stats.php:529
+#: ../templates/stats.php:12 ../templates/stats.php:587
 msgid "Plus de filtres"
 msgstr ""
 
@@ -575,120 +575,147 @@ msgstr ""
 msgid "Taux de conversion"
 msgstr ""
 
-#: ../templates/stats.php:120
+#: ../templates/stats.php:121
 msgid "Nombre d'impression"
 msgstr ""
 
-#: ../templates/stats.php:123
+#: ../templates/stats.php:124
 msgid "vues"
 msgstr ""
 
-#: ../templates/stats.php:130
+#: ../templates/stats.php:131
 msgid "Nombre de conversion"
 msgstr ""
 
-#: ../templates/stats.php:133
+#: ../templates/stats.php:134
 msgid "conversion"
 msgstr ""
 
-#: ../templates/stats.php:142 ../templates/stats.php:378 ../templates/stats.php:
-#: 392 ../templates/stats.php:406
+#: ../templates/stats.php:143 ../templates/stats.php:423 ../templates/stats.php:
+#: 437 ../templates/stats.php:451
 msgid "Nouveaux visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:145
+#: ../templates/stats.php:146
 msgid "visiteur"
 msgstr ""
 
-#: ../templates/stats.php:155
+#: ../templates/stats.php:156
 msgid "Impression et conversions"
 msgstr ""
 
-#: ../templates/stats.php:163
+#: ../templates/stats.php:164
 msgid "Appareils"
 msgstr ""
 
-#: ../templates/stats.php:165
+#: ../templates/stats.php:166
 msgid "Types d'appareils utilisés"
 msgstr ""
 
-#: ../templates/stats.php:174
+#: ../templates/stats.php:175
 msgid "Type de visiteurs total"
 msgstr ""
 
-#: ../templates/stats.php:176
+#: ../templates/stats.php:177
 msgid "Taux de visiteurs pour les impressions et les conversions"
 msgstr ""
 
-#: ../templates/stats.php:183
+#: ../templates/stats.php:184
 msgid "Provenance des utilisateurs"
 msgstr ""
 
-#: ../templates/stats.php:194
+#: ../templates/stats.php:195 ../templates/stats.php:228
 msgid "Région"
 msgstr ""
 
-#: ../templates/stats.php:195
+#: ../templates/stats.php:196
 msgid "Visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:218
-msgid "Appareils pour impression"
+#: ../templates/stats.php:221
+msgid "Détail des visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:221
-msgid "Types d'appareil pour les impressions"
+#: ../templates/stats.php:226
+msgid "Date"
+msgstr ""
+
+#: ../templates/stats.php:227
+msgid "Adresse IP"
 msgstr ""
 
 #: ../templates/stats.php:229
-msgid "Appareils pour conversion"
+msgid "Appareil"
 msgstr ""
 
-#: ../templates/stats.php:232
-msgid "Types d'appareil pour les conversions"
+#: ../templates/stats.php:230
+msgid "Champ Personnalisé"
 msgstr ""
 
-#: ../templates/stats.php:240
-msgid "Visiteurs pour impression"
+#: ../templates/stats.php:231
+msgid "Nombre de visites"
 msgstr ""
 
-#: ../templates/stats.php:243
-msgid "Types de visiteurs pour les impressions"
-msgstr ""
-
-#: ../templates/stats.php:251
-msgid "Visiteurs pour conversion"
-msgstr ""
-
-#: ../templates/stats.php:254
-msgid "Types de visiteurs pour les conversions"
-msgstr ""
-
-#: ../templates/stats.php:278
+#: ../templates/stats.php:232 ../templates/stats.php:323
 msgid "Conversion"
 msgstr ""
 
-#: ../templates/stats.php:288
-msgid "Impression"
-msgstr ""
-
-#: ../templates/stats.php:313 ../templates/stats.php:333 ../templates/stats.php:353
-msgid "Mobile"
-msgstr ""
-
-#: ../templates/stats.php:319 ../templates/stats.php:339 ../templates/stats.php:359
-msgid "Tablette"
-msgstr ""
-
-#: ../templates/stats.php:325 ../templates/stats.php:345 ../templates/stats.php:365
+#: ../templates/stats.php:238 ../templates/stats.php:370 ../templates/stats.php:
+#: 390 ../templates/stats.php:410
 msgid "Ordinateur"
 msgstr ""
 
-#: ../templates/stats.php:384 ../templates/stats.php:398 ../templates/stats.php:412
+#: ../templates/stats.php:239 ../templates/stats.php:358 ../templates/stats.php:
+#: 378 ../templates/stats.php:398
+msgid "Mobile"
+msgstr ""
+
+#: ../templates/stats.php:240 ../templates/stats.php:364 ../templates/stats.php:
+#: 384 ../templates/stats.php:404
+msgid "Tablette"
+msgstr ""
+
+#: ../templates/stats.php:263
+msgid "Appareils pour impression"
+msgstr ""
+
+#: ../templates/stats.php:266
+msgid "Types d'appareil pour les impressions"
+msgstr ""
+
+#: ../templates/stats.php:274
+msgid "Appareils pour conversion"
+msgstr ""
+
+#: ../templates/stats.php:277
+msgid "Types d'appareil pour les conversions"
+msgstr ""
+
+#: ../templates/stats.php:285
+msgid "Visiteurs pour impression"
+msgstr ""
+
+#: ../templates/stats.php:288
+msgid "Types de visiteurs pour les impressions"
+msgstr ""
+
+#: ../templates/stats.php:296
+msgid "Visiteurs pour conversion"
+msgstr ""
+
+#: ../templates/stats.php:299
+msgid "Types de visiteurs pour les conversions"
+msgstr ""
+
+#: ../templates/stats.php:333
+msgid "Impression"
+msgstr ""
+
+#: ../templates/stats.php:429 ../templates/stats.php:443 ../templates/stats.php:457
 msgid "Anciens visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:533
+#: ../templates/stats.php:591
 msgid "Moins de filtres"
 msgstr ""
 
