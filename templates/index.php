@@ -6,14 +6,20 @@
         <ul class="subsubsub">
             <li class="all">
                 <a href="<?php menu_page_url('forms'); ?>" class="<?php echo isset($_GET['post_status']) && $_GET['post_status'] == 'trash' ? '' : 'current'; ?>">
-                    Tous <span class="count">(184)</span>
+                    <?php _e('Tous', 'easy-form'); ?> <span class="count">(<?php echo $available; ?>)</span>
                 </a> |
             </li>
             <li class="trash">
-                <a href="<?php menu_page_url('forms'); ?>&amp;post_status=trash" class="<?php echo isset($_GET['post_status']) && $_GET['post_status'] == 'trash' ? 'current' : ''; ?>">Corbeille <span class="count">(3)</span></a>
+                <a href="<?php menu_page_url('forms'); ?>&amp;post_status=trash" class="<?php echo isset($_GET['post_status']) && $_GET['post_status'] == 'trash' ? 'current' : ''; ?>"><?php _e('Corbeille', 'easy-form'); ?>
+                    <span class="count">(<?php echo $trash; ?>)</span></a>
             </li>
         </ul>
-        <?php /** @var FormListTable $formTable */ $formTable->display(); ?>
+        <form id="events-filter" method="get">
+            <?php if (is_array($_GET)) foreach ($_GET as $key => $val) { ?>
+                <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $val; ?>">
+            <?php } ?>
+            <?php /** @var FormListTable $formTable */ $formTable->display(); ?>
+        </form>
     </div>
 </div>
 

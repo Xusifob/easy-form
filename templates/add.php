@@ -8,6 +8,8 @@
         if (isset($form)): ?>
             <input type="hidden" name="form-id" value="<?php echo $form->ID; ?>">
         <?php endif; ?>
+
+
         <section class="panel-wordpress">
             <div class="head">
                 <h2><?php _e('1 - Informations principales', 'easy-form'); ?> </h2>

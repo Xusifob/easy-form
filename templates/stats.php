@@ -2,7 +2,7 @@
 <!--
 @Updated : V 0.5.5
 -->
-<div class="wrap gf_browser_chrome">
+<div class="wrap">
     <div class="tab-head panel-wordpress">
         <div class="head">
             <h2><?php _e("Filtres", 'easy-form'); ?></h2>
@@ -190,24 +190,20 @@
                         <div id="world-map" style="width: 100%; height: 335px;"></div>
                     </div>
                     <div class="col-sm-3">
-                        <table class="table table-hover table-condensed">
+                        <table class="table table-hover table-overflow table-condensed">
                             <thead>
                             <tr>
-                                <th><i class="fa fa-trophy"></i></th>
                                 <th><?php _e("Région", 'easy-form'); ?></th>
                                 <th><?php _e("Visiteurs", 'easy-form'); ?></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $i = 1;
-                            foreach ($imps['regions'] as $region => $nb) { ?>
+                            <?php foreach ($imps['regions'] as $region => $nb) { ?>
                                 <tr>
-                                    <th scope="row"><?php echo $i; ?></th>
                                     <td><?php echo $region; ?></td>
                                     <td><?php echo $nb; ?></td>
                                 </tr>
-                                <?php $i++;
-                            } ?>
+                            <?php } ?>
                             </tbody>
                         </table>
 
@@ -220,7 +216,16 @@
         <div class="col-sm-12">
             <div class="data panel-wordpress">
                 <div class="head">
-                    <h2><?php _e("Détail des visiteurs", 'easy-form'); ?></h2>
+                    <form action="#" target="_blank">
+                        <h2><?php _e("Détail des visiteurs", 'easy-form'); ?>
+                            <?php if (is_array($_GET)) foreach ($_GET as $key => $val) { ?>
+                                <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $val; ?>">
+                            <?php } ?>
+                            <input type="hidden" name="noheader" value="true">
+                            <input type="hidden" name="download_as_csv" value="true">
+                            <input type="submit" formtarget="_blank" value="<?php _e("Télécharger au format CSV", 'easy-form'); ?>" class="page-title-action"/>
+                        </h2>
+                    </form>
                 </div>
                 <table class="table table-hover table-condensed table-overflow">
                     <thead>
@@ -258,52 +263,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="row">
-        <div class="col-sm-3">
-            <div class="data panel-wordpress">
-                <div class="head">
-                    <h2><?php _e("Appareils pour impression", 'easy-form'); ?></h2>
-                </div>
-                <div>
-                    <p><?php _e("Types d'appareil pour les impressions", 'easy-form'); ?></p>
-                    <canvas id="doughnut-impressions" width="300" height="300"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="data panel-wordpress">
-                <div class="head">
-                    <h2><?php _e("Appareils pour conversion", 'easy-form'); ?></h2>
-                </div>
-                <div>
-                    <p><?php _e("Types d'appareil pour les conversions", 'easy-form'); ?></p>
-                    <canvas id="doughnut-conversions" width="300" height="300"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="data panel-wordpress">
-                <div class="head">
-                    <h2><?php _e("Visiteurs pour impression", 'easy-form'); ?></h2>
-                </div>
-                <div>
-                    <p><?php _e("Types de visiteurs pour les impressions", 'easy-form'); ?></p>
-                    <canvas id="visitors-impressions" width="300" height="300"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="data panel-wordpress">
-                <div class="head">
-                    <h2><?php _e("Visiteurs pour conversion", 'easy-form'); ?></h2>
-                </div>
-                <div>
-                    <p><?php _e("Types de visiteurs pour les conversions", 'easy-form'); ?></p>
-                    <canvas id="visitors-conversions" width="300" height="300"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>-->
 </div>
     <script type="text/javascript">
 

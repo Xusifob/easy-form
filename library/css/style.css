@@ -207,6 +207,15 @@ body {
   font-size: 20px;
   font-weight: normal;
 }
+.head h2 input[type="submit"] {
+  color: #0073aa;
+  transition: all 0.3s ease;
+  padding: 6px 10px;
+  float: right;
+}
+.head h2 input[type="submit"]:hover {
+  color: #fff;
+}
 .panel-blue {
   background-color: #2196f3;
   color: #fff;

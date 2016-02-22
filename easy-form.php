@@ -372,6 +372,11 @@ class FormPlugin
 
 
     /**
+     *
+     * @Since V 0.1
+     *
+     * @Updated : V 0.5.5 (Add count for posts)
+     *
      * Displays the admin page
      */
     public function displayPage()
@@ -383,6 +388,24 @@ class FormPlugin
         $formTable = new FormListTable();
 
         $formTable->prepare_items();
+
+        $args = [
+            'post_type' => 'form-plugin-bastien',
+            'posts_per_page' => -1,
+            'post_status' => ['publish'],
+        ];
+
+        $tmp = new WP_Query($args);
+
+        $available = $tmp->found_posts;
+
+        $args['post_status'] = 'trash';
+
+        $tmp = new WP_Query($args);
+
+        $trash = $tmp->found_posts;
+
+
         require_once __DIR__ . '/templates/index.php';
     }
 
@@ -1138,9 +1161,25 @@ class FormPlugin
                 }
 
             }
-            $tabData = array_reverse($tabData, true);
+            usort($tabData, [$this,'sortByDate']);
 
 
+            if (isset($_GET['download_as_csv']) && $_GET['download_as_csv']) {
+
+                $head = [
+                    __("Dernière visite", 'easy-form'),
+                    __("Adresse IP", 'easy-form'),
+                    __("Région", 'easy-form'),
+                    __("Appareil", 'easy-form'),
+                    __("Champ Personnalisé", 'easy-form'),
+                    __("Nombre de visites", 'easy-form'),
+                    __("Conversion", 'easy-form'),
+                ];
+
+                $this->convert_to_csv($tabData,$head, 'export.csv');
+
+                die();
+            }
         }
 
         // Getting all forms
@@ -1151,10 +1190,48 @@ class FormPlugin
 
         $my_query = new WP_Query($args);
 
-        //  die();
-
 
         include __DIR__ . '/templates/stats.php';
+    }
+
+    private static function sortByDate($a, $b) {
+        return  strtotime($b['date']) - strtotime($a['date']);
+    }
+
+
+
+    /**
+     *
+     * @Since V 0.5.5
+     *
+     * This convert a table to a CSV file
+     *
+     * @param array $input_array
+     * @param array|null $input_head a table with all headers of the tab
+     * @param string $output_file_name
+     * @param string $delimiter
+     */
+    private function convert_to_csv($input_array, $input_head = null, $output_file_name = 'export.csv', $delimiter = ',')
+    {
+        /** open raw memory as file, no need for temp files, be careful not to run out of memory thought */
+        $f = fopen('php://memory', 'w');
+
+        if (isset($input_head) && is_array($input_head)) {
+            fputcsv($f, $input_head, $delimiter);
+        }
+
+        /** loop through array  */
+        foreach ($input_array as $line) {
+            /** default php csv handler **/
+            fputcsv($f, $line, $delimiter);
+        }
+        /** rewrind the "file" with the csv lines **/
+        fseek($f, 0);
+        /** modify header to be downloadable csv file **/
+        header('Content-Type: application/csv');
+        header('Content-Disposition: attachement; filename="' . $output_file_name . '";');
+        /** Send file to browser for download */
+        fpassthru($f);
     }
 
 

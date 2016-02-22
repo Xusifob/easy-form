@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Fri Feb 19 2016 11:51:08 GMT+0000 (GMT)\n"
+"POT-Revision-Date: Mon Feb 22 2016 17:27:39 GMT+0000 (GMT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Ajouter un formulaire"
 msgstr ""
 
-#: ../easy-form.php:254 ../templates/add.php:153 ../templates/index.php:5
+#: ../easy-form.php:254 ../templates/add.php:155 ../templates/index.php:5
 msgid "Ajouter"
 msgstr ""
 
@@ -79,7 +79,7 @@ msgstr ""
 msgid "Exporter"
 msgstr ""
 
-#: ../easy-form.php:264 ../easy-form.php:264 ../library/php/FormListTable.php:175
+#: ../easy-form.php:264 ../easy-form.php:264 ../library/php/FormListTable.php:244
 msgid "Statistiques"
 msgstr ""
 
@@ -97,50 +97,74 @@ msgstr ""
 msgid "An unknown error occurred"
 msgstr ""
 
-#: ../assets/fields_traductions.php:1
-msgid "Full Name"
+#: ../easy-form.php:1170 ../templates/stats.php:233
+msgid "Dernière visite"
 msgstr ""
 
-#: ../assets/fields_traductions.php:1
-msgid "E-Mail"
+#: ../easy-form.php:1171 ../templates/stats.php:234
+msgid "Adresse IP"
 msgstr ""
 
-#: ../assets/fields_traductions.php:1
-msgid "Attach Your CV <i class=\\\"fa fa-paperclip\\\"></i>"
+#: ../easy-form.php:1172 ../templates/stats.php:196 ../templates/stats.php:235
+msgid "Région"
 msgstr ""
 
-#: ../library/php/FormListTable.php:100
+#: ../easy-form.php:1173 ../templates/stats.php:236
+msgid "Appareil"
+msgstr ""
+
+#: ../easy-form.php:1174 ../templates/stats.php:237
+msgid "Champ Personnalisé"
+msgstr ""
+
+#: ../easy-form.php:1175 ../templates/stats.php:238
+msgid "Nombre de visites"
+msgstr ""
+
+#: ../easy-form.php:1176 ../templates/stats.php:239 ../templates/stats.php:284
+msgid "Conversion"
+msgstr ""
+
+#: ../library/php/FormListTable.php:161
 msgid "Nom"
 msgstr ""
 
-#: ../library/php/FormListTable.php:101
+#: ../library/php/FormListTable.php:162
 msgid "Nombre de champs"
 msgstr ""
 
-#: ../library/php/FormListTable.php:102 ../templates/add.php:24
+#: ../library/php/FormListTable.php:163 ../templates/add.php:26
 msgid "Action"
 msgstr ""
 
-#: ../library/php/FormListTable.php:173
+#: ../library/php/FormListTable.php:239 ../library/php/FormListTable.php:273
+msgid "Restaurer"
+msgstr ""
+
+#: ../library/php/FormListTable.php:242
 msgid "Afficher"
 msgstr ""
 
-#: ../library/php/FormListTable.php:174 ../templates/add.php:153 ..
+#: ../library/php/FormListTable.php:243 ../templates/add.php:155 ..
 #: /templates/preview.php:189
 msgid "Modifier"
 msgstr ""
 
-#: ../library/php/FormListTable.php:176 ../templates/footer.php:46 ..
+#: ../library/php/FormListTable.php:245 ../templates/footer.php:46 ..
 #: /templates/inputs/input-empty.php:26
 msgid "Dupliquer"
 msgstr ""
 
-#: ../library/php/FormListTable.php:177
+#: ../library/php/FormListTable.php:249
 msgid "Êtes vous sur de vouloir supprimer ce formulaire ?"
 msgstr ""
 
-#: ../library/php/FormListTable.php:177 ../library/php/FormListTable.php:193
+#: ../library/php/FormListTable.php:249 ../library/php/FormListTable.php:267
 msgid "Supprimer"
+msgstr ""
+
+#: ../library/php/FormListTable.php:272
+msgid "Supprimer définitivement"
 msgstr ""
 
 #: ../src/Form.php:146
@@ -207,115 +231,115 @@ msgstr ""
 msgid "Utilisateur introuvable ou déjà activé"
 msgstr ""
 
-#: ../templates/add.php:13
+#: ../templates/add.php:15
 msgid "1 - Informations principales"
 msgstr ""
 
-#: ../templates/add.php:17 ../templates/add.php:20
+#: ../templates/add.php:19 ../templates/add.php:22
 msgid "Titre du formulaire"
 msgstr ""
 
-#: ../templates/add.php:27
+#: ../templates/add.php:29
 msgid "Action du formulaire"
 msgstr ""
 
-#: ../templates/add.php:30
+#: ../templates/add.php:32
 msgid "Class par défaut"
 msgstr ""
 
-#: ../templates/add.php:33
+#: ../templates/add.php:35
 msgid "Class par defaut des champs"
 msgstr ""
 
-#: ../templates/add.php:38 ../templates/add.php:42
+#: ../templates/add.php:40 ../templates/add.php:44
 msgid "Class du formulaire"
 msgstr ""
 
-#: ../templates/add.php:45 ../templates/add.php:48
+#: ../templates/add.php:47 ../templates/add.php:50
 msgid "Id du formulaire"
 msgstr ""
 
-#: ../templates/add.php:57
+#: ../templates/add.php:59
 msgid "Afficher les erreurs de chaque champ"
 msgstr ""
 
-#: ../templates/add.php:64
+#: ../templates/add.php:66
 msgid "Afficher les erreurs au dessus du champ"
 msgstr ""
 
-#: ../templates/add.php:70
+#: ../templates/add.php:72
 msgid "2 - Action du formulaire"
 msgstr ""
 
-#: ../templates/add.php:77
+#: ../templates/add.php:79
 msgid "Type d'action du formulaire"
 msgstr ""
 
-#: ../templates/add.php:80
+#: ../templates/add.php:82
 msgid "Ajout de post"
 msgstr ""
 
-#: ../templates/add.php:82
+#: ../templates/add.php:84
 msgid "Connexion"
 msgstr ""
 
-#: ../templates/add.php:84
+#: ../templates/add.php:86
 msgid "Inscription ou modification"
 msgstr ""
 
-#: ../templates/add.php:86
+#: ../templates/add.php:88
 msgid "Envoi de mail"
 msgstr ""
 
-#: ../templates/add.php:88 ../templates/preview.php:161
+#: ../templates/add.php:90 ../templates/preview.php:161
 msgid "Réinitialiser le mot de passe"
 msgstr ""
 
-#: ../templates/add.php:93
+#: ../templates/add.php:95
 msgid "Redirection après envoi du formulaire"
 msgstr ""
 
-#: ../templates/add.php:95
+#: ../templates/add.php:97
 msgid "Lien de redirection ou ID de page"
 msgstr ""
 
-#: ../templates/add.php:100
+#: ../templates/add.php:102
 msgid "Variable passée dans l'url (espacer les variables par des & )"
 msgstr ""
 
-#: ../templates/add.php:102
+#: ../templates/add.php:104
 msgid "Variable passée dans l'url (sous la forme update=true)"
 msgstr ""
 
-#: ../templates/add.php:112
+#: ../templates/add.php:114
 msgid "3 - Les champs"
 msgstr ""
 
-#: ../templates/add.php:121
+#: ../templates/add.php:123
 msgid "Ajouter un champ"
 msgstr ""
 
-#: ../templates/add.php:127
+#: ../templates/add.php:129
 msgid "4 - Bouton submit"
 msgstr ""
 
-#: ../templates/add.php:131
+#: ../templates/add.php:133
 msgid "Valeur de l'envoi"
 msgstr ""
 
-#: ../templates/add.php:135
+#: ../templates/add.php:137
 msgid "Valeur du bouton submit"
 msgstr ""
 
-#: ../templates/add.php:138
+#: ../templates/add.php:140
 msgid "Class de l'input"
 msgstr ""
 
-#: ../templates/add.php:142
+#: ../templates/add.php:144
 msgid "Class du bouton submit"
 msgstr ""
 
-#: ../templates/add.php:153
+#: ../templates/add.php:155
 msgid "le formulaire"
 msgstr ""
 
@@ -348,6 +372,14 @@ msgstr ""
 
 #: ../templates/index.php:5
 msgid "Formulaires"
+msgstr ""
+
+#: ../templates/index.php:9
+msgid "Tous"
+msgstr ""
+
+#: ../templates/index.php:13
+msgid "Corbeille"
 msgstr ""
 
 #: ../templates/preview.php:9
@@ -499,7 +531,7 @@ msgstr ""
 msgid "Filtres"
 msgstr ""
 
-#: ../templates/stats.php:12 ../templates/stats.php:589
+#: ../templates/stats.php:12 ../templates/stats.php:548
 msgid "Plus de filtres"
 msgstr ""
 
@@ -595,8 +627,8 @@ msgstr ""
 msgid "conversion"
 msgstr ""
 
-#: ../templates/stats.php:145 ../templates/stats.php:425 ../templates/stats.php:
-#: 439 ../templates/stats.php:453
+#: ../templates/stats.php:145 ../templates/stats.php:384 ../templates/stats.php:
+#: 398 ../templates/stats.php:412
 msgid "Nouveaux visiteurs"
 msgstr ""
 
@@ -628,98 +660,42 @@ msgstr ""
 msgid "Provenance des utilisateurs"
 msgstr ""
 
-#: ../templates/stats.php:197 ../templates/stats.php:230
-msgid "Région"
-msgstr ""
-
-#: ../templates/stats.php:198
+#: ../templates/stats.php:197
 msgid "Visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:223
+#: ../templates/stats.php:220
 msgid "Détail des visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:228
-msgid "Dernière visite"
+#: ../templates/stats.php:226
+msgid "Télécharger au format CSV"
 msgstr ""
 
-#: ../templates/stats.php:229
-msgid "Adresse IP"
-msgstr ""
-
-#: ../templates/stats.php:231
-msgid "Appareil"
-msgstr ""
-
-#: ../templates/stats.php:232
-msgid "Champ Personnalisé"
-msgstr ""
-
-#: ../templates/stats.php:233
-msgid "Nombre de visites"
-msgstr ""
-
-#: ../templates/stats.php:234 ../templates/stats.php:325
-msgid "Conversion"
-msgstr ""
-
-#: ../templates/stats.php:240 ../templates/stats.php:372 ../templates/stats.php:
-#: 392 ../templates/stats.php:412
+#: ../templates/stats.php:245 ../templates/stats.php:331 ../templates/stats.php:
+#: 351 ../templates/stats.php:371
 msgid "Ordinateur"
 msgstr ""
 
-#: ../templates/stats.php:241 ../templates/stats.php:360 ../templates/stats.php:
-#: 380 ../templates/stats.php:400
+#: ../templates/stats.php:246 ../templates/stats.php:319 ../templates/stats.php:
+#: 339 ../templates/stats.php:359
 msgid "Mobile"
 msgstr ""
 
-#: ../templates/stats.php:242 ../templates/stats.php:366 ../templates/stats.php:
-#: 386 ../templates/stats.php:406
+#: ../templates/stats.php:247 ../templates/stats.php:325 ../templates/stats.php:
+#: 345 ../templates/stats.php:365
 msgid "Tablette"
 msgstr ""
 
-#: ../templates/stats.php:265
-msgid "Appareils pour impression"
-msgstr ""
-
-#: ../templates/stats.php:268
-msgid "Types d'appareil pour les impressions"
-msgstr ""
-
-#: ../templates/stats.php:276
-msgid "Appareils pour conversion"
-msgstr ""
-
-#: ../templates/stats.php:279
-msgid "Types d'appareil pour les conversions"
-msgstr ""
-
-#: ../templates/stats.php:287
-msgid "Visiteurs pour impression"
-msgstr ""
-
-#: ../templates/stats.php:290
-msgid "Types de visiteurs pour les impressions"
-msgstr ""
-
-#: ../templates/stats.php:298
-msgid "Visiteurs pour conversion"
-msgstr ""
-
-#: ../templates/stats.php:301
-msgid "Types de visiteurs pour les conversions"
-msgstr ""
-
-#: ../templates/stats.php:335
+#: ../templates/stats.php:294
 msgid "Impression"
 msgstr ""
 
-#: ../templates/stats.php:431 ../templates/stats.php:445 ../templates/stats.php:459
+#: ../templates/stats.php:390 ../templates/stats.php:404 ../templates/stats.php:418
 msgid "Anciens visiteurs"
 msgstr ""
 
-#: ../templates/stats.php:593
+#: ../templates/stats.php:552
 msgid "Moins de filtres"
 msgstr ""
 
