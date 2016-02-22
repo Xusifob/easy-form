@@ -225,7 +225,7 @@
                 <table class="table table-hover table-condensed table-overflow">
                     <thead>
                     <tr>
-                        <th><?php _e("Date", 'easy-form'); ?></th>
+                        <th><?php _e("Dernière visite", 'easy-form'); ?></th>
                         <th><?php _e("Adresse IP", 'easy-form'); ?></th>
                         <th><?php _e("Région", 'easy-form'); ?></th>
                         <th><?php _e("Appareil", 'easy-form'); ?></th>

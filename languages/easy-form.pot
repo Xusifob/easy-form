@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Thu Feb 18 2016 17:47:19 GMT+0000 (GMT)\n"
+"POT-Revision-Date: Fri Feb 19 2016 11:51:08 GMT+0000 (GMT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
@@ -641,7 +641,7 @@ msgid "Détail des visiteurs"
 msgstr ""
 
 #: ../templates/stats.php:228
-msgid "Date"
+msgid "Dernière visite"
 msgstr ""
 
 #: ../templates/stats.php:229

@@ -1092,6 +1092,7 @@ class FormPlugin
             ];
 
 
+            // Put the data inside the impression table
             foreach ($impressions as $impression) {
                 $imps = self::putInTab($imps, $impression, $args);
             }
@@ -1100,7 +1101,7 @@ class FormPlugin
 
             }
 
-
+            // Add the ips into the regions & handle the number of person per region
             foreach ($imps['ips'] as $ip) {
                 if (!array_key_exists($ip['region'], $imps['regions'])) {
                     $imps['regions'][$ip['region']] = 1;
@@ -1111,26 +1112,33 @@ class FormPlugin
             arsort($imps['regions']);
 
 
+            // Handle the tab
             $tabData = [];
-
             foreach ($impressions as $impression) {
+                if ($impression['time'] > $args['end'])
+                    continue;
+                elseif ($impression['time'] < $args['start'])
+                    continue;
                 if (!isset($tabData[$impression['ip']])) {
                     if ($impression['ip'] != $_SERVER['REMOTE_ADDR'] || isset($_GET['include_my_ip'])) {
                         $tmp = [
                             'date' => date('d-m-Y H:i', $impression['time']),
                             'ip' => $impression['ip'],
                             'location' => isset($imps['ips'][$impression['ip']]['region']) ? $imps['ips'][$impression['ip']]['region'] : ' - ',
-                            'custom_data' => isset($impression['custom_data']) && !empty($impression['custom_data']) ? $impression['custom_data'] : ' - ' ,
+                            'custom_data' => isset($impression['custom_data']) && !empty($impression['custom_data']) ? $impression['custom_data'] : ' - ',
                             'nb_impression' => $imps['ips'][$impression['ip']]['number'],
                             'device' => $impression['device'],
-                            'conversion' => array_key_exists($impression['ip'],$convs['ips']),
+                            'conversion' => array_key_exists($impression['ip'], $convs['ips']),
                         ];
 
                         $tabData[$impression['ip']] = $tmp;
                     }
+                } else {
+                    $tabData[$impression['ip']]['date'] = date('d-m-Y H:i', $impression['time']);
                 }
+
             }
-            $tabData = array_reverse($tabData,true);
+            $tabData = array_reverse($tabData, true);
 
 
         }
@@ -1142,6 +1150,9 @@ class FormPlugin
         ];
 
         $my_query = new WP_Query($args);
+
+        //  die();
+
 
         include __DIR__ . '/templates/stats.php';
     }
@@ -1155,13 +1166,12 @@ class FormPlugin
      */
     private function getIpData($ip)
     {
-        $geoplugin = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $ip));
-
+        $geoplugin = json_decode(file_get_contents('http://ip-api.com/json/' . $ip), true);
 
         $data = [
-            'lng' => is_numeric($geoplugin['geoplugin_longitude']) ? $geoplugin['geoplugin_longitude'] : 0,
-            'lat' => is_numeric($geoplugin['geoplugin_latitude']) ? $geoplugin['geoplugin_latitude'] : 0,
-            'region' => $geoplugin['geoplugin_regionName'] == null ? $geoplugin['geoplugin_countryName'] : $geoplugin['geoplugin_regionName'],
+            'lng' => is_numeric($geoplugin['lon']) ? $geoplugin['lon'] : 0,
+            'lat' => is_numeric($geoplugin['lat']) ? $geoplugin['lat'] : 0,
+            'region' => $geoplugin['city'] . ' - ' . $geoplugin['country'],
             'number' => 1,
         ];
 
