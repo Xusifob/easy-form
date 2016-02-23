@@ -27,6 +27,8 @@ This plugin is made for WP theme developers, to create & style easily all theirs
  * Add textaera & file options (max width ...)
  * Add hooks with slug
  * Possibility to add a value in php in code (Id, post name...)
+ * Check for headers and redirect in javascript in case
+
 
 
 ### Version 0.5.5 :
@@ -35,6 +37,7 @@ This plugin is made for WP theme developers, to create & style easily all theirs
   * Put the form duplicate modal only on the index.php page
   * Update some CSS
   * Update preview page
+  * Add bulk actions to work and trash
 
 
 ### Version 0.5.4 :

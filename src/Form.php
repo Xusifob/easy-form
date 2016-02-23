@@ -183,9 +183,11 @@ class Form
         $this->uniqId = uniqid();
 
 
+
         // Save post Id
         if (isset($args['postId']))
             $this->postArgs['id'] = $args['postId'];
+
 
         // Save post Type
         if (isset($args['formType']))
@@ -303,8 +305,10 @@ class Form
                 // If user & post, full the form
                 if ($this->postArgs['formType'] == 'user' || $this->postArgs['formType'] == 'post') {
 
+
                     // If user
                     if ($this->postArgs['formType'] == 'user') {
+
 
                         // Get not metas infos
                         $notMetas = [

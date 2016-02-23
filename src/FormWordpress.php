@@ -484,6 +484,7 @@ class FormWordpress extends Form
      *          - V 0.5.2 (Add Sanitization)
      *          - V 0.5.3 (Add full url function)
      *          - V 0.5.4 (Add hooks before connexion)
+     *          - V 0.5.5 (Pass data through the link)
      *
      * Insert a wp_post and redirect after it to the page with the name of the form at true
      *
@@ -496,7 +497,8 @@ class FormWordpress extends Form
     public function SendFormAndRedirect($type = 'post', $lien = null, $postId = null, $args = [])
     {
 
-        $lien = ($lien == null || $lien == '' || $lien == false) ? get_permalink() : $lien;
+
+        $lien = ($lien == null || $lien == '' || $lien == false) ? self::full_url($_SERVER) : $lien;
 
 
         if ($lien === false)
@@ -556,12 +558,12 @@ class FormWordpress extends Form
                             $union = self::getunion($lien);
 
                             $lien = filter_var(get_permalink($postId) . $union . $args['varURl'], FILTER_SANITIZE_URL);
-                            wp_redirect($lien);
+                            self::redirect($lien);
                         } else {
-                            wp_redirect(get_permalink($postId));
+                            self::redirect(get_permalink($postId));
                         }
                     } else
-                        wp_redirect($lien . $varURl);
+                        self::redirect($lien . $varURl);
 
                     // Exit after redirect
                     exit();
@@ -609,7 +611,7 @@ class FormWordpress extends Form
 
                     }
 
-                    wp_redirect($lien . $varURl);
+                    self::redirect($lien . $varURl);
                     exit();
                 } else {
                     return false;
@@ -631,7 +633,7 @@ class FormWordpress extends Form
                     do_action('form/sendMail');
                     do_action('form/sendMail-' . $this->id);
 
-                    wp_redirect($lien . $varURl);
+                    self::redirect($lien . $varURl);
                     exit();
                 } else {
                     return false;
@@ -651,7 +653,7 @@ class FormWordpress extends Form
                     /* @since V 0.4 add hooks */
                     do_action('form/ConnectUser', $user->ID);
                     do_action('form/ConnectUser-' . $this->id, $user->ID);
-                    wp_redirect($lien . $varURl);
+                    self::redirect($lien . $varURl);
                     exit();
                 }
                 break;
@@ -673,7 +675,7 @@ class FormWordpress extends Form
                     do_action('form/resetPassword');
                     do_action('form/resetPassword-' . $this->id);
 
-                    wp_redirect($lien . $varURl);
+                    self::redirect($lien . $varURl);
                     exit();
                 } elseif (!$this->hasError())
                     $this->setError($this->errorMessages['error']);
@@ -721,6 +723,31 @@ class FormWordpress extends Form
         add_post_meta($this->id, 'conversions', $data);
     }
 
+
+    /**
+     * Redirect a user with php if header has not been send, else with javascript
+     *
+     * @Since V 0.5.5
+     *
+     * @param $filename
+     */
+    public static function redirect($filename) {
+        if (!headers_sent())
+            wp_redirect($filename);
+        else {
+            echo '<script type="text/javascript">';
+            echo 'window.location.href="'.$filename.'";';
+            echo '</script>';
+            echo '<noscript>';
+            echo '<meta http-equiv="refresh" content="0;url='.$filename.'" />';
+            echo '</noscript>';
+        }
+        die();
+    }
+        
+
+    
+    
     /**
      * Reset a password and send an e-mail
      *

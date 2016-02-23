@@ -1,1 +1,1 @@
-<?php 
+<?php __('First Name','easy-form-userData');__('Last Name','easy-form-userData');
