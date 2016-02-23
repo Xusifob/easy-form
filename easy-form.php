@@ -40,7 +40,7 @@ class FormPlugin
      *
      * @Updated - V 0.5.3 (Add support for multi languages)
      *          - V 0.5.4 (Add support for update check)
-     *          - V 0.5.5 (Add stat-form in the pages & add Mobile_Detect lib)
+     *          - V 0.5.5 (Add stat-form in the pages & add Mobile_Detect lib & add shortcode)
      *
      * Constructeur
      */
@@ -116,8 +116,58 @@ class FormPlugin
         add_action('wp_ajax_display_form', [$this, 'display_form']);
         add_action('wp_ajax_nopriv_display_form', [$this, 'display_form']);
 
+
+        // Add the shortcode
+        // ShortCode for Content
+        add_shortcode('WP_Form', [$this, 'shortcode']);
+
     }
 
+
+    /**
+     *
+     * Create the shortcode to display a form
+     *
+     * @Since V 0.5.5
+     *
+     * @param $atts array shortcode parameters
+     * @return string|void
+     */
+    public function shortcode($atts)
+    {
+
+        if (isset($atts['id']) && self::isForm($atts['id']))
+            try {
+                $form = new WP_Form($atts['id']);
+
+            } catch (Exception $e) {
+                return WP_DEBUG ? $e->getMessage() : '';
+            }
+        elseif (isset($atts['slug']))
+            try {
+                $form = new WP_Form($atts['slug']);
+
+            } catch (Exception $e) {
+                return WP_DEBUG ? $e->getMessage() : '';
+            }
+        else
+            return WP_DEBUG ? __('Veuillez entrer un id ou un slug', 'easy-form') : '';
+
+        $success = isset($atts['success']) ? $atts['success'] : __('Votre formulaire a bien été envoyé', 'easy-form');
+
+        ob_start();
+
+        // Display success message
+        if ($form->hasBeenSend())
+            echo '<div class="success">' . $success . '</div>';
+
+        // Display the error
+        if ($form->hasError())
+            echo '<div class="error">' . $form->getError() . '</div>';
+
+        echo $form;
+        return ob_get_clean();
+    }
 
     /**
      *
@@ -1161,7 +1211,7 @@ class FormPlugin
                 }
 
             }
-            usort($tabData, [$this,'sortByDate']);
+            usort($tabData, [$this, 'sortByDate']);
 
 
             if (isset($_GET['download_as_csv']) && $_GET['download_as_csv']) {
@@ -1176,7 +1226,7 @@ class FormPlugin
                     __("Conversion", 'easy-form'),
                 ];
 
-                $this->convert_to_csv($tabData,$head, 'export.csv');
+                $this->convert_to_csv($tabData, $head, 'export.csv');
 
                 die();
             }
@@ -1194,10 +1244,10 @@ class FormPlugin
         include __DIR__ . '/templates/stats.php';
     }
 
-    private static function sortByDate($a, $b) {
-        return  strtotime($b['date']) - strtotime($a['date']);
+    private static function sortByDate($a, $b)
+    {
+        return strtotime($b['date']) - strtotime($a['date']);
     }
-
 
 
     /**

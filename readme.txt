@@ -66,6 +66,7 @@ Incomming :
  * Add textaera & file options (max width ...)
  * Add hooks with slug
  * Possibility to add a value in php in code (Id, post name...)
+ * Include some designs (usefull with shortcode)
 
 = 0.5.5 =
   * Remove functions.js
@@ -73,6 +74,8 @@ Incomming :
   * Put the form duplicate modal only on the index.php page
   * Update some CSS
   * Update preview page
+  * Correct bug on update user
+  * Add shortcode for form
 
 = 0.5.4 =
  * Add Notification update

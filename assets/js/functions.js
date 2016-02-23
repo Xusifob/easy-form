@@ -35,7 +35,6 @@ function handleHiddenFields(id,type){
             $('input[name="field[' + id + '][form-required]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-class]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-id]"]').parent().parent().remove();
-            $('input[name="field[' + id + '][form-value]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-label]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-label-class]"]').parent().parent().remove();
         }

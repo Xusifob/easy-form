@@ -708,6 +708,7 @@ class Form
     public function __toString()
     {
 
+
         $templateString = '';
 
         // Handle Reset Form options,
@@ -738,7 +739,7 @@ class Form
             // Handle errors
             if (isset($this->args['displayErrorsBefore']) && $this->args['displayErrorsBefore']) {
                 $templateString .= $this->DisplayOneError($key);
-                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ? $template['field'] . $label : $label . $template['field'] . "\n";
+                $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ? $template['field'] . $label : $label . $template['field'] . "\n  ";
             } else {
                 $templateString .= isset($this->fields[$key]['args']['labelAfter']) && $this->fields[$key]['args']['labelAfter'] ? $template['field'] . $label : $label . $template['field'] . "\n";
                 $templateString .= $this->DisplayOneError($key);

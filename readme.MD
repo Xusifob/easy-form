@@ -40,6 +40,7 @@ This plugin is made for WP theme developers, to create & style easily all theirs
   * Add bulk actions to work and trash
 
 
+
 ### Version 0.5.4 :
  * Add Notification update
  * Add more english

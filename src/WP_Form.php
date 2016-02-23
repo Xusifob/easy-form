@@ -33,10 +33,12 @@ class WP_Form
      * @Modified :  - V 0.5
      *              - V 0.5.1 : Add support for slug
      *              - V 0.5.3 (Remove add_action for checkform)
+     *              - V 0.5.5 : Throw Errors
      *
      * WP_Form constructor.
      * @param $formId int|string Id ou slug du form
      * @param null $postId
+     * @throws Exception $e
      */
     public function __construct($formId,$postId = null)
     {
@@ -56,21 +58,21 @@ class WP_Form
             if( $my_posts ) {
                 $form = $my_posts[0];
                 $formId = $form->ID;
-            }else
-                return new WP_Error(123,"Aucun formulaire n'a été trouvé avec le slug $formId");
+
+            }else if(WP_DEBUG)
+                throw new Exception("Aucun formulaire n'a été trouvé avec le slug $formId");
+
 
 
         }elseif(is_numeric($formId)) {
             $form = get_post($formId);
         }
-        else{
-            return new WP_Error(123,"L'id $formId doit être un int ou une string");
+        else if(WP_DEBUG){
+            throw new Exception("L'id $formId doit être un int ou une string");
         }
 
 
         if(is_object($form) && $form->post_type == 'form-plugin-bastien'){
-
-
 
 
             // All form metas
@@ -108,8 +110,8 @@ class WP_Form
 
             return true;
 
-        }else{
-            return new WP_Error(123,"Le post n°$formId n'est pas un formulaire");
+        }else if(WP_DEBUG){
+            throw new Exception("Le post n°$formId n'est pas un formulaire");
         }
     }
 
