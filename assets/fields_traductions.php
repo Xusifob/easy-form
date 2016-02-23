@@ -1,1 +1,1 @@
-<?php __('First Name','easy-form-userData');__('Last Name','easy-form-userData');
+<?php __('Full Name','easy-form-userData');__('E-Mail','easy-form-userData');__('Attach Your CV <i class=\"fa fa-paperclip\"></i>','easy-form-userData');__('Contact through the website','easy-form-userData');

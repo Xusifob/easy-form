@@ -18,6 +18,10 @@ function replace(data,find,replace){
 /**
  *  Handle hidden fields on certains kinds of fields
  *
+ * @Since V 0.4
+ *
+ * @Updated : V 0.5.5 (Correct the value remove on hidden)
+ *
  * @param id
  * @param type
  */
@@ -30,6 +34,7 @@ function handleHiddenFields(id,type){
             $('input[name="field[' + id + '][form-required]"]').removeAttr('checked');
         }
         if(type == 'hidden'){
+            $('input[name="field[' + id + '][form-placeholder]"]').parent().remove();
             $('input[name="field[' + id + '][form-autocomplete]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-label-after]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-required]"]').parent().parent().remove();
