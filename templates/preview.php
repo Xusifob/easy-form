@@ -1,112 +1,170 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
+<!--
+@Updated : V 0.5.3
+@Updated : V 0.5.5
+-->
 <div class="wrap gf_browser_chrome">
-
-
-    <?php if(isset($form)): ?>
-        <h2>Instalation du formulaire</h2>
+    <div class="tab-head panel-wordpress">
+        <div class="head">
+            <h2><?php _e('Choisissez le formulaire à prévisualiser', 'easy-form'); ?></h2>
+        </div>
+        <form action="#">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="form-id"><?php _e("Choix du formulaire", 'easy-form'); ?></label>
+                    <select name="id" id="form-id">
+                        <option
+                            value="<?php echo $_GET['id']; ?>"><?php _e("Séléctionnez votre formulaire", 'easy-form'); ?></option>
+                        <?php /** @var WP_Post $oneForm * */
+                        foreach ($my_query->get_posts() as $oneForm) { ?>
+                            <option <?php echo $oneForm->ID == $_GET['id'] ? 'selected' : ''; ?>
+                                value="<?php echo $oneForm->ID; ?>"><?php echo $oneForm->post_title; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="row mg-top-25">
+                <div class="col-sm-3">
+                    <input type="submit" class="button button-primary button-large"
+                           value="<?php _e("Prévisualiser", 'easy-form'); ?>">
+                </div>
+            </div>
+            <input type="hidden" name="page" value="<?php echo $_GET['page']; ?>">
+        </form>
+    </div>
+    <?php if (isset($form)) { ?>
         <section class="panel-wordpress">
-            <h2>Initialisation du formulaire</h2>
-            <p>Pour installer le formulaire Wordpress, sur le template de votre page, créer un nouveau formulaire</p>
+            <div class="head">
+                <h2><?php _e('Initialisation du formulaire', 'easy-form'); ?></h2>
+            </div>
+            <p><?php _e('Pour installer le formulaire Wordpress, sur le template de votre page, créer un nouveau formulaire', 'easy-form'); ?></p>
 
             <pre class="brush: php">
                 &lt;?php
-                // $id doit être l'ID de votre formulaire
+                <?php _e('// $id doit être l\'ID de votre formulaire', 'easy-form'); ?>
+
                 $formId = <?php echo $_GET['id']; ?>;
                 $form = new WP_Form($formId);
                 ?&gt;
             </pre>
-            <p>Si votre formulaire est une modification (utilisateur ou post) ajouter en 2e argument de la fonction l'id du post/de l'utilisateur à modifier</p>
+
+            <p><?php _e('Vous pouvez aussi utiliser le slug du formulaire, l\'avantage est que vous pouvez plus facilement exporter et réimporter ces derniers', 'easy-form'); ?></p>
+            <pre class="brush: php">
+                <?php $theform = get_post($_GET['id']);
+                ?>&lt;?php
+                <?php _e('// $formSlug doit être le slug de votre formulaire', 'easy-form'); ?>
+
+                $formSlug = "<?php echo $theform->post_name; ?>";
+                $form = new WP_Form($formSlug);
+                ?&gt;
+            </pre>
+            <p><?php _e('Si votre formulaire est une modification (utilisateur ou post) ajouter en 2e argument de la fonction l\'id du post/de l\'utilisateur à modifier', 'easy-form'); ?></p>
             <pre class="brush: php">
                 &lt;?php
-                // $id doit être l'ID de votre formulaire
+                <?php _e('// $id doit être l\'ID de votre formulaire', 'easy-form'); ?>
+
                 $formId = <?php echo $_GET['id']; ?>;
-                // $userId = get_current_user_id();
-                // ici $userId vaut
+                $userId = get_current_user_id();
+                <?php _e('// ici $userId vaut l\'id de l\'utilisateur en cours', 'easy-form'); ?>
+
                 $form = new WP_Form($formId,$userId);
                 ?&gt;
             </pre>
 
-            <p>Le formulaire doit être initialisé avant tout texte, avant même le get_header();.</p>
+            <p><?php _e('Le formulaire doit être initialisé avant tout texte, avant même le get_header();.', 'easy-form'); ?></p>
+        </section>
+        <section class="panel-wordpress">
+            <div class="head">
+                <h2><?php _e('Affichage du formulaire', 'easy-form'); ?></h2>
+            </div>
 
-            <h2>Affichage du formulaire</h2>
+            <h4><?php _e('Afficher tout le formulaire d\'un coup', 'easy-form'); ?></h4>
 
-            <h4>Afficher tout le formulaire d'un coup</h4>
-
-            <p>Pour afficher le formulaire, il suffit de faire un 'echo'</p>
+            <p><?php _e('Pour afficher le formulaire, il suffit de faire un \'echo\'', 'easy-form'); ?></p>
             <pre class="brush: php">
                 &lt;?php
-                // Affichage du formulaire
+                <?php _e('// Affichage du formulaire', 'easy-form'); ?>
+
                 echo $form;
                 ?&gt;
             </pre>
 
-            <h4>Afficher les champs uns par uns</h4>
+            <h4><?php _e('Afficher les champs uns par uns', 'easy-form'); ?></h4>
 
-            <p>Pour afficher les champs là ou on le veut </p>
+            <p><?php _e('Pour afficher les champs là ou on le veut ', 'easy-form'); ?></p>
 
             <pre class="brush: php">
-&lt;?php
-// Ouverture du formulaire
-$form->open_the_form();
-                <?php foreach($formFields as $field){ ?>
-                    <?php echo "\n"; ?>
-                    <?php if($field['type'] == 'radio'):
-                        if(!isset($radios[$field['name']]))
-                            $radios[$field['name']] = 0; ?>
-                        <?php echo "\n"; ?>// Affiche le champ <?php echo $field['name'] . "\n" ?>
-                        <?php echo "\n"; ?>$form->the_form_field('<?php echo $field['name'] ?>_<?php echo $radios[$field['name']]; ?>');
+<?php echo "\n"; ?>&lt;?php
+                <?php echo "\n";
+                _e('// Ouverture du formulaire', 'easy-form'); ?>
+                <?php echo "\n"; ?>$form->open_the_form();
+                <?php if (is_array($formFields)) foreach ($formFields as $field) {
+                    if ($field['type'] == 'radio'):
+                        if (!isset($radios[$field['name']]))
+                            $radios[$field['name']] = 0;
+                        echo "\n"; ?><?php _e('// Affiche le champ ', 'easy-form'); ?><?php echo $field['name'];
+                        echo "\n"; ?>$form->the_form_field('<?php echo $field['name'] ?>_<?php echo $radios[$field['name']]; ?>');
                         <?php
                         $radios[$field['name']]++;
                     else: ?>
-                        <?php echo "\n"; ?>// Affiche le champ <?php echo $field['name'] . "\n" ?>
-                        <?php echo "\n"; ?>$form->the_form_field('<?php echo $field['name'] ?>');
+                        <?php echo "\n";
+                        _e('// Affiche le champ', 'easy-form'); ?><?php echo $field['name'];
+                        echo "\n"; ?>$form->the_form_field('<?php echo $field['name'] ?>');
                     <?php endif; ?>
                 <?php } ?>
                 <?php
                 ?>
-
-                // Affiche le bouton submit
-$form->the_form_field('submit');
-
-// ferme le formulaire
-$form->close_the_form();
+                <?php echo "\n";
+                _e('// Affiche le bouton submit', 'easy-form'); ?>
+                <?php echo "\n"; ?>$form->the_form_field('submit');
+                <?php echo "\n";
+                _e('// ferme le formulaire', 'easy-form'); ?>
+                <?php echo "\n"; ?>$form->close_the_form();
 ?&gt;
             </pre>
-
-
-            <h2>Gestion des erreurs</h2>
-            <p>Pour afficher les erreurs des formulaires :</p>
+        </section>
+        <section class="panel-wordpress">
+            <div class="head">
+                <h2><?php _e('Gestion des erreurs', 'easy-form'); ?></h2>
+            </div>
+            <p><?php _e('Pour afficher les erreurs des formulaires :', 'easy-form'); ?></p>
             <pre class="brush: php">
                 &lt;?php
-                // Affichage du formulaire
+                <?php _e('// Affichage des erreurs du formulaire', 'easy-form'); ?>
+
                 if($form->hasError()):
                     $form->theError();
                 endif;
 
             </pre>
 
-            <h2>Gestion de l'envoi des formulaires</h2>
+            <div class="head">
+                <h2><?php _e('Gestion de l\'envoi des formulaires', 'easy-form'); ?></h2>
+            </div>
 
-            <p>Pour prévenir l'utilisateur lorsqu'un formulaire a bien été envoyé :</p>
+            <p><?php _e('Pour prévenir l\'utilisateur lorsqu\'un formulaire a bien été envoyé avec success (il n\' a pas eu d\'erreurs :', 'easy-form'); ?></p>
 
             <pre class="brush: php">
                  &lt;?php
                  if($form->hasBeenSend())
-                     echo 'le formulaire a bien été envoyé';
+                     echo '<?php _e('le formulaire a bien été envoyé', 'easy-form'); ?>';
                   ?&gt;
             </pre>
 
-            <?php if($form->isResetForm()): ?>
-                <h2>Page de réinitialisation de mot de passe</h2>
+            <?php if ($form->isResetForm()): ?>
+                <div class="head">
+                    <h2><?php _e('Page de réinitialisation de mot de passe', 'easy-form'); ?></h2>
+                </div>
                 <pre class="brush: php">
  &lt;?php
 /*
-Template Name: Réinitialiser le mot de passe
-*/
+Template Name: <?php _e('Réinitialiser le mot de passe', 'easy-form'); ?>
+                    */
 
 $form = new WP_Form(<?php echo $_GET['id']; ?>);
 
-// Check si c'est bien une action de reset
-$isPage = $form->checkResetPage();
+                    <?php _e('// Check si c\'est bien une action de reset', 'easy-form'); ?>
+                    $isPage = $form->checkResetPage();
 
 
 get_header(); ?>
@@ -115,7 +173,7 @@ get_header(); ?>
     $form->theError();
 ?>
  &lt;?php if($form->hasBeenSend())
-    echo 'Votre mot de passe a bien été réinitialisé';
+    echo '<?php _e('Votre mot de passe a bien été réinitialisé', 'easy-form'); ?>';
 ?>
 
  &lt;?php echo $form; ?>
@@ -127,29 +185,19 @@ get_header(); ?>
             <?php endif; ?>
 
 
-            <a href="<?php echo menu_page_url('add-form',false) . '&modify='. $_GET['id']; ?>" class="button button-primary button-large">Modifier</a>
+            <a href="<?php echo menu_page_url('add-form', false) . '&modify=' . $_GET['id']; ?>"
+               class="button button-primary button-large"><?php _e('Modifier', 'easy-form'); ?></a>
         </section>
-        <h2>Prévisualisation du formulaire</h2>
-        <section class="panel-wordpress">
+        <section class="panel-wordpress preview-form">
+            <div class="head">
+                <h2><?php _e('Prévisualisation du formulaire', 'easy-form'); ?></h2>
+            </div>
+            <p><?php _e('Ceci est la prévisualisation de votre formulaire, elle ne prends pas en compte votre propre style, il est possible que votre formulaire final ne ressemble pas à ça.', 'easy-form'); ?></p>
             <?php echo $form; ?>
         </section>
-    <?php else : ?>
-        <h2>Choisissez le formulaire à prévisualiser</h2>
-        <section class="panel-wordpress">
-            <form action="#">
-                <?php while($my_query->have_posts()): $my_query->the_post(); ?>
-                    <div class="form-group">
-                        <input type="radio" name="id" id="<?php the_ID(); ?>"  value="<?php the_ID(); ?>">
-                        <label for="<?php the_ID(); ?>" class="label-checkbox">Formulaire n°<?php the_ID() ?> <?php the_title(); ?></label>
-                    </div>
-                <?php endwhile; ?>
-                <?php foreach($_GET as $key => $val){ ?>
-                    <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $val; ?>">
-                <?php } ?>
-                <div class="form-group">
-                    <input type="submit" class="button button-primary button-large" value="Prévisualiser"/>
-                </div>
-            </form>
-        </section>
-    <?php endif; ?>
+    <?php } ?>
 </div>
+
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>

@@ -1,11 +1,12 @@
 // All inputs available
 var inputs = [
-    'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'radio', 'url', 'range', 'color', 'search', 'hidden','textarea'
+    'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'radio', 'url', 'range', 'color', 'search', 'hidden','textarea','wp_editor'
 ];
 
 
 // All empty inputs with theirs attributs
 function getInput(args) {
+
     var emptyInputs = {
         input: {
             args: {
@@ -18,7 +19,8 @@ function getInput(args) {
                 placeholder: '',
                 readOnly: false,
                 required: true,
-                value: ''
+                value: '',
+                statsSelected : false,
             },
             id: args.id,
             name: args.name,
@@ -37,6 +39,7 @@ function getInput(args) {
                 readOnly: false,
                 required: true,
                 value: null,
+                statsSelected : false,
                 // All options of the select
                 options: [
                     {
@@ -63,6 +66,7 @@ function getInput(args) {
                 required: true,
                 taxonomy: "",
                 taxonomyType: "select",
+                statsSelected : false,
                 value: ""
             },
             id: args.id,
@@ -85,12 +89,43 @@ function getInput(args) {
                 labelClass: "",
                 maxSize: "",
                 multiple: false,
-                required: false
+                required: false,
+                statsSelected : false,
             },
             id: args.id,
             name: args.name,
             type: args.type
-        }
+        },
+        open_container : {
+            args: {
+
+                class: "",
+                id: "",
+            },
+            id: args.id,
+            name: args.name,
+            type: args.type
+        },
+        close_container : {
+            args: {
+
+                class: "",
+                id: "",
+            },
+            id: args.id,
+            name: args.name,
+            type: args.type
+        },
+        close_all_container : {
+            args: {
+
+                class: "",
+                id: "",
+            },
+            id: args.id,
+            name: args.name,
+            type: args.type
+        },
     };
 
     if($.inArray(args.type,inputs) != -1)

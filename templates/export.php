@@ -1,10 +1,14 @@
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <div class="wrap gf_browser_chrome">
-    <h2>Exporter un formulaire</h2>
     <section class="panel-wordpress">
+        <div class="head">
+            <h2><?php _e('Exporter un formulaire', 'easy-form'); ?></h2>
+        </div>
         <div class="form-group">
             <div class="form-group">
-                <h2>Choisir les formulaires à exporter</h2>
-                <p>Les IDs des formulaires ne seront pas exportés, ils seront ajoutés comme de nouveaux posts pour éviter tout conflit</p>
+                <p><?php _e('Choisir les formulaires à exporter', 'easy-form'); ?></p>
+                <p><?php _e('Les IDs des formulaires ne seront pas exportés, ils seront ajoutés comme de nouveaux posts pour éviter tout conflit', 'easy-form'); ?></p>
             </div>
         </div>
         <form action="#" method="post">
@@ -15,12 +19,12 @@
                 </div>
             <?php endwhile; ?>
             <div class="form-group">
-                <input type="submit" class="button button-primary button-large" name="export-forms-bastien" value="Exporter"/>
+                <input type="submit" class="button button-primary button-large" name="export-forms-bastien" value="<?php _e('Exporter', 'easy-form'); ?>"/>
             </div>
         </form>
         <?php if($downloadButton): ?>
             <hr>
-            <h2>Formulaires exportés</h2>
+            <h2><?php _e('Formulaires exportés', 'easy-form'); ?></h2>
             <?php echo $downloadButton; ?>
         <?php endif; ?>
     </section>

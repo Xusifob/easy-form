@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 $inputs = [
     'text', 'email', 'password','repeatPassword', 'number', 'tel', 'date', 'checkbox', 'select', 'radio', 'url', 'range', 'color', 'search', 'hidden','file','textarea','taxonomy','wp_editor','open container','close container', 'close all container',
 ];
@@ -19,13 +21,13 @@ $inputs = [
                 </div>
             </div>
             <div class="col-sm-7">
-                <label for="field[fieldId][form-name]">Nom du champ</label>
-                <input type="text"  value="field-name" name="field[fieldId][form-name]" id="field[fieldId][form-name]" class="form-control" placeholder="Nom du champ" required/>
-                <a href="#" class="dupliquer" data-field="fieldId">Dupliquer</a>
-                <a href="#" class="move" data-field="fieldId">Copier sur un autre formulaire</a>
+                <label for="field[fieldId][form-name]"><?php _e('Nom du champ', 'easy-form'); ?></label>
+                <input type="text"  value="field-name" name="field[fieldId][form-name]" id="field[fieldId][form-name]" class="form-control" placeholder="<?php _e('Nom du champ', 'easy-form'); ?>" required/>
+                <a href="#" class="dupliquer" data-field="fieldId"><?php _e('Dupliquer', 'easy-form'); ?></a>
+                <a href="#" class="move" data-field="fieldId"><?php _e('Copier sur un autre formulaire', 'easy-form'); ?></a>
             </div>
             <div class="col-sm-3">
-                <label for="field[fieldId][form-type]">Type de champ</label>
+                <label for="field[fieldId][form-type]"><?php _e('Type de champ', 'easy-form'); ?></label>
                 <select name="field[fieldId][form-type]" class="form-control" id="field[fieldId][form-type]" data-field="fieldId">
                     <?php foreach($inputs as $val){ ?>
                         <option value="<?php echo str_replace(' ', '_',$val); ?>"><?php echo $val; ?></option>

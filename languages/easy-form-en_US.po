@@ -1,16 +1,13 @@
-# Loco Gettext template
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Fri Feb 19 2016 11:51:08 GMT+0000 (GMT)\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Bastien <bastien@convertize.com>\n"
+"PO-Revision-Date: Wed Feb 24 2016 18:01:16 GMT+0000 (GMT)\n"
+"Last-Translator: Bastien <>\n"
 "Language-Team: \n"
-"Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"Language: English\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,77 +22,18 @@ msgstr ""
 "X-Loco-Target-Locale: en_US\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#. Name of the plugin
-msgid "Easy WP Form"
-msgstr ""
+#: ../easy-form.php:162
+msgid "Veuillez entrer un id ou un slug"
+msgstr "Please enter an ID or a slug"
 
-#. URI of the plugin
-msgid "http://easyform.bastienmalahieude.fr"
-msgstr ""
+#: ../easy-form.php:164
+msgid "Votre formulaire a bien été envoyé"
+msgstr "Your form has been send"
 
-#. Description of the plugin
-msgid ""
-"Permet de créer et styliser des formulaires facilement. Ce plugin a été créé "
-"conjointement par Bastien Malahieude et Baltazare (http://baltazare.fr)."
-msgstr ""
-
-#. Author of the plugin
-msgid "Bastien Malahieude"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "http://bastienmalahieude.fr"
-msgstr ""
-
-#: ../easy-form.php:254
-msgid "Ajouter un formulaire"
-msgstr ""
-
-#: ../easy-form.php:254 ../templates/add.php:153 ../templates/index.php:5
-msgid "Ajouter"
-msgstr ""
-
-#: ../easy-form.php:256
-msgid "Voir un formulaire"
-msgstr ""
-
-#: ../easy-form.php:256 ../templates/preview.php:29
-msgid "Prévisualiser"
-msgstr ""
-
-#: ../easy-form.php:258 ../templates/import.php:5
-msgid "Importer un formulaire"
-msgstr ""
-
-#: ../easy-form.php:258 ../templates/import.php:33
-msgid "Importer"
-msgstr ""
-
-#: ../easy-form.php:261 ../templates/export.php:6
-msgid "Exporter un formulaire"
-msgstr ""
-
-#: ../easy-form.php:261 ../templates/export.php:22
-msgid "Exporter"
-msgstr ""
-
-#: ../easy-form.php:264 ../easy-form.php:264 ../library/php/FormListTable.php:175
-msgid "Statistiques"
-msgstr ""
-
-#: ../easy-form.php:267 ../easy-form.php:267
-msgid "Documentation"
-msgstr ""
-
-#: ../easy-form.php:353
-msgid ""
-"Une erreur HTTP est arrivée lors du chargement du plugin.</p> <p><a href=\"?\" "
-"onclick=\"document.location.reload(); return false;\">Réessayer</a>"
-msgstr ""
-
-#: ../easy-form.php:358
-msgid "An unknown error occurred"
-msgstr ""
+#: ../easy-form.php:328 ../easy-form.php:328 ../templates/test.php:7 ..
+#: templates/test.php:27
+msgid "Tests unitaires"
+msgstr "Unit tests"
 
 #: ../assets/fields_traductions.php:1
 msgid "Full Name"
@@ -109,384 +47,604 @@ msgstr ""
 msgid "Attach Your CV <i class=\\\"fa fa-paperclip\\\"></i>"
 msgstr ""
 
-#: ../library/php/FormListTable.php:100
+#: ../assets/fields_traductions.php:1
+msgid "Contact through the website"
+msgstr ""
+
+#: ../templates/test.php:9
+msgid "Entrez vos identifiants de connexion pour lancer le test"
+msgstr "Put your Ids to start the test"
+
+#: ../templates/test.php:11
+msgid "Identifiant administrateur"
+msgstr "admin ID"
+
+#: ../templates/test.php:14
+msgid "Mot de passe administrateur"
+msgstr "admin Password"
+
+#: ../templates/test.php:18
+msgid "Votre e-mail pour voir si vous les reçevez bien"
+msgstr "Put your e-mail address here"
+
+#: ../templates/test.php:21
+msgid "Lancer le test"
+msgstr "Launch tests"
+
+#: ../templates/test.php:36
+msgid "Nom du test"
+msgstr "Name of the test"
+
+#: ../templates/test.php:37
+msgid "Paramètres"
+msgstr "Parameters"
+
+#: ../templates/test.php:38
+msgid "Résultat"
+msgstr "Result"
+
+#: ../templates/test.php:39
+msgid "Temps"
+msgstr "Time"
+
+#: ../templates/test.php:40
+msgid "Stack Trace"
+msgstr "Stack Trace"
+
+#: ../templates/test.php:122 ../templates/test.php:148
+msgid "Succès"
+msgstr "Success"
+
+#: ../templates/test.php:122 ../templates/test.php:150
+msgid "Echec"
+msgstr "Fail"
+
+#: ../templates/test.php:147
+msgid "Total"
+msgstr "Total"
+
+#: ../tests/functions.php:188
+msgid "Les données du post ne sont pas dans le formulaire "
+msgstr "Post data are not in the form"
+
+#: ../tests/functions.php:228
+msgid "Le dernier post est incorrect"
+msgstr "The last post is incorrect"
+
+#: ../tests/functions.php:337
+msgid "Les données de l'utilisateur ne sont pas dans le formulaire "
+msgstr "User data are not in the form"
+
+#: ../tests/functions.php:383
+msgid "La mise à jour de l'utilisateur n'a pas fonctionné "
+msgstr "User update did not work"
+
+#: ../tests/header.php:13
+msgid "Pour lancer les tests, installer les dépendences via composer"
+msgstr "To launch tests, install dependencies using composer"
+
+#: ../tests/header.php:17
+msgid ""
+"Pour voir comment installer composer, regardez la documentation :  <a "
+"target=\"_blank\" href=\"https://getcomposer.org/\">https://getcomposer.org/</a>"
+msgstr ""
+"How to install composer ? Check the documentation :  <a target=\"_blank\" "
+"href=\"https://getcomposer.org/\">https://getcomposer.org/</a>"
+
+#: ../tests/header.php:31
+msgid ""
+"Erreur à la création du fichier de cookie, vérifiez que vous avec les droits "
+"et les permissions"
+msgstr "Error while creating the file cookie.txt, check your permissions & rights"
+
+#. Name of the plugin
+msgid "Easy WP Form"
+msgstr "Easy WP Form"
+
+#. URI of the plugin
+msgid "http://easyform.bastienmalahieude.fr"
+msgstr "http://easyform.bastienmalahieude.fr"
+
+#. Description of the plugin
+msgid ""
+"Permet de créer et styliser des formulaires facilement. Ce plugin a été créé "
+"conjointement par Bastien Malahieude et Baltazare (http://baltazare.fr)."
+msgstr ""
+"Allows you to create and style forms easily. This plugin has been created by "
+"Bastien Malahieude and the whole Baltazare Agency (http://baltazare.fr)"
+
+#. Author of the plugin
+msgid "Bastien Malahieude"
+msgstr "Bastien Malahieude"
+
+#. Author URI of the plugin
+msgid "http://bastienmalahieude.fr"
+msgstr "http://bastienmalahieude.fr"
+
+#: ../easy-form.php:312
+msgid "Ajouter un formulaire"
+msgstr "Add a Form"
+
+#: ../easy-form.php:312 ../templates/add.php:155 ../templates/index.php:5
+msgid "Ajouter"
+msgstr "Add"
+
+#: ../easy-form.php:314
+msgid "Voir un formulaire"
+msgstr "See A Form"
+
+#: ../easy-form.php:314 ../templates/preview.php:29
+msgid "Prévisualiser"
+msgstr "Preview"
+
+#: ../easy-form.php:316 ../templates/import.php:5
+msgid "Importer un formulaire"
+msgstr "Import a form"
+
+#: ../easy-form.php:316 ../templates/import.php:33
+msgid "Importer"
+msgstr "Import"
+
+#: ../easy-form.php:319 ../templates/export.php:6
+msgid "Exporter un formulaire"
+msgstr "Export a form"
+
+#: ../easy-form.php:319 ../templates/export.php:22
+msgid "Exporter"
+msgstr "Export"
+
+#: ../easy-form.php:322 ../easy-form.php:322 ../library/php/FormListTable.php:244
+msgid "Statistiques"
+msgstr "Statistics"
+
+#: ../easy-form.php:325 ../easy-form.php:325
+msgid "Documentation"
+msgstr "Doc"
+
+#: ../easy-form.php:414
+msgid ""
+"Une erreur HTTP est arrivée lors du chargement du plugin.</p> <p><a href=\"?\" "
+"onclick=\"document.location.reload(); return false;\">Réessayer</a>"
+msgstr ""
+"An HTTP Error occured while trying to load the plugin. <a href=\"?\" "
+"onclick=\"document.location.reload(); return false;\">Try again</a>"
+
+#: ../easy-form.php:419
+msgid "An unknown error occurred"
+msgstr "An unknown error occurred"
+
+#: ../easy-form.php:1279 ../templates/stats.php:233
+msgid "Dernière visite"
+msgstr "Last Visit"
+
+#: ../easy-form.php:1280 ../templates/stats.php:234
+msgid "Adresse IP"
+msgstr "Ip Address"
+
+#: ../easy-form.php:1281 ../templates/stats.php:196 ../templates/stats.php:235
+msgid "Région"
+msgstr "Location"
+
+#: ../easy-form.php:1282 ../templates/stats.php:236
+msgid "Appareil"
+msgstr "Device"
+
+#: ../easy-form.php:1283 ../templates/stats.php:237
+msgid "Champ Personnalisé"
+msgstr "Custom Field"
+
+#: ../easy-form.php:1284 ../templates/stats.php:238
+msgid "Nombre de visites"
+msgstr "Number of visits"
+
+#: ../easy-form.php:1285 ../templates/stats.php:239 ../templates/stats.php:284
+msgid "Conversion"
+msgstr "Conversion"
+
+#: ../library/php/FormListTable.php:161
 msgid "Nom"
-msgstr ""
+msgstr "Name"
 
-#: ../library/php/FormListTable.php:101
+#: ../library/php/FormListTable.php:162
 msgid "Nombre de champs"
-msgstr ""
+msgstr "Number of fields"
 
-#: ../library/php/FormListTable.php:102 ../templates/add.php:24
+#: ../library/php/FormListTable.php:163 ../templates/add.php:26
 msgid "Action"
-msgstr ""
+msgstr "Action"
 
-#: ../library/php/FormListTable.php:173
+#: ../library/php/FormListTable.php:239 ../library/php/FormListTable.php:273
+msgid "Restaurer"
+msgstr "Restaure"
+
+#: ../library/php/FormListTable.php:242
 msgid "Afficher"
-msgstr ""
+msgstr "View"
 
-#: ../library/php/FormListTable.php:174 ../templates/add.php:153 ..
-#: /templates/preview.php:189
+#: ../library/php/FormListTable.php:243 ../templates/add.php:155 ..
+#: templates/preview.php:189
 msgid "Modifier"
-msgstr ""
+msgstr "Update"
 
-#: ../library/php/FormListTable.php:176 ../templates/footer.php:46 ..
-#: /templates/inputs/input-empty.php:26
+#: ../library/php/FormListTable.php:245 ../templates/footer.php:46 ..
+#: templates/inputs/input-empty.php:26
 msgid "Dupliquer"
-msgstr ""
+msgstr "Duplicate"
 
-#: ../library/php/FormListTable.php:177
+#: ../library/php/FormListTable.php:249
 msgid "Êtes vous sur de vouloir supprimer ce formulaire ?"
-msgstr ""
+msgstr "Are you sure you want to delete this form ?"
 
-#: ../library/php/FormListTable.php:177 ../library/php/FormListTable.php:193
+#: ../library/php/FormListTable.php:249 ../library/php/FormListTable.php:267
 msgid "Supprimer"
-msgstr ""
+msgstr "Delete"
+
+#: ../library/php/FormListTable.php:272
+msgid "Supprimer définitivement"
+msgstr "Delete completly"
 
 #: ../src/Form.php:146
 msgid "Un ou plusieurs champs n'est pas complet"
-msgstr ""
+msgstr "One or many field is missing"
 
 #: ../src/Form.php:147
 msgid "Adresse e-mail invalide"
-msgstr ""
+msgstr "Invalid e-mail address"
 
 #: ../src/Form.php:148
 msgid "Veuillez retaper votre mot de passe"
-msgstr ""
+msgstr "Please retype your password"
 
 #: ../src/Form.php:149
 msgid "Les deux mots de passe entrés doivent être identiques"
-msgstr ""
+msgstr "The two password must be the same"
 
 #: ../src/Form.php:150
 msgid "Le type du fichier chargé est incorrect, Les types acceptés sont : "
-msgstr ""
+msgstr "The file type uploaded is incorrect, the availables types are : "
 
 #: ../src/Form.php:151
 msgid "Identifiants incorrects"
-msgstr ""
+msgstr "Invalid credentials"
 
 #: ../src/Form.php:152
 msgid "Ce champ doit être rempli"
-msgstr ""
+msgstr "This field can't be empty"
 
 #: ../src/Form.php:153
 msgid "Le formulaire doit avoir un champ "
-msgstr ""
+msgstr "The form need to have a field "
 
 #: ../src/Form.php:154
 msgid "Aucun utilisateur n'a été trouvé avec cet identifiant"
-msgstr ""
+msgstr "No user has been found with this id"
 
 #: ../src/Form.php:155
 msgid "La réinitialisation de mot de passe n'est pas autorisée sur cet utilisateur"
-msgstr ""
+msgstr "Impossible to reset the password for this user"
 
 #: ../src/Form.php:156
 msgid "Une erreur est survenue"
-msgstr ""
+msgstr "An error occured"
 
 #: ../src/Form.php:157
 msgid "La taille du fichier est trop importante, taille maximum : "
-msgstr ""
+msgstr "The file size is too big, the max size is : "
 
 #: ../src/Form.php:158
 msgid "Une erreur est survenue lors de la modification de l'utilisateur"
-msgstr ""
+msgstr "An error occurs during the user update"
 
 #: ../src/Form.php:159
 msgid "La clé utilisée est expirée"
-msgstr ""
+msgstr "The key used is expired"
 
 #: ../src/Form.php:160
 msgid "La clé utilisée est invalide"
-msgstr ""
+msgstr "The key used is invalid"
 
 #: ../src/Form.php:161
 msgid "Utilisateur introuvable ou déjà activé"
-msgstr ""
+msgstr "The user does not exist or has already been activated"
 
-#: ../templates/add.php:13
+#: ../templates/add.php:15
 msgid "1 - Informations principales"
-msgstr ""
+msgstr "1 - Principal informations"
 
-#: ../templates/add.php:17 ../templates/add.php:20
+#: ../templates/add.php:19 ../templates/add.php:22
 msgid "Titre du formulaire"
-msgstr ""
+msgstr "Form title"
 
-#: ../templates/add.php:27
+#: ../templates/add.php:29
 msgid "Action du formulaire"
-msgstr ""
+msgstr "Form action"
 
-#: ../templates/add.php:30
+#: ../templates/add.php:32
 msgid "Class par défaut"
-msgstr ""
+msgstr "Default Class"
 
-#: ../templates/add.php:33
+#: ../templates/add.php:35
 msgid "Class par defaut des champs"
-msgstr ""
+msgstr "Default class for all the fields"
 
-#: ../templates/add.php:38 ../templates/add.php:42
+#: ../templates/add.php:40 ../templates/add.php:44
 msgid "Class du formulaire"
-msgstr ""
+msgstr "Form class"
 
-#: ../templates/add.php:45 ../templates/add.php:48
+#: ../templates/add.php:47 ../templates/add.php:50
 msgid "Id du formulaire"
-msgstr ""
+msgstr "Form id"
 
-#: ../templates/add.php:57
+#: ../templates/add.php:59
 msgid "Afficher les erreurs de chaque champ"
-msgstr ""
+msgstr "Display every field's error"
 
-#: ../templates/add.php:64
+#: ../templates/add.php:66
 msgid "Afficher les erreurs au dessus du champ"
-msgstr ""
+msgstr "Display the errors above the fields"
 
-#: ../templates/add.php:70
+#: ../templates/add.php:72
 msgid "2 - Action du formulaire"
-msgstr ""
+msgstr "2 - Form actions"
 
-#: ../templates/add.php:77
+#: ../templates/add.php:79
 msgid "Type d'action du formulaire"
-msgstr ""
-
-#: ../templates/add.php:80
-msgid "Ajout de post"
-msgstr ""
+msgstr "Kind of form"
 
 #: ../templates/add.php:82
-msgid "Connexion"
-msgstr ""
+msgid "Ajout de post"
+msgstr "Add post"
 
 #: ../templates/add.php:84
-msgid "Inscription ou modification"
-msgstr ""
+msgid "Connexion"
+msgstr "sign in"
 
 #: ../templates/add.php:86
+msgid "Inscription ou modification"
+msgstr "Sign up or user update"
+
+#: ../templates/add.php:88
 msgid "Envoi de mail"
-msgstr ""
+msgstr "Send e-mail (contact)"
 
-#: ../templates/add.php:88 ../templates/preview.php:161
+#: ../templates/add.php:90 ../templates/preview.php:161
 msgid "Réinitialiser le mot de passe"
-msgstr ""
-
-#: ../templates/add.php:93
-msgid "Redirection après envoi du formulaire"
-msgstr ""
+msgstr "Reset the password"
 
 #: ../templates/add.php:95
-msgid "Lien de redirection ou ID de page"
-msgstr ""
+msgid "Redirection après envoi du formulaire"
+msgstr "Redirection after form send"
 
-#: ../templates/add.php:100
-msgid "Variable passée dans l'url (espacer les variables par des & )"
-msgstr ""
+#: ../templates/add.php:97
+msgid "Lien de redirection ou ID de page"
+msgstr "Redirection link or Page ID"
 
 #: ../templates/add.php:102
+msgid "Variable passée dans l'url (espacer les variables par des & )"
+msgstr "Vars passed through the url (espace them with & )"
+
+#: ../templates/add.php:104
 msgid "Variable passée dans l'url (sous la forme update=true)"
-msgstr ""
+msgstr "Variables passed through the url (Example : update=true&foo=bar)"
 
-#: ../templates/add.php:112
+#: ../templates/add.php:114
 msgid "3 - Les champs"
-msgstr ""
+msgstr "3 - All Fields"
 
-#: ../templates/add.php:121
+#: ../templates/add.php:123
 msgid "Ajouter un champ"
-msgstr ""
+msgstr "Add a field"
 
-#: ../templates/add.php:127
+#: ../templates/add.php:129
 msgid "4 - Bouton submit"
-msgstr ""
+msgstr "4 - Submit button"
 
-#: ../templates/add.php:131
+#: ../templates/add.php:133
 msgid "Valeur de l'envoi"
-msgstr ""
+msgstr "Submit button value"
 
-#: ../templates/add.php:135
+#: ../templates/add.php:137
 msgid "Valeur du bouton submit"
-msgstr ""
+msgstr "Submit button value"
 
-#: ../templates/add.php:138
+#: ../templates/add.php:140
 msgid "Class de l'input"
-msgstr ""
+msgstr "Input Class"
 
-#: ../templates/add.php:142
+#: ../templates/add.php:144
 msgid "Class du bouton submit"
-msgstr ""
+msgstr "Submit button's Class"
 
-#: ../templates/add.php:153
+#: ../templates/add.php:155
 msgid "le formulaire"
-msgstr ""
+msgstr "the form"
 
 #: ../templates/export.php:10
 msgid "Choisir les formulaires à exporter"
-msgstr ""
+msgstr "Chose which form to export"
 
 #: ../templates/export.php:11
 msgid ""
 "Les IDs des formulaires ne seront pas exportés, ils seront ajoutés comme de "
 "nouveaux posts pour éviter tout conflit"
 msgstr ""
+"The form'sID will not be exported. the forms will be add as new post to "
+"avoid conflicts"
 
 #: ../templates/export.php:27 ../templates/import.php:38
 msgid "Formulaires exportés"
-msgstr ""
+msgstr "Forms exported"
 
 #: ../templates/footer.php:36
 msgid "Dupliquer un formulaire"
-msgstr ""
+msgstr "Duplicate a form"
 
 #: ../templates/footer.php:40 ../templates/footer.php:42 ..
-#: /templates/modals/modal-duplicate.php:22
+#: templates/modals/modal-duplicate.php:22
 msgid "Nom du nouveau formulaire"
-msgstr ""
+msgstr "Name of the new form"
 
 #: ../templates/import.php:9
 msgid "Séléctionnez votre formulaire Json"
-msgstr ""
+msgstr "Select your form (json file)"
 
 #: ../templates/index.php:5
 msgid "Formulaires"
-msgstr ""
+msgstr "Forms"
+
+#: ../templates/index.php:9
+msgid "Tous"
+msgstr "All"
+
+#: ../templates/index.php:13
+msgid "Corbeille"
+msgstr "Trash"
 
 #: ../templates/preview.php:9
 msgid "Choisissez le formulaire à prévisualiser"
-msgstr ""
+msgstr "Chose the form you want to preview"
 
 #: ../templates/preview.php:14 ../templates/stats.php:14
 msgid "Choix du formulaire"
-msgstr ""
+msgstr "Pick up a form"
 
 #: ../templates/preview.php:17 ../templates/stats.php:17
 msgid "Séléctionnez votre formulaire"
-msgstr ""
+msgstr "Pick up a form"
 
 #: ../templates/preview.php:38
 msgid "Initialisation du formulaire"
-msgstr ""
+msgstr "Initialisation of the form"
 
 #: ../templates/preview.php:40
 msgid ""
 "Pour installer le formulaire Wordpress, sur le template de votre page, créer "
 "un nouveau formulaire"
-msgstr ""
+msgstr "To install the Wordpress form on your page, create a nem WP_Form"
 
 #: ../templates/preview.php:44 ../templates/preview.php:64
 msgid "// $id doit être l'ID de votre formulaire"
-msgstr ""
+msgstr "// $id must be your form's ID"
 
 #: ../templates/preview.php:51
 msgid ""
 "Vous pouvez aussi utiliser le slug du formulaire, l'avantage est que vous "
 "pouvez plus facilement exporter et réimporter ces derniers"
 msgstr ""
+"You can also use your form' sllug. The advantage is an easier export and "
+"import"
 
 #: ../templates/preview.php:55
 msgid "// $formSlug doit être le slug de votre formulaire"
-msgstr ""
+msgstr "// $formSlug ;ust be your form's slug"
 
 #: ../templates/preview.php:61
 msgid ""
 "Si votre formulaire est une modification (utilisateur ou post) ajouter en 2e "
 "argument de la fonction l'id du post/de l'utilisateur à modifier"
 msgstr ""
+"If your form is an update (User or post) add its ID as a second argument to "
+"your function"
 
 #: ../templates/preview.php:68
 msgid "// ici $userId vaut l'id de l'utilisateur en cours"
-msgstr ""
+msgstr "// here, $userId is the current user's ID"
 
 #: ../templates/preview.php:74
 msgid ""
 "Le formulaire doit être initialisé avant tout texte, avant même le "
 "get_header();."
 msgstr ""
+"The form MUST be initialised before every content, even before the "
+"get_header() function"
 
 #: ../templates/preview.php:78
 msgid "Affichage du formulaire"
-msgstr ""
+msgstr "Display the form"
 
 #: ../templates/preview.php:81
 msgid "Afficher tout le formulaire d'un coup"
-msgstr ""
+msgstr "Display all the form"
 
 #: ../templates/preview.php:83
 msgid "Pour afficher le formulaire, il suffit de faire un 'echo'"
-msgstr ""
+msgstr "To display the form, you just have to 'echo' it"
 
 #: ../templates/preview.php:86
 msgid "// Affichage du formulaire"
-msgstr ""
+msgstr "// Display the form"
 
 #: ../templates/preview.php:92
 msgid "Afficher les champs uns par uns"
-msgstr ""
+msgstr "Display every fields one by one"
 
 #: ../templates/preview.php:94
 msgid "Pour afficher les champs là ou on le veut "
-msgstr ""
+msgstr "To display all fields where you want"
 
 #: ../templates/preview.php:99
 msgid "// Ouverture du formulaire"
-msgstr ""
+msgstr "// Open the form"
 
 #: ../templates/preview.php:105
 msgid "// Affiche le champ "
-msgstr ""
+msgstr "// Display the field"
 
 #: ../templates/preview.php:111
 msgid "// Affiche le champ"
-msgstr ""
+msgstr "// Display the field"
 
 #: ../templates/preview.php:118
 msgid "// Affiche le bouton submit"
-msgstr ""
+msgstr "// Display the submit button"
 
 #: ../templates/preview.php:121
 msgid "// ferme le formulaire"
-msgstr ""
+msgstr "// Close the form"
 
 #: ../templates/preview.php:128
 msgid "Gestion des erreurs"
-msgstr ""
+msgstr "How to handle errors"
 
 #: ../templates/preview.php:130
 msgid "Pour afficher les erreurs des formulaires :"
-msgstr ""
+msgstr "To display the form's errors"
 
 #: ../templates/preview.php:133
 msgid "// Affichage des erreurs du formulaire"
-msgstr ""
+msgstr "// Display the form's errors"
 
 #: ../templates/preview.php:142
 msgid "Gestion de l'envoi des formulaires"
-msgstr ""
+msgstr "Handle the form send"
 
 #: ../templates/preview.php:145
 msgid ""
 "Pour prévenir l'utilisateur lorsqu'un formulaire a bien été envoyé avec "
 "success (il n' a pas eu d'erreurs :"
 msgstr ""
+"To tell the user when a form has been send with success (There was no "
+"mistake)"
 
 #: ../templates/preview.php:150
 msgid "le formulaire a bien été envoyé"
-msgstr ""
+msgstr "The form has been send"
 
 #: ../templates/preview.php:156
 msgid "Page de réinitialisation de mot de passe"
-msgstr ""
+msgstr "Reset password page"
 
 #: ../templates/preview.php:166
 msgid "// Check si c'est bien une action de reset"
-msgstr ""
+msgstr "// Check if it's a reset action"
 
 #: ../templates/preview.php:176
 msgid "Votre mot de passe a bien été réinitialisé"
-msgstr ""
+msgstr "Your password has been reset"
 
 #: ../templates/preview.php:193
 msgid "Prévisualisation du formulaire"
-msgstr ""
+msgstr "Preview the form"
 
 #: ../templates/preview.php:195
 msgid ""
@@ -494,489 +652,439 @@ msgid ""
 "compte votre propre style, il est possible que votre formulaire final ne "
 "ressemble pas à ça."
 msgstr ""
+"This is your form preview. It does not take care of your own style, Your "
+"final form may not look like this one."
 
 #: ../templates/stats.php:8
 msgid "Filtres"
-msgstr ""
+msgstr "Filters"
 
-#: ../templates/stats.php:12 ../templates/stats.php:589
+#: ../templates/stats.php:12 ../templates/stats.php:548
 msgid "Plus de filtres"
-msgstr ""
+msgstr "More filters"
 
 #: ../templates/stats.php:27
 msgid "Tri customisé"
-msgstr ""
+msgstr "Custom sorting"
 
 #: ../templates/stats.php:29
 msgid "Séléctionnez une valeur"
-msgstr ""
+msgstr "Select a value"
 
 #: ../templates/stats.php:43
 msgid "Période à afficher"
-msgstr ""
+msgstr "Period"
 
 #: ../templates/stats.php:46
 msgid "1 jour"
-msgstr ""
+msgstr "1 day"
 
 #: ../templates/stats.php:48
 msgid "1 semaine"
-msgstr ""
+msgstr "1 week"
 
 #: ../templates/stats.php:50
 msgid "1 mois"
-msgstr ""
+msgstr "1 month"
 
 #: ../templates/stats.php:52
 msgid "1 an"
-msgstr ""
+msgstr "1 year"
 
 #: ../templates/stats.php:56
 msgid "Grouper par"
-msgstr ""
+msgstr "Group by"
 
 #: ../templates/stats.php:59
 msgid "Jours"
-msgstr ""
+msgstr "days"
 
 #: ../templates/stats.php:61
 msgid "Heures"
-msgstr ""
+msgstr "hours"
 
 #: ../templates/stats.php:63
 msgid "Semaines"
-msgstr ""
+msgstr "weeks"
 
 #: ../templates/stats.php:65
 msgid "Mois"
-msgstr ""
+msgstr "month"
 
 #: ../templates/stats.php:67
 msgid "An"
-msgstr ""
+msgstr "years"
 
 #: ../templates/stats.php:71 ../templates/stats.php:75
 msgid "Format de date"
-msgstr ""
+msgstr "Date format"
 
 #: ../templates/stats.php:73
 msgid "Quel format&nbsp;?"
-msgstr ""
+msgstr "Which format&nbsp;?"
 
 #: ../templates/stats.php:85
 msgid "Visiteurs uniques"
-msgstr ""
+msgstr "Unique visitors"
 
 #: ../templates/stats.php:93
 msgid "Prendre en compte mes visites"
-msgstr ""
+msgstr "Display my visits"
 
 #: ../templates/stats.php:101
 msgid "Filtrer"
-msgstr ""
+msgstr "Filter"
 
 #: ../templates/stats.php:112
 msgid "Taux de conversion"
-msgstr ""
+msgstr "Conversion Rate"
 
 #: ../templates/stats.php:123
 msgid "Nombre d'impression"
-msgstr ""
+msgstr "Number of impressions"
 
 #: ../templates/stats.php:126
 msgid "vues"
-msgstr ""
+msgstr "impressions"
 
 #: ../templates/stats.php:133
 msgid "Nombre de conversion"
-msgstr ""
+msgstr "Number of conversion"
 
 #: ../templates/stats.php:136
 msgid "conversion"
-msgstr ""
+msgstr "conversion"
 
-#: ../templates/stats.php:145 ../templates/stats.php:425 ../templates/stats.php:
-#: 439 ../templates/stats.php:453
+#: ../templates/stats.php:145 ../templates/stats.php:384 ../templates/stats.php:
+#: 398 ../templates/stats.php:412
 msgid "Nouveaux visiteurs"
-msgstr ""
+msgstr "New visitors"
 
 #: ../templates/stats.php:148
 msgid "visiteur"
-msgstr ""
+msgstr "visitor"
 
 #: ../templates/stats.php:158
 msgid "Impression et conversions"
-msgstr ""
+msgstr "Impressions and conversions"
 
 #: ../templates/stats.php:166
 msgid "Appareils"
-msgstr ""
+msgstr "Devices"
 
 #: ../templates/stats.php:168
 msgid "Types d'appareils utilisés"
-msgstr ""
+msgstr "Kind of devices"
 
 #: ../templates/stats.php:177
 msgid "Type de visiteurs total"
-msgstr ""
+msgstr "Total visitors"
 
 #: ../templates/stats.php:179
 msgid "Taux de visiteurs pour les impressions et les conversions"
-msgstr ""
+msgstr "Visitors rate for impressions & conversions"
 
 #: ../templates/stats.php:186
 msgid "Provenance des utilisateurs"
-msgstr ""
+msgstr "Visitors location"
 
-#: ../templates/stats.php:197 ../templates/stats.php:230
-msgid "Région"
-msgstr ""
-
-#: ../templates/stats.php:198
+#: ../templates/stats.php:197
 msgid "Visiteurs"
-msgstr ""
+msgstr "Visitors"
 
-#: ../templates/stats.php:223
+#: ../templates/stats.php:220
 msgid "Détail des visiteurs"
-msgstr ""
+msgstr "Visitors' informations"
 
-#: ../templates/stats.php:228
-msgid "Dernière visite"
-msgstr ""
+#: ../templates/stats.php:226
+msgid "Télécharger au format CSV"
+msgstr "Download as CSV"
 
-#: ../templates/stats.php:229
-msgid "Adresse IP"
-msgstr ""
-
-#: ../templates/stats.php:231
-msgid "Appareil"
-msgstr ""
-
-#: ../templates/stats.php:232
-msgid "Champ Personnalisé"
-msgstr ""
-
-#: ../templates/stats.php:233
-msgid "Nombre de visites"
-msgstr ""
-
-#: ../templates/stats.php:234 ../templates/stats.php:325
-msgid "Conversion"
-msgstr ""
-
-#: ../templates/stats.php:240 ../templates/stats.php:372 ../templates/stats.php:
-#: 392 ../templates/stats.php:412
+#: ../templates/stats.php:245 ../templates/stats.php:331 ../templates/stats.php:
+#: 351 ../templates/stats.php:371
 msgid "Ordinateur"
-msgstr ""
+msgstr "Desktop"
 
-#: ../templates/stats.php:241 ../templates/stats.php:360 ../templates/stats.php:
-#: 380 ../templates/stats.php:400
+#: ../templates/stats.php:246 ../templates/stats.php:319 ../templates/stats.php:
+#: 339 ../templates/stats.php:359
 msgid "Mobile"
-msgstr ""
+msgstr "Mobile"
 
-#: ../templates/stats.php:242 ../templates/stats.php:366 ../templates/stats.php:
-#: 386 ../templates/stats.php:406
+#: ../templates/stats.php:247 ../templates/stats.php:325 ../templates/stats.php:
+#: 345 ../templates/stats.php:365
 msgid "Tablette"
-msgstr ""
+msgstr "Tablet"
 
-#: ../templates/stats.php:265
-msgid "Appareils pour impression"
-msgstr ""
-
-#: ../templates/stats.php:268
-msgid "Types d'appareil pour les impressions"
-msgstr ""
-
-#: ../templates/stats.php:276
-msgid "Appareils pour conversion"
-msgstr ""
-
-#: ../templates/stats.php:279
-msgid "Types d'appareil pour les conversions"
-msgstr ""
-
-#: ../templates/stats.php:287
-msgid "Visiteurs pour impression"
-msgstr ""
-
-#: ../templates/stats.php:290
-msgid "Types de visiteurs pour les impressions"
-msgstr ""
-
-#: ../templates/stats.php:298
-msgid "Visiteurs pour conversion"
-msgstr ""
-
-#: ../templates/stats.php:301
-msgid "Types de visiteurs pour les conversions"
-msgstr ""
-
-#: ../templates/stats.php:335
+#: ../templates/stats.php:294
 msgid "Impression"
-msgstr ""
+msgstr "Impression"
 
-#: ../templates/stats.php:431 ../templates/stats.php:445 ../templates/stats.php:459
+#: ../templates/stats.php:390 ../templates/stats.php:404 ../templates/stats.php:418
 msgid "Anciens visiteurs"
-msgstr ""
+msgstr "Returning visitors"
 
-#: ../templates/stats.php:593
+#: ../templates/stats.php:552
 msgid "Moins de filtres"
-msgstr ""
+msgstr "Less filters"
 
 #: ../templates/form-actions/post.php:10
 msgid "Type de post"
-msgstr ""
+msgstr "Kind of post"
 
 #: ../templates/form-actions/resetPassword.php:4
 msgid "Type de réintialisation"
-msgstr ""
+msgstr "Kind of reset"
 
 #: ../templates/form-actions/resetPassword.php:6
 msgid "Réinitialise le mot de passe dans un e-mail"
-msgstr ""
+msgstr "Reset the password in the e-mail"
 
 #: ../templates/form-actions/resetPassword.php:7
 msgid "Envoi par e-mail un lien de récupération du mot de passe"
-msgstr ""
+msgstr "Send a reset password link by e-mail"
 
 #: ../templates/form-actions/resetPassword.php:13 ../templates/form-
 #: actions/resetPassword.php:14
 msgid "Objet"
-msgstr ""
+msgstr "Subject"
 
 #: ../templates/form-actions/resetPassword.php:17
 msgid "Email de l'expéditeur"
-msgstr ""
+msgstr "Sender E-mail"
 
 #: ../templates/form-actions/resetPassword.php:18
 msgid "Email expéditeur"
-msgstr ""
+msgstr "Sender E-mail"
 
 #: ../templates/form-actions/resetPassword.php:21
 msgid "Nom de l'expéditeur"
-msgstr ""
+msgstr "Sender name"
 
 #: ../templates/form-actions/resetPassword.php:22
 msgid "Nom du expéditeur"
-msgstr ""
+msgstr "Sender name"
 
 #: ../templates/form-actions/resetPassword.php:29
 msgid "<?php _e('', 'easy-form'); ?>"
-msgstr ""
+msgstr "<?php _e('', 'easy-form'); ?>"
 
 #: ../templates/form-actions/resetPassword.php:30
 #, php-format
 msgid ""
 "Utilisez %PASSWORD% à la place du mot de passe et %ID% pour l'identifiant de "
 "l'utilisateur"
-msgstr ""
+msgstr "Use %PASSWORD% instead of the password and %ID% for the user ID"
 
 #: ../templates/form-actions/resetPassword.php:31 ../templates/form-
 #: actions/resetPassword.php:43
 msgid "Message (texte brut ou HTML)"
-msgstr ""
+msgstr "Message (brut text or HTML)"
 
 #: ../templates/form-actions/resetPassword.php:32
 msgid ""
 "Vous pouvez aussi créer un fichier EasyFormTemplates/resetPassword.php dans "
 "votre thème en copiant celui du plugin"
 msgstr ""
+"You can also create a EasyFormTemplates/resetPassword.php file in your theme "
+"directory by copying the plugin's one"
 
 #: ../templates/form-actions/resetPassword.php:41
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 #: ../templates/form-actions/resetPassword.php:42
 #, php-format
 msgid ""
 "Utilisez %LIEN% pour le lien vers la page de récupération  et %ID% pour "
 "l'identifiant de l'utilisateur"
-msgstr ""
+msgstr "Use %LIEN% for the retrieve page' link and %ID% for the user ID"
 
 #: ../templates/form-actions/resetPassword.php:44
 msgid ""
 "Vous pouvez aussi créer un fichier EasyFormTemplates/retrievePassword.php "
 "dans votre thème en copiant celui du plugin"
 msgstr ""
+"You can also create a EasyFormTemplates/retrievePassword.php file in your "
+"theme by copying the plugin's one"
 
 #: ../templates/form-actions/resetPassword.php:50
 msgid "Id de la page de récupération de mot de passe"
-msgstr ""
+msgstr "Id of the retrieve password's page"
 
 #: ../templates/form-actions/resetPassword.php:51
 msgid "Id de la page de récupération"
-msgstr ""
+msgstr "Id of the retrieve password's page"
 
 #: ../templates/form-actions/resetPassword.php:54
 msgid "Value du bouton submit sur la page de récupération"
-msgstr ""
+msgstr "Submit button's value on the retrieve password page"
 
 #: ../templates/form-actions/resetPassword.php:55
 msgid "Value du bouton submit"
-msgstr ""
+msgstr "Submit button's value on the retrieve password page"
 
 #: ../templates/form-actions/user.php:10
 msgid "Rôle actuel"
-msgstr ""
+msgstr "Current role"
 
 #: ../templates/form-actions/user.php:16
 msgid "Connecter l'utilisateur à l'inscription"
-msgstr ""
+msgstr "Sign in the user after signing up"
 
 #: ../templates/form-actions/user.php:21
 msgid "Activer l'inscription par e-mail"
-msgstr ""
+msgstr "Enable the e-mail verification sign up"
 
 #: ../templates/inputs/file.php:11 ../templates/inputs/input.php:11 ..
-#: /templates/inputs/select.php:17 ../templates/inputs/taxonomy.php:34
+#: templates/inputs/select.php:17 ../templates/inputs/taxonomy.php:34
 msgid "Id du champ"
-msgstr ""
+msgstr "Field's id"
 
 #: ../templates/inputs/file.php:14 ../templates/inputs/input.php:14 ..
-#: /templates/inputs/select.php:20 ../templates/inputs/taxonomy.php:37
+#: templates/inputs/select.php:20 ../templates/inputs/taxonomy.php:37
 msgid "Class du champ"
-msgstr ""
+msgstr "Field's Class"
 
 #: ../templates/inputs/file.php:19
 msgid "Extensions autorisés (espacer par des virgules)"
-msgstr ""
+msgstr "Allowed extensions (space them with commas)"
 
 #: ../templates/inputs/file.php:22
 msgid "Nom du champ ACF galerie"
-msgstr ""
+msgstr "ACF Galery field name"
 
 #: ../templates/inputs/file.php:27 ../templates/inputs/input.php:27 ..
-#: /templates/inputs/select.php:25 ../templates/inputs/taxonomy.php:50
+#: templates/inputs/select.php:25 ../templates/inputs/taxonomy.php:50
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 #: ../templates/inputs/file.php:32 ../templates/inputs/input.php:32 ..
-#: /templates/inputs/select.php:28 ../templates/inputs/taxonomy.php:55
+#: templates/inputs/select.php:28 ../templates/inputs/taxonomy.php:55
 msgid "Class du label"
-msgstr ""
+msgstr "Label's class"
 
 #: ../templates/inputs/file.php:39
 msgid "Taille maximum d'un fichier uploadé (en ko)"
-msgstr ""
+msgstr "Uploaded file Maximum size (in ko)"
 
 #: ../templates/inputs/file.php:46 ../templates/inputs/input.php:39 ..
-#: /templates/inputs/select.php:33 ../templates/inputs/taxonomy.php:62
+#: templates/inputs/select.php:33 ../templates/inputs/taxonomy.php:62
 msgid "Required"
-msgstr ""
+msgstr "Required"
 
 #: ../templates/inputs/file.php:51
 msgid "Multiple"
-msgstr ""
+msgstr "Multiple"
 
 #: ../templates/inputs/file.php:56 ../templates/inputs/input.php:49 ..
-#: /templates/inputs/select.php:36 ../templates/inputs/taxonomy.php:67
+#: templates/inputs/select.php:36 ../templates/inputs/taxonomy.php:67
 msgid "Placer le label après le champ"
-msgstr ""
+msgstr "Put the label after the field"
 
 #: ../templates/inputs/input-empty.php:24 ../templates/inputs/input-empty.php:25
 msgid "Nom du champ"
-msgstr ""
+msgstr "Name of the field"
 
 #: ../templates/inputs/input-empty.php:27
 msgid "Copier sur un autre formulaire"
-msgstr ""
+msgstr "Copy this field to another form"
 
 #: ../templates/inputs/input-empty.php:30 ../templates/inputs/taxonomy.php:17
 msgid "Type de champ"
-msgstr ""
+msgstr "Kind of field"
 
 #: ../templates/inputs/input.php:19
 msgid "Placeholder du champ"
-msgstr ""
+msgstr "Field's Placeholder"
 
 #: ../templates/inputs/input.php:22 ../templates/inputs/taxonomy.php:45
 msgid "Valeur du champ"
-msgstr ""
+msgstr "Field's value"
 
 #: ../templates/inputs/input.php:44
 msgid "Autocomplete"
-msgstr ""
+msgstr "Enable Autocomplete"
 
 #: ../templates/inputs/input.php:56
 msgid "Trier les statistiques avec ce champ"
-msgstr ""
+msgstr "Filter statistics with this field"
 
 #: ../templates/inputs/open_container.php:11
 msgid "Type du container"
-msgstr ""
+msgstr "Kind of container"
 
 #: ../templates/inputs/open_container.php:15
 msgid "Class du container"
-msgstr ""
+msgstr "Container Class"
 
 #: ../templates/inputs/open_container.php:19
 msgid "id du container"
-msgstr ""
+msgstr "Container Id"
 
 #: ../templates/inputs/options.php:5
 msgid "Nom de l'option"
-msgstr ""
+msgstr "Option name"
 
 #: ../templates/inputs/options.php:10
 msgid "Valeur de l'option"
-msgstr ""
+msgstr "Option value"
 
 #: ../templates/inputs/options.php:15
 msgid "Ce champ est séléctionné"
-msgstr ""
+msgstr "This option is selected"
 
 #: ../templates/inputs/select.php:40
 msgid "Trier les champs par"
-msgstr ""
+msgstr "Sort options by"
 
 #: ../templates/inputs/select.php:44
 msgid "Défaut"
-msgstr ""
+msgstr "Default"
 
 #: ../templates/inputs/select.php:45
 msgid "Croissant"
-msgstr ""
+msgstr "Ascending"
 
 #: ../templates/inputs/select.php:46
 msgid "Décroissant"
-msgstr ""
+msgstr "Descending"
 
 #: ../templates/inputs/select.php:50
 msgid "Options du select"
-msgstr ""
+msgstr "Select's options"
 
 #: ../templates/inputs/select.php:52
 msgid "Ajouter une option"
-msgstr ""
+msgstr "Add an option"
 
 #: ../templates/inputs/taxonomy.php:5
 msgid "Taxonomy"
-msgstr ""
+msgstr "Taxonimy"
 
 #: ../templates/inputs/taxonomy.php:19
 msgid "Select"
-msgstr ""
+msgstr "Select"
 
 #: ../templates/inputs/taxonomy.php:20
 msgid "Hidden"
-msgstr ""
+msgstr "Hidden"
 
 #: ../templates/inputs/taxonomy.php:28
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: ../templates/inputs/taxonomy.php:42
 msgid "Valeur du champ vide"
-msgstr ""
+msgstr "Empty field's value"
 
 #: ../templates/inputs/taxonomy.php:73
 msgid "Read only"
-msgstr ""
+msgstr "Read Only"
 
 #: ../templates/modals/modal-duplicate.php:18
 msgid "Dupliquer un champ sur un autre formulaire"
-msgstr ""
+msgstr "Duplicate a field in another form"
 
 #: ../templates/modals/modal-duplicate.php:39
 msgid "Copier"
-msgstr ""
+msgstr "Copy"

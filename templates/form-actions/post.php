@@ -1,16 +1,13 @@
 <?php
-define('WP_USE_THEMES', false);
-global $wp, $wp_query, $wp_the_query, $wp_rewrite, $wp_did_header;
-require(__DIR__ . '/../../../../../wp-load.php');
-
 $allposts = get_post_types();
 
 $postDisabled = ['page','revision','attachment','nav_menu_item','acf-field','acf-field-group'];
 
 ?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="row">
     <div class="col-sm-4">
-        <label for="form-send-type">Type de post</label>
+        <label for="form-send-type"><?php _e('Type de post', 'easy-form'); ?></label>
         <select name="form-send-type" class="form-control" id="form-send-type">
             <?php
             foreach ($allposts as $allpost){

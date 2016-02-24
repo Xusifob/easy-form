@@ -1,128 +1,333 @@
-body{
+body {
   background-color: #F1F1F1;
   color: #444;
-  .panel-wordpress{
-    background-color: #fff;
-    margin-top: 20px;
-    padding: 50px;
-    margin-bottom: 40px;
-    button{
-      &.btn-actions{
-       /* border:1px solid #cccccc;
-        padding: 10px;
-        font-size: 1.5em;
-        color: #cccccc;
-        font-weight: 800;
-        width: 25px;
-        height: 25px;
-        background: #fafafa;
-        border-radius: 50%;
-        &:hover{
-          text-decoration: none;
-          color: #aaa;
-          font-weight: 800;
-        }
-        &:active{
-          text-decoration: none;
-        }
-        &:visited{
-          color: #cccccc;
-        } */
-        width:25px;
-        height:25px;
-        background:#fafafa;
-        font:bold 13px Arial;
-        border-radius:50%;
-        border:  1px solid #aaa;;
-        color:#aaa;
-        float: right;
-        margin-right: 10px;
-        &:active{
-          background: #cccccc;
-          color: #999;
-        }
-      }
-      &.right{
-        float: right;
+}
+.panel-wordpress {
+  background-color: #fff;
+  margin-top: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  button {
+    &.btn-actions {
+      /* border:1px solid #cccccc;
+       padding: 10px;
+       font-size: 1.5em;
+       color: #cccccc;
+       font-weight: 800;
+       width: 25px;
+       height: 25px;
+       background: #fafafa;
+       border-radius: 50%;
+       &:hover{
+         text-decoration: none;
+         color: #aaa;
+         font-weight: 800;
+       }
+       &:active{
+         text-decoration: none;
+       }
+       &:visited{
+         color: #cccccc;
+       } */
+      width: 25px;
+      height: 25px;
+      background: #fafafa;
+      font: bold 13px Arial;
+      border-radius: 50%;
+      border: 1px solid #aaa;;
+      color: #aaa;
+      float: right;
+      margin-right: 10px;
+      &:active {
+        background: #cccccc;
+        color: #999;
       }
     }
-    label{
-      &.label-checkbox{
-        margin-left: 5px;
-        margin-bottom: -4px;
-      }
-
-      &[name$="[form-name]"]{
-        display: block;
-        cursor: move;
-      }
-    }
-    a{
-      &.upanddown{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 2px;
-        width: 25px;
-        height: 25px;
-        text-align: center;
-        line-height: 24px;
-        background: #fafafa;
-        border-radius: 50%;
-        border: 1px solid #aaa;
-        color: #aaa;
-        &:hover{
-          text-decoration: none;
-          color: #aaa;
-          font-weight: 800;
-        }
-      }
-    }
-    .field-number{
-      font-size: 20px;
-      line-height: 52px;
-    }
-    div[id^="field-"]{
-      background-color: #fff;
-      hr{
-        margin-top: 0;
-      }
-      &.ui-draggable-dragging{
-        -webkit-box-shadow: -1px 4px 23px -1px rgba(0,0,0,0.44);
-        -moz-box-shadow: -1px 4px 23px -1px rgba(0,0,0,0.44);
-        box-shadow: -1px 4px 23px -1px rgba(0,0,0,0.44);
-        .info{
-          display: block;
-          position: absolute;
-          top: 3px;
-          left: 5px;
-          color: #777;
-          font-weight: 400;
-        }
-      }
-      .info{
-        display: none;
-      }
-      .col-sm-7 {
-        label {
-          cursor: move;
-          display: block;
-        }
-      }
-      &.hovered{
-       border: 2px dashed #ccc;
-        background-color: #ebf2ff;
-      }
-    }
-    .infos{
-      margin: 0;
-      font-size: 12px;
-      font-style: italic;
-      color: #888;
-    }
-    textarea{
-      resize: vertical;
-      width: 100%;
+    &.right {
+      float: right;
     }
   }
+  label {
+    &.label-checkbox {
+      margin-left: 5px;
+      margin-bottom: -4px;
+    }
+
+    &[name$="[form-name]"] {
+      display: block;
+      cursor: move;
+    }
+  }
+  a {
+    &.upanddown {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2px;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      line-height: 24px;
+      background: #fafafa;
+      border-radius: 50%;
+      border: 1px solid #aaa;
+      color: #aaa;
+      &:hover {
+        text-decoration: none;
+        color: #aaa;
+        font-weight: 800;
+      }
+    }
+  }
+  .field-number {
+    font-size: 20px;
+    line-height: 52px;
+  }
+  div[id^="field-"] {
+    background-color: #fff;
+    hr {
+      margin-top: 0;
+    }
+    &.ui-draggable-dragging {
+      -webkit-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+      -moz-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+      box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+      .info {
+        display: block;
+        position: absolute;
+        top: 3px;
+        left: 5px;
+        color: #777;
+        font-weight: 400;
+      }
+    }
+    .info {
+      display: none;
+    }
+    .col-sm-7 {
+      label {
+        cursor: move;
+        display: block;
+      }
+    }
+    &.hovered {
+      border: 2px dashed #ccc;
+      background-color: #ebf2ff;
+    }
+  }
+  .infos {
+    margin: 0;
+    font-size: 12px;
+    font-style: italic;
+    color: #888;
+  }
+  textarea {
+    resize: vertical;
+    width: 100%;
+  }
+
+  &.preview-form{
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="password"],
+    input[type="url"],
+    input[type="date"],
+    input[type="search"],
+    textarea{
+      width:80%;
+      display: block;
+      margin-bottom:10px;
+      border: 1px solid #ccc;
+      border-radius: 0;
+      box-shadow: 0 0 0 0;
+    }
+    input[type="submit"]{
+      display: block;
+      margin-top: 10px;
+      border: none;
+      border-radius: 0;
+    }
+    label{
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+}
+
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  visibility: visible;
+  float: none;
+  z-index: 1;
+  opacity: 1;
+  .spinner {
+    position: absolute;
+    visibility: visible;
+    float: none;
+    opacity: 1;
+    top: 50%;
+    z-index: 2;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.tab-head {
+  width: 100%;
+  margin-bottom: 30px;
+  label {
+    display: block;
+    input {
+      margin: -4px 4px 0 0;
+    }
+    a.small-info{
+      font-size: 9px;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+  }
+  select {
+    width: 100%;
+  }
+}
+
+.line-legend,.doughnut-legend,.pie-legend{
+  span{
+    width: 12px;
+    height: 12px;
+    display: block;
+    float: left;
+    margin: 3.6px 3px 0 0;
+    border-radius: 50%;
+  }
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.head{
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  h2{
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+
+    input[type="submit"]{
+      color: #0073aa;
+      transition: all 0.3s ease;
+      padding: 6px 10px;
+      float: right;
+      &:hover{
+        color: #fff;
+      }
+    }
+  }
+}
+
+.panel-blue{
+  background-color: rgb(33,150,243);
+  color: #fff;
+}
+.panel-red{
+  background-color: #f44336;
+  color: #fff;
+}
+.panel-green{
+  background-color: #4caf50;
+  color: #fff;
+}
+.panel-yellow{
+  background-color: #f9a825;
+  color: #fff;
+}
+
+
+#wpfooter{
+  display: none;
+}
+
+.datas{
+  i{
+    position: absolute;
+    bottom: 5px;
+    left: 20px;
+    font-size: 6em;
+    opacity: 0.3;
+  }
+  h3.bigtitle{
+    font-size: 35px;
+    float: right;
+    margin: 0;
+    span{
+      font-size: 15px;
+      font-weight: normal;
+      margin-left: 3px;
+    }
+  }
+}
+
+.mg-top-25{
+  margin-top:25px;
+}
+
+#plus{
+  position: absolute;
+  right: 20px;
+  color: #000;
+  font-weight: bold;
+  &:hover,&:active,&:focus{
+    text-decoration: none;
+    outline:0;
+    box-shadow: 0 0;
+  }
+}
+
+.mg-0{
+  margin: 0;
+}
+
+.pd-left-0{
+  padding-left:0;
+}
+.pd-right-0{
+  padding-right:0;
+}
+
+
+.table-overflow{
+  height:300px;              // <-- Select the height of the table
+
+  tr {
+    width: 100%;
+    display: inline-table;
+    table-layout: fixed;
+    td,th{
+      text-align: center;
+    }
+  }
+  tbody{
+    overflow-y: scroll;
+    height: 250px;            //  <-- Select the height of the body
+    position: absolute;
+    left: 20px;
+    right: 20px;
+  }
+}
+
+.green-txt{
+  color: #4caf50;
+}
+.red-txt{
+  color:#f44336;
 }

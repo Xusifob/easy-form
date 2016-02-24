@@ -1,25 +1,46 @@
-<?php
-$relPath = plugins_url() . '/easy-form/';
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+function load_custom_wp_admin_style() {
+    $relPath = plugins_url( '../', __FILE__ );
 
-$output = '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">';
-$output .= '  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">';
-//$output .= '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>';
-$output .= '<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>';
-$output .= '<link rel="stylesheet" href="' . $relPath . 'library/css/style.css">';
-$output .= '<link rel="stylesheet" href="' . $relPath . 'library/css/shCore.css">';
-$output .= '<link rel="stylesheet" href="' . $relPath . 'library/css/shThemeDefault.css">';
-/*$output .= '<script src="' . get_bloginfo('wpurl') . '/wp-content/plugins/tour-booking/js/bootstrap-datepicker.min.js"></script>';
-$output .= '<script src="' . get_bloginfo('wpurl') . '/wp-content/plugins/tour-booking/js/bootstrap-datepicker.fr.min.js"></script>';
 
-$output .= '<link rel="stylesheet" href="' . get_bloginfo('wpurl') . '/wp-content/plugins/tour-booking/styles/bootstrap-datepicker3.standalone.min.css">'; */
-$output .= '<script src="' . $relPath . 'library/js/shCore.js"></script>';
-$output .= '<script src="' . $relPath . 'library/js/shBrushJScript.js"></script>';
-$output .= '<script src="' . $relPath . 'library/js/shBrushPhp.js"></script>';
-$output .= '<script src="' . $relPath . 'library/js/functions.js"></script>';
-$output .= '  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>';
+    /** All JS files */
+    wp_register_script('bootstrap-js',$relPath . 'library/libs/bootstrap/js/bootstrap.min.js');
+    wp_register_script('shCore-js',$relPath . 'library/js/shCore.js');
+    wp_register_script('shBrushJScript-js',$relPath . 'library/js/shBrushJScript.js');
+    wp_register_script('shBrushPhp-js',$relPath . 'library/js/shBrushPhp.js');
+    wp_register_script('charts-js',$relPath . 'library/libs/charts-js/Chart.js');
+    wp_register_script('jquery-jvectormap',$relPath . 'library/libs/jquery-jvectormap/jquery-jvectormap.js');
+    wp_register_script('jquery-jvectormap-map',$relPath . 'library/libs/jquery-jvectormap/jquery-jvectormap-world-mill-en.js');
 
-$output .= '<!-- Finally, to actually run the highlighter, you need to include this JS on your page -->
-<script type="text/javascript">
-     SyntaxHighlighter.all()
-</script>';
-echo $output;
+    wp_enqueue_script( 'bootstrap-js' );
+    wp_enqueue_script( 'jquery-ui-draggable' );
+    wp_enqueue_script( 'shCore-js' );
+    wp_enqueue_script( 'shBrushJScript-js' );
+    wp_enqueue_script( 'shBrushPhp-js' );
+    wp_enqueue_script( 'charts-js' );
+    wp_enqueue_script( 'jquery-jvectormap' );
+    wp_enqueue_script( 'jquery-jvectormap-map' );
+
+
+
+    /** All Css Files */
+
+    wp_register_style('bootstrap-css',$relPath . 'library/libs/bootstrap/css/bootstrap.min.css');
+    wp_register_style('jquery-ui-css',$relPath . 'library/libs/jquery-ui/css/jquery-ui.min.css');
+    wp_register_style('style-css',$relPath . 'library/css/style.css');
+    wp_register_style('shCore-css',$relPath . 'library/css/shCore.css');
+    wp_register_style('font-awesome-css',$relPath . 'library/libs/font-awesome/css/font-awesome.min.css');
+    wp_register_style('jquery-jvectormap',$relPath . 'library/libs/jquery-jvectormap/jquery-jvectormap.css');
+    wp_register_style('shThemeDefault-css',$relPath . 'library/css/shThemeDefault.css');
+
+    wp_enqueue_style( 'bootstrap-css' );
+    wp_enqueue_style( 'jquery-ui-css' );
+    wp_enqueue_style( 'shCore-css' );
+    wp_enqueue_style( 'font-awesome-css' );
+    wp_enqueue_style( 'shThemeDefault-css' );
+    wp_enqueue_style( 'style-css' );
+    wp_enqueue_style( 'jquery-jvectormap' );
+
+
+}
+add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );

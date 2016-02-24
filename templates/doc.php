@@ -1,3 +1,5 @@
+<?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <div class="wrap gf_browser_chrome">
     <h2>Documentation</h2>
     <section class="panel-wordpress">
@@ -45,6 +47,7 @@
          *          @text|@email                : email             : (Obligatoire) : L'email de l'expéditeur
          *          @text|@wp_editor|@textaera  : message           : (Obligatoire) : Le Message du mail
          *          @text                       : subject           : (Optionnel)   : Le sujet du mail
+         *          @file                       : * (Anything)      : (Optionnel)   : Tous les champs file seront mis en piece jointe du mail
          *
          *          Tous les autres champs seront envoyés à la suite du message
          */

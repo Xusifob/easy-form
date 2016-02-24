@@ -2,33 +2,34 @@ body {
   background-color: #F1F1F1;
   color: #444;
 }
-body .panel-wordpress {
+.panel-wordpress {
   background-color: #fff;
   margin-top: 20px;
-  padding: 50px;
-  margin-bottom: 40px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
 }
-body .panel-wordpress button.btn-actions {
+.panel-wordpress button.btn-actions {
   /* border:1px solid #cccccc;
-        padding: 10px;
-        font-size: 1.5em;
-        color: #cccccc;
-        font-weight: 800;
-        width: 25px;
-        height: 25px;
-        background: #fafafa;
-        border-radius: 50%;
-        &:hover{
-          text-decoration: none;
-          color: #aaa;
-          font-weight: 800;
-        }
-        &:active{
-          text-decoration: none;
-        }
-        &:visited{
-          color: #cccccc;
-        } */
+       padding: 10px;
+       font-size: 1.5em;
+       color: #cccccc;
+       font-weight: 800;
+       width: 25px;
+       height: 25px;
+       background: #fafafa;
+       border-radius: 50%;
+       &:hover{
+         text-decoration: none;
+         color: #aaa;
+         font-weight: 800;
+       }
+       &:active{
+         text-decoration: none;
+       }
+       &:visited{
+         color: #cccccc;
+       } */
   width: 25px;
   height: 25px;
   background: #fafafa;
@@ -39,22 +40,22 @@ body .panel-wordpress button.btn-actions {
   float: right;
   margin-right: 10px;
 }
-body .panel-wordpress button.btn-actions:active {
+.panel-wordpress button.btn-actions:active {
   background: #cccccc;
   color: #999;
 }
-body .panel-wordpress button.right {
+.panel-wordpress button.right {
   float: right;
 }
-body .panel-wordpress label.label-checkbox {
+.panel-wordpress label.label-checkbox {
   margin-left: 5px;
   margin-bottom: -4px;
 }
-body .panel-wordpress label[name$="[form-name]"] {
+.panel-wordpress label[name$="[form-name]"] {
   display: block;
   cursor: move;
 }
-body .panel-wordpress a.upanddown {
+.panel-wordpress a.upanddown {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -68,27 +69,27 @@ body .panel-wordpress a.upanddown {
   border: 1px solid #aaa;
   color: #aaa;
 }
-body .panel-wordpress a.upanddown:hover {
+.panel-wordpress a.upanddown:hover {
   text-decoration: none;
   color: #aaa;
   font-weight: 800;
 }
-body .panel-wordpress .field-number {
+.panel-wordpress .field-number {
   font-size: 20px;
   line-height: 52px;
 }
-body .panel-wordpress div[id^="field-"] {
+.panel-wordpress div[id^="field-"] {
   background-color: #fff;
 }
-body .panel-wordpress div[id^="field-"] hr {
+.panel-wordpress div[id^="field-"] hr {
   margin-top: 0;
 }
-body .panel-wordpress div[id^="field-"].ui-draggable-dragging {
+.panel-wordpress div[id^="field-"].ui-draggable-dragging {
   -webkit-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
   -moz-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
   box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
 }
-body .panel-wordpress div[id^="field-"].ui-draggable-dragging .info {
+.panel-wordpress div[id^="field-"].ui-draggable-dragging .info {
   display: block;
   position: absolute;
   top: 3px;
@@ -96,24 +97,208 @@ body .panel-wordpress div[id^="field-"].ui-draggable-dragging .info {
   color: #777;
   font-weight: 400;
 }
-body .panel-wordpress div[id^="field-"] .info {
+.panel-wordpress div[id^="field-"] .info {
   display: none;
 }
-body .panel-wordpress div[id^="field-"] .col-sm-7 label {
+.panel-wordpress div[id^="field-"] .col-sm-7 label {
   cursor: move;
   display: block;
 }
-body .panel-wordpress div[id^="field-"].hovered {
+.panel-wordpress div[id^="field-"].hovered {
   border: 2px dashed #ccc;
   background-color: #ebf2ff;
 }
-body .panel-wordpress .infos {
+.panel-wordpress .infos {
   margin: 0;
   font-size: 12px;
   font-style: italic;
   color: #888;
 }
-body .panel-wordpress textarea {
+.panel-wordpress textarea {
   resize: vertical;
   width: 100%;
+}
+.panel-wordpress.preview-form input[type="text"],
+.panel-wordpress.preview-form input[type="email"],
+.panel-wordpress.preview-form input[type="number"],
+.panel-wordpress.preview-form input[type="password"],
+.panel-wordpress.preview-form input[type="url"],
+.panel-wordpress.preview-form input[type="date"],
+.panel-wordpress.preview-form input[type="search"],
+.panel-wordpress.preview-form textarea {
+  width: 80%;
+  display: block;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  box-shadow: 0 0 0 0;
+}
+.panel-wordpress.preview-form input[type="submit"] {
+  display: block;
+  margin-top: 10px;
+  border: none;
+  border-radius: 0;
+}
+.panel-wordpress.preview-form label {
+  font-size: 14px;
+  font-weight: normal;
+}
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  visibility: visible;
+  float: none;
+  z-index: 1;
+  opacity: 1;
+}
+.spinner-container .spinner {
+  position: absolute;
+  visibility: visible;
+  float: none;
+  opacity: 1;
+  top: 50%;
+  z-index: 2;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.tab-head {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.tab-head label {
+  display: block;
+}
+.tab-head label input {
+  margin: -4px 4px 0 0;
+}
+.tab-head label a.small-info {
+  font-size: 9px;
+}
+.tab-head label a.small-info:hover {
+  text-decoration: none;
+}
+.tab-head select {
+  width: 100%;
+}
+.line-legend span,
+.doughnut-legend span,
+.pie-legend span {
+  width: 12px;
+  height: 12px;
+  display: block;
+  float: left;
+  margin: 3.6px 3px 0 0;
+  border-radius: 50%;
+}
+.invisible {
+  visibility: hidden;
+}
+.head {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.head h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: normal;
+}
+.head h2 input[type="submit"] {
+  color: #0073aa;
+  transition: all 0.3s ease;
+  padding: 6px 10px;
+  float: right;
+}
+.head h2 input[type="submit"]:hover {
+  color: #fff;
+}
+.panel-blue {
+  background-color: #2196f3;
+  color: #fff;
+}
+.panel-red {
+  background-color: #f44336;
+  color: #fff;
+}
+.panel-green {
+  background-color: #4caf50;
+  color: #fff;
+}
+.panel-yellow {
+  background-color: #f9a825;
+  color: #fff;
+}
+#wpfooter {
+  display: none;
+}
+.datas i {
+  position: absolute;
+  bottom: 5px;
+  left: 20px;
+  font-size: 6em;
+  opacity: 0.3;
+}
+.datas h3.bigtitle {
+  font-size: 35px;
+  float: right;
+  margin: 0;
+}
+.datas h3.bigtitle span {
+  font-size: 15px;
+  font-weight: normal;
+  margin-left: 3px;
+}
+.mg-top-25 {
+  margin-top: 25px;
+}
+#plus {
+  position: absolute;
+  right: 20px;
+  color: #000;
+  font-weight: bold;
+}
+#plus:hover,
+#plus:active,
+#plus:focus {
+  text-decoration: none;
+  outline: 0;
+  box-shadow: 0 0;
+}
+.mg-0 {
+  margin: 0;
+}
+.pd-left-0 {
+  padding-left: 0;
+}
+.pd-right-0 {
+  padding-right: 0;
+}
+.table-overflow {
+  height: 300px;
+}
+.table-overflow tr {
+  width: 100%;
+  display: inline-table;
+  table-layout: fixed;
+}
+.table-overflow tr td,
+.table-overflow tr th {
+  text-align: center;
+}
+.table-overflow tbody {
+  overflow-y: scroll;
+  height: 250px;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+}
+.green-txt {
+  color: #4caf50;
+}
+.red-txt {
+  color: #f44336;
 }

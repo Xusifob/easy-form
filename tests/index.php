@@ -32,13 +32,12 @@ test('delete_last_form',[]);
 test('delete_last_post',[]);
 
 
-
-
 /**************** ADD USER FORMS **********/
 // Test form importation
 test('import_form',['add-user.json','Test Add User']);
 // Test if the user is added
 test('test_add_user_form',['add-post.json']);
+test('test_update_user_form',['add-post.json']);
 // Delete the last form created
 test('delete_last_form',[]);
 

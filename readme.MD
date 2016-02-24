@@ -23,11 +23,73 @@ and then open the file easy-form/tests/index.php into your web browser
 
 ## Changelogs
 
-### Version 0.6 :
- * Update documentation for better understanding (In Progress)
- * Add unit tests & tests using Symfony Crawler (In Progress)
- * Correct bug on export forms
 
+### Version 0.6.0 (Still in developement) :
+ * Crypt Password for new users when authentification by email is needed (In Progress)
+ * Update the SQL queries to prepare them (In Progress)
+ * Add an e-mail verification on sign un (Impossible to have 2 users with the same e-mail)
+ * Add the possibility to sign in with id or e-mail
+ * Add Facebook/Google login & Sign-in
+ * Create a uniq id based on some fields ( sign up )
+ * Add a full french/english documentation)
+ * Add Unit Tests
+ * Add textaera & file options (max width ...)
+ * Add hooks with slug
+ * Possibility to add a value in php in code (Id, post name...)
+ * Check for headers and redirect in javascript in case
+
+
+
+### Version 0.5.5 :
+  * Remove functions.js
+  * Add form stats
+  * Put the form duplicate modal only on the index.php page
+  * Update some CSS
+  * Update preview page
+  * Add bulk actions to work and trash
+
+
+
+### Version 0.5.4 :
+ * Add Notification update
+ * Add more english
+ * Start work with trash & bulk actions
+ * Add possibility to retrieve fields one by one
+ * Update bug on wp_editor
+ * Update error on wp_update_post
+ * Update ajax calls on add.php
+ * Update all scripts and put them in a wp_enqueue_scripts
+ * Update preview page after a few bug with traduction
+ * Add Abspath on each file
+ * Remove jQuery-ui, use WordPress core jQuery-ui
+ * Correct some bugs on form Id, form Redirection & errors.
+ * Update plugin website
+ * Add spinner when loading data
+ * Add more documentation in JS
+ * Update the ajax request not to load templates if they have already been loaded.
+ * Add English translation in all fields rows
+  * Add english translation in all fields (front office)
+
+
+### Version 0.5.3 :
+ * Add attachments to e-mail
+ * Update htmlspecialcar on add.php
+ * Remove bug on antispam
+ * Remove add_action init on checkform (bug after WP Update ? )
+ * Correct bug on redirection
+ * Remove some bugs due to sanitization
+ * Add English Language support for errors & Back-office
+
+### Version 0.5.2 :
+ * Update sanitization
+ * Add scripts & css with wp_enqueue_scripts & wp_enqueue_styles
+ * Remove jQuery (use WordPress' own jQuery)
+ * Update more sanitization
+ * Remove Mail() class (use phpmailer for all e-mails)
+
+### Version 0.5.1 :
+ * Add support for displaying a form with it's slug
+ * Correct bug on select
 
 ### Version 0.5 :
  * Refactoring full add.php code
@@ -36,6 +98,7 @@ and then open the file easy-form/tests/index.php into your web browser
  * Add Inscription with mail
  * Add Templates for mails
  * Add Template for errors
+ * Add Antispam Detection
 
 ### Version 0.4 :
  * Update doc for radio button

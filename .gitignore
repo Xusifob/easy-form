@@ -1,4 +1,8 @@
 .idea
-/library/uploads/*
 /tests/cookie.txt
 /tests/vendor
+library/uploads/*
+tests
+assets/fields_traductions.php
+languages/*.po~
+languages/*.pot~

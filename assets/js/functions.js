@@ -1,5 +1,26 @@
+var $ = jQuery;
+
+
+/**
+ *
+ * Permet de remplacer toutes les occurences d'une chaine dans une chaine par une autre chaine
+ *
+ * @param data
+ * @param find
+ * @param replace
+ * @returns {*}
+ */
+function replace(data,find,replace){
+    var re = new RegExp(find, 'g');
+    return data.replace(re,replace);
+}
+
 /**
  *  Handle hidden fields on certains kinds of fields
+ *
+ * @Since V 0.4
+ *
+ * @Updated : V 0.5.5 (Correct the value remove on hidden)
  *
  * @param id
  * @param type
@@ -11,6 +32,16 @@ function handleHiddenFields(id,type){
             $('input[name="field[' + id + '][form-placeholder]"]').css('visibility', 'hidden').val('');
             $('input[name="field[' + id + '][form-autocomplete]"]').parent().parent().remove();
             $('input[name="field[' + id + '][form-required]"]').removeAttr('checked');
+        }
+        if(type == 'hidden'){
+            $('input[name="field[' + id + '][form-placeholder]"]').parent().remove();
+            $('input[name="field[' + id + '][form-autocomplete]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-label-after]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-required]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-class]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-id]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-label]"]').parent().parent().remove();
+            $('input[name="field[' + id + '][form-label-class]"]').parent().parent().remove();
         }
     }
 }
@@ -58,4 +89,33 @@ function switchIds(id1,id2) {
 
     updateIds(thefield, id1,id2);
     updateIds(fieldBefore, id2,id1);
+}
+
+
+/**
+ *
+ * Add Slash in a string
+ *
+ * @param string
+ * @returns {*}
+ */
+function addslashes(string) {
+    return string.replace(/\\/g, '\\\\').
+    replace(/\u0008/g, '\\b').
+    replace(/\t/g, '\\t').
+    replace(/\n/g, '\\n').
+    replace(/\f/g, '\\f').
+    replace(/\r/g, '\\r').
+    replace(/'/g, '\\\'').
+    replace(/"/g, '\\"');
+}
+
+
+/**
+ *
+ * @param str
+ * @returns {string}
+ */
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
