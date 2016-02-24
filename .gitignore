@@ -1,4 +1,4 @@
 .idea
-/library/uploads
+/library/uploads/*
 /tests/cookie.txt
 /tests/vendor

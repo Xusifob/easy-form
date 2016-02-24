@@ -36,7 +36,11 @@ file_get_contents($cookieFile);
 
 require 'functions.php';
 
+
+if(isset($_SERVER['REQUEST_SCHEME']))
 $form_adress = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] .$_SERVER['REQUEST_URI'] . 'templates/form.php';
+else
+    $form_adress = $_SERVER['HTTP_ORIGIN'] .$_SERVER['REQUEST_URI'] . 'templates/form.php';
 global $form_adress;
 
 

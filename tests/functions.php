@@ -16,6 +16,12 @@ use \Goutte\Client;
 function import_form($form,$formName){
 
 
+    if(!is_dir(__DIR__ . '/../library/uploads') && !mkdir(__DIR__ . '/../library/uploads'))
+        return [
+            'result' => false,
+            'reason' => 'Error on form import the directory library/uploads does not exist' . ' on line ' .  __LINE__ . ' in ' . __FILE__,
+        ];
+
     $file = new CURLFile( __DIR__ . '/forms/' . $form,'application/json',$form);
 
     $ch = prepareCurl();
@@ -414,6 +420,7 @@ function prepareCurl(){
     curl_setopt( $ch, CURLOPT_TIMEOUT, 60 );
     curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, false );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt( $ch, CURLOPT_PORT, $_SERVER['SERVER_PORT'] );
 
     return $ch;
 
