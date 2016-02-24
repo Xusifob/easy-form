@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"POT-Revision-Date: Mon Feb 22 2016 17:27:39 GMT+0000 (GMT)\n"
+"POT-Revision-Date: Wed Feb 24 2016 17:58:20 GMT+0000 (GMT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bastien <bastien@convertize.com>\n"
 "Language-Team: \n"
@@ -47,82 +47,111 @@ msgstr ""
 msgid "http://bastienmalahieude.fr"
 msgstr ""
 
-#: ../easy-form.php:254
+#: ../easy-form.php:162
+msgid "Veuillez entrer un id ou un slug"
+msgstr ""
+
+#: ../easy-form.php:164
+msgid "Votre formulaire a bien été envoyé"
+msgstr ""
+
+#: ../easy-form.php:312
 msgid "Ajouter un formulaire"
 msgstr ""
 
-#: ../easy-form.php:254 ../templates/add.php:155 ../templates/index.php:5
+#: ../easy-form.php:312 ../templates/add.php:155 ../templates/index.php:5
 msgid "Ajouter"
 msgstr ""
 
-#: ../easy-form.php:256
+#: ../easy-form.php:314
 msgid "Voir un formulaire"
 msgstr ""
 
-#: ../easy-form.php:256 ../templates/preview.php:29
+#: ../easy-form.php:314 ../templates/preview.php:29
 msgid "Prévisualiser"
 msgstr ""
 
-#: ../easy-form.php:258 ../templates/import.php:5
+#: ../easy-form.php:316 ../templates/import.php:5
 msgid "Importer un formulaire"
 msgstr ""
 
-#: ../easy-form.php:258 ../templates/import.php:33
+#: ../easy-form.php:316 ../templates/import.php:33
 msgid "Importer"
 msgstr ""
 
-#: ../easy-form.php:261 ../templates/export.php:6
+#: ../easy-form.php:319 ../templates/export.php:6
 msgid "Exporter un formulaire"
 msgstr ""
 
-#: ../easy-form.php:261 ../templates/export.php:22
+#: ../easy-form.php:319 ../templates/export.php:22
 msgid "Exporter"
 msgstr ""
 
-#: ../easy-form.php:264 ../easy-form.php:264 ../library/php/FormListTable.php:244
+#: ../easy-form.php:322 ../easy-form.php:322 ../library/php/FormListTable.php:244
 msgid "Statistiques"
 msgstr ""
 
-#: ../easy-form.php:267 ../easy-form.php:267
+#: ../easy-form.php:325 ../easy-form.php:325
 msgid "Documentation"
 msgstr ""
 
-#: ../easy-form.php:353
+#: ../easy-form.php:328 ../easy-form.php:328 ../templates/test.php:7 ..
+#: /templates/test.php:27
+msgid "Tests unitaires"
+msgstr ""
+
+#: ../easy-form.php:414
 msgid ""
 "Une erreur HTTP est arrivée lors du chargement du plugin.</p> <p><a href=\"?\" "
 "onclick=\"document.location.reload(); return false;\">Réessayer</a>"
 msgstr ""
 
-#: ../easy-form.php:358
+#: ../easy-form.php:419
 msgid "An unknown error occurred"
 msgstr ""
 
-#: ../easy-form.php:1170 ../templates/stats.php:233
+#: ../easy-form.php:1279 ../templates/stats.php:233
 msgid "Dernière visite"
 msgstr ""
 
-#: ../easy-form.php:1171 ../templates/stats.php:234
+#: ../easy-form.php:1280 ../templates/stats.php:234
 msgid "Adresse IP"
 msgstr ""
 
-#: ../easy-form.php:1172 ../templates/stats.php:196 ../templates/stats.php:235
+#: ../easy-form.php:1281 ../templates/stats.php:196 ../templates/stats.php:235
 msgid "Région"
 msgstr ""
 
-#: ../easy-form.php:1173 ../templates/stats.php:236
+#: ../easy-form.php:1282 ../templates/stats.php:236
 msgid "Appareil"
 msgstr ""
 
-#: ../easy-form.php:1174 ../templates/stats.php:237
+#: ../easy-form.php:1283 ../templates/stats.php:237
 msgid "Champ Personnalisé"
 msgstr ""
 
-#: ../easy-form.php:1175 ../templates/stats.php:238
+#: ../easy-form.php:1284 ../templates/stats.php:238
 msgid "Nombre de visites"
 msgstr ""
 
-#: ../easy-form.php:1176 ../templates/stats.php:239 ../templates/stats.php:284
+#: ../easy-form.php:1285 ../templates/stats.php:239 ../templates/stats.php:284
 msgid "Conversion"
+msgstr ""
+
+#: ../assets/fields_traductions.php:1
+msgid "Full Name"
+msgstr ""
+
+#: ../assets/fields_traductions.php:1
+msgid "E-Mail"
+msgstr ""
+
+#: ../assets/fields_traductions.php:1
+msgid "Attach Your CV <i class=\\\"fa fa-paperclip\\\"></i>"
+msgstr ""
+
+#: ../assets/fields_traductions.php:1
+msgid "Contact through the website"
 msgstr ""
 
 #: ../library/php/FormListTable.php:161
@@ -699,6 +728,58 @@ msgstr ""
 msgid "Moins de filtres"
 msgstr ""
 
+#: ../templates/test.php:9
+msgid "Entrez vos identifiants de connexion pour lancer le test"
+msgstr ""
+
+#: ../templates/test.php:11
+msgid "Identifiant administrateur"
+msgstr ""
+
+#: ../templates/test.php:14
+msgid "Mot de passe administrateur"
+msgstr ""
+
+#: ../templates/test.php:18
+msgid "Votre e-mail pour voir si vous les reçevez bien"
+msgstr ""
+
+#: ../templates/test.php:21
+msgid "Lancer le test"
+msgstr ""
+
+#: ../templates/test.php:36
+msgid "Nom du test"
+msgstr ""
+
+#: ../templates/test.php:37
+msgid "Paramètres"
+msgstr ""
+
+#: ../templates/test.php:38
+msgid "Résultat"
+msgstr ""
+
+#: ../templates/test.php:39
+msgid "Temps"
+msgstr ""
+
+#: ../templates/test.php:40
+msgid "Stack Trace"
+msgstr ""
+
+#: ../templates/test.php:122 ../templates/test.php:148
+msgid "Succès"
+msgstr ""
+
+#: ../templates/test.php:122 ../templates/test.php:150
+msgid "Echec"
+msgstr ""
+
+#: ../templates/test.php:147
+msgid "Total"
+msgstr ""
+
 #: ../templates/form-actions/post.php:10
 msgid "Type de post"
 msgstr ""
@@ -955,4 +1036,36 @@ msgstr ""
 
 #: ../templates/modals/modal-duplicate.php:39
 msgid "Copier"
+msgstr ""
+
+#: ../tests/functions.php:188
+msgid "Les données du post ne sont pas dans le formulaire "
+msgstr ""
+
+#: ../tests/functions.php:228
+msgid "Le dernier post est incorrect"
+msgstr ""
+
+#: ../tests/functions.php:337
+msgid "Les données de l'utilisateur ne sont pas dans le formulaire "
+msgstr ""
+
+#: ../tests/functions.php:383
+msgid "La mise à jour de l'utilisateur n'a pas fonctionné "
+msgstr ""
+
+#: ../tests/header.php:13
+msgid "Pour lancer les tests, installer les dépendences via composer"
+msgstr ""
+
+#: ../tests/header.php:17
+msgid ""
+"Pour voir comment installer composer, regardez la documentation :  <a "
+"target=\"_blank\" href=\"https://getcomposer.org/\">https://getcomposer.org/</a>"
+msgstr ""
+
+#: ../tests/header.php:31
+msgid ""
+"Erreur à la création du fichier de cookie, vérifiez que vous avec les droits "
+"et les permissions"
 msgstr ""

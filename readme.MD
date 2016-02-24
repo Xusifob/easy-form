@@ -12,8 +12,17 @@ This plugin is made for WP theme developers, to create & style easily all theirs
 
  Go in your Plugin's page in your back office and enable it
 
+## Tests
+
+````
+ cd wp-content/plugins/easy-form/tests
+ composer install
+ ````
+and then open the file easy-form/tests/index.php into your web browser
+
 
 ## Changelogs
+
 
 ### Version 0.6.0 (Still in developement) :
  * Crypt Password for new users when authentification by email is needed (In Progress)

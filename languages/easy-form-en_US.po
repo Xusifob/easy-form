@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Easy WP Form\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Wed Feb 03 2016 14:43:36 GMT+0000 (GMT)\n"
-"PO-Revision-Date: Mon Feb 22 2016 17:28:39 GMT+0000 (GMT)\n"
-"Last-Translator: Bastien <bastien@convertize.com>\n"
+"PO-Revision-Date: Wed Feb 24 2016 18:01:16 GMT+0000 (GMT)\n"
+"Last-Translator: Bastien <>\n"
 "Language-Team: \n"
 "Language: English\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -22,29 +22,120 @@ msgstr ""
 "X-Loco-Target-Locale: en_US\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: ../easy-form.php:1170 ../templates/stats.php:233
-msgid "Dernière visite"
-msgstr "Last Visit"
+#: ../easy-form.php:162
+msgid "Veuillez entrer un id ou un slug"
+msgstr "Please enter an ID or a slug"
 
-#: ../library/php/FormListTable.php:239 ../library/php/FormListTable.php:273
-msgid "Restaurer"
-msgstr "Restaure"
+#: ../easy-form.php:164
+msgid "Votre formulaire a bien été envoyé"
+msgstr "Your form has been send"
 
-#: ../library/php/FormListTable.php:272
-msgid "Supprimer définitivement"
-msgstr "Delete completly"
+#: ../easy-form.php:328 ../easy-form.php:328 ../templates/test.php:7 ..
+#: templates/test.php:27
+msgid "Tests unitaires"
+msgstr "Unit tests"
 
-#: ../templates/index.php:9
-msgid "Tous"
-msgstr "All"
+#: ../assets/fields_traductions.php:1
+msgid "Full Name"
+msgstr ""
 
-#: ../templates/index.php:13
-msgid "Corbeille"
-msgstr "Trash"
+#: ../assets/fields_traductions.php:1
+msgid "E-Mail"
+msgstr ""
 
-#: ../templates/stats.php:226
-msgid "Télécharger au format CSV"
-msgstr "Download as CSV"
+#: ../assets/fields_traductions.php:1
+msgid "Attach Your CV <i class=\\\"fa fa-paperclip\\\"></i>"
+msgstr ""
+
+#: ../assets/fields_traductions.php:1
+msgid "Contact through the website"
+msgstr ""
+
+#: ../templates/test.php:9
+msgid "Entrez vos identifiants de connexion pour lancer le test"
+msgstr "Put your Ids to start the test"
+
+#: ../templates/test.php:11
+msgid "Identifiant administrateur"
+msgstr "admin ID"
+
+#: ../templates/test.php:14
+msgid "Mot de passe administrateur"
+msgstr "admin Password"
+
+#: ../templates/test.php:18
+msgid "Votre e-mail pour voir si vous les reçevez bien"
+msgstr "Put your e-mail address here"
+
+#: ../templates/test.php:21
+msgid "Lancer le test"
+msgstr "Launch tests"
+
+#: ../templates/test.php:36
+msgid "Nom du test"
+msgstr "Name of the test"
+
+#: ../templates/test.php:37
+msgid "Paramètres"
+msgstr "Parameters"
+
+#: ../templates/test.php:38
+msgid "Résultat"
+msgstr "Result"
+
+#: ../templates/test.php:39
+msgid "Temps"
+msgstr "Time"
+
+#: ../templates/test.php:40
+msgid "Stack Trace"
+msgstr "Stack Trace"
+
+#: ../templates/test.php:122 ../templates/test.php:148
+msgid "Succès"
+msgstr "Success"
+
+#: ../templates/test.php:122 ../templates/test.php:150
+msgid "Echec"
+msgstr "Fail"
+
+#: ../templates/test.php:147
+msgid "Total"
+msgstr "Total"
+
+#: ../tests/functions.php:188
+msgid "Les données du post ne sont pas dans le formulaire "
+msgstr "Post data are not in the form"
+
+#: ../tests/functions.php:228
+msgid "Le dernier post est incorrect"
+msgstr "The last post is incorrect"
+
+#: ../tests/functions.php:337
+msgid "Les données de l'utilisateur ne sont pas dans le formulaire "
+msgstr "User data are not in the form"
+
+#: ../tests/functions.php:383
+msgid "La mise à jour de l'utilisateur n'a pas fonctionné "
+msgstr "User update did not work"
+
+#: ../tests/header.php:13
+msgid "Pour lancer les tests, installer les dépendences via composer"
+msgstr "To launch tests, install dependencies using composer"
+
+#: ../tests/header.php:17
+msgid ""
+"Pour voir comment installer composer, regardez la documentation :  <a "
+"target=\"_blank\" href=\"https://getcomposer.org/\">https://getcomposer.org/</a>"
+msgstr ""
+"How to install composer ? Check the documentation :  <a target=\"_blank\" "
+"href=\"https://getcomposer.org/\">https://getcomposer.org/</a>"
+
+#: ../tests/header.php:31
+msgid ""
+"Erreur à la création du fichier de cookie, vérifiez que vous avec les droits "
+"et les permissions"
+msgstr "Error while creating the file cookie.txt, check your permissions & rights"
 
 #. Name of the plugin
 msgid "Easy WP Form"
@@ -70,47 +161,47 @@ msgstr "Bastien Malahieude"
 msgid "http://bastienmalahieude.fr"
 msgstr "http://bastienmalahieude.fr"
 
-#: ../easy-form.php:254
+#: ../easy-form.php:312
 msgid "Ajouter un formulaire"
 msgstr "Add a Form"
 
-#: ../easy-form.php:254 ../templates/add.php:155 ../templates/index.php:5
+#: ../easy-form.php:312 ../templates/add.php:155 ../templates/index.php:5
 msgid "Ajouter"
 msgstr "Add"
 
-#: ../easy-form.php:256
+#: ../easy-form.php:314
 msgid "Voir un formulaire"
 msgstr "See A Form"
 
-#: ../easy-form.php:256 ../templates/preview.php:29
+#: ../easy-form.php:314 ../templates/preview.php:29
 msgid "Prévisualiser"
 msgstr "Preview"
 
-#: ../easy-form.php:258 ../templates/import.php:5
+#: ../easy-form.php:316 ../templates/import.php:5
 msgid "Importer un formulaire"
 msgstr "Import a form"
 
-#: ../easy-form.php:258 ../templates/import.php:33
+#: ../easy-form.php:316 ../templates/import.php:33
 msgid "Importer"
 msgstr "Import"
 
-#: ../easy-form.php:261 ../templates/export.php:6
+#: ../easy-form.php:319 ../templates/export.php:6
 msgid "Exporter un formulaire"
 msgstr "Export a form"
 
-#: ../easy-form.php:261 ../templates/export.php:22
+#: ../easy-form.php:319 ../templates/export.php:22
 msgid "Exporter"
 msgstr "Export"
 
-#: ../easy-form.php:264 ../easy-form.php:264 ../library/php/FormListTable.php:244
+#: ../easy-form.php:322 ../easy-form.php:322 ../library/php/FormListTable.php:244
 msgid "Statistiques"
 msgstr "Statistics"
 
-#: ../easy-form.php:267 ../easy-form.php:267
+#: ../easy-form.php:325 ../easy-form.php:325
 msgid "Documentation"
 msgstr "Doc"
 
-#: ../easy-form.php:353
+#: ../easy-form.php:414
 msgid ""
 "Une erreur HTTP est arrivée lors du chargement du plugin.</p> <p><a href=\"?\" "
 "onclick=\"document.location.reload(); return false;\">Réessayer</a>"
@@ -118,31 +209,35 @@ msgstr ""
 "An HTTP Error occured while trying to load the plugin. <a href=\"?\" "
 "onclick=\"document.location.reload(); return false;\">Try again</a>"
 
-#: ../easy-form.php:358
+#: ../easy-form.php:419
 msgid "An unknown error occurred"
 msgstr "An unknown error occurred"
 
-#: ../easy-form.php:1171 ../templates/stats.php:234
+#: ../easy-form.php:1279 ../templates/stats.php:233
+msgid "Dernière visite"
+msgstr "Last Visit"
+
+#: ../easy-form.php:1280 ../templates/stats.php:234
 msgid "Adresse IP"
 msgstr "Ip Address"
 
-#: ../easy-form.php:1172 ../templates/stats.php:196 ../templates/stats.php:235
+#: ../easy-form.php:1281 ../templates/stats.php:196 ../templates/stats.php:235
 msgid "Région"
 msgstr "Location"
 
-#: ../easy-form.php:1173 ../templates/stats.php:236
+#: ../easy-form.php:1282 ../templates/stats.php:236
 msgid "Appareil"
 msgstr "Device"
 
-#: ../easy-form.php:1174 ../templates/stats.php:237
+#: ../easy-form.php:1283 ../templates/stats.php:237
 msgid "Champ Personnalisé"
 msgstr "Custom Field"
 
-#: ../easy-form.php:1175 ../templates/stats.php:238
+#: ../easy-form.php:1284 ../templates/stats.php:238
 msgid "Nombre de visites"
 msgstr "Number of visits"
 
-#: ../easy-form.php:1176 ../templates/stats.php:239 ../templates/stats.php:284
+#: ../easy-form.php:1285 ../templates/stats.php:239 ../templates/stats.php:284
 msgid "Conversion"
 msgstr "Conversion"
 
@@ -157,6 +252,10 @@ msgstr "Number of fields"
 #: ../library/php/FormListTable.php:163 ../templates/add.php:26
 msgid "Action"
 msgstr "Action"
+
+#: ../library/php/FormListTable.php:239 ../library/php/FormListTable.php:273
+msgid "Restaurer"
+msgstr "Restaure"
 
 #: ../library/php/FormListTable.php:242
 msgid "Afficher"
@@ -179,6 +278,10 @@ msgstr "Are you sure you want to delete this form ?"
 #: ../library/php/FormListTable.php:249 ../library/php/FormListTable.php:267
 msgid "Supprimer"
 msgstr "Delete"
+
+#: ../library/php/FormListTable.php:272
+msgid "Supprimer définitivement"
+msgstr "Delete completly"
 
 #: ../src/Form.php:146
 msgid "Un ou plusieurs champs n'est pas complet"
@@ -388,6 +491,14 @@ msgstr "Select your form (json file)"
 #: ../templates/index.php:5
 msgid "Formulaires"
 msgstr "Forms"
+
+#: ../templates/index.php:9
+msgid "Tous"
+msgstr "All"
+
+#: ../templates/index.php:13
+msgid "Corbeille"
+msgstr "Trash"
 
 #: ../templates/preview.php:9
 msgid "Choisissez le formulaire à prévisualiser"
@@ -684,6 +795,10 @@ msgstr "Visitors"
 #: ../templates/stats.php:220
 msgid "Détail des visiteurs"
 msgstr "Visitors' informations"
+
+#: ../templates/stats.php:226
+msgid "Télécharger au format CSV"
+msgstr "Download as CSV"
 
 #: ../templates/stats.php:245 ../templates/stats.php:331 ../templates/stats.php:
 #: 351 ../templates/stats.php:371

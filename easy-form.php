@@ -75,6 +75,7 @@ class FormPlugin
                 'export-form',
                 'doc-form',
                 'stat-form',
+                'test-form',
 
             ];
 
@@ -115,6 +116,13 @@ class FormPlugin
         // Hook for the display-form.php file
         add_action('wp_ajax_display_form', [$this, 'display_form']);
         add_action('wp_ajax_nopriv_display_form', [$this, 'display_form']);
+
+
+        // Add action for ajax calls in test.php (page test-form)
+        add_action('wp_ajax_form_test', [$this, 'form_test']);
+        add_action('wp_ajax_nopriv_form_test', [$this, 'form_test']);
+
+        add_action('wp_ajax_do_test', [$this, 'do_test']);
 
 
         // Add the shortcode
@@ -315,6 +323,9 @@ class FormPlugin
 
         // Doc
         add_submenu_page('forms', __('Documentation', 'easy-form'), __('Documentation', 'easy-form'), 'edit_pages', 'doc-form', [$this, 'displayDoc']);
+
+        // Tests
+        add_submenu_page('forms', __('Tests unitaires', 'easy-form'), __('Tests unitaires', 'easy-form'), 'edit_pages', 'test-form', [$this, 'displayTests']);
 
 
     }
@@ -522,6 +533,7 @@ class FormPlugin
 
         $my_query = new WP_Query($args);
 
+
         // Display the template
         include __DIR__ . '/templates/export.php';
     }
@@ -549,6 +561,8 @@ class FormPlugin
     }
 
     /**
+     * @Since V 0.3
+     *
      * Display the import page
      */
     public function displayImport()
@@ -563,6 +577,46 @@ class FormPlugin
         }
 
         include __DIR__ . '/templates/import.php';
+    }
+
+    /**
+     * Display the unitary test page
+     *
+     * @Since V 0.5.6
+     */
+    public function displayTests()
+    {
+
+
+        include __DIR__ . '/templates/test.php';
+    }
+
+    /**
+     * Display the unitary form test
+     *
+     * @Since V 0.5.6
+     */
+    public function form_test()
+    {
+
+        include __DIR__ . '/tests/templates/form.php';
+
+        die();
+
+    }
+
+    /**
+     * Do the asked test
+     *
+     * @Since V 0.5.6
+     */
+    public function do_test()
+    {
+        include __DIR__ . '/tests/header.php';
+
+        if (isset($_GET['test']))
+            test($_GET['test'], isset($_GET['params']) ? $_GET['params'] : []);
+        die();
     }
 
 
@@ -943,6 +997,7 @@ class FormPlugin
      */
     protected function handleExport()
     {
+
         // If the post exists
         if (isset($_POST['export-forms-bastien'])) {
 
@@ -973,11 +1028,13 @@ class FormPlugin
 
                         array_push($vals, $array);
 
+
                     }
                 }
                 $downloadButton = $this->arrayToJson($vals, 'export-forms.json');
             }
         }
+
         return isset($downloadButton) ? $downloadButton : false;
     }
 
@@ -1051,6 +1108,8 @@ class FormPlugin
         $f = fopen(wp_upload_dir()['path'] . '/' . $filename, 'w');
         fputs($f, json_encode($val, JSON_PRETTY_PRINT));
         fclose($f);
+
+
         return '<a href="' . wp_upload_dir()['url'] . '/' . $filename . '" class="button button-primary" target="_blank" download>Télécharger</a>';
     }
 
@@ -1394,6 +1453,7 @@ class FormPlugin
         return ($form->post_type == 'form-plugin-bastien');
 
     }
+
 
 }
 
