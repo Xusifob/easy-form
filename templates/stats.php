@@ -242,9 +242,16 @@
                     <tbody>
 
                     <?php $devices = [
-                        FormWordpress::_DESKTOP => __('Ordinateur', 'easy-form'),
-                        FormWordpress::_MOBILE => __('Mobile', 'easy-form'),
-                        FormWordpress::_TABLET => __("Tablette", 'easy-form'),
+                        FormWordpress::_DESKTOP => '<i class="fa fa-desktop" ></i>',
+                        FormWordpress::_MOBILE => '<i class="fa fa-mobile"></i>',
+                        FormWordpress::_TABLET => '<i class="fa fa-tablet"></i>',
+                    ]; ?>
+
+
+                    <?php $conversion = [
+                        FormPlugin::_CONVERSION_MISSED => __('<i class="fa fa-times red-txt" title="Aucune conversion" ></i>', 'easy-form'),
+                        FormPlugin::_CONVERSION_PART => __('<i class="fa fa-circle orange-txt" title="Conversion effectuée sur un autre mot clé"></i>', 'easy-form'),
+                        FormPlugin::_CONVERSION_DONE => __('<i class="fa fa-check green-txt" title="Conversion effectuée"></i>', 'easy-form'),
                     ]; ?>
 
                     <?php foreach ($tabData as $data) { ?>
@@ -255,7 +262,7 @@
                             <td><?php echo $devices[$data['device']]; ?></td>
                             <td><?php echo $data['custom_data']; ?></td>
                             <td><?php echo $data['nb_impression']; ?></td>
-                            <td><?php echo $data['conversion'] ? '<i class="fa fa-check green-txt">' : '<i class="fa fa-times red-txt">'; ?></td>
+                            <td><?php echo $conversion[$data['conversion']]; ?></td>
                         </tr>
                     <?php } ?>
                     </tbody>

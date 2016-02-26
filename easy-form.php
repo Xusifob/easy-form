@@ -16,6 +16,31 @@ ini_set('max_execution_time', 120);
 
 class FormPlugin
 {
+
+
+    /**
+     *
+     * The conversion has been done
+     *
+     * @Since V 0.5.5
+     */
+    const _CONVERSION_DONE = 2;
+
+    /**
+     *
+     * The conversion has been done by this IP but not on this custom data
+     *
+     * @Since V 0.5.5
+     */
+    const  _CONVERSION_PART = 1;
+
+    /**
+     * @Since V 0.5.5
+     *
+     * The conversion is missed
+     */
+    const _CONVERSION_MISSED = 0;
+
     /**
      *
      * Api url for update
@@ -1093,6 +1118,7 @@ class FormPlugin
     public function displayStat()
     {
 
+
         $_GET['id'] = (int)$_GET['id'];
 
         if (isset($_GET['id']) && !empty($_GET['id'])) {
@@ -1169,9 +1195,10 @@ class FormPlugin
             foreach ($impressions as $impression) {
                 $imps = self::putInTab($imps, $impression, $args);
             }
-            foreach ($conversions as $conversion) {
-                $convs = self::putInTab($convs, $conversion, $args);
 
+
+            foreach ($conversions as $key => $conversion) {
+                $convs = self::putInTab($convs, $conversion, $args);
             }
 
             // Add the ips into the regions & handle the number of person per region
@@ -1199,6 +1226,16 @@ class FormPlugin
                     if ($impression['ip'] != $_SERVER['REMOTE_ADDR'] || isset($_GET['include_my_ip'])) {
 
 
+                        // Handle Conversion
+                        $conversion = self::_CONVERSION_MISSED;
+                        if (array_key_exists($impression['ip'], $convs['ips'])) {
+
+                            $conversion = self::_CONVERSION_PART;
+                            if ($impression['custom_data'] == $convs['ips'][$impression['ip']]['custom_data'] || $convs['ips'][$impression['ip']]['custom_data'] == '')
+                                $conversion = self::_CONVERSION_DONE;
+                        }
+
+
                         $tmp = [
                             'date' => date('d-m-Y H:i', $impression['time']),
                             'ip' => $impression['ip'],
@@ -1206,7 +1243,7 @@ class FormPlugin
                             'custom_data' => $customData,
                             'nb_impression' => 1,
                             'device' => $impression['device'],
-                            'conversion' => array_key_exists($impression['ip'], $convs['ips']),
+                            'conversion' => $conversion,
                         ];
 
                         $tabData[$impression['ip'] . ' - ' . $customData] = $tmp;
@@ -1219,8 +1256,6 @@ class FormPlugin
             }
 
             usort($tabData, [$this, 'sortByDate']);
-
-
 
 
             if (isset($_GET['download_as_csv']) && $_GET['download_as_csv']) {
@@ -1297,18 +1332,20 @@ class FormPlugin
     /**
      * @Since V 0.5.5
      *
-     * @param $ip string the user Ip Address
+     * @param $value array the user Ip Address
      * @return array
      */
-    private function getIpData($ip)
+    private function getIpData($value)
     {
-        $geoplugin = json_decode(file_get_contents('http://ip-api.com/json/' . $ip), true);
+
+        $geoplugin = json_decode(file_get_contents('http://ip-api.com/json/' . $value['ip']), true);
 
         $data = [
             'lng' => is_numeric($geoplugin['lon']) ? $geoplugin['lon'] : 0,
             'lat' => is_numeric($geoplugin['lat']) ? $geoplugin['lat'] : 0,
             'region' => $geoplugin['city'] . ' - ' . $geoplugin['country'],
             'number' => 1,
+            'custom_data' => $value['custom_data']
         ];
 
         return $data;
@@ -1322,7 +1359,7 @@ class FormPlugin
      * Add the value in the chart datas if needed
      *
      * @param $tab array The values to put data in
-     * @param $value int the value to put in the chart
+     * @param $value array the value to put in the chart
      * @param $args array start of the chart
      *          * start int start of the chart
      *          * end int end of the chart
@@ -1358,7 +1395,7 @@ class FormPlugin
 
                             // Put the user IP in the ip tabs (in case we want unique users)
                             if (!array_key_exists($value['ip'], $tab['ips'])) {
-                                $tab['ips'][$value['ip']] = self::getIpData($value['ip']);
+                                $tab['ips'][$value['ip']] = self::getIpData($value);
                             } else
                                 $tab['ips'][$value['ip']]['number']++;
 
