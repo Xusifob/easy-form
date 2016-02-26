@@ -310,14 +310,13 @@ function getUtilyTemplate(val) {
 
 
     if (utilities[val] && utilities[val] != undefined && utilities[val] != '') {
-        console.log('input already loaded');
+
         dfd.resolve(utilities[val]);
     } else {
         // Get the template
         $.get(ajaxUrl, {form_action: val, action: 'form_action'}, function (data) {
         }).always(function (data) {
 
-            console.log('load Utility ' + val);
 
             utilities[val] = data;
 

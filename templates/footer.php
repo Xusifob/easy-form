@@ -2,10 +2,11 @@
 
 <?php
 
-if ($_GET['page'] == 'add-form') {
+$relPath = plugins_url('../', __FILE__);
+
+if ($_GET['page'] == 'add-form' || $_GET['page'] == 'test-form') {
 
 
-    $relPath = plugins_url('../', __FILE__);
     wp_register_script('empty-inputs-js', $relPath . 'assets/js/empty-inputs.js');
     wp_register_script('draggable-js', $relPath . 'assets/js/draggable.js');
     wp_register_script('functions2-js', $relPath . 'assets/js/functions.js');
@@ -20,6 +21,13 @@ if ($_GET['page'] == 'add-form') {
     wp_enqueue_script('draggable-js');
     wp_enqueue_script('actions-js');
     wp_enqueue_script('display-form');
+}
+
+if($_GET['page'] == 'test-form'){
+    wp_register_script('tests-js', $relPath . 'tests/tests.js');
+
+
+    wp_enqueue_script('tests-js');
 }
 
 
