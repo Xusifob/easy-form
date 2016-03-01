@@ -227,7 +227,7 @@
                         </h2>
                     </form>
                 </div>
-                <table class="table table-hover table-condensed table-overflow">
+                <table class="table sortable table-hover table-condensed table-overflow">
                     <thead>
                     <tr>
                         <th><?php _e("Dernière visite", 'easy-form'); ?></th>
@@ -267,6 +267,7 @@
                     <?php } ?>
                     </tbody>
                 </table>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>

@@ -1119,7 +1119,11 @@ class FormPlugin
     {
 
 
+        $time = microtime();
+
         $_GET['id'] = (int)$_GET['id'];
+
+
 
         if (isset($_GET['id']) && !empty($_GET['id'])) {
             $form = new WP_Form($_GET['id']);
@@ -1127,6 +1131,18 @@ class FormPlugin
             // Get the row impressions
             $impressions = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'impressions');
             $conversions = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'conversions');
+
+
+            foreach($impressions as $impression){
+
+                //delete_post_meta($_GET['id'],'impressions',$impression);
+               // vardump($_GET['id']);
+                //add_post_meta($_GET['id'],'impressions',$impression);
+               // update_post_meta($_GET['id'],'conversion')
+            }
+
+            die();
+
 
             // Data from the user
             $start = isset($_GET['period']) ? filter_var($_GET['period'], FILTER_SANITIZE_STRING) : '1 month ago';
@@ -1191,15 +1207,24 @@ class FormPlugin
             ];
 
 
+
+
+            /*
             // Put the data inside the impression table
             foreach ($impressions as $impression) {
+
+                // if (!FormWordpress::isRobotIp($impression['ip']))
                 $imps = self::putInTab($imps, $impression, $args);
-            }
+            } */
+
 
 
             foreach ($conversions as $key => $conversion) {
+
+                //  if (!FormWordpress::isRobotIp($conversion['ip']))
                 $convs = self::putInTab($convs, $conversion, $args);
             }
+
 
             // Add the ips into the regions & handle the number of person per region
             foreach ($imps['ips'] as $ip) {
@@ -1215,6 +1240,10 @@ class FormPlugin
             // Handle the tab
             $tabData = [];
             foreach ($impressions as $impression) {
+
+                // if (FormWordpress::isRobotIp($impression['ip']))
+                //    continue;
+
                 if ($impression['time'] > $args['end'])
                     continue;
                 elseif ($impression['time'] < $args['start'])
@@ -1286,6 +1315,9 @@ class FormPlugin
 
 
         include __DIR__ . '/templates/stats.php';
+
+        vardump(microtime() - $time);
+
     }
 
     private static function sortByDate($a, $b)
@@ -1329,28 +1361,6 @@ class FormPlugin
     }
 
 
-    /**
-     * @Since V 0.5.5
-     *
-     * @param $value array the user Ip Address
-     * @return array
-     */
-    private function getIpData($value)
-    {
-
-        $geoplugin = json_decode(file_get_contents('http://ip-api.com/json/' . $value['ip']), true);
-
-        $data = [
-            'lng' => is_numeric($geoplugin['lon']) ? $geoplugin['lon'] : 0,
-            'lat' => is_numeric($geoplugin['lat']) ? $geoplugin['lat'] : 0,
-            'region' => $geoplugin['city'] . ' - ' . $geoplugin['country'],
-            'number' => 1,
-            'custom_data' => $value['custom_data']
-        ];
-
-        return $data;
-
-    }
 
     /**
      *
@@ -1374,6 +1384,8 @@ class FormPlugin
     {
 
 
+
+
         if ($value['time'] > $args['end'])
             return $tab;
         elseif ($value['time'] < $args['start'])
@@ -1392,6 +1404,8 @@ class FormPlugin
 
                             // Increment the date (+1 Visit)
                             $tab['data'][date($args['format'], $value['time'])]++;
+
+                            return $tab;
 
                             // Put the user IP in the ip tabs (in case we want unique users)
                             if (!array_key_exists($value['ip'], $tab['ips'])) {

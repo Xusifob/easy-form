@@ -22,6 +22,14 @@ if ($_GET['page'] == 'add-form') {
     wp_enqueue_script('display-form');
 }
 
+if ($_GET['page'] == 'stat-form') {
+
+    $relPath = plugins_url('../', __FILE__);
+    wp_register_script('sortable-js', $relPath . 'library/js/sortable.js');
+
+    wp_enqueue_script('sortable-js');
+
+}
 
 if ($_GET['page'] == 'forms') { ?>
     <div class="modal fade bs-example-modal-sm" tabindex="-1" id="modal-duplicate" role="dialog"
