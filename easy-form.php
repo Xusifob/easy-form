@@ -1133,6 +1133,8 @@ class FormPlugin
             $conversions = get_post_meta(filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT), 'conversions');
 
 
+         include __DIR__ . '/templates/update_stats.php';
+
             foreach($impressions as $impression){
 
                 //delete_post_meta($_GET['id'],'impressions',$impression);
@@ -1141,15 +1143,13 @@ class FormPlugin
                // update_post_meta($_GET['id'],'conversion')
             }
 
-            die();
-
 
             // Data from the user
             $start = isset($_GET['period']) ? filter_var($_GET['period'], FILTER_SANITIZE_STRING) : '1 month ago';
             $end = 'today';
             $filter = isset($_GET['groupby']) ? filter_var($_GET['groupby'], FILTER_SANITIZE_STRING) : 'days';
             $format = isset($_GET['format']) ? $_GET['format'] : 'd/m/Y';
-            $device = isset($_GET['device']) && in_array($_GET['device'], ['mobile', 'desktop', 'tablet', 'all']) ? $_GET['device'] : 'all';
+            $device = isset($_GET['device']) && in_array($_GET['device'], ['mobile', 'desktop', 'tablet', 'all']) ?  $_GET['device'] : 'all';
 
 
             /** Fixed vars : **/
