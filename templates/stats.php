@@ -214,7 +214,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="data panel-wordpress">
+            <div class="data panel-wordpress" style="height: 380px;">
                 <div class="head">
                     <form action="#" target="_blank">
                         <h2><?php _e("Détail des visiteurs", 'easy-form'); ?>
