@@ -570,6 +570,7 @@ class FormWordpress extends Form
                 }
                 break;
             case 'user' :
+
                 // Actions
                 /* @since V 0.4 add hooks */
                 do_action('form/BeforeInsertOrModifyUser', $postId);
@@ -1078,9 +1079,13 @@ class FormWordpress extends Form
     {
         if ($this->canInsertUser($postId)) {
 
-            // Handle User has to be activated by e-mail
-            $ActivateUser = isset($args['emailUser']) && true === $args['emailUser'];
 
+            if($postId != null){
+                $ActivateUser = false;
+            }else {
+                // Handle User has to be activated by e-mail
+                $ActivateUser = isset($args['emailUser']) && true === $args['emailUser'];
+            }
 
             if (isset($args['role'])) {
                 if ($args['role'] == 'current') {
