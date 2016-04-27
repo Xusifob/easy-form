@@ -206,7 +206,7 @@ class FormPlugin
     public function display_form()
     {
 
-        $_GET['modify'] = (int)$_GET['modify'];
+        $_GET['modify'] = isset($_GET['modify']) ? (int)$_GET['modify'] : 0;
 
         $form = get_post($_GET['modify']);
         if ($this->isForm($_GET['modify'])) {
@@ -1437,7 +1437,7 @@ class FormPlugin
     {
         $form = get_post(filter_var($formId, FILTER_SANITIZE_NUMBER_INT));
         // If it's a form
-        return ($form->post_type == 'form-plugin-bastien');
+        return is_object($form) && $form->post_type == 'form-plugin-bastien';
 
     }
 

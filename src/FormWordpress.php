@@ -1144,10 +1144,10 @@ class FormWordpress extends Form
                 $postId = wp_update_user($postarr);
             } else {
 
+                $login = isset($_POST['login']) ? filter_var($_POST['login'], FILTER_SANITIZE_STRING) : filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
                 $postarr = [
-                    'ID' => filter_var($postId, FILTER_SANITIZE_NUMBER_INT),
                     'user_email' => isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '',
-                    'user_login' => isset($_POST['login']) ? filter_var($_POST['login'], FILTER_SANITIZE_STRING) : filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
+                    'user_login' => $login,
                     'user_url' => isset($_POST['url']) ? filter_var($_POST['url'], FILTER_SANITIZE_URL) : '',
                     'first_name' => isset($_POST['first_name']) ? filter_var($_POST['first_name'], FILTER_SANITIZE_STRING) : '',
                     'last_name' => isset($_POST['last_name']) ? filter_var($_POST['last_name'], FILTER_SANITIZE_STRING) : '',
@@ -1163,6 +1163,8 @@ class FormWordpress extends Form
                     /** @Since V 0.5 * */
                     $postId = $this->InsertUnactiveUser($postarr);
                 } else {
+
+
                     $postId = wp_insert_user($postarr);
                 }
             }
