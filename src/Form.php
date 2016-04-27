@@ -297,14 +297,17 @@ class Form
 
         if (!$this->formFinish) {
 
+
             // Handle an update post
             if (null != $this->postArgs && isset($this->postArgs['id'])) {
 
                 // If user & post, full the form
                 if ($this->postArgs['formType'] == 'user' || $this->postArgs['formType'] == 'post') {
 
+
                     // If user
                     if ($this->postArgs['formType'] == 'user') {
+
 
                         // Get not metas infos
                         $notMetas = [
@@ -325,6 +328,7 @@ class Form
 
                             // Val = info
                             $user = get_userdata($this->postArgs['id']);
+
                             if ($name != 'password' && $name != 'repeat-password') {
                                 switch ($name) {
                                     case 'email' :

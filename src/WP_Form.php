@@ -83,8 +83,8 @@ class WP_Form
             $formArgs['postId'] = $postId;
             /** @since V 0.4 */
             $formArgs['formId'] = $formId;
-            $formArgs['formType'] = get_post_meta($formId,'form-type');
-            $formArgs['lien'] = get_post_meta($formId,'form-redirect');
+            $formArgs['formType'] = get_post_meta($formId,'form-type',true);
+            $formArgs['lien'] = get_post_meta($formId,'form-redirect',true);
             $formArgs['form-send-args'] = get_post_meta($formId,'form-send-args',true);
 
 
@@ -189,7 +189,7 @@ class WP_Form
 
         /* @Modified V 0.4 */
         $argsMeta = get_post_meta($this->formId,'form-send-args');
-        $args = !empty($argsMeta) ? get_post_meta($this->formId,'form-send-args')[0] : '';
+        $args = !empty($argsMeta) ? get_post_meta($this->formId,'form-send-args',true): '';
 
         if(!$this->form->isResetForm())
             $this->form->CheckUnactiveUsers($args);
@@ -200,9 +200,9 @@ class WP_Form
         // If form is valid
         if($this->form->isValid($formType)){
 
-            $formType = get_post_meta($this->formId,'form-type')[0];
+            $formType = get_post_meta($this->formId,'form-type',true);
 
-            $lien = get_post_meta($this->formId,'form-redirect')[0];
+            $lien = get_post_meta($this->formId,'form-redirect',true);
 
 
             /* @since V 0.4 */
