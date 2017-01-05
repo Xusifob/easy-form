@@ -227,7 +227,7 @@ function EF_Event() {
     function _down()
     {
         var id = parseInt($(this).attr('data-field'));
-        if (id != nbfield)
+        if (id != EF_form_actions.getNumberOfFields())
             switchIds(id, id + 1);
 
         return false;
@@ -246,18 +246,20 @@ function EF_Event() {
     function _duplicate(){
         var id = parseInt($(this).attr('data-field'));
 
-        var thefield = $('#field-' + id);
+        var the_field = $('#field-' + id);
 
-        var clonedField = thefield.clone();
-        $('div[id="field-' + nbfield + '"]').after(clonedField);
+        var nb_field = EF_form_actions.getNumberOfFields();
 
-        updateIds(clonedField, id, (nbfield + 1));
+        var clonedField = the_field.clone();
+        $('div[id="field-' + nb_field + '"]').after(clonedField);
 
-        var val = $('select[name="field[' + id + '][form-type]"]').val();
+        updateIds(clonedField, id, (nb_field + 1));
 
-        $('select[name="field[' + (nbfield + 1) + '][form-type]"]').val(val);
+        // Add data inside the field
+        var val = $('select[name="field[' + id + '][attributes][type]"]').val();
+        $('select[name="field[' + (nb_field + 1) + '][attributes][type]"]').val(val);
         clonedField.draggable(DraggableArgs);
-        nbfield++;
+
         return false;
     }
 
@@ -400,7 +402,7 @@ function EF_Event() {
 
         var input = EF_form_actions.getInput({
             type: 'text',
-            id: (EF_form_actions.getCurrentFieldId() + 1),
+            id: (EF_form_actions.getNumberOfFields() + 1),
             name: ''
         });
 
@@ -430,13 +432,13 @@ function EF_Event() {
     function _delete() {
         var id = parseInt($(this).attr('data-field'));
 
-        var nbfield = $('.ef-field').length;
+        var nb_field = EF_form_actions.getNumberOfFields();
 
-        if (1 === id && 1 === nbfield)
+        if (1 === id && 1 === nb_field )
             return false;
 
         $("#field-" + id).remove();
-        for (var j = id + 1; j <= nbfield; j++)
+        for (var j = id + 1; j <= nb_field ; j++)
             updateIds($('#field-' + j), j, j - 1);
 
 

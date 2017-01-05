@@ -203,6 +203,9 @@ class EF_Input extends EF_Settings_Element
      */
     public function __toString()
     {
+
+        $this->generateAutoId();
+
         $template = $this->getInput();
 
         if($this->getSetting('label-after') == true){
@@ -211,6 +214,18 @@ class EF_Input extends EF_Settings_Element
             return $this->getLabel() . $template;
         }
 
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * Generate an id auto created if the field miss one
+     */
+    protected function generateAutoId() {
+        // Add the id if the input does not have any
+        if(false === $this->getFieldId()){
+            $this->addAttribute('id',$this->getName() . '-' . sanitize_title($this->getValue()) . '-' . $this->getId());
+        }
     }
 
 
@@ -281,6 +296,8 @@ class EF_Input extends EF_Settings_Element
      */
     public function getLabel($force = false)
     {
+
+        $this->generateAutoId();
 
         $this->setDefaultLabel();
 

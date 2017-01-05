@@ -245,7 +245,6 @@ class WP_Form implements JsonSerializable
             $this->data
         );
 
-
         foreach ($this->inputs as $input){
 
             $input = json_decode($input,true);
@@ -260,7 +259,7 @@ class WP_Form implements JsonSerializable
             }
 
             $inputObj = new $inputName(
-                null,
+                $this->form->getUniqId(),
                 $input['attributes'],
                 $input['settings'],
                 $this->data
@@ -385,6 +384,19 @@ class WP_Form implements JsonSerializable
     public function get_fields()
     {
         return $this->form->getInputs();
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * Return the form
+     *
+     *
+     * @return EF_Form
+     */
+    public function get_form()
+    {
+        return $this->form;
     }
 
 

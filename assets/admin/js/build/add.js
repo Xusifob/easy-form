@@ -805,7 +805,7 @@ function replace(data, find, replace) {
 function updateIds(field, id1, id2) {
     field.attr("id", "field-" + id2);
     field.find("*[data-field=" + id1 + "]").attr("data-field", id2);
-    field.find(".options-" + id1).removeClass(".options-" + id1).addClass("options-" + id2);
+    field.find(".options-" + id1).removeClass("options-" + id1).addClass("options-" + id2);
     field.find("input,select").each(function() {
         var newName = $(this).attr("name").replace(/field\[[0-9]+\]\[(.+)\]/g, "field[" + id2 + "][$1]");
         $(this).attr("name", newName);
@@ -897,7 +897,7 @@ function EF_Form_Actions(empty_inputs) {
     $this.loadFields = loadFields;
     $this.getField = getField;
     $this.getInput = getInput;
-    $this.getCurrentFieldId = getCurrentFieldId;
+    $this.getNumberOfFields = getNumberOfFields;
     $this.getFieldTemplate = getFieldTemplate;
     $this.addDataToField = addDataToField;
     function getOption(field) {
@@ -916,9 +916,11 @@ function EF_Form_Actions(empty_inputs) {
         if (fields) {
             $this.fields = fields;
         }
-        var keys = Object.keys($this.fields);
-        if (fieldIncrement < keys.length) {
-            getField($this.fields[keys[fieldIncrement]]);
+        var _fields = jQuery.extend({}, $this.fields);
+        delete _fields.submit;
+        var keys = Object.keys(_fields);
+        if (getNumberOfFields() < keys.length) {
+            getField($this.fields[keys[getNumberOfFields()]]);
         } else $("#spinner-fields").hide();
     }
     function getField(field, expand) {
@@ -929,7 +931,6 @@ function EF_Form_Actions(empty_inputs) {
             _handleHiddenFields(field.id, field.type);
             addDataToField(field);
             if (expand === true) $('a[data-field="' + field.id + '"].open').click();
-            fieldIncrement++;
             loadFields();
             dfd.resolve(data);
         });
@@ -1045,8 +1046,8 @@ function EF_Form_Actions(empty_inputs) {
         input.id = args.id;
         return input;
     }
-    function getCurrentFieldId() {
-        return fieldIncrement;
+    function getNumberOfFields() {
+        return $(".ef-field").length;
     }
     return init();
 }
@@ -1122,19 +1123,19 @@ function EF_Event() {
     }
     function _down() {
         var id = parseInt($(this).attr("data-field"));
-        if (id != nbfield) switchIds(id, id + 1);
+        if (id != EF_form_actions.getNumberOfFields()) switchIds(id, id + 1);
         return false;
     }
     function _duplicate() {
         var id = parseInt($(this).attr("data-field"));
-        var thefield = $("#field-" + id);
-        var clonedField = thefield.clone();
-        $('div[id="field-' + nbfield + '"]').after(clonedField);
-        updateIds(clonedField, id, nbfield + 1);
-        var val = $('select[name="field[' + id + '][form-type]"]').val();
-        $('select[name="field[' + (nbfield + 1) + '][form-type]"]').val(val);
+        var the_field = $("#field-" + id);
+        var nb_field = EF_form_actions.getNumberOfFields();
+        var clonedField = the_field.clone();
+        $('div[id="field-' + nb_field + '"]').after(clonedField);
+        updateIds(clonedField, id, nb_field + 1);
+        var val = $('select[name="field[' + id + '][attributes][type]"]').val();
+        $('select[name="field[' + (nb_field + 1) + '][attributes][type]"]').val(val);
         clonedField.draggable(DraggableArgs);
-        nbfield++;
         return false;
     }
     function _up() {
@@ -1184,7 +1185,7 @@ function EF_Event() {
         });
         var input = EF_form_actions.getInput({
             type: "text",
-            id: EF_form_actions.getCurrentFieldId() + 1,
+            id: EF_form_actions.getNumberOfFields() + 1,
             name: ""
         });
         EF_form_actions.getField(input, true).done(function() {
@@ -1193,10 +1194,10 @@ function EF_Event() {
     }
     function _delete() {
         var id = parseInt($(this).attr("data-field"));
-        var nbfield = $(".ef-field").length;
-        if (1 === id && 1 === nbfield) return false;
+        var nb_field = EF_form_actions.getNumberOfFields();
+        if (1 === id && 1 === nb_field) return false;
         $("#field-" + id).remove();
-        for (var j = id + 1; j <= nbfield; j++) updateIds($("#field-" + j), j, j - 1);
+        for (var j = id + 1; j <= nb_field; j++) updateIds($("#field-" + j), j, j - 1);
         return false;
     }
     function _move() {
@@ -1214,6 +1215,9 @@ function EF_Add(form) {
     function init() {
         _loadUtilities();
         _loadInputs();
+        var field = form.inputs.submit;
+        field.id = "submit";
+        EF_form_actions.addDataToField(field);
         return $this;
     }
     function _loadUtilities() {
@@ -1226,7 +1230,7 @@ function EF_Add(form) {
     function _loadInputs() {
         i = 0;
         $.each(form.inputs, function(key) {
-            form.inputs[key].id = i;
+            form.inputs[key].id = i + 1;
             i++;
         });
         EF_form_actions.loadFields(form.inputs);

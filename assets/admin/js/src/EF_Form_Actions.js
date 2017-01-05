@@ -29,7 +29,7 @@ function EF_Form_Actions(empty_inputs)
     $this.loadFields = loadFields;
     $this.getField = getField;
     $this.getInput = getInput;
-    $this.getCurrentFieldId = getCurrentFieldId;
+    $this.getNumberOfFields = getNumberOfFields;
     $this.getFieldTemplate = getFieldTemplate;
     $this.addDataToField = addDataToField;
 
@@ -76,11 +76,16 @@ function EF_Form_Actions(empty_inputs)
             $this.fields = fields;
         }
 
-        var keys = Object.keys($this.fields);
+        var _fields = jQuery.extend({}, $this.fields);
 
-        if (fieldIncrement < keys.length) {
+        // Do not display submit element
+        delete _fields.submit;
 
-            getField($this.fields[keys[fieldIncrement]]);
+        var keys = Object.keys(_fields);
+
+        if (getNumberOfFields() < keys.length) {
+
+            getField($this.fields[keys[getNumberOfFields()]]);
         } else
             $('#spinner-fields').hide();
     }
@@ -101,6 +106,7 @@ function EF_Form_Actions(empty_inputs)
     function getField(field, expand) {
 
         var dfd = new $.Deferred();
+
         _getFieldTemplate(field).done(function (data) {
 
             // J'affiche les champs
@@ -117,9 +123,6 @@ function EF_Form_Actions(empty_inputs)
             if (expand === true)
                 $('a[data-field="' + field.id + '"].open').click();
 
-            // J'incrémente le number de champs
-            fieldIncrement++;
-
             // J'affiche les data
             loadFields();
             dfd.resolve(data);
@@ -133,6 +136,9 @@ function EF_Form_Actions(empty_inputs)
 
 
     /**
+     * @since 1.0.0
+     *
+     * Add the data inside the HTML field element
      *
      * @param field
      */
@@ -414,8 +420,8 @@ function EF_Form_Actions(empty_inputs)
      *
      * @returns {number}
      */
-    function getCurrentFieldId(){
-        return fieldIncrement;
+    function getNumberOfFields(){
+        return $('.ef-field').length;
     }
 
 

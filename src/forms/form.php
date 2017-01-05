@@ -250,11 +250,6 @@ abstract class EF_Form extends EF_Html_Element
      */
     public function addInput($input){
 
-        // Add the id if the input does not have any
-        if(false === $input->getFieldId()){
-            $input->addAttribute('id',$input->getName() . '-' . sanitize_title($input->getValue()) . '-' . $this->getUniqId());
-        }
-
         if(preg_match('#\[\]$#',$input->getName()) || $input->getType() == 'radio') {
             $this->inputs[$input->getName()][] = $input;
         }else{

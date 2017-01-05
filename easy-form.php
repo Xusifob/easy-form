@@ -98,8 +98,6 @@ class Easy_Form
         EF_include('src/wp_form.php');
 
         if( is_admin() ) {
-            EF_include('src/admin/list-table.php');
-            EF_include('src/admin/handler.php');
             EF_include('src/admin/admin.php');
             EF_include('src/admin/EF_add.php');
             EF_include('src/admin/EF_list.php');
@@ -204,7 +202,7 @@ class Easy_Form
             'hierarchical'		=> true,
             'rewrite'			=> false,
             'query_var'			=> false,
-            'supports' 			=> array('title'),
+            'supports' => array( 'title' ),
             'show_in_menu'		=> false,
         ));
 

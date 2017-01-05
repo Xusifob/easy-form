@@ -49,6 +49,24 @@ class EF_Submit_Input extends EF_Input
      *
      * @since 1.0.0
      *
+     * EF_Submit_Input constructor.
+     *
+     * @param null $id
+     * @param array $attributes
+     * @param array $settings
+     * @param array $data
+     */
+    public function __construct( $id = null, $attributes = [], $settings = [], $data = [] ) {
+
+        $this->defaultAttributes['value'] = __('Send',EF_get_domain());
+
+        parent::__construct( $id, $attributes, $settings, $data );
+    }
+
+    /**
+     *
+     * @since 1.0.0
+     *
      * Return the label of the field
      *
      *

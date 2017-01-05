@@ -26,7 +26,7 @@ function replace(data,find,replace){
 function updateIds(field, id1, id2) {
     field.attr("id", 'field-' + id2);
     field.find("*[data-field="+ id1 +"]").attr("data-field", id2);
-    field.find(".options-"+ id1).removeClass('.options-' + id1).addClass("options-"+ id2);
+    field.find(".options-"+ id1).removeClass('options-' + id1).addClass("options-"+ id2);
     field.find("input,select").each(function() {
         var newName = $(this).attr('name').replace(/field\[[0-9]+\]\[(.+)\]/g,"field["+ id2 +"][$1]");
         $(this).attr('name',newName);

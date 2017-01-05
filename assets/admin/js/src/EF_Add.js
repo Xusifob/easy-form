@@ -23,6 +23,12 @@ function EF_Add(form)
         _loadUtilities();
         _loadInputs();
 
+
+        var field = form.inputs.submit;
+        field.id = 'submit';
+
+        EF_form_actions.addDataToField(field);
+
         return $this;
     }
 
@@ -55,7 +61,7 @@ function EF_Add(form)
         i = 0;
 
         $.each(form.inputs,function(key){
-            form.inputs[key].id = (i);
+            form.inputs[key].id = (i+1);
             i++;
         });
 

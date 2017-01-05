@@ -19,6 +19,9 @@
 					       placeholder="<?php _e('Class', EF_get_domain()); ?>"/>
 				</div>
 
+				<input type="hidden" name="field[submit][attributes][name]" value="submit">
+				<input type="hidden" name="field[submit][attributes][name]" value="submit">
+
 				<div class="ef-input">
 					<label for="field[submit][attributes][id]"><?php _e('Input Id', EF_get_domain()); ?></label>
 					<input type="text" class="form-control" id="field[submit][attributes][id]"

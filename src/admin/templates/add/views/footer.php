@@ -30,27 +30,20 @@ global $wp_form;
 		submit : <?php echo json_encode(new EF_Submit_Input()); ?>,
 	};
 
-
-
 	jQuery(document).ready(function(){
 
 
-		var form = <?php echo json_encode($wp_form,WP_DEBUG ? JSON_PRETTY_PRINT : false); ?>
-
-
-		var remove = [
-			'_time','_nonce','_uniqid','_antispam'
-		];
-
-		for(var i =0;i<remove.length;i++){
-			//  delete form.inputs[remove[i]];
-		}
+		var form = <?php echo json_encode($wp_form,WP_DEBUG ? JSON_PRETTY_PRINT : false); ?>;
 
 		/**
 		 *
 		 * @type {EF_Add}
 		 */
 		var EF_add = new EF_Add(form);
+
+
+		// Hack to put the title at it's place
+		$('#title').val($('#title')[0].defaultValue);
 
 	})
 </script>
