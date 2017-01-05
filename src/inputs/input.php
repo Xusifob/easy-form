@@ -1,0 +1,327 @@
+<?php
+
+/**
+ * Class EF_Input
+ */
+class EF_Input extends EF_Settings_Element
+{
+
+    /**
+     * @var string
+     */
+    protected $element = 'input';
+
+    /**
+     * @var string
+     */
+    protected $type = 'text';
+
+    /**
+     * The meta id
+     *
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * The name of the field
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $error;
+
+
+    /**
+     * If the label has already been retrieved
+     *
+     * @since 1.0.0
+     *
+     * @var boolean
+     */
+    protected $label_retrieved = false;
+
+
+
+
+    /**
+     * @since 1.0.0
+     *
+     * @var array
+     */
+    protected $defaultAttributes = [
+        'required' => true
+    ];
+
+
+
+    /**
+     * EF_Input constructor.
+     * @param null $id
+     * @param array $attributes
+     * @param array $settings
+     * @param array $data
+     * @throws Exception
+     */
+    public function __construct($id = null,$attributes = [],$settings = [],$data = [])
+    {
+        $this->addAttribute('type',$this->getType());
+
+        parent::__construct($attributes,$settings);
+        $this->fillValue($data);
+
+        if(false === $this->getName()){
+            $this->setError(__('A field must always have a name'));
+            return new WP_Error(666,__('A field must always have a name'));
+        }
+    }
+
+
+    /**
+     * Add the value inside the input
+     *
+     * @param $data
+     */
+    public function fillValue($data){
+        if(isset($data[$this->getAttribute('name')])){
+            $this->addAttribute('value',$data[$this->getAttribute('name')]);
+        }
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFieldId()
+    {
+        return $this->getAttribute('id');
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldClass()
+    {
+        return $this->getAttribute('class');
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public function isRequired()
+    {
+        return $this->getAttribute('required');
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getAttribute('name');
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->addAttribute('name',$name);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->getAttribute('value');
+    }
+
+    /**
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * @param string $error
+     */
+    public function setError($error)
+    {
+        $this->error = $error;
+    }
+
+
+
+    /**
+     *
+     * Display the element
+     *
+     * @since 1.0.0
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $template = $this->getInput();
+
+        if($this->getSetting('label-after') == true){
+            return $template . $this->getLabel();
+        }else{
+            return $this->getLabel() . $template;
+        }
+
+    }
+
+
+    /**
+     * @since 1.0.0
+     *
+     * Return the input template
+     *
+     * @return string
+     */
+    public function getInput()
+    {
+        return $this->open();
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * Set a default setting to display the hidden label
+     *
+     */
+    protected function setDefaultLabel()
+    {
+        if(!$this->getSetting('label')){
+            if(!$this->getSetting('label-class')){
+                $this->addSetting('label-class','sr-only');
+            }
+            $this->addSetting('label',$this->getName());
+        }
+    }
+
+
+    /**
+     * @since 1.0.0
+     *
+     * Return a json object
+     */
+    public function jsonSerialize()
+    {
+
+        $elem = parent::jsonSerialize();
+        return array_merge($elem,[
+            'name' => $this->getName(),
+            'settings' => $this->getSettings()
+        ]);
+    }
+
+    /**
+     *
+     * @since 1.0.0
+     *
+     * Return if the input has errors
+     *
+     * @return bool
+     */
+    public function hasError(){
+        return $this->getError() != false;
+    }
+
+
+    /**
+     * @since 1.0.0
+     *
+     * Return a label
+     *
+     * @param bool|false $force if false, will return the label only once
+     * @return string
+     */
+    public function getLabel($force = false)
+    {
+
+        $this->setDefaultLabel();
+
+        if(!$this->label_retrieved || $force) {
+            $label = new EF_Html_Element([
+                'for' => $this->getFieldId(),
+                'class' => $this->getSetting('label-class'),
+            ]);
+            $label->setElement('label');
+
+            $this->label_retrieved = true;
+
+            // Return the label html
+            return $label->open() . $this->getSetting('label') . $label->close();
+        }else{
+            return '';
+        }
+    }
+
+    /**
+     *
+     * @since 1.0.0
+     *
+     * Returns if the input is valid
+     *
+     * @param $data
+     * @return bool
+     */
+    public function isValid($data)
+    {
+
+        if(!$this->isRequired()) {
+            return true;
+        }
+
+        if(!isset($data[$this->getName()]) || empty($data[$this->getName()])){
+            $this->setError(__('This field  is required','easy-form'));
+            return false;
+        }
+        return true;
+
+    }
+
+}

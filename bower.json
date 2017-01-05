@@ -1,0 +1,23 @@
+{
+  "name": "easy-form",
+  "description": "Plugin for wordpress",
+  "main": "gulpfile.js",
+  "authors": [
+    "xusifob <b.malahieude@free.fr>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery-ui-draggable": "*"
+  }
+}

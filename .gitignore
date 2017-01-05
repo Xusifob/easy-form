@@ -1,6 +1,2 @@
-.idea
-library/uploads/*
-tests
-assets/fields_traductions.php
-languages/*.po~
-languages/*.pot~
+node_modules
+libs

@@ -1,0 +1,82 @@
+.tab-head {
+  width: 100%;
+  margin-bottom: 30px;
+  label {
+    display: block;
+    input {
+      margin: -4px 4px 0 0;
+    }
+    a.small-info{
+      font-size: 9px;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+  }
+  select {
+    width: 100%;
+  }
+}
+
+.head{
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  h2{
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+
+    input[type="submit"]{
+      color: #0073aa;
+      transition: all 0.3s ease;
+      padding: 6px 10px;
+      float: right;
+      &:hover{
+        color: #fff;
+      }
+    }
+  }
+}
+
+.ef-table{
+  width: 100%;
+  background: #fff;
+  .ef-rules{
+    vertical-align: top;
+    background: darken(#fff,2);
+    padding: 10px 15px 20px 15px;
+    width: 180px;
+    h4{
+      margin: 0;
+    }
+
+    p{
+      font-size: 12px;
+      margin: 0;
+      font-style: oblique;
+      color: grey;
+    }
+
+    &.ef-rules--small{
+      width: 130px;
+    }
+
+  }
+
+  .ef-table-content{
+    padding: 10px 0 5px 0;
+    vertical-align: top;
+  }
+
+
+  tr.ef-table--separator{
+    border-bottom: 1px solid darken(#fff,10);
+  }
+
+  .ef-input{
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
+
+}

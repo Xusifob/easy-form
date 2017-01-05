@@ -1,0 +1,165 @@
+a {
+  &.upanddown {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 24px;
+    background: #fafafa;
+    text-decoration: none;
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    color: #aaa;
+    &:hover {
+      text-decoration: none;
+      color: #aaa;
+      font-weight: 800;
+    }
+  }
+}
+.field-number {
+  font-size: 20px;
+  line-height: 52px;
+  cursor: move;
+}
+div[id^="field-"] {
+  background-color: #fff;
+  hr {
+    margin-top: 0;
+  }
+  &.ui-draggable-dragging {
+    -webkit-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+    -moz-box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+    box-shadow: -1px 4px 23px -1px rgba(0, 0, 0, 0.44);
+    .info {
+      display: block;
+      position: absolute;
+      top: 3px;
+      left: 5px;
+      color: #777;
+      font-weight: 400;
+    }
+  }
+  .info {
+    display: none;
+  }
+  .col-sm-7 {
+    label {
+      cursor: move;
+      display: block;
+    }
+  }
+}
+.infos {
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: #888;
+}
+textarea {
+  resize: vertical;
+  width: 100%;
+}
+
+&.preview-form {
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="password"],
+  input[type="url"],
+  input[type="date"],
+  input[type="search"],
+  textarea {
+    width: 80%;
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    box-shadow: 0 0 0 0;
+  }
+  input[type="submit"] {
+    display: block;
+    margin-top: 10px;
+    border: none;
+    border-radius: 0;
+  }
+  label {
+    font-size: 14px;
+    font-weight: normal;
+  }
+}
+
+
+
+.panel{
+  background: #fff;
+  margin: 20px 0 40px 0;
+  border: 1px solid darken(#fff,10);
+  header{
+    cursor: pointer;
+    border-bottom: 1px solid darken(#fff,10);
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+
+    h3{
+      font-size: 14px;
+      padding: 0;
+      margin: 0;
+      line-height: 30px;
+      font-weight: 600;
+    }
+
+    .handlediv{
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 5px;
+      right: 5px;
+
+      &:before{
+        right: 0;
+        font: 400 20px/1 dashicons;
+        speak: none;
+        display: inline-block;
+        top: 0;
+        position: relative;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-decoration: none!important;
+        content: '\f142';
+      }
+    }
+  }
+
+  .handlediv{
+    transform: rotate(-180deg);
+  }
+
+  .ef-content{
+    display: none;
+    background: #fff;
+
+    .button-add{
+      display: block;
+      float: none;
+      margin: 15px 15px 15px auto;
+    }
+  }
+
+  &.panel--open{
+    .ef-content{
+      display: block;
+    }
+
+    .handlediv{
+      transform: rotate(0deg);
+    }
+
+  }
+
+}
