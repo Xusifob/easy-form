@@ -409,8 +409,6 @@ function EF_Event() {
         EF_form_actions.getField(input, true).done(function () {
             $('#spinner-fields').hide();
         });
-
-        nbfield++;
     }
 
 

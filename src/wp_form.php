@@ -226,7 +226,8 @@ class WP_Form implements JsonSerializable
     {
 
         // Get the type from setting
-        $form_type =  $this->settings['type'];
+
+        $form_type =  isset($this->settings['type']) ? $this->settings['type'] : false;
 
         if(isset($this::FORMS[$form_type])){
             $className = $this::FORMS[$form_type];
@@ -248,6 +249,9 @@ class WP_Form implements JsonSerializable
         foreach ($this->inputs as $input){
 
             $input = json_decode($input,true);
+
+            if(!isset($input['attributes']))
+                continue;
 
             if(isset( $this::INPUTS[$input['attributes']['type']])) {
                 $inputName = $this::INPUTS[$input['attributes']['type']];
@@ -359,6 +363,30 @@ class WP_Form implements JsonSerializable
     {
         return $this->form->getField($name,$field);
     }
+
+    /**
+     * @since 1.0.0
+     *
+     * Return the form type
+     */
+    public function get_type()
+    {
+        return $this->form->getType();
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * Return all the fields
+     *
+     *
+     * @return bool|EF_Input[]
+     */
+    public function get_fields()
+    {
+        return $this->form->getInputs();
+    }
+
 
     /**
      * @since 1.0.0
@@ -551,5 +579,9 @@ class WP_Form implements JsonSerializable
     {
         echo $this->form->getUniqId();
     }
+
+
+
+
 
 }

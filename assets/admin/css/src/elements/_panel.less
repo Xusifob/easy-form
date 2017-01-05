@@ -94,72 +94,11 @@ textarea {
 
 
 
-.panel{
+.ef-content{
   background: #fff;
-  margin: 20px 0 40px 0;
-  border: 1px solid darken(#fff,10);
-  header{
-    cursor: pointer;
-    border-bottom: 1px solid darken(#fff,10);
-    position: relative;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 15px;
-
-    h3{
-      font-size: 14px;
-      padding: 0;
-      margin: 0;
-      line-height: 30px;
-      font-weight: 600;
-    }
-
-    .handlediv{
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      top: 5px;
-      right: 5px;
-
-      &:before{
-        right: 0;
-        font: 400 20px/1 dashicons;
-        speak: none;
-        display: inline-block;
-        top: 0;
-        position: relative;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-decoration: none!important;
-        content: '\f142';
-      }
-    }
+  .button-add{
+    display: block;
+    float: none;
+    margin: 15px 15px 15px auto;
   }
-
-  .handlediv{
-    transform: rotate(-180deg);
-  }
-
-  .ef-content{
-    display: none;
-    background: #fff;
-
-    .button-add{
-      display: block;
-      float: none;
-      margin: 15px 15px 15px auto;
-    }
-  }
-
-  &.panel--open{
-    .ef-content{
-      display: block;
-    }
-
-    .handlediv{
-      transform: rotate(0deg);
-    }
-
-  }
-
 }

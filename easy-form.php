@@ -101,6 +101,8 @@ class Easy_Form
             EF_include('src/admin/list-table.php');
             EF_include('src/admin/handler.php');
             EF_include('src/admin/admin.php');
+            EF_include('src/admin/EF_add.php');
+            EF_include('src/admin/EF_list.php');
         }
 
         add_action('init',array($this, 'wp_init'), 5);
@@ -219,9 +221,14 @@ class Easy_Form
         // register scripts
         $scripts = array(
 
-           array(
-                'handle'	=> 'ef-admin-js',
-                'src'		=> EF_get_dir('assets/admin/js/build/admin.js'),
+          // array(
+          //      'handle'	=> 'ef-admin-js',
+          //      'src'		=> EF_get_dir('assets/admin/js/build/admin.js'),
+          //      'deps'		=> array('jquery')
+          //  ),
+            array(
+                'handle'	=> 'ef-add-js',
+                'src'		=> EF_get_dir('assets/admin/js/build/add.js'),
                 'deps'		=> array('jquery')
             ),
         );

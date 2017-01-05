@@ -72,7 +72,7 @@ class EF_Admin
      */
     public function admin_enqueue_scripts()
     {
-        if(self::is_EF_admin_page()){
+        if(EF_is_screen(EF_get_post_type())){
             wp_enqueue_style( 'ef-admin-css' );
             wp_enqueue_script( 'ef-admin-js',false,array('jquery'),false,true );
         }
@@ -91,25 +91,6 @@ class EF_Admin
         $table = new EF_List_Table();
         $table->prepare_items();
         EF_include('src/admin/templates/list.php');
-    }
-
-
-    /**
-     *
-     * Display the template for the post
-     *
-     * @since 1.0.0
-     */
-    public function EF_add()
-    {
-
-        EF_Form_Handler::add($_POST);
-
-        $post_id = isset($_GET['form']) ? $_GET['form'] : null;
-        $GLOBALS['wp_form'] = new WP_Form($post_id);
-
-
-        EF_include('src/admin/templates/add.php');
     }
 
 
@@ -145,26 +126,6 @@ class EF_Admin
     public function EF_doc()
     {
 
-    }
-
-
-    /**
-     * Return if the page is an admin page from easy form
-     *
-     * @return bool
-     */
-    public static function is_EF_admin_page()
-    {
-        return isset($_GET['page']) &&
-               in_array($_GET['page'],[
-            'EF_list',
-            'EF_add',
-            'EF_show',
-            'EF_import',
-            'EF_export',
-            'EF_stat',
-            'EF_doc',
-        ]);
     }
 
 }

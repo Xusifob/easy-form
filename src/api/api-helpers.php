@@ -44,9 +44,26 @@ function EF_include( $file ) {
 
         include_once( $path );
 
+    }else{
+        if(WP_DEBUG)
+            trigger_error(sprintf('File %s not found',$path));
     }
 
 }
+
+
+function EF_is_screen( $id = '' ) {
+
+    // vars
+    $current_screen = get_current_screen();
+
+    
+
+    // return
+    return ($id === $current_screen->id);
+
+}
+
 
 
 /**

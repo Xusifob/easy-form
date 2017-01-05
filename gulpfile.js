@@ -70,7 +70,31 @@ gulp.task('admin-js',function(){
         }))
         // Output : all.js in assets/js/
         .pipe(gulp.dest('assets/admin/js/build'))
-        .pipe(rename('admin.js'))
+});
+
+gulp.task('add-js',function(){
+    return gulp.src([
+            'libs/bootstrap/js/bootstrap.min.js',
+            'libs/jquery-ui-draggable/dist/jquery-ui-draggable.min.js',
+            'assets/admin/js/src/functions.js',
+            'assets/admin/js/src/add-draggable.js',
+            'assets/admin/js/src/EF_Form_Actions.js',
+            'assets/admin/js/src/EF_Event.js',
+            'assets/admin/js/src/EF_Add.js',
+            'assets/admin/js/src/add.js',
+        ])
+        // Put everything in one file
+        .pipe(concat('add.js'))
+        .pipe(uglify({
+            mangle: false,
+            compress: options.env != 'dev',
+            output : {
+                beautify : options.env == 'dev',
+                comments : options.env != 'dev',
+            }
+        }))
+        // Output : all.js in assets/js/
+        .pipe(gulp.dest('assets/admin/js/build'))
 });
 
 
@@ -78,6 +102,7 @@ gulp.task('admin-js',function(){
 gulp.task('watch',function(){
     gulp.watch('./assets/admin/css/src/**/*.less',['admin-less']);
     gulp.watch('./assets/admin/js/src/**/*.js',['admin-js']);
+    gulp.watch('./assets/admin/js/src/**/*.js',['add-js']);
     gulp.watch('./assets/public/css/src/**/*.less',['public-less','admin-less']);
     gulp.watch('./assets/public/js/src/**/*.js',['public-js']);
 });
