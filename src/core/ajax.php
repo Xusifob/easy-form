@@ -22,7 +22,7 @@ class EF_ajax
 
 
 		add_action('wp_ajax_EF/load_template',array($this,'load_template'));
-		add_action('wp_ajax_nopriv_EF/load_template',array($this,'load_template'));
+
 	}
 
 

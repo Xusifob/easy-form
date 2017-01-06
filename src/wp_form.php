@@ -282,7 +282,7 @@ class WP_Form implements JsonSerializable
      */
     public function __toString()
     {
-     return $this->form->__toString();
+        return $this->form->__toString();
     }
 
 
@@ -296,7 +296,12 @@ class WP_Form implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->form->jsonSerialize();
+        return array_merge( array(
+            'post_name' => $this->post->post_name,
+            'post_title' => $this->post->post_title,
+            'post_status' => $this->post->post_status
+        ), $this->form->jsonSerialize()
+        );
     }
 
     /**
@@ -345,7 +350,7 @@ class WP_Form implements JsonSerializable
      */
     public function close()
     {
-       echo $this->get_close();
+        echo $this->get_close();
     }
 
 

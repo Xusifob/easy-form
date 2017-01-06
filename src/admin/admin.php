@@ -50,17 +50,9 @@ class EF_Admin
         // Prévisualiser son formulaire
         add_submenu_page($menu_page, __('Preview', EF_get_domain()), __('Preview', EF_get_domain()), EF_get_setting('capability'), 'EF_show', [$this, 'EF_show']);
 
-        add_submenu_page($menu_page, __('Import', EF_get_domain()), __('Import', EF_get_domain()), EF_get_setting('capability'), 'EF_import', [$this, 'EF_import']);
-
-        // Exporter un formulaire
-        add_submenu_page($menu_page, __('Export', EF_get_domain()), __('Export', EF_get_domain()), EF_get_setting('capability'), 'EF_export', [$this, 'EF_export']);
 
         // Stats
         add_submenu_page($menu_page, __('Statistics', EF_get_domain()), __('Statistics', EF_get_domain()), EF_get_setting('capability'), 'EF_stat', [$this, 'EF_stat']);
-
-        // Doc
-        add_submenu_page($menu_page, __('Documentation', EF_get_domain()), __('Documentation', EF_get_domain()), EF_get_setting('capability'), 'EF_doc', [$this, 'EF_doc']);
-
 
     }
 
@@ -72,26 +64,14 @@ class EF_Admin
      */
     public function admin_enqueue_scripts()
     {
+
         if(EF_is_screen(EF_get_post_type())){
             wp_enqueue_style( 'ef-admin-css' );
             wp_enqueue_script( 'ef-admin-js',false,array('jquery'),false,true );
         }
+
     }
 
-
-    /**
-     * @since 1.0.0
-     *
-     * Display the list of forms
-     *
-     */
-    public function EF_list()
-    {
-        global $table;
-        $table = new EF_List_Table();
-        $table->prepare_items();
-        EF_include('src/admin/templates/list.php');
-    }
 
 
 
@@ -101,18 +81,6 @@ class EF_Admin
     }
 
 
-
-    public function EF_import()
-    {
-
-    }
-
-
-
-    public function EF_export()
-    {
-
-    }
 
 
 

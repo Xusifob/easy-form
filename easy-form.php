@@ -101,6 +101,7 @@ class Easy_Form
             EF_include('src/admin/admin.php');
             EF_include('src/admin/EF_add.php');
             EF_include('src/admin/EF_list.php');
+            EF_include('src/admin/EF_export.php');
         }
 
         add_action('init',array($this, 'wp_init'), 5);
@@ -227,6 +228,12 @@ class Easy_Form
             array(
                 'handle'	=> 'ef-add-js',
                 'src'		=> EF_get_dir('assets/admin/js/build/add.js'),
+                'deps'		=> array('jquery')
+            ),
+
+            array(
+                'handle'	=> 'ef-export-js',
+                'src'		=> EF_get_dir('assets/admin/js/build/ef-export.js'),
                 'deps'		=> array('jquery')
             ),
         );

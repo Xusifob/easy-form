@@ -30,9 +30,12 @@ class EF_List
 
 
 		add_filter('manage_edit-'. EF_get_post_type() .'_columns' , array($this,'ef_columns'));
+		add_filter('manage_edit-'. EF_get_post_type() .'_sortable_columns' , array($this,'ef_sortable_columns'));
 
 
 		add_action('manage_'. EF_get_post_type() .'_posts_custom_column', array($this,'ef_data_columns'), 10, 2 );
+
+
 
 	}
 
@@ -45,14 +48,33 @@ class EF_List
 	public function ef_columns($columns)
 	{
 
+		$date = $columns['date'];
+
 		unset($columns['date']);
 		$columns['id'] = __('ID - Slug',EF_get_domain());
 		$columns['nb_fields'] = __('Number of fields',EF_get_domain());
 		$columns['type'] = __('Form type',EF_get_domain());
+		$columns['date'] = $date;
 
 		return $columns;
 	}
 
+
+	/**
+	 * @since 1.0.0
+	 * @wp_type filter
+	 *
+	 * @param $columns
+	 */
+	public function ef_sortable_columns($columns)
+	{
+
+		$columns['id'] = 'id';
+		$columns['nb_fields'] = 'nb_fields';
+		$columns['type'] = 'type';
+
+		return $columns;
+	}
 
 	/**
 	 * Display the data
@@ -65,6 +87,11 @@ class EF_List
 		global $post;
 
 		$form = new WP_Form($post->ID);
+		$form->get_field('_nonce');
+		$form->get_field('_time');
+		$form->get_field('_uniqid');
+		$form->get_field('submit');
+		$form->get_field('_antispam');
 
 		switch ($name) {
 			case 'id':

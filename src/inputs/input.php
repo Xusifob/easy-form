@@ -222,6 +222,11 @@ class EF_Input extends EF_Settings_Element
      * Generate an id auto created if the field miss one
      */
     protected function generateAutoId() {
+
+        // I don't generate the auto id
+        if(empty($this->getName()))
+            return;
+
         // Add the id if the input does not have any
         if(false === $this->getFieldId()){
             $this->addAttribute('id',$this->getName() . '-' . sanitize_title($this->getValue()) . '-' . $this->getId());
@@ -249,6 +254,7 @@ class EF_Input extends EF_Settings_Element
      */
     protected function setDefaultLabel()
     {
+
         if(!$this->getSetting('label')){
             if(!$this->getSetting('label-class')){
                 $this->addSetting('label-class','sr-only');

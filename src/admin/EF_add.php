@@ -78,12 +78,7 @@ class EF_add
 
 		// Remove all "default fields"
 		global $wp_form;
-		$wp_form->get_field('_nonce');
-		$wp_form->get_field('_time');
-		$wp_form->get_field('_uniqid');
-		$wp_form->get_field('_antispam');
-
-		vardump();
+		$wp_form->get_form()->removeDefaultFields();
 
 
 		if(!isset($wp_form->get_fields()['submit'])){
@@ -203,7 +198,7 @@ class EF_add
 			return $post_array;
 		}
 
-		$post_array['post_name'] = 'form-' . $post_array['post_name'];
+		$post_array['post_name'] = 'form-' . sanitize_title($post_array['post_title']);
 
 		return $post_array;
 	}
@@ -228,16 +223,16 @@ class EF_add
 			update_post_meta($post_id,'attributes',$_POST['attributes']);
 
 
-
-
 		if(!isset($_POST['field']) || !is_array($_POST['field']))
 			return false;
 
 		delete_post_meta($post_id,'inputs');
 
+		foreach($_POST['field'] as $key => $_input){
+			$_settings = isset($_input['settings']) ? $_input['settings'] : [];
 
-		foreach($_POST['field'] as $key => $input){
-			$input = new EF_Input(null,$input['attributes']);
+			$input = new EF_Input(null,$_input['attributes'],$_settings);
+
 			add_post_meta($post_id,'inputs',json_encode($input));
 		}
 

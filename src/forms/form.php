@@ -272,18 +272,7 @@ abstract class EF_Form extends EF_Html_Element
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        $elem = parent::jsonSerialize();
-        return array_merge($elem,[
-            'inputs' => $this->getInputs(),
-            'settings' => $this->getSettings(),
-            'type' => $this->getType()
-        ]);
-    }
+
 
 
     /**
@@ -591,6 +580,41 @@ abstract class EF_Form extends EF_Html_Element
         return $template;
     }
 
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $elem = parent::jsonSerialize();
+        return array_merge($elem,[
+            'settings' => $this->getSettings(),
+            'type' => $this->getType(),
+            'inputs' => $this->getInputs(),
+        ]);
+    }
+
+
+    /**
+     * @since 1.0.0
+     *
+     * Remove the default inputs
+     *
+     */
+    public function removeDefaultFields()
+    {
+        $fields = [
+            '_nonce',
+            '_time',
+            '_antispam',
+            '_uniqid',
+        ];
+
+        foreach($fields as $field){
+            $this->removeInput($field);
+        }
+
+    }
 
 
 

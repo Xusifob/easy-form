@@ -57,7 +57,7 @@ function EF_is_screen( $id = '' ) {
     // vars
     $current_screen = get_current_screen();
 
-    
+
 
     // return
     return ($id === $current_screen->id);
@@ -155,4 +155,27 @@ function array_flatten($array) {
     }
     return $return;
 
+}
+
+
+/**
+ * @param $action
+ *
+ * @return false|int
+ */
+function EF_verify_nonce($action)
+{
+
+    $_data = false;
+
+    if(isset($_POST['nonce']))
+        $_data = $_POST['nonce'];
+
+    if(isset($_GET['nonce']))
+        $_data = $_GET['nonce'];
+
+    if(!$_data)
+        return false;
+
+    return wp_verify_nonce($_data,$action);
 }
