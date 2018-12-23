@@ -20,14 +20,6 @@
 					       name="attributes[id]" placeholder="<?php _e('Id of the form', EF_get_domain()); ?>"/>
 				</div>
 
-				<div class="ef-input">
-					<label for="attributes[action]"><?php _ex('Action','Action of the form',EF_get_domain()); ?></label>
-					<input type="text"
-					       class="form-control"
-					       id="attributes[action]"
-					       name="attributes[action]"
-					       placeholder="<?php _e('Action of the form', EF_get_domain()); ?>"/>
-				</div>
 			</td>
 		</tr>
 

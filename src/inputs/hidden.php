@@ -9,7 +9,7 @@ class EF_Hidden_Input extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'hidden';
+    public static $_TYPE = 'hidden';
 
 
     /**
@@ -24,6 +24,23 @@ class EF_Hidden_Input extends EF_Input
     public function getLabel($force = false)
     {
         return '';
+    }
+
+
+    /**
+     *
+     */
+    public static function register()
+    {
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Hidden input','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
     }
 
 }

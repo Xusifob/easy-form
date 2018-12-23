@@ -1,5 +1,5 @@
 <?php  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
-<?php global /** @var EF_List_Table $table */  $table; ?>
+<?php global /** @var EF_List $table */  $table; ?>
 <div class="wrap gf_browser_chrome">
     <div class="wrap">
         <div id="icon-users" class="icon32"></div>

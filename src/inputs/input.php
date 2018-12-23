@@ -11,10 +11,12 @@ class EF_Input extends EF_Settings_Element
      */
     protected $element = 'input';
 
+
     /**
      * @var string
      */
-    protected $type = 'text';
+    static $_TYPE = 'text';
+
 
     /**
      * The meta id
@@ -69,6 +71,7 @@ class EF_Input extends EF_Settings_Element
      */
     public function __construct($id = null,$attributes = [],$settings = [],$data = [])
     {
+
         $this->addAttribute('type',$this->getType());
 
         parent::__construct($attributes,$settings);
@@ -130,16 +133,9 @@ class EF_Input extends EF_Settings_Element
      */
     public function getType()
     {
-        return $this->type;
+        return self::$_TYPE;
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
 
 
     /**
@@ -345,6 +341,34 @@ class EF_Input extends EF_Settings_Element
         }
         return true;
 
+    }
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+        
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Text input','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
+
+    }
+
+
+
+    public static function getAdminTemplate()
+    {
+        return EF_get_dir('');
     }
 
 }

@@ -12,7 +12,7 @@
 class EF_Post_Form extends EF_Form
 {
 
-    protected $type = 'post';
+    public static $_TYPE = 'post';
 
     /**
      * Required fields for a create
@@ -228,6 +228,19 @@ class EF_Post_Form extends EF_Form
         } else {
             return $the_post;
         }
+    }
+
+    public static function register()
+    {
+        add_filter('EF_available_forms',function($forms){
+            $forms[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Create a post','easy-form'),
+                'class' => self::class
+            );
+
+            return $forms;
+        });
     }
 
 

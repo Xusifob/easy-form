@@ -10,7 +10,7 @@ abstract class EF_Form extends EF_Html_Element
     /**
      * @var
      */
-    protected $type;
+    public static $_TYPE;
 
     /**
      * The form id
@@ -47,9 +47,6 @@ abstract class EF_Form extends EF_Html_Element
      * @var array
      */
     protected $defaultAttributes = [
-        'method' => 'POST',
-        'enctype' => 'multipart/form-data',
-        'action' => '',
         'name' => 'form',
         'novalidate' => true
     ];
@@ -98,6 +95,11 @@ abstract class EF_Form extends EF_Html_Element
             throw new Exception(sprintf('$settings must be an array %s gotten',gettype($settings)));
         }
 
+
+        $attributes['method'] = 'POST';
+        $attributes['enctype'] = 'multipart/form-data';
+        $attributes['action'] = '';
+
         parent::__construct($attributes);
         $this->createDefaultInputs();
     }
@@ -118,17 +120,18 @@ abstract class EF_Form extends EF_Html_Element
      */
     public function getType()
     {
-        return $this->type;
+        return self::$_TYPE;
     }
 
     /**
      * Create the default inputs for the form
      */
     protected function createDefaultInputs(){
-        $nonce = new EF_Hidden_Input(null,[
-            'name' => '_nonce',
-            'value' => wp_create_nonce($this->getAttribute('name'))
-        ]);
+
+        $nonce = new EF_Nonce_Input(null,array(
+            'value' => $this->getAttributes(),
+        ));
+
 
         $time = new EF_Hidden_Input(null,[
             'name' => '_time',
@@ -616,6 +619,15 @@ abstract class EF_Form extends EF_Html_Element
 
     }
 
+    /**
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        return $this->requiredFields;
+    }
+
+
 
 
     /**
@@ -623,5 +635,6 @@ abstract class EF_Form extends EF_Html_Element
      * @return mixed
      */
     abstract public function submit($data);
+
 
 }

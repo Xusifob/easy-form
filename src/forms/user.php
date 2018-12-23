@@ -19,7 +19,7 @@ class EF_User_Form extends EF_Form
     /**
      * @var string
      */
-    protected $type = 'mail';
+    public static $_TYPE = 'user';
 
 
     /**
@@ -289,5 +289,17 @@ class EF_User_Form extends EF_Form
         return $rls;
     }
 
+    public static function register()
+    {
+        add_filter('EF_available_forms',function($forms){
+            $forms[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Create a user','easy-form'),
+                'class' => self::class
+            );
+
+            return $forms;
+        });
+    }
 
 }

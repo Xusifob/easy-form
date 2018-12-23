@@ -9,7 +9,7 @@ class EF_Editor_Input extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'editor';
+    public static $_TYPE = 'editor';
 
 
     /**
@@ -24,4 +24,23 @@ class EF_Editor_Input extends EF_Input
         $editor_contents = ob_get_clean();
         return $editor_contents;
     }
+
+
+
+    /**
+     *
+     */
+    public static function register()
+    {
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Editor WYSIWYG','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
+    }
+
 }

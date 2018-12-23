@@ -41,7 +41,7 @@ class Easy_Form
 
             'text_domain' => 'easy-form',
             // basic
-            'version'			=> '1.0.0',
+            'version'			=> '1.1.0',
 
             // urls
             'basename'			=> plugin_basename( __FILE__ ),
@@ -85,6 +85,7 @@ class Easy_Form
         EF_include('src/inputs/textarea.php');
         EF_include('src/inputs/file.php');
         EF_include('src/inputs/submit.php');
+        EF_include('src/inputs/nonce.php');
 
 
         // Include all forms
@@ -92,6 +93,7 @@ class Easy_Form
         EF_include('src/forms/login.php');
         EF_include('src/forms/mail.php');
         EF_include('src/forms/post.php');
+        EF_include('src/forms/reset.php');
         EF_include('src/forms/user.php');
 
         // Include class
@@ -104,6 +106,8 @@ class Easy_Form
             EF_include('src/admin/EF_export.php');
         }
 
+        $this->registerObjects();
+
         add_action('init',array($this, 'wp_init'), 5);
 
         add_action('wp_footer',array($this,'wp_footer'));
@@ -113,6 +117,27 @@ class Easy_Form
         add_action('plugins_loaded', [$this, 'load_translation']);
 
     }
+
+
+
+
+    public function registerObjects()
+    {
+
+        EF_Input::register();
+        EF_Hidden_Input::register();
+        EF_Checkbox_Input::register();
+        EF_Editor_Input::register();
+        EF_Email_Input::register();
+
+        EF_Login_Form::register();
+        EF_Mail_Form::register();
+        EF_Post_Form::register();
+        EF_Reset_Form::register();
+        EF_User_Form::register();
+
+    }
+
 
 
     /**
@@ -210,13 +235,6 @@ class Easy_Form
 
 
 
-
-
-
-
-
-
-
         // register scripts
         $scripts = array(
 
@@ -263,6 +281,17 @@ class Easy_Form
         }
 
 
+        add_shortcode('wp_easy_form',array($this,'shortcode'));
+
+    }
+
+
+
+
+    public function shortcode($atts)
+    {
+
+        $form = new WP_Form($atts['id']);
 
     }
 

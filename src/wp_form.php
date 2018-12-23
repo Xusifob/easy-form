@@ -18,28 +18,7 @@ class WP_Form implements JsonSerializable
         'mail' => 'EF_Mail_Form',
     ];
 
-    /**
-     * @since 1.0.0
-     *
-     * All type of inputs available in the plugin
-     */
-    const INPUTS = [
-        'default' => 'EF_Input',
-        'editor' => 'EF_Editor_Input',
-        'email' => 'EF_Email_Input',
-        'hidden' => 'EF_Hidden_Input',
-        'text' => 'EF_Input',
-        'number' => 'EF_Number_Input',
-        'password' => 'EF_Password_Input',
-        'phone' => 'EF_Phone_Input',
-        'submit' => 'EF_Submit_Input',
-        'textarea' => 'EF_TextArea',
-        'url' => 'EF_URL_Input',
-        'checkbox' => 'EF_Checkbox_Input',
-        'select' => 'EF_Select',
-        'radio' => 'EF_Radio_Input',
-        'file' => 'EF_File_Input'
-    ];
+
 
     /**
      * @since 1.0.0
@@ -221,6 +200,8 @@ class WP_Form implements JsonSerializable
      * @since 1.0.0
      *
      * @return bool|WP_Error
+     *
+     * @throws Exception
      */
     protected function createForm()
     {
@@ -229,12 +210,15 @@ class WP_Form implements JsonSerializable
 
         $form_type =  isset($this->settings['type']) ? $this->settings['type'] : false;
 
-        if(isset($this::FORMS[$form_type])){
-            $className = $this::FORMS[$form_type];
+        $forms = EF_get_registered_forms();
+
+
+        if(isset($forms[$form_type])){
+            $className = $forms[$form_type]['class'];
         }else{
             $this->form = new EF_Post_Form();
             $this->form->setError(__(sprintf('Form type %s does not exist',$form_type),EF_get_domain()));
-            return new WP_Error(666,__(sprintf('Form type %s does not exist',$form_type),EF_get_domain()));
+            return new WP_Error(666,__(sprintf('Form type %s does not exist or has not been registered',$form_type),EF_get_domain()));
         }
 
         // Create the form
@@ -252,10 +236,14 @@ class WP_Form implements JsonSerializable
             if(!isset($input['attributes']))
                 continue;
 
-            if(isset( $this::INPUTS[$input['attributes']['type']])) {
-                $inputName = $this::INPUTS[$input['attributes']['type']];
+
+            $inputs = EF_get_registered_inputs();
+
+            if(isset($inputs[$input['attributes']['type']])) {
+                $inputName = $inputs[$input['attributes']['type']]['class'];
             }else{
-                $inputName = $this::INPUTS['default'];
+                $inputName = $inputs[EF_Input::$_TYPE]['class'];
+                $this->form->setError(__(sprintf('Form field %s does not exist or has not been registered',$input['attributes']['type']),EF_get_domain()));
             }
 
             $inputObj = new $inputName(

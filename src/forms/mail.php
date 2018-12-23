@@ -11,7 +11,7 @@ class EF_Mail_Form extends EF_Form
     /**
      * @var string
      */
-    protected $type = 'mail';
+    public static $_TYPE = 'email';
 
 
     /**
@@ -185,6 +185,20 @@ class EF_Mail_Form extends EF_Form
         }
 
         return $message;
+    }
+
+
+    public static function register()
+    {
+        add_filter('EF_available_forms',function($forms){
+            $forms[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Email form','easy-form'),
+                'class' => self::class
+            );
+
+            return $forms;
+        });
     }
 
 }

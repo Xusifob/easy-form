@@ -12,7 +12,7 @@ class EF_Reset_Form extends EF_Form
     /**
      * @var string
      */
-    protected $type = 'mail';
+    public static $_TYPE = 'reset';
 
 
     /**
@@ -72,6 +72,20 @@ class EF_Reset_Form extends EF_Form
         } else {
             return $usr;
         }
+    }
+
+
+    public static function register()
+    {
+        add_filter('EF_available_forms',function($forms){
+            $forms[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Reset a password','easy-form'),
+                'class' => self::class
+            );
+
+            return $forms;
+        });
     }
 
 }

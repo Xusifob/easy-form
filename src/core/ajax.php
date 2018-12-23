@@ -56,7 +56,14 @@ class EF_ajax
 			self::HTTP_Error(__('Element is required',EF_get_domain()),400);
 
 
+
 		$file = EF_get_setting('path') . 'src/admin/templates/add/'. $_GET['element'] .'/' . $_GET['template'] . '.php';
+
+		$file = apply_filters('EF_admin_template',array(
+		    'file' => $file,
+            'element' => $_GET['element'],
+            'template' => $_GET['template']
+        ))['file'];
 
 		if(!file_exists($file))
 			self::HTTP_Error(sprintf(__('File %s not found',EF_get_domain()),$file),404);
@@ -64,11 +71,12 @@ class EF_ajax
 		if(!is_readable($file))
 			self::HTTP_Error(__('File not readable',EF_get_domain()),404);
 
-		ob_start();
-		include_once ( $file );
-		$data = ob_get_clean();
+        ob_start();
+        include_once ( $file );
+        $data = ob_get_clean();
 
-		self::HTTP_Success($data);
+
+        self::HTTP_Success($data);
 	}
 
 

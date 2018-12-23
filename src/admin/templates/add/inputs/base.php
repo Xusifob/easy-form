@@ -1,22 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-$inputs = [
-    'checkbox',
-    'editor',
-    'email',
-    'file',
-    'hidden',
-    'text',
-    'number',
-    'password',
-    'tel',
-    'radio',
-    'select',
-    'textarea',
-    'url',
-    //'date','range', 'color', 'search', 'taxonomy',
-];
+
+$inputs = EF_get_registered_inputs();
+
 ?>
 <div class="ef-field" id="field-fieldId">
     <div class="ef-field--header">
@@ -46,8 +33,8 @@ $inputs = [
                 <div class="ef-input">
                     <label for="field[fieldId][attributes][type]"><?php _e('Type de champ', 'easy-form'); ?></label>
                     <select name="field[fieldId][attributes][type]" class="form-control" id="field[fieldId][attributes][type]" data-field="fieldId">
-                        <?php foreach($inputs as $val){ ?>
-                            <option value="<?php echo str_replace(' ', '_',$val); ?>"><?php echo $val; ?></option>
+                        <?php foreach(EF_get_registered_inputs() as $val){ ?>
+                            <option value="<?php echo $val['type']; ?>"><?php echo $val['label']; ?></option>
                         <?php } ?>
                     </select>
                 </div>

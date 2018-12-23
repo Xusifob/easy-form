@@ -1,3 +1,4 @@
+<?php $forms = EF_get_registered_forms(); ?>
 <div class="ef-content">
 	<div class="spinner-container" id="spinner-utility">
 		<div class="spinner"></div>
@@ -11,16 +12,9 @@
 				<div class="ef-input">
 					<label for="settings[type]"><?php _e('Type of form', EF_get_domain()); ?></label>
 					<select name="settings[type]" class="form-control" id="settings[type]">
-						<option
-							value="post"><?php _e('Add a post', EF_get_domain()); ?></option>
-						<option
-							value="login"><?php _e('Login', EF_get_domain()); ?></option>
-						<option
-							value="user"><?php _e('Register or user update', EF_get_domain()); ?></option>
-						<option
-							value="email"><?php _e('Email', EF_get_domain()); ?></option>
-						<option
-							value="resetPassword"><?php _e('Password Reset', EF_get_domain()); ?></option>
+                        <?php foreach($forms as $form) { ?>
+                            <option value="<?php echo $form['type']; ?>"><?php echo $form['label']; ?></option>
+                        <?php } ?>
 					</select>
 				</div>
 			</td>

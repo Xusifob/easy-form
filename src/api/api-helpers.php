@@ -179,3 +179,51 @@ function EF_verify_nonce($action)
 
     return wp_verify_nonce($_data,$action);
 }
+
+
+
+if(!function_exists('dump')) {
+
+    function dump($var=  null)
+    {
+        echo '<pre>';
+        var_dump($var);
+        echo '</pre>';
+    }
+
+}
+
+
+if(!function_exists('EF_get_registered_inputs')) {
+
+    /**
+     *
+     * Return the list of all the inputs available in the plugin
+     *
+     * @return array
+     */
+    function EF_get_registered_inputs()
+    {
+        $inputs = array();
+
+        return apply_filters('EF_available_inputs',$inputs);
+
+    }
+}
+
+if(!function_exists('EF_get_registered_forms')) {
+
+    /**
+     *
+     * Return the list of all the forms available in the plugin
+     *
+     * @return array
+     */
+    function EF_get_registered_forms()
+    {
+        $forms = array();
+
+        return apply_filters('EF_available_forms',$forms);
+
+    }
+}
