@@ -115,7 +115,7 @@ export class EF_Input
     {
         $element.find('[name^="field"]').each((key : number,elem : any) => {
 
-            let prop = this.getInputProperties($(elem));
+            let prop = EF_Input.getInputProperties($(elem));
 
             if($data[prop.prop] && $data[prop.prop][prop.name]) {
                 EF_Input.setInputValue($(elem),$data[prop.prop][prop.name]);
@@ -133,9 +133,12 @@ export class EF_Input
      * @param input
      * @param value
      */
-    public static setInputValue(input : any, value : string)
+    public static setInputValue(input : any, value : string|boolean)
     {
         if(input.is(':checkbox')){
+            if(value == 'on') {
+                value = true;
+            }
             input.prop('checked',value);
         }else if(input.is('select')){
             input.find('option[value="'+ value +'"]').prop('selected',true);
@@ -152,20 +155,19 @@ export class EF_Input
      *
      * @param elem
      */
-    public static getInputProperties(elem : any) : {id,prop,name}
+    public static getInputProperties(elem : any) : {attr,id,prop,name}
     {
 
-        let name = elem.attr('name').replace(/field/gi,'');
+        let name = elem.attr('name');
 
-        let data = name.split(']');
+        let data = name.split('[');
 
-        let props = {
-            id : data[0].replace('[',''),
-            prop : data[1].replace('[',''),
-            name : data[2].replace('[',''),
+        return {
+            attr : data[0].replace(']',''),
+            id : data[1].replace(']',''),
+            prop : data[2] ? data[2].replace(']','') : '',
+            name : data[3] ? data[3].replace(']','') : '',
         };
-
-        return props;
     }
 
 

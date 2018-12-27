@@ -166,6 +166,7 @@ class EF_Add
             action: 'EF/load_form_data'
         }).success((data) => {
 
+            this.addData(data.data.form);
 
             $.each(data.data.inputs,(type,input : any) => {
                 this.availableInputs[type] = input;
@@ -192,12 +193,47 @@ class EF_Add
     }
 
 
+    /**
+     * Add the data inside the form itself
+     */
+    protected addData($form : any) : void
+    {
 
+        console.log($form);
+
+        $('#ef-add-main-info').find('[name^="settings"]').each((key : number,elem : any) => {
+
+            this.fillInfos($(elem),$form);
+
+        });
+        $('#ef-add-main-info').find('[name^="attributes"]').each((key : number,elem : any) => {
+
+            this.fillInfos($(elem),$form);
+
+        })
+    }
+
+
+    public fillInfos($elem,$form) : void
+    {
+        let prop = EF_Input.getInputProperties($elem);
+
+        if($form[prop.attr] && $form[prop.attr][prop.id]) {
+
+            EF_Input.setInputValue($elem,$form[prop.attr][prop.id]);
+        }
+    }
+
+
+    /**
+     *
+     * Add the data inside the submit button
+     *
+     * @param submit
+     */
     private addSubmitData(submit) : void
     {
-        console.log(submit);
-
-        EF_Input.addDataToElement(this.$body.find('#submit-content'),submit);
+        EF_Input.addDataToElement(this.$body.find('#ef-add-submit'),submit);
     }
 
 
