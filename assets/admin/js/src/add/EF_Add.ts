@@ -171,6 +171,11 @@ class EF_Add
                 this.availableInputs[type] = input;
             });
 
+            if(data.data.form.inputs.submit) {
+                let submit = data.data.form.inputs.submit;
+                delete data.data.form.inputs.submit;
+                this.addSubmitData(submit);
+            }
 
             this.loadInputs(data.data.form.inputs,0);
 
@@ -184,6 +189,15 @@ class EF_Add
         // Return a promise
         return dfd.promise();
 
+    }
+
+
+
+    private addSubmitData(submit) : void
+    {
+        console.log(submit);
+
+        EF_Input.addDataToElement(this.$body.find('#submit-content'),submit);
     }
 
 

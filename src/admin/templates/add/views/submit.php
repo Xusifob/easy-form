@@ -1,4 +1,4 @@
-<div class="ef-content">
+<div class="ef-content" id="submit-content">
 	<table class="ef-table">
 		<tr class="ef-table--separator">
 			<td class="ef-rules">

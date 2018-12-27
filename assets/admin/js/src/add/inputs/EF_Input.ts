@@ -102,11 +102,20 @@ export class EF_Input
      */
     public addData($data) : void
     {
-        console.log($data);
+        EF_Input.addDataToElement(this.element,$data)
+    }
 
-        this.element.find('[name^="field"]').each((key : number,elem : any) => {
 
-            let prop = this.getProperties(elem);
+    /**
+     *
+     * @param $element
+     * @param $data
+     */
+    public static addDataToElement($element : any, $data : any) : void
+    {
+        $element.find('[name^="field"]').each((key : number,elem : any) => {
+
+            let prop = this.getInputProperties($(elem));
 
             if($data[prop.prop] && $data[prop.prop][prop.name]) {
                 EF_Input.setInputValue($(elem),$data[prop.prop][prop.name]);
@@ -114,7 +123,6 @@ export class EF_Input
 
         })
     }
-
 
 
 
@@ -144,10 +152,10 @@ export class EF_Input
      *
      * @param elem
      */
-    public getProperties(elem : string) : {id,prop,name}
+    public static getInputProperties(elem : any) : {id,prop,name}
     {
 
-        let name = $(elem).attr('name').replace(/field/gi,'');
+        let name = elem.attr('name').replace(/field/gi,'');
 
         let data = name.split(']');
 
