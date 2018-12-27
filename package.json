@@ -20,12 +20,26 @@
     "less-plugin-autoprefix": "^1.5.1",
     "minimist": "^1.2.0",
     "path": "^0.12.7",
-    "stream-combiner2": "^1.1.1"
+    "stream-combiner2": "^1.1.1",
+    "systemjs": "^0.20.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jquery": "^2.0.39",
+    "@types/node": "^6.0.58",
+    "chromedriver": "^2.27.2",
+    "gulp-copy": "^1.0.0",
+    "gulp-typescript": "^3.1.4",
+    "jquery": "^3.1.1",
+    "jquery-ui": "^1.12.1",
+    "nightwatch": "^0.9.12",
+    "nightwatch-custom-commands-assertions": "^1.0.5",
+    "typedoc": "^0.5.5",
+    "typescript": "^2.1.4"
+  }
 }

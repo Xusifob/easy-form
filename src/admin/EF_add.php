@@ -69,12 +69,21 @@ class EF_add
      * Create the global $wp_form and set it to be used in the page
      *
      * @since 1.0.0
+     *
+     * @param null $post_id
+     * @throws Exception
      */
-    protected static function create_wp_form()
+    public static function create_wp_form($post_id = null)
     {
-        // global
-        global $post;
-        $GLOBALS['wp_form'] = new WP_Form($post->ID);
+
+        if(!$post_id) {
+            // global
+            global $post;
+
+            $post_id = $post->ID;
+
+        }
+        $GLOBALS['wp_form'] = new WP_Form($post_id);
 
         // Remove all "default fields"
         global $wp_form;
@@ -87,10 +96,6 @@ class EF_add
             $wp_form->get_form()->addInput(new EF_Submit_Input(null,['name' => 'submit']));
         }
 
-        /*
-        if(count($wp_form->get_fields()) > 1 )
-            return;
-*/
 
         foreach($wp_form->get_form()->getRequiredFields() as $field) {
 
@@ -170,6 +175,7 @@ class EF_add
      */
     public function admin_enqueue_scripts()
     {
+        wp_enqueue_script( 'ef-libs-js',false,array('jquery'),false,true );
         wp_enqueue_script( 'ef-add-js',false,array('jquery'),false,true );
     }
 

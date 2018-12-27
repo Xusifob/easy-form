@@ -16,8 +16,8 @@ $inputs = EF_get_registered_inputs();
                         </div>
                     </div>
                     <div class="col-xs-6 pd-0 up-buttons">
-                        <a href="#" class="up upanddown" data-field="fieldId">↑</a>
-                        <a href="#" class="down upanddown" data-field="fieldId">↓</a>
+                        <a href="#" data-action="up" class="up upanddown" data-field="fieldId">↑</a>
+                        <a href="#" data-action="down" class="down upanddown" data-field="fieldId">↓</a>
                     </div>
                 </div>
             </div>
@@ -41,8 +41,8 @@ $inputs = EF_get_registered_inputs();
             </div>
             <div class="col-sm-1 pull-right">
                 <div class="up-buttons">
-                    <a href="#" data-field="fieldId" class="delete upanddown">×</a>
-                    <a href="#" data-field="fieldId" class="open upanddown">+</a>
+                    <a href="#" data-field="fieldId" data-action="delete data-action=up" class="delete upanddown">×</a>
+                    <a href="#" data-field="fieldId" data-action="open-close" class="open upanddown">+</a>
                 </div>
             </div>
         </div>

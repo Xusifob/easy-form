@@ -11,6 +11,8 @@ var path = require('path');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var ts = require("gulp-typescript");
+var tsProject = ts.createProject("tsconfig.json");
 
 
 var knownOptions = {
@@ -72,11 +74,49 @@ gulp.task('admin-js',function(){
         .pipe(rename('admin.js'))
 });
 
+gulp.task("add-ts", function () {
+    return tsProject.src()
+        .pipe(gulpif(options.env == 'dev', sourcemaps.init()))
+        .pipe(tsProject())
+        .pipe(uglify({
+            mangle: false,
+            compress: options.env != 'dev',
+            output : {
+                beautify : options.env == 'dev',
+                comments : options.env == 'dev',
+            }
+        }))
+        .pipe(gulpif(options.env == 'dev', sourcemaps.write()))
+        .pipe(gulp.dest("./assets/admin/js/build/add"));
+});
+
+
+gulp.task("libs",['add-ts'], function () {
+    return gulp.src([
+        './node_modules/systemjs/dist/system.js',
+    ])
+        .pipe(gulpif(options.env == 'dev', sourcemaps.init()))
+        // Put everything in one file
+        .pipe(concat('libs.js'))
+        .pipe(uglify({
+            mangle: false,
+            compress: options.env != 'dev',
+            output : {
+                beautify : options.env == 'dev',
+                comments : options.env == 'dev',
+            }
+        }))
+        .pipe(gulpif(options.env == 'dev', sourcemaps.write()))
+        // Output : all.js in assets/js/
+        .pipe(gulp.dest('./assets/admin/js/build/'))
+});
+
 
 
 gulp.task('watch',function(){
     gulp.watch('./assets/admin/css/src/**/*.less',['admin-less']);
-    gulp.watch('./assets/admin/js/src/**/*.js',['admin-js']);
+    //gulp.watch('./assets/admin/js/src/**/*.js',['admin-js']);
+    gulp.watch('./assets/admin/js/src/**/*.ts',['add-ts']);
     gulp.watch('./assets/public/css/src/**/*.less',['public-less','admin-less']);
     gulp.watch('./assets/public/js/src/**/*.js',['public-js']);
 });

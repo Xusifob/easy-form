@@ -245,7 +245,12 @@ class Easy_Form
           //  ),
             array(
                 'handle'	=> 'ef-add-js',
-                'src'		=> EF_get_dir('assets/admin/js/build/add.js'),
+                'src'		=> EF_get_dir('assets/admin/js/build/add/main.js'),
+                'deps'		=> array('jquery')
+            ),
+            array(
+                'handle'	=> 'ef-libs-js',
+                'src'		=> EF_get_dir('assets/admin/js/build/libs.js'),
                 'deps'		=> array('jquery')
             ),
 

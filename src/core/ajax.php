@@ -22,6 +22,7 @@ class EF_ajax
 
 
 		add_action('wp_ajax_EF/load_template',array($this,'load_template'));
+		add_action('wp_ajax_EF/load_form_data',array($this,'load_form_data'));
 
 	}
 
@@ -56,24 +57,76 @@ class EF_ajax
 			self::HTTP_Error(__('Element is required',EF_get_domain()),400);
 
 
+		$data = $this->get_template($_GET['element'],$_GET['template']);
 
-		$file = EF_get_setting('path') . 'src/admin/templates/add/'. $_GET['element'] .'/' . $_GET['template'] . '.php';
+		if($_GET['element'] === 'inputs') {
+            $base = $this->get_template($_GET['element'],'base');
 
-		$file = apply_filters('EF_admin_template',array(
-		    'file' => $file,
-            'element' => $_GET['element'],
-            'template' => $_GET['template']
+		    $data = str_replace('input-content',$data,$base);
+		}
+
+
+
+
+        self::HTTP_Success($data);
+	}
+
+
+    /**
+     *
+     * @param $element
+     * @param $template
+     * @return false|string
+     */
+	protected function get_template($element,$template)
+    {
+        $file = EF_get_setting('path') . 'src/admin/templates/add/'. $element .'/' . $template . '.php';
+
+        $file = apply_filters('EF_admin_template',array(
+            'file' => $file,
+            'element' => $element,
+            'template' => $template
         ))['file'];
 
-		if(!file_exists($file))
-			self::HTTP_Error(sprintf(__('File %s not found',EF_get_domain()),$file),404);
+        if(!file_exists($file))
+            self::HTTP_Error(sprintf(__('File %s not found',EF_get_domain()),$file),404);
 
-		if(!is_readable($file))
-			self::HTTP_Error(__('File not readable',EF_get_domain()),404);
+        if(!is_readable($file))
+            self::HTTP_Error(__('File not readable',EF_get_domain()),404);
 
         ob_start();
         include_once ( $file );
         $data = ob_get_clean();
+
+        return $data;
+    }
+
+
+
+	/**
+	 * Load a template from the add page
+	 *
+	 * @since 1.0.0
+	 */
+	public function load_form_data()
+	{
+		if(!isset($_GET['form_id']))
+			self::HTTP_Error(__('Form Id is required',EF_get_domain()),400);
+
+
+        $data = array();
+
+        EF_add::create_wp_form($_GET['form_id']);
+
+        global $wp_form;
+
+        $data['form'] = $wp_form;
+        $data['inputs'] = EF_get_registered_inputs();
+        $data['forms'] = EF_get_registered_forms();
+
+        foreach($data['inputs'] as $key => $input){
+            $data['inputs'][$key]['data'] = new $input['class']();
+        }
 
 
         self::HTTP_Success($data);

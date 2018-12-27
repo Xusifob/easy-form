@@ -1,0 +1,21 @@
+{
+  "files": [
+    "assets/admin/js/src/add/editor.ts",
+    "assets/admin/js/src/add/EF_Add.ts",
+    "assets/admin/js/src/add/inputs/EF_Input.ts"
+  ],
+  "filesGlob": [
+    "./**/*.ts",
+    "!./node_modules/**/*.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "target": "es5",
+    "module": "system",
+    "sourceMap": true,
+    "out" : "main.js",
+    "types": [
+      "jquery"
+    ]
+  }
+}

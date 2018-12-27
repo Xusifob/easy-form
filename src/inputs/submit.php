@@ -14,7 +14,7 @@ class EF_Submit_Input extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'submit';
+    public static $_TYPE = 'submit';
 
     /**
      * The meta id
