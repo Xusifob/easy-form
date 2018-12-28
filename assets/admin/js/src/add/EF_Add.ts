@@ -93,6 +93,8 @@ class EF_Add
                 this.changeInput(type,this.inputs[prop.id],prop.id)
             });
 
+
+
         this.$body
             .on('change','select[name="settings[type]"]',($event : Event) => {
                 let type = $(event.target).val();
@@ -115,6 +117,19 @@ class EF_Add
                     .on('click','.panel header',_togglePanel);*/
     }
 
+
+    /**
+     *
+     * @param input
+     */
+    public onDuplicate(input : EF_Input) : any
+    {
+
+        this.addInput(input.value.attributes.type,input.value).then(() => {
+            EF_Add.success  = 'Them input has been duplicated';
+            EF_Add.loading(false);
+        })
+    }
 
     /**
      *
@@ -160,6 +175,8 @@ class EF_Add
             input = this.generateInput(type);
 
             input.init(data,position ? position : this.inputs.length,$data,position);
+
+            input.onDuplicate = (input) => { this.onDuplicate(input) };
 
             if(position) {
                 this.inputs[position] = input;

@@ -25,8 +25,8 @@ $inputs = EF_get_registered_inputs();
                 <div class="ef-input">
                     <label for="field[fieldId][attributes][name]"><?php _e('Nom du champ', 'easy-form'); ?></label>
                     <input type="text" name="field[fieldId][attributes][name]" id="field[fieldId][attributes][name]" class="form-control" placeholder="<?php _e('Nom du champ', 'easy-form'); ?>" required/>
-                    <a href="#" class="dupliquer" data-field="fieldId"><?php _e('Dupliquer', 'easy-form'); ?></a>
-                    <a href="#" class="move" data-field="fieldId"><?php _e('Copier sur un autre formulaire', 'easy-form'); ?></a>
+                    <a href="#" class="dupliquer" data-action="duplicate" data-field="fieldId"><?php _e('Dupliquer', 'easy-form'); ?></a>
+                    <a href="#" class="move" data-action="copy" data-field="fieldId"><?php _e('Copier sur un autre formulaire', 'easy-form'); ?></a>
                 </div>
             </div>
             <div class="col-sm-3">

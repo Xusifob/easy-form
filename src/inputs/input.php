@@ -15,7 +15,7 @@ class EF_Input extends EF_Settings_Element
     /**
      * @var string
      */
-    static $_TYPE = 'texte';
+    static $_TYPE = 'text';
 
 
     /**

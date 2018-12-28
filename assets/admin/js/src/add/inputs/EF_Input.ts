@@ -41,6 +41,12 @@ export class EF_Input
     public container : any;
 
 
+    /**
+     * Function called on duplicate
+     */
+    public onDuplicate : any;
+
+
     public constructor() {
 
         this.container = $('#fld');
@@ -81,6 +87,7 @@ export class EF_Input
     public setEvents() : void
     {
         this.element.find('[data-action="open-close"]').on('click',() => {return this.toggle()});
+        this.element.find('[data-action="duplicate"]').on('click',() => {this.onDuplicate(this); return false;});
     }
 
 
