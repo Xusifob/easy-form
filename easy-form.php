@@ -90,6 +90,7 @@ class Easy_Form
 
         // Include all forms
         EF_include('src/forms/form.php');
+        EF_include('src/forms/form-interface.php');
         EF_include('src/forms/login.php');
         EF_include('src/forms/mail.php');
         EF_include('src/forms/post.php');

@@ -3,7 +3,10 @@
 class EF_Login_Form extends EF_Form
 {
 
-    protected $requiredFields = [
+    /**
+     * @var array
+     */
+    public static $_REQUIRED_FIELDS = [
         'login',
         'password'
     ];
@@ -82,6 +85,14 @@ class EF_Login_Form extends EF_Form
         return self::$_TYPE;
     }
 
+    /**
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        return self::$_REQUIRED_FIELDS;
+    }
+
 
     public static function register()
     {
@@ -89,7 +100,8 @@ class EF_Login_Form extends EF_Form
             $forms[self::$_TYPE] = array(
                 'type' => self::$_TYPE,
                 'label' => __('Login form','easy-form'),
-                'class' => self::class
+                'class' => self::class,
+                'required' => self::$_REQUIRED_FIELDS
             );
 
             return $forms;

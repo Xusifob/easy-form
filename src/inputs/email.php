@@ -40,7 +40,7 @@ class EF_Email_Input extends EF_Input
             $inputs[self::$_TYPE] = array(
                 'type' => self::$_TYPE,
                 'label' => __('Email input','easy-form'),
-                'class' => self::class
+                'class' => self::class,
             );
 
             return $inputs;

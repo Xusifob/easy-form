@@ -4,7 +4,7 @@ class EF_User_Form extends EF_Form
 {
 
 
-    protected $requiredFields = [
+    public static $_REQUIRED_FIELDS = [
         'email',
         'password'
     ];
@@ -295,11 +295,20 @@ class EF_User_Form extends EF_Form
             $forms[self::$_TYPE] = array(
                 'type' => self::$_TYPE,
                 'label' => __('Create a user','easy-form'),
-                'class' => self::class
+                'class' => self::class,
+                'required' => self::$_REQUIRED_FIELDS
             );
 
             return $forms;
         });
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        return self::$_REQUIRED_FIELDS;
     }
 
 

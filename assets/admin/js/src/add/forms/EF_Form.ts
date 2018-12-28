@@ -41,9 +41,6 @@ export class EF_Form {
 
         this.element = $($element);
 
-        console.log(this.container);
-        console.log(this.element);
-
         this.container.html(this.element);
     }
 
@@ -61,8 +58,6 @@ export class EF_Form {
 
             let prop = EF_Input.getInputProperties($(input));
             let val = EF_Input.getInputValue($(input));
-
-            console.log(prop,val);
 
             if(prop.attr && !value[prop.attr] && prop.id){
                 value[prop.attr] = {};

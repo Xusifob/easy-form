@@ -27,7 +27,7 @@ class EF_Post_Form extends EF_Form
      *
      * @var array
      */
-    protected $requiredFields = [
+    public static $_REQUIRED_FIELDS = [
         'title',
     ];
 
@@ -242,13 +242,21 @@ class EF_Post_Form extends EF_Form
             $forms[self::$_TYPE] = array(
                 'type' => self::$_TYPE,
                 'label' => __('Create a post','easy-form'),
-                'class' => self::class
+                'class' => self::class,
+                'required' => self::$_REQUIRED_FIELDS,
             );
 
             return $forms;
         });
     }
 
+    /**
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        return self::$_REQUIRED_FIELDS;
+    }
 
 
     /**

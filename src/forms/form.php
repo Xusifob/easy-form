@@ -8,9 +8,15 @@ abstract class EF_Form extends EF_Html_Element
 {
 
     /**
-     * @var
+     * @var string : Type of the current form
      */
     public static $_TYPE;
+
+
+    /**
+     * @var array : An array of all the fields required in the form to be functionning properly
+     */
+    public static $_REQUIRED_FIELDS = [];
 
     /**
      * The form id
@@ -37,8 +43,6 @@ abstract class EF_Form extends EF_Html_Element
      */
     protected $displayErrors = false;
 
-    /** @var array Fields required for the form */
-    protected $requiredFields = [];
 
 
     /**
@@ -393,7 +397,7 @@ abstract class EF_Form extends EF_Html_Element
 
 
         // Check if it has the required field
-        foreach($this->requiredFields as $field){
+        foreach($this->getRequiredFields() as $field){
             if(!$this->hasInput($field)) {
                 $this->setError(__(sprintf('The form need a field %s',$field),'easy-form'));
                 return false;
@@ -624,7 +628,7 @@ abstract class EF_Form extends EF_Html_Element
      */
     public function getRequiredFields()
     {
-        return $this->requiredFields;
+        return self::$_REQUIRED_FIELDS;
     }
 
 

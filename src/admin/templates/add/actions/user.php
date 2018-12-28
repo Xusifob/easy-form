@@ -2,8 +2,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
 <div class="ef-input">
-    <label for="form-send-role"><?php _e('Role',EF_get_domain()); ?></label>
-    <select name="form-send-role" id="form-send-role" class="form-control">
+    <label for="settings[role]"><?php _e('Role',EF_get_domain()); ?></label>
+    <select name="settings[role]" id="settings[role]" class="form-control">
         <?php foreach($roles as $role){ ?>
             <option value="<?php echo $role['slug']; ?>"><?php echo $role['name']; ?></option>
         <?php } ?>
@@ -11,14 +11,14 @@
     </select>
 </div>
 <div class="ef-input">
-    <label for="form-connexion-user" class="label-checkbox"  >
-        <input type="checkbox" name="form-connexion-user"  id="form-connexion-user">
+    <label for="settings[connexion-user]" class="label-checkbox">
+        <input type="checkbox" name="settings[connexion-user]"  id="settings[connexion-user]">
         <?php _e('Login the user when register', EF_get_domain()); ?>
     </label>
 </div>
 <div class="ef-input">
-    <label for="form-email-user" class="label-checkbox">
-        <input type="checkbox" name="form-email-user"  id="form-email-user">
+    <label for="settings[email-user]" class="label-checkbox">
+        <input type="checkbox" name="settings[email-user]"  id="settings[email-user]">
         <?php _e('Activate user through email',  EF_get_domain()); ?>
     </label>
 </div>

@@ -17,7 +17,7 @@ class EF_Mail_Form extends EF_Form
     /**
      * @var array
      */
-    protected $requiredFields = [
+    public static  $_REQUIRED_FIELDS = [
         'sendername',
         'email',
         'message'
@@ -188,19 +188,30 @@ class EF_Mail_Form extends EF_Form
     }
 
 
+
+
     public static function register()
     {
         add_filter('EF_available_forms',function($forms){
             $forms[self::$_TYPE] = array(
                 'type' => self::$_TYPE,
                 'label' => __('Contact form','easy-form'),
-                'class' => self::class
+                'class' => self::class,
+                'required' => self::$_REQUIRED_FIELDS
             );
 
             return $forms;
         });
     }
 
+
+    /**
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        return self::$_REQUIRED_FIELDS;
+    }
 
     /**
      * @return string

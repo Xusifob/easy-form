@@ -285,11 +285,11 @@ class EF_Add
 
         EF_Add.loading(true,'utility');
 
-       let $formData = this.formType.value;
+        let $formData = this.formType.value;
 
-       $formData.type = type;
+        $formData.type = type;
 
-       this.addFormData($formData);
+        this.addFormData($formData);
 
     }
 
@@ -302,6 +302,7 @@ class EF_Add
      */
     protected addFormData($formData) : void
     {
+
         this.loadFormTemplate($formData.type).then(($template) => {
             this.formType = this.generateForm($formData.type);
 
@@ -311,13 +312,46 @@ class EF_Add
 
                 this.fillInfos($(elem),$formData);
 
-                EF_Add.loading(false,'utility');
-
             });
+            EF_Add.loading(false,'utility');
 
+            this.addRequiredFields($formData.type);
 
         });
     }
+
+
+    /**
+     *
+     * @param type
+     */
+    public addRequiredFields(type : string) : void
+    {
+        let required = this.availableForms[type].required;
+
+        $.each(this.inputs,(key : string, input : EF_Input) => {
+            let index = $.inArray(input.value.attributes.name,required);
+            if(index != -1) {
+                required.splice(index, 1);
+
+            }
+        });
+
+        let inputs = [];
+
+        $.each(required,(key : number,input : string) => {
+
+            inputs.push({attributes :{type : 'text',name : input}});
+
+        });
+
+        if(inputs && inputs.length > 0) {
+            this.loadInputs(inputs, 0).then(() => {
+                EF_Add.success = 'The fields ' + required.join(', ') + ' have been added to the form';
+            });
+        }
+    }
+
 
 
     /**
@@ -378,11 +412,17 @@ class EF_Add
 
     /**
      *
+     * Load all the inputs from the list
+     *
      * @param inputs
+     * @param dfd
      * @param order
      */
-    private loadInputs(inputs,order : number)
+    private loadInputs(inputs : { attributes : {type : string }}[],order : number,dfd  : any = null) : Promise<any>
     {
+        if(!dfd) {
+            dfd = new $.Deferred();
+        }
 
         let keys = Object.keys(inputs);
 
@@ -391,14 +431,17 @@ class EF_Add
         if(!key || !inputs || !inputs[key]){
             this.is_init = true;
             EF_Add.loading(false,'fields');
+            dfd.resolve();
             return;
         }else{
             this.addInput(inputs[key].attributes.type,inputs[key]).then(() => {
                 order++;
-                this.loadInputs(inputs,order);
+                this.loadInputs(inputs,order,dfd);
             });
 
         }
+
+        return dfd.promise();
 
     }
 
@@ -560,7 +603,7 @@ class EF_Add
      */
     public static set success(successMessage: string|boolean) {
 
-       EF_Add.setMessage('#success-message',successMessage,false);
+        EF_Add.setMessage('#success-message',successMessage,false);
     }
 
 
