@@ -130,6 +130,12 @@ class Easy_Form
         EF_Checkbox_Input::register();
         EF_Editor_Input::register();
         EF_Email_Input::register();
+        EF_Number_Input::register();
+        EF_Password_Input::register();
+        EF_Radio_Input::register();
+        EF_Select::register();
+        EF_TextArea::register();
+        EF_URL_Input::register();
 
         EF_Login_Form::register();
         EF_Mail_Form::register();

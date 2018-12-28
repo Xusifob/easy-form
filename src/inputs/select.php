@@ -9,7 +9,7 @@ class EF_Select extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'select';
+    public static $_TYPE = 'select';
 
     /**
      * @var string
@@ -107,5 +107,28 @@ class EF_Select extends EF_Input
         return $options;
 
     }
+
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Select input','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
+
+    }
+
 
 }

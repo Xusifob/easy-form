@@ -9,7 +9,7 @@ class EF_Number_Input extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'number';
+    public static $_TYPE = 'number';
 
 
     /**
@@ -27,4 +27,27 @@ class EF_Number_Input extends EF_Input
         }
         return false;
     }
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Number input','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
+
+    }
+
+
 }

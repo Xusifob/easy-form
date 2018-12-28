@@ -10,7 +10,7 @@ class EF_Password_Input extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'password';
+    public static $_TYPE = 'password';
 
 
     const VERY_WEAK = 0;
@@ -180,6 +180,29 @@ class EF_Password_Input extends EF_Input
         ;
 
         return $score;
+
+    }
+
+
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Password input','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
 
     }
 

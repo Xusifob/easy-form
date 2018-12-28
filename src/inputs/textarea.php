@@ -9,7 +9,7 @@ class EF_TextArea extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'textarea';
+    public static $_TYPE = 'textarea';
 
     /**
      * @var string
@@ -37,6 +37,28 @@ class EF_TextArea extends EF_Input
         }else{
             return $this->getLabel() . $template;
         }
+    }
+
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Text area','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
+
     }
 
 }

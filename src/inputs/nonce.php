@@ -9,7 +9,7 @@ class EF_Nonce_Input extends EF_Hidden_Input
     /**
      * @var string
      */
-    protected $type = 'nonce';
+    public static $_TYPE= 'nonce';
 
 
     /**
@@ -27,6 +27,16 @@ class EF_Nonce_Input extends EF_Hidden_Input
 
         parent::__construct($id,$attributes);
 
+    }
+
+
+    public function isValid($data)
+    {
+
+        $value = $this->getAttribute('value');
+        $value = is_string($value) ? $value : 'nonce';
+
+        return wp_verify_nonce($data,$value);
     }
 
 

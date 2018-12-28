@@ -9,7 +9,7 @@ class EF_URL_Input extends EF_Input
     /**
      * @var string
      */
-    protected $type = 'url';
+    public static $_TYPE = 'url';
 
 
     /**
@@ -30,4 +30,27 @@ class EF_URL_Input extends EF_Input
         }
         return false;
     }
+
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('URL Input','easy-form'),
+                'class' => self::class
+            );
+
+            return $inputs;
+        });
+
+    }
+
 }
