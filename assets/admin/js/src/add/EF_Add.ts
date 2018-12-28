@@ -32,11 +32,13 @@ class EF_Add
     public availableInputs : {} = {};
 
 
-  /**
+    /**
      * All the available inputs
      */
     public availableForms : {} = {};
 
+
+    public formType : EF_Form;
 
     /**
      * If the editor is init
@@ -55,7 +57,6 @@ class EF_Add
         this.setEvents();
 
         this.load().then((data) => {
-            this.loading(false);
         })
     }
 
@@ -82,7 +83,7 @@ class EF_Add
         this.$body
             .on('click','button[data-action="add"]',() => {
                 this.addInput('text',{}).then(() => {
-                    this.loading(false,'fields');
+                    EF_Add.loading(false,'fields');
                 }) });
 
         this.$body
@@ -90,6 +91,12 @@ class EF_Add
                 let type = $($event.target).val();
                 let prop = EF_Input.getInputProperties($($event.target));
                 this.changeInput(type,this.inputs[prop.id],prop.id)
+            });
+
+        this.$body
+            .on('change','select[name="settings[type]"]',($event : Event) => {
+                let type = $(event.target).val();
+                this.changeFormType(type);
             });
 
         /*
@@ -103,8 +110,6 @@ class EF_Add
                 this.$body
                     .on('change','select[name="form-reset-action"]',_changeResetAction);
 
-                this.$body
-                    .on('change','select[name="settings[type]"]',_changeUtility);
 
                 this.$body
                     .on('click','.panel header',_togglePanel);*/
@@ -124,7 +129,7 @@ class EF_Add
         let value = $input.value;
 
         this.addInput(type,value,$position).then((input) => {
-            this.loading(false,'fields');
+            EF_Add.loading(false,'fields');
             input.open();
         })
     }
@@ -141,7 +146,7 @@ class EF_Add
         let dfd = new $.Deferred();
 
 
-        this.loading(true,'fields');
+        EF_Add.loading(true,'fields');
 
         // Close all the inputs
         $.each(this.inputs,(key : number, input : EF_Input) => {
@@ -180,20 +185,20 @@ class EF_Add
      * @param loading
      * @param $element
      */
-    public loading(loading : boolean = true,$element : null|string = null)
+    public static loading(loading : boolean = true,$element : null|string = null)
     {
         // Show the spinner
 
         switch ($element) {
             case 'fields' :
-                this.$body.find('#spinner-fields').toggle(loading);
+                $('#spinner-fields').toggle(loading);
                 break;
             case 'utility' :
-                this.$body.find('#spinner-utility').toggle(loading);
+                $('#spinner-utility').toggle(loading);
                 break;
             default:
-                this.$body.find('#spinner-utility').toggle(loading);
-                this.$body.find('#spinner-fields').toggle(loading);
+                $('#spinner-utility').toggle(loading);
+                $('#spinner-fields').toggle(loading);
                 break;
         }
 
@@ -271,15 +276,42 @@ class EF_Add
     }
 
 
+    /**
+     *
+     * @param type
+     */
+    protected changeFormType(type) : void
+    {
+
+        EF_Add.loading(true,'utility');
+
+       let $formData = this.formType.value;
+
+       $formData.type = type;
+
+       this.addFormData($formData);
+
+    }
+
+
+    /**
+     *
+     * Add the form data in the form type
+     *
+     * @param $formData
+     */
     protected addFormData($formData) : void
     {
         this.loadFormTemplate($formData.type).then(($template) => {
-            let $form : EF_Form = this.generateForm($formData.type);
-            $form.init($template,$form);
+            this.formType = this.generateForm($formData.type);
+
+            this.formType.init($template);
 
             $('#ef-add-type').find('[name^="settings"]').each((key : number,elem : any) => {
 
                 this.fillInfos($(elem),$formData);
+
+                EF_Add.loading(false,'utility');
 
             });
 
@@ -358,7 +390,7 @@ class EF_Add
 
         if(!key || !inputs || !inputs[key]){
             this.is_init = true;
-            this.loading(false,'fields');
+            EF_Add.loading(false,'fields');
             return;
         }else{
             this.addInput(inputs[key].attributes.type,inputs[key]).then(() => {
@@ -384,6 +416,12 @@ class EF_Add
             case 'login' :
                 form = new EF_Form();
                 break;
+            case 'post' :
+                form = new EF_Form();
+                break;
+        }
+        if(!form) {
+            form = new EF_Form();
         }
 
 
@@ -407,6 +445,10 @@ class EF_Add
         switch(type) {
             default :
                 input = new EF_Input();
+        }
+
+        if(!input) {
+            input = new EF_Input();
         }
 
 
@@ -455,8 +497,18 @@ class EF_Add
      *
      * @TODO
      */
-    public handleError() : void
+    public handleError(data : string|{responseJSON : {error}}) : void
     {
+
+        let error : string;
+
+        if(typeof data != "string") {
+            error = data.responseJSON.error;
+        }
+
+        EF_Add.error = error;
+        EF_Add.loading(false);
+
 
     }
 
@@ -482,6 +534,66 @@ class EF_Add
         }
 
         return obj[parameter];
+    }
+
+
+
+
+    /**
+     * Display an error message that will fade out in 5 sec
+     *
+     * @param errorMessage
+     */
+    public static set error(errorMessage : string|boolean) {
+
+        EF_Add.setMessage('#error-message',errorMessage,false);
+
+    }
+
+
+
+    /**
+     *
+     * Display a success message that will fade out in 5 sec
+     *
+     * @param successMessage
+     */
+    public static set success(successMessage: string|boolean) {
+
+       EF_Add.setMessage('#success-message',successMessage,false);
+    }
+
+
+    /**
+     *
+     * @param element
+     * @param message
+     * @param persist : boolean, Weither or not the message should be displayed or not
+     */
+    public static setMessage(element : string,message : string|boolean, persist : boolean|number = false) : void
+    {
+
+        if(message) {
+            $(element).text(message).fadeIn(200);
+
+            if(!persist) {
+
+                // Make sure that persist is not equal to false
+                if(typeof persist === "boolean") {
+                    persist = 5000;
+                }
+
+                setTimeout(() => {
+                    this.setMessage(element,'');
+                },persist);
+            }
+
+
+        }else {
+            $(element).fadeOut(200,() => {
+                $(element).text('');
+            });
+        }
     }
 
 }

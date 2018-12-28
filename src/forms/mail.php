@@ -193,7 +193,7 @@ class EF_Mail_Form extends EF_Form
         add_filter('EF_available_forms',function($forms){
             $forms[self::$_TYPE] = array(
                 'type' => self::$_TYPE,
-                'label' => __('Email form','easy-form'),
+                'label' => __('Contact form','easy-form'),
                 'class' => self::class
             );
 

@@ -1,17 +1,18 @@
 <?php
-$allposts = get_post_types();
+// Charge all post types that are made to be displayed in the BO
+$postTypes = get_post_types(array('public' => true));
 
-$postDisabled = ['page','revision','attachment','nav_menu_item','acf-field','acf-field-group'];
+$postDisabled = ['attachment','acf-field','acf-field-group','easy_form'];
 
 ?>
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="ef-input">
-	<label for="form-send-type"><?php _e('Post type',EF_get_domain()); ?></label>
-	<select name="form-send-type" class="form-control" id="form-send-type">
+	<label for="settings[form-send-type]"><?php _e('Post type',EF_get_domain()); ?></label>
+	<select name="settings[form-send-type]" class="form-control" id="settings[form-send-type]">
 		<?php
-		foreach ($allposts as $allpost){
-			if(!in_array($allpost,$postDisabled)){ ?>
-				<option value="<?php echo $allpost; ?>"><?php echo $allpost; ?></option>
+		foreach ($postTypes as $postType){
+			if(!in_array($postType,$postDisabled)){ ?>
+				<option value="<?php echo $postType; ?>"><?php echo $postType; ?></option>
 			<?php } } ?>
 	</select>
 </div>

@@ -1,9 +1,9 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-/** @var $wp_form WP_Form */
-global $wp_form;
-
 ?>
+
+<div class="ef-message ef-error-message" id="error-message"></div>
+<div class="ef-message ef-success-message" id="success-message"></div>
 
 
 <!-- Include the modal -->
@@ -21,7 +21,7 @@ global $wp_form;
         System.import('EF_Add');
 
         // Hack to put the title at it's place
-		$('#title').val($('#title')[0].defaultValue);
+	//	$('#title').val($('#title')[0].defaultValue);
 
 	})
 </script>

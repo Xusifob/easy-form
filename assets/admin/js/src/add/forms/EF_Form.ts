@@ -1,3 +1,4 @@
+import {EF_Input} from "../inputs/EF_Input";
 
 declare var $ : any;
 
@@ -34,9 +35,8 @@ export class EF_Form {
     /**
      *
      * @param $element
-     * @param $data
      */
-    public init($element : any, $data : any)
+    public init($element : any)
     {
 
         this.element = $($element);
@@ -45,18 +45,43 @@ export class EF_Form {
         console.log(this.element);
 
         this.container.html(this.element);
-
-        this.addData($data);
     }
 
 
     /**
      *
-     * @param $data
+     * Return the value of all the inputs in the field
+     *
      */
-    public addData($data : any)
-    {
+    get value(): any {
+
+        let value = {};
+
+        this.element.find('[name^="settings"]').each((key : number,input : any) => {
+
+            let prop = EF_Input.getInputProperties($(input));
+            let val = EF_Input.getInputValue($(input));
+
+            console.log(prop,val);
+
+            if(prop.attr && !value[prop.attr] && prop.id){
+                value[prop.attr] = {};
+            }
+
+            if(value[prop.attr]) {
+                value[prop.attr][prop.id] = val;
+            }else {
+                value[prop.attr] = val;
+            }
+
+        });
+
+
+        return value;
 
     }
+
+
+
 
 }

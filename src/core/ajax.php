@@ -224,6 +224,8 @@ class EF_ajax
 	protected static function HTTP_Request($data,$status = 200){
 
 		header('Content-Type: application/json; charset=utf-8',false);
+        http_response_code($status);
+
 		echo json_encode(array_merge($data,['status' => $status]));
 		die();
 	}
