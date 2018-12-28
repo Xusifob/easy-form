@@ -2,7 +2,8 @@
   "files": [
     "assets/admin/js/src/add/editor.ts",
     "assets/admin/js/src/add/EF_Add.ts",
-    "assets/admin/js/src/add/inputs/EF_Input.ts"
+    "assets/admin/js/src/add/inputs/EF_Input.ts",
+    "assets/admin/js/src/add/forms/EF_Form.ts"
   ],
   "filesGlob": [
     "./**/*.ts",

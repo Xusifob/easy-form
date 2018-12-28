@@ -40,6 +40,7 @@ export class EF_Input
      */
     public container : any;
 
+
     public constructor() {
 
         this.container = $('#fld');
@@ -52,8 +53,9 @@ export class EF_Input
      * @param $element
      * @param $data
      * @param id
+     * @param position : number
      */
-    public init($element : any, id : number,$data : any)
+    public init($element : any, id : number,$data : any,position : null|number = null)
     {
         this.id = id;
 
@@ -62,7 +64,11 @@ export class EF_Input
         this.element = $($element);
         this.optionsElement = this.element.find('.ef-table');
 
-        this.container.append(this.element);
+        if(null === position) {
+            this.container.append(this.element);
+        }else {
+            this.container.find('#field-' + position).replaceWith(this.element);
+        }
 
         this.setEvents();
 
@@ -151,6 +157,31 @@ export class EF_Input
 
     /**
      *
+     * Get the value of an input
+     *
+     *
+     * @param input
+     * @returns any
+     */
+    public static getInputValue(input : any)
+    {
+
+        if(typeof input.val != 'function'){
+            return false;
+        }
+
+
+        if(input.is(':checkbox')){
+            return input.is(':checked');
+        }else{
+            return input.val();
+        }
+    }
+
+
+
+    /**
+     *
      * Return all the properties of an input
      *
      * @param elem
@@ -213,5 +244,41 @@ export class EF_Input
 
         return false;
     }
+
+
+    /**
+     *
+     * Return the value of all the inputs in the field
+     *
+     */
+    get value(): any {
+
+        let value = {};
+
+        this.element.find('[name^="field"]').each((key : number,input : any) => {
+
+            let prop = EF_Input.getInputProperties($(input));
+            let val = EF_Input.getInputValue($(input));
+
+            if(prop.prop && !value[prop.prop] && prop.name){
+                value[prop.prop] = {};
+            }
+
+            if(value[prop.prop]) {
+                value[prop.prop][prop.name] = val;
+            }else {
+                value[prop.prop] = val;
+            }
+
+        });
+
+
+        return value;
+
+    }
+
+
+    // Void
+    set value(value : any) { }
 
 }

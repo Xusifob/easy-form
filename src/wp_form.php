@@ -6,19 +6,6 @@
 class WP_Form implements JsonSerializable
 {
 
-    /**
-     * @since 1.0.0
-     *
-     * All types of forms available in the plugin
-     */
-    const FORMS = [
-        'login' => 'EF_Login_Form',
-        'user' => 'EF_User_Form',
-        'post' => 'EF_Post_Form',
-        'mail' => 'EF_Mail_Form',
-    ];
-
-
 
     /**
      * @since 1.0.0

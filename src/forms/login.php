@@ -74,6 +74,15 @@ class EF_Login_Form extends EF_Form
     }
 
 
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
+    }
+
+
     public static function register()
     {
         add_filter('EF_available_forms',function($forms){

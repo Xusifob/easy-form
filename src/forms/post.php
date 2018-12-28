@@ -12,7 +12,13 @@
 class EF_Post_Form extends EF_Form
 {
 
+
+    /**
+     * @var string
+     */
     public static $_TYPE = 'post';
+
+
 
     /**
      * Required fields for a create
@@ -241,6 +247,16 @@ class EF_Post_Form extends EF_Form
 
             return $forms;
         });
+    }
+
+
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
     }
 
 

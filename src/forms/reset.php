@@ -88,4 +88,12 @@ class EF_Reset_Form extends EF_Form
         });
     }
 
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
+    }
+
 }

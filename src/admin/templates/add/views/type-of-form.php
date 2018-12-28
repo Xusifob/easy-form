@@ -25,7 +25,7 @@
 				<p><?php _e('This part comport all specs linked to the type of form selected',EF_get_domain()); ?></p>
 			</td>
 			<td class="ef-table-content">
-				<div class="utilities"></div>
+				<div class="utilities" id="utilities"></div>
 			</td>
 		</tr>
 		<tr class="ef-table--separator">
