@@ -171,10 +171,10 @@ class WP_Form implements JsonSerializable
         }
 
 
-        $this->attributes = get_post_meta($this->id,'attributes',true);
-        $this->settings = get_post_meta($this->id,'settings',true);
+        $this->attributes = get_post_meta($this->id,'ef-attributes',true);
+        $this->settings = get_post_meta($this->id,'ef-settings',true);
 
-        $this->inputs = get_post_meta($this->id,'inputs');
+        $this->inputs = get_post_meta($this->id,'ef-inputs');
 
         return true;
     }
@@ -365,6 +365,22 @@ class WP_Form implements JsonSerializable
     {
         return $this->form->getInputs();
     }
+
+
+    /**
+     * @since 1.0.0
+     *
+     * Return if a form has the fields
+     *
+     * @param $key : string
+     *
+     * @return bool|EF_Input[]
+     */
+    public function has_field($key)
+    {
+        return $this->form->hasInput($key);
+    }
+
 
     /**
      * @since 1.0.0

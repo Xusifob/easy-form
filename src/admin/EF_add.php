@@ -86,20 +86,22 @@ class EF_add
         $GLOBALS['wp_form'] = new WP_Form($post_id);
 
         // Remove all "default fields"
+        /** @var $wp_form WP_Form */
         global $wp_form;
 
 
         $wp_form->get_form()->removeDefaultFields();
 
 
-        if(!isset($wp_form->get_fields()['submit'])){
+        if(!$wp_form->has_field('submit')) {
             $wp_form->get_form()->addInput(new EF_Submit_Input(null,['name' => 'submit']));
         }
 
 
-        foreach($wp_form->get_form()->getRequiredFields() as $field) {
 
-            if($wp_form->get_field($field) === false) {
+
+        foreach($wp_form->get_form()->getRequiredFields() as $field) {
+            if($wp_form->has_field($field) === false) {
                 $wp_form->get_form()->addInput(new EF_Input(null,array('name' => $field)));
             }
         }
@@ -226,30 +228,32 @@ class EF_add
      *
      *
      * @param $post_id
-     *
      * @return bool
+     * @throws Exception
      */
     public function save_post($post_id)
     {
 
         if(isset($_POST['settings']))
-            update_post_meta($post_id,'settings',$_POST['settings']);
+            update_post_meta($post_id,'ef-settings',$_POST['settings']);
         if(isset($_POST['attributes']))
-            update_post_meta($post_id,'attributes',$_POST['attributes']);
+            update_post_meta($post_id,'ef-attributes',$_POST['attributes']);
 
 
         if(!isset($_POST['field']) || !is_array($_POST['field']))
             return false;
 
-        delete_post_meta($post_id,'inputs');
+        delete_post_meta($post_id,'ef-inputs');
+
 
         foreach($_POST['field'] as $key => $_input){
             $_settings = isset($_input['settings']) ? $_input['settings'] : [];
 
             $input = new EF_Input(null,$_input['attributes'],$_settings);
 
-            add_post_meta($post_id,'inputs',json_encode($input));
+            add_post_meta($post_id,'ef-inputs',json_encode($input));
         }
+
 
         return true;
     }

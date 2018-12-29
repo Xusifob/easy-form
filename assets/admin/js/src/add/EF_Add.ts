@@ -350,7 +350,9 @@ class EF_Add
             }
 
             // Load all the inputs
-            this.loadInputs(data.data.form.inputs,0);
+            this.loadInputs(data.data.form.inputs,0).then(() => {
+                this.addRequiredFields(data.data.form.type);
+            });
 
 
 
@@ -400,6 +402,7 @@ class EF_Add
         $formData.type = type;
 
         this.addFormData($formData);
+        this.addRequiredFields($formData.type);
 
     }
 
@@ -425,8 +428,6 @@ class EF_Add
             });
             EF_Add.loading(false,'utility');
 
-            this.addRequiredFields($formData.type);
-
         });
     }
 
@@ -438,6 +439,8 @@ class EF_Add
     public addRequiredFields(type : string) : void
     {
         let required = this.availableForms[type].required;
+
+        console.log(this.inputs);
 
         $.each(this.inputs,(key : string, input : EF_Input) => {
             let index = $.inArray(input.value.attributes.name,required);
@@ -542,7 +545,7 @@ class EF_Add
             this.is_init = true;
             EF_Add.loading(false,'fields');
             dfd.resolve();
-            return;
+            return dfd.promise();
         }else{
             this.addInput(inputs[key].attributes.type,inputs[key]).then(() => {
                 order++;
