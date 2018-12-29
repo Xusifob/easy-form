@@ -43,4 +43,14 @@ class EF_Hidden_Input extends EF_Input
         });
     }
 
+
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
+    }
+
 }

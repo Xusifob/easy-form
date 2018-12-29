@@ -42,4 +42,14 @@ class EF_Radio_Input extends EF_Input
 
     }
 
+
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
+    }
+
 }

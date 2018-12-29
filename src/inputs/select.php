@@ -131,4 +131,14 @@ class EF_Select extends EF_Input
     }
 
 
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
+    }
+
+
 }

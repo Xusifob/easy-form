@@ -55,6 +55,8 @@ class EF_Submit_Input extends EF_Input
      * @param array $attributes
      * @param array $settings
      * @param array $data
+     *
+     * @throws Exception
      */
     public function __construct( $id = null, $attributes = [], $settings = [], $data = [] ) {
 
@@ -76,6 +78,57 @@ class EF_Submit_Input extends EF_Input
     public function getLabel($force = null)
     {
         return  '';
+    }
+
+
+    /**
+     *
+     * Display the element
+     *
+     * @since 1.0.0
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+
+        $this->generateAutoId();
+
+        $template = $this->getInput();
+
+        return $template;
+
+    }
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Text input','easy-form'),
+                'class' => self::class,
+                'public' => false,
+            );
+
+            return $inputs;
+        });
+
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
     }
 
 }

@@ -105,7 +105,9 @@ class EF_Html_Element implements JsonSerializable
 
         // Add all attributes
         foreach ($this->getAttributes() as $key => $attribute) {
-            $template .= " $key=\"". htmlspecialchars($attribute). "\" ";
+            if($attribute) {
+                $template .= " $key=\"". htmlspecialchars($attribute). "\" ";
+            }
         }
 
         // Close the element

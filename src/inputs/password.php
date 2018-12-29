@@ -206,4 +206,14 @@ class EF_Password_Input extends EF_Input
 
     }
 
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
+    }
+
+
 }

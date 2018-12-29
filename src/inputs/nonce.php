@@ -40,6 +40,29 @@ class EF_Nonce_Input extends EF_Hidden_Input
     }
 
 
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     */
+    public static function register()
+    {
+
+        add_filter('EF_available_inputs',function($inputs){
+            $inputs[self::$_TYPE] = array(
+                'type' => self::$_TYPE,
+                'label' => __('Text input','easy-form'),
+                'class' => self::class,
+                'public' => false,
+            );
+
+            return $inputs;
+        });
+
+    }
+
+
     /**
      * @since 1.0.0
      *

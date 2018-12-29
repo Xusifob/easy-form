@@ -136,6 +136,9 @@ class Easy_Form
         EF_Select::register();
         EF_TextArea::register();
         EF_URL_Input::register();
+        EF_File_Input::register();
+        EF_Submit_Input::register();
+        EF_Nonce_Input::register();
 
         EF_Login_Form::register();
         EF_Mail_Form::register();
@@ -298,12 +301,15 @@ class Easy_Form
     }
 
 
-
-
+    /**
+     * @param $atts
+     */
     public function shortcode($atts)
     {
 
         $form = new WP_Form($atts['id']);
+
+        echo $form;
 
     }
 

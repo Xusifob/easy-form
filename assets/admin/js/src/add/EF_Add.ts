@@ -434,13 +434,11 @@ class EF_Add
 
     /**
      *
-     * @param type
+     * @param formType
      */
-    public addRequiredFields(type : string) : void
+    public addRequiredFields(formType : string) : void
     {
-        let required = this.availableForms[type].required;
-
-        console.log(this.inputs);
+        let required = this.availableForms[formType].required;
 
         $.each(this.inputs,(key : string, input : EF_Input) => {
             let index = $.inArray(input.value.attributes.name,required);
@@ -452,9 +450,17 @@ class EF_Add
 
         let inputs = [];
 
-        $.each(required,(key : number,input : string) => {
 
-            inputs.push({attributes :{type : 'text',name : input}});
+        $.each(required,(key : number,inputName : string) => {
+
+            // Add the default values inside
+            let input = this.getAvailableInputData(inputName);
+
+            input.attributes.name = inputName;
+
+            console.log(input);
+
+            inputs.push(input);
 
         });
 
@@ -465,6 +471,23 @@ class EF_Add
         }
     }
 
+
+    /**
+     *
+     * @param inputType
+     */
+    public getAvailableInputData(inputType : string) : any
+    {
+        let input;
+
+        if(this.availableInputs[inputType]) {
+            input = this.availableInputs[inputType].data;
+        }else {
+            input = this.availableInputs['text'].data;
+        }
+
+        return input;
+    }
 
 
     /**

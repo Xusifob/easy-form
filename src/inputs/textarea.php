@@ -61,4 +61,14 @@ class EF_TextArea extends EF_Input
 
     }
 
+
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::$_TYPE;
+    }
+
 }

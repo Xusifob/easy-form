@@ -110,13 +110,16 @@ class EF_ajax
 	 */
 	public function load_form_data()
 	{
-		if(!isset($_GET['form_id']))
-			self::HTTP_Error(__('Form Id is required',EF_get_domain()),400);
-
 
         $data = array();
 
-        EF_add::create_wp_form($_GET['form_id']);
+        if(isset($_GET['form_id'])) {
+            $form_id = $_GET['form_id'];
+        }else {
+            $form_id = false;
+        }
+
+        EF_add::create_wp_form($form_id);
 
         global $wp_form;
 

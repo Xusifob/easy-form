@@ -92,7 +92,6 @@ class EF_add
 
         $wp_form->get_form()->removeDefaultFields();
 
-
         if(!$wp_form->has_field('submit')) {
             $wp_form->get_form()->addInput(new EF_Submit_Input(null,['name' => 'submit']));
         }

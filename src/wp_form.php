@@ -109,12 +109,18 @@ class WP_Form implements JsonSerializable
             return $loaded;
         }
 
-        /** @var boolean|WP_Error $created */
-        $created = $this->createForm();
+        try {
+            /** @var boolean|WP_Error $created */
+            $created = $this->createForm();
 
-        if(is_wp_error($created)){
-            return $created;
+            if(is_wp_error($created)){
+                return $created;
+            }
+
+        }catch (Exception $e) {
+            return new WP_Error(666,$e->getMessage(),$e);
         }
+
 
         if(isset($this->data) && !empty($this->data)){
             return $this->form->submit($this->data);
@@ -216,6 +222,8 @@ class WP_Form implements JsonSerializable
             $this->data
         );
 
+        $inputs = EF_get_registered_inputs();
+
         foreach ($this->inputs as $input){
 
             $input = json_decode($input,true);
@@ -224,7 +232,6 @@ class WP_Form implements JsonSerializable
                 continue;
 
 
-            $inputs = EF_get_registered_inputs();
 
             if(isset($inputs[$input['attributes']['type']])) {
                 $inputName = $inputs[$input['attributes']['type']]['class'];
@@ -232,7 +239,6 @@ class WP_Form implements JsonSerializable
                 $inputName = $inputs[EF_Input::$_TYPE]['class'];
                 $this->form->setError(__(sprintf('Form field %s does not exist or has not been registered',$input['attributes']['type']),EF_get_domain()));
             }
-
             $inputObj = new $inputName(
                 $this->form->getUniqId(),
                 $input['attributes'],
