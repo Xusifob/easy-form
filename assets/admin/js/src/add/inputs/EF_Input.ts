@@ -47,6 +47,7 @@ export class EF_Input
     public onDuplicate : any;
     public onChangeType : any;
     public onDelete : any;
+    public onMove : any;
 
     public constructor() {
 
@@ -89,11 +90,15 @@ export class EF_Input
      */
     public setEvents() : void
     {
-        this.element.find('[data-action="open-close"]').on('click',() => {return this.toggle()});
-        this.element.find('[data-action="duplicate"]').on('click',() => {this.onDuplicate(this); return false;});
-        this.element.find('[data-action="change-type"]').on('click',() => {this.onChangeType(this); return false;});
-        this.element.find('[data-action="delete"]').on('click',() => {this.onDelete(this); return false;});
+        this.element.find('[data-action="open-close"]').off('click').on('click',() => {return this.toggle()});
+        this.element.find('[data-action="duplicate"]').off('click').on('click',() => {this.onDuplicate(this); return false;});
+        this.element.find('[data-action="change-type"]').off('click').on('click',() => {this.onChangeType(this); return false;});
+        this.element.find('[data-action="delete"]').off('click').on('click',() => {this.onDelete(this); return false;});
+        this.element.find('[data-action="up"]').off('click').on('click',() => {this.onMove(this,'up'); return false;});
+        this.element.find('[data-action="down"]').off('click').on('click',() => {this.onMove(this,'down'); return false;});
     }
+
+
 
 
     /**

@@ -132,6 +132,47 @@ class EF_Add
 
     }
 
+    /**
+     *
+     * Called when 2 inputs are moved
+     *
+     * @param input
+     * @param direction
+     */
+    public onMove(input : EF_Input,direction : string = 'up') : any
+    {
+        let position = this.inputs.indexOf(input);
+
+        let newpos = direction == 'up' ? position-1 : position +1;
+
+        console.log(direction,newpos,position);
+
+        if(newpos == -1 || newpos == this.inputs.length || !this.inputs[newpos]) {
+            return
+        }
+
+        this.switch(position,newpos);
+    }
+
+
+    /**
+     *
+     * Switch 2 inputs
+     *
+     * @param pos1
+     * @param pos2
+     */
+    public switch(pos1 : number, pos2: number)
+    {
+        let input1 = this.inputs[pos1];
+
+        this.inputs[pos1] = this.inputs[pos2];
+
+        this.inputs[pos2] = input1;
+
+        this.reorganise();
+    }
+
 
     /**
      * Remove all inputs from track
@@ -225,9 +266,10 @@ class EF_Add
 
             input.init(data,position ? position : this.inputs.length,$data,position);
 
-            input.onDuplicate = (input) => { this.onDuplicate(input) };
-            input.onChangeType = (input) => { this.onChangeType(input) };
-            input.onDelete = (input) => { this.onDelete(input) };
+            input.onDuplicate = (input : EF_Input ) => { this.onDuplicate(input) };
+            input.onChangeType = (input : EF_Input) => { this.onChangeType(input) };
+            input.onDelete = (input : EF_Input) => { this.onDelete(input) };
+            input.onMove = (input:  EF_Input, action : string) => { this.onMove(input,action) };
 
             if(position) {
                 this.inputs[position] = input;
