@@ -45,7 +45,8 @@ export class EF_Input
      * Function called on duplicate
      */
     public onDuplicate : any;
-
+    public onChangeType : any;
+    public onDelete : any;
 
     public constructor() {
 
@@ -65,6 +66,7 @@ export class EF_Input
     {
         this.id = id;
 
+        $element = $element.replace(/fieldUnId/g,id+1);
         $element = $element.replace(/fieldId/g,id);
 
         this.element = $($element);
@@ -82,12 +84,15 @@ export class EF_Input
     }
 
 
-
-
+    /**
+     * Set all the events linked to this element
+     */
     public setEvents() : void
     {
         this.element.find('[data-action="open-close"]').on('click',() => {return this.toggle()});
         this.element.find('[data-action="duplicate"]').on('click',() => {this.onDuplicate(this); return false;});
+        this.element.find('[data-action="change-type"]').on('click',() => {this.onChangeType(this); return false;});
+        this.element.find('[data-action="delete"]').on('click',() => {this.onDelete(this); return false;});
     }
 
 

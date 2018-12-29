@@ -81,23 +81,17 @@ class EF_Add
 
         // Add a new field
         this.$body
+            .off('click','button[data-action="add"]')
             .on('click','button[data-action="add"]',() => {
                 this.addInput('text',{}).then(() => {
                     EF_Add.loading(false,'fields');
                 }) });
 
-        this.$body
-            .on('change','select[name$="[attributes][type]"]',($event : Event) => {
-                let type = $($event.target).val();
-                let prop = EF_Input.getInputProperties($($event.target));
-                this.changeInput(type,this.inputs[prop.id],prop.id)
-            });
-
-
 
         this.$body
+            .off('click','select[name="settings[type]"]')
             .on('change','select[name="settings[type]"]',($event : Event) => {
-                let type = $(event.target).val();
+                let type = $($event.target).val();
                 this.changeFormType(type);
             });
 
@@ -111,14 +105,49 @@ class EF_Add
 
                 this.$body
                     .on('change','select[name="form-reset-action"]',_changeResetAction);
-
-
-                this.$body
-                    .on('click','.panel header',_togglePanel);*/
+                    */
     }
 
 
     /**
+     * Reorganise all the inputs on the page according to the ones
+     */
+    public reorganise() : any
+    {
+
+        EF_Add.loading(true,'fields');
+
+
+        let inputs = [];
+
+        $.each(this.inputs,(key,input : EF_Input) => {
+            inputs.push(input.value);
+        });
+
+        this.removeAllInputs();
+
+        this.loadInputs(inputs,0).then(() => {
+            EF_Add.loading(false,'fields');
+        });
+
+    }
+
+
+    /**
+     * Remove all inputs from track
+     */
+    public removeAllInputs() : void
+    {
+        this.inputs = [];
+        this.$body.find('#fld').html('');
+    }
+
+
+    /**
+     *
+     * Called on click on the duplicate button
+     *
+     * @Event
      *
      * @param input
      */
@@ -131,24 +160,44 @@ class EF_Add
         })
     }
 
+
     /**
      *
-     * Change the type of input
+     * Called when the change of type is triggered
      *
-     * @param type
-     * @param $input
-     * @param $position
+     * @Event
+     *
+     * @param input
      */
-    public changeInput(type : string,$input : EF_Input,$position : number|null = null)
+    public onChangeType(input : EF_Input) : any
     {
-        let value = $input.value;
+        let position = this.inputs.indexOf(input);
 
-        this.addInput(type,value,$position).then((input) => {
+        let value = input.value;
+
+        this.addInput(value.attributes.type,value,position).then((input) => {
             EF_Add.loading(false,'fields');
             input.open();
         })
     }
 
+
+    /**
+     *
+     * Called on delete of an input
+     *
+     * @Event
+     *
+     * @param input
+     */
+    public onDelete(input : EF_Input) : any
+    {
+        let position = this.inputs.indexOf(input);
+
+        this.inputs.splice(position,1);
+
+        this.reorganise();
+    }
 
 
     /**
@@ -177,6 +226,8 @@ class EF_Add
             input.init(data,position ? position : this.inputs.length,$data,position);
 
             input.onDuplicate = (input) => { this.onDuplicate(input) };
+            input.onChangeType = (input) => { this.onChangeType(input) };
+            input.onDelete = (input) => { this.onDelete(input) };
 
             if(position) {
                 this.inputs[position] = input;
