@@ -114,14 +114,41 @@ class Easy_Form
         add_action('wp_footer',array($this,'wp_footer'));
 
 
+        add_action('template_redirect',array($this,'parse_content'));
+
         // Add action for multilingual traduction
         add_action('plugins_loaded', [$this, 'load_translation']);
 
     }
 
 
+    /**
+     * Parse the content of the page. If it's a POST and there is a form in it, check it !
+     */
+    public function parse_content()
+    {
+
+        if('POST' !== $_SERVER['REQUEST_METHOD']) {
+            return;
+        }
+
+        global $post;
+        if(preg_match('#\[wp_easy_form(( )+)?id=("|\')[a-zA-Z0-9]+("|\')(( )+)?\]#',$post->post_content,$matches)) {
+
+            if(preg_match('#id=("|\')[a-zA-Z0-9]+("|\')#',$matches[0],$match)) {
+                $match = substr($match[0],4,strlen($match[0])-5);
+                $this->shortcode(array(
+                    'id' => $match,
+                    'validation-only' => true,
+                ));
+            }
+        }
+    }
 
 
+    /**
+     * Register the inputs and forms
+     */
     public function registerObjects()
     {
 
@@ -248,11 +275,11 @@ class Easy_Form
         // register scripts
         $scripts = array(
 
-          // array(
-          //      'handle'	=> 'ef-admin-js',
-          //      'src'		=> EF_get_dir('assets/admin/js/build/admin.js'),
-          //      'deps'		=> array('jquery')
-          //  ),
+            // array(
+            //      'handle'	=> 'ef-admin-js',
+            //      'src'		=> EF_get_dir('assets/admin/js/build/admin.js'),
+            //      'deps'		=> array('jquery')
+            //  ),
             array(
                 'handle'	=> 'ef-add-js',
                 'src'		=> EF_get_dir('assets/admin/js/build/add/main.js'),
@@ -309,7 +336,9 @@ class Easy_Form
 
         $form = new WP_Form($atts['id']);
 
-        echo $form;
+        if(!isset($atts['validation-only'])) {
+            echo $form;
+        }
 
     }
 
