@@ -204,11 +204,29 @@ class EF_Input extends EF_Settings_Element
 
         $template = $this->getInput();
 
-        if($this->getSetting('label-after') == true){
-            return $template . $this->getLabel();
-        }else{
-            return $this->getLabel() . $template;
+        $error = '';
+
+        if($this->getSetting('display-errors')) {
+            $error = sprintf('<span class="ef-input-error" >%s</span>',$this->getError());
         }
+
+        if($errorBefore = $this->getSetting('errors-before')) {
+            $template = $error . $template;
+        }
+
+        if($this->getSetting('label-after') == true){
+            $template = $template . $this->getLabel();
+        }else{
+            $template =$this->getLabel() . $template;
+        }
+
+        if(!$errorBefore) {
+            $template = $template . $error;
+        }
+
+        return $template;
+
+
 
     }
 

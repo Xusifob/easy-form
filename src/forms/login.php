@@ -41,7 +41,7 @@ class EF_Login_Form extends EF_Form
 
         do_action('form/BeforeConnectUser', $credentials);
         do_action('form/BeforeConnectUser-' . $this->getId(), $credentials);
-        $user = self::login($credentials);
+        $user = $this->login($credentials);
         /* @since V 0.4 */
         if(!$user)
             return false;
@@ -67,7 +67,7 @@ class EF_Login_Form extends EF_Form
      * @return bool|WP_User
      */
     public function login($credentials){
-        $usr = wp_signon($credentials, false);
+        $usr = wp_signon($credentials);
         if (is_wp_error($usr)) {
             $this->setError(__('Invalid credentials','easy-form'));
             return false;

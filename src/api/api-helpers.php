@@ -187,7 +187,10 @@ if(!function_exists('dump')) {
     function dump($var=  null)
     {
         echo '<pre>';
+        ob_start();
         var_dump($var);
+        $data = ob_get_clean();
+        echo htmlentities($data);
         echo '</pre>';
     }
 

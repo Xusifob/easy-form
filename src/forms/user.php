@@ -33,16 +33,9 @@ class EF_User_Form extends EF_Form
      */
     public function submit($data){
 
-//        $data['email'] = uniqid() . $data['email'];
-
-
-        // If you update, no field is required
-        if($this->getSetting('id')) {
-            $this->requiredFields = [];
-        }
-
-        if(!$this->isValid($data))
+        if(!$this->isValid($data,false))
             return false;
+
 
         do_action('form/BeforeInsertOrModifyUser', $data);
         do_action('form/BeforeInsertOrModifyUser-' . $this->getId(), $data);
@@ -78,14 +71,16 @@ class EF_User_Form extends EF_Form
 
         //TODO Send register email
 
-        $this->login($data);
+        if($this->login($data)){
 
-        $this->setFormSend($user_id);
+            $this->setFormSend($user_id);
 
-        // Redirect the user
-        $this->redirect($user_id);
+            // Redirect the user
+            $this->redirect($user_id);
 
-        return true;
+            return true;
+        }
+        return false;
     }
 
 
@@ -93,32 +88,31 @@ class EF_User_Form extends EF_Form
      *
      * Log the user
      *
+     *
      * @param $data
+     * @return bool|WP_User
      */
     protected function login($data)
     {
-        if($this->getSetting('autoLogin')){
-            $form = new EF_Login_Form(null,$this->getAttributes());
+        if($this->getSetting('connexion-user')){
 
-            $login = $this->getInput('email');
-            $login->setName('login');
+            $credentials = [
+                'user_login' => isset($data['login']) ? $data['login'] : $data['email'],
+                'user_password' => $data['password'],
+                'remember' => true
+            ];
 
-            $this->addInput($login);
+            $usr = wp_signon($credentials);
+            if (is_wp_error($usr)) {
+                $this->setError(__('Invalid credentials','easy-form'));
+                return false;
+            } else {
 
-            $form->setInputs($this->getInputs());
-
-            $this->removeInput('login');
-
-            if(!isset($data['login'])){
-                $data['login'] = $data['email'];
+                return $usr;
             }
 
-            $form->addSetting('remember',$this->getSetting('remember'));
-            $form->submit($data);
-
-            $this->setError($form->getError());
-
         }
+        return true;
     }
 
 

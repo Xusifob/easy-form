@@ -20,23 +20,38 @@ class EF_Nonce_Input extends EF_Hidden_Input
      */
     public function __construct($id = null,$attributes = array()) {
 
-        $value = is_string($attributes['value']) ? $attributes['value'] : 'nonce';
+        $value = 'nonce';
 
         $attributes['value'] = wp_create_nonce($value);
         $attributes['name'] = '_nonce';
 
         parent::__construct($id,$attributes);
 
+        if(WP_DEBUG)
+            $this->addSetting('display-errors','on');
+
     }
 
 
+    /**
+     *
+     * Return if the field is valid or nit
+     *
+     * @param $data
+     * @return bool|int
+     */
     public function isValid($data)
     {
 
-        $value = $this->getAttribute('value');
-        $value = is_string($value) ? $value : 'nonce';
+        $value = 'nonce';
 
-        return wp_verify_nonce($data,$value);
+        $result = wp_verify_nonce($data[$this->getAttribute('name')],$value);
+
+        if(!$result) {
+            $this->setError('The nonce has not been verified');
+        }
+
+        return $result;
     }
 
 

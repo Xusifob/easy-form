@@ -121,7 +121,6 @@ class WP_Form implements JsonSerializable
             return new WP_Error(666,$e->getMessage(),$e);
         }
 
-
         if(isset($this->data) && !empty($this->data)){
             return $this->form->submit($this->data);
         }
@@ -224,6 +223,12 @@ class WP_Form implements JsonSerializable
 
         $inputs = EF_get_registered_inputs();
 
+
+        $settings = array(
+            'display-errors' => $this->form->getSetting('display-errors'),
+            'errors-before' => $this->form->getSetting('errors-before'),
+        );
+
         foreach ($this->inputs as $input){
 
             $input = json_decode($input,true);
@@ -242,7 +247,7 @@ class WP_Form implements JsonSerializable
             $inputObj = new $inputName(
                 $this->form->getUniqId(),
                 $input['attributes'],
-                $input['settings'],
+                array_merge($input['settings'],$settings),
                 $this->data
             );
 

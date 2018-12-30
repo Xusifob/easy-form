@@ -239,6 +239,7 @@ class EF_add
             update_post_meta($post_id,'ef-attributes',$_POST['attributes']);
 
 
+
         if(!isset($_POST['field']) || !is_array($_POST['field']))
             return false;
 

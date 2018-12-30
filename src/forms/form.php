@@ -94,7 +94,7 @@ abstract class EF_Form extends EF_Html_Element
         $this->defaultSettings['type'] = $this->getType();
 
         if(is_array($settings)){
-            $this->setSettings(array_merge($settings,$this->defaultSettings));
+            $this->setSettings(array_merge($this->defaultSettings,$settings));
         }else{
             throw new Exception(sprintf('$settings must be an array %s gotten',gettype($settings)));
         }
@@ -371,18 +371,14 @@ abstract class EF_Form extends EF_Html_Element
 
     /**
      * @param $data
+     * @param $required bool, weither the required fields are required or not
      * @return bool
      */
-    public function isValid($data)
+    public function isValid($data,$required = true)
     {
 
         $isValid = true;
 
-        // Verify Wordpress Nounce
-        if(!isset($data['_nonce']) || !wp_verify_nonce($data['_nonce'], $this->getAttribute('name'))){
-            $this->setError(__('Unrecognised Nonce','easy-form'));
-            return false;
-        }
 
         // Verify time
         if(!isset($data['_time']) || microtime(true) - $data['_time'] < 1){
@@ -395,16 +391,17 @@ abstract class EF_Form extends EF_Html_Element
             return false;
         }
 
-
-        // Check if it has the required field
-        foreach($this->getRequiredFields() as $field){
-            if(!$this->hasInput($field)) {
-                $this->setError(__(sprintf('The form need a field %s',$field),'easy-form'));
-                return false;
-            }
-            if($this->getInput($field)->getAttribute('required') === false){
-                $this->setError(__(sprintf('The field %s must be required',$field),'easy-form'));
-                return false;
+        if($required) {
+            // Check if it has the required field
+            foreach($this->getRequiredFields() as $field){
+                if(!$this->hasInput($field)) {
+                    $this->setError(__(sprintf('The form need a field %s',$field),'easy-form'));
+                    return false;
+                }
+                if($this->getInput($field)->getAttribute('required') === false){
+                    $this->setError(__(sprintf('The field %s must be required',$field),'easy-form'));
+                    return false;
+                }
             }
         }
 
@@ -511,14 +508,15 @@ abstract class EF_Form extends EF_Html_Element
             $link = get_permalink($post_id);
         }
 
+
         // Case redirect to a specific post
-        if(is_numeric($redirect)){
+        if(is_numeric($redirect) || ( is_string($redirect) && preg_match('#^[0-9]+$#',$redirect))){
             $link = get_permalink($redirect);
         }
 
 
         // Case slug
-        if(is_string($redirect) && $redirect != 'newpost'){
+        if($link === '' && is_string($redirect)){
 
             $args = array(
                 'name'        => $redirect,
@@ -543,7 +541,7 @@ abstract class EF_Form extends EF_Html_Element
 
         // If the post has parameters
         if($parameters){
-            $link = EF_get_link_union($link) . $parameters;
+            $link = $link . EF_get_link_union($link) . $parameters;
         }
 
 
@@ -556,6 +554,7 @@ abstract class EF_Form extends EF_Html_Element
             echo '<noscript>';
             echo '<meta http-equiv="refresh" content="0;url='.$link.'" />';
             echo '</noscript>';
+            die();
         }
     }
 
@@ -578,6 +577,8 @@ abstract class EF_Form extends EF_Html_Element
     public function __toString()
     {
         $template = $this->open();
+
+        $template .= sprintf('<p class="ef-error">%s</p>',$this->getError());
 
         /** @var EF_Input|array $input */
         $template .= $this->concatenateInputs();
