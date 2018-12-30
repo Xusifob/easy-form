@@ -70,22 +70,19 @@ class EF_Password_Input extends EF_Input
         $score = $this->analyze($password);
 
         // According to the number of point
-        switch(true) {
-            case in_array($score, range(0,25)):
-                return self::VERY_WEAK;
-                break;
-            case in_array($score, range(25,50)):
-                return self::WEAK;
-                break;
-            case in_array($score, range(51,75)):
-                return self::MEDIUM;
-                break;
-            case in_array($score, range(76,100)):
-                return self::STRONG;
-                break;
-            default:
-                return self::VERY_STRONG;
+        if($score > 100 ) {
+            return self::VERY_STRONG;
         }
+        if($score > 75) {
+            return self::STRONG;
+        }
+        if($score > 50) {
+            return self::MEDIUM;
+        }
+        if($score > 25) {
+            return self::WEAK;
+        }
+        return self::VERY_WEAK;
 
     }
 
@@ -102,8 +99,11 @@ class EF_Password_Input extends EF_Input
 
             $password = $data[$this->getName()];
 
+
             if($this->getStrength($password) >= $this->getSetting('min-strength')){
                 return true;
+            }else {
+                $this->setError(__('The password is not strong enough.',EF_get_domain()));
             }
         }
         return false;

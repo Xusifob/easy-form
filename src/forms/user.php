@@ -33,7 +33,8 @@ class EF_User_Form extends EF_Form
      */
     public function submit($data){
 
-        if(!$this->isValid($data,false))
+        $required = $this->getSetting('id') ? false  : true;
+        if(!$this->isValid($data,$required))
             return false;
 
 
