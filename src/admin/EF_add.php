@@ -96,15 +96,6 @@ class EF_add
             $wp_form->get_form()->addInput(new EF_Submit_Input(null,['name' => 'submit']));
         }
 
-
-
-
-        foreach($wp_form->get_form()->getRequiredFields() as $field) {
-            if($wp_form->has_field($field) === false) {
-                $wp_form->get_form()->addInput(new EF_Input(null,array('name' => $field)));
-            }
-        }
-
     }
 
 

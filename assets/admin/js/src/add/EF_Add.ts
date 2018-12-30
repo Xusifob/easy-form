@@ -83,8 +83,9 @@ class EF_Add
         this.$body
             .off('click','button[data-action="add"]')
             .on('click','button[data-action="add"]',() => {
-                this.addInput('text',{}).then(() => {
+                this.addInput('text',{}).then((input : EF_Input) => {
                     EF_Add.loading(false,'fields');
+                    input.dirty = true;
                 }) });
 
 
@@ -112,8 +113,10 @@ class EF_Add
     /**
      * Reorganise all the inputs on the page according to the ones
      */
-    public reorganise() : any
+    public reorganise() : Promise<any>
     {
+
+        let dfd = $.Deferred();
 
         EF_Add.loading(true,'fields');
 
@@ -128,7 +131,10 @@ class EF_Add
 
         this.loadInputs(inputs,0).then(() => {
             EF_Add.loading(false,'fields');
+            dfd.resolve();
         });
+
+        return dfd.promise();
 
     }
 
@@ -244,7 +250,7 @@ class EF_Add
     /**
      * Add an input to the editor
      */
-    public addInput(type : string = 'text',$data,position : number|null = null) : Promise<any>
+    public addInput(type : string = 'text',$data,position : number|null = null) : Promise<EF_Input>
     {
 
         // Create a promise
@@ -351,6 +357,11 @@ class EF_Add
 
             // Load all the inputs
             this.loadInputs(data.data.form.inputs,0).then(() => {
+
+                this.inputs.forEach((value : EF_Input,key : number) => {
+                    this.inputs[key].dirty = true;
+                });
+
                 this.addRequiredFields(data.data.form.type);
             });
 
@@ -440,35 +451,55 @@ class EF_Add
     {
         let required = this.availableForms[formType].required;
 
-        $.each(this.inputs,(key : string, input : EF_Input) => {
-            let index = $.inArray(input.value.attributes.name,required);
-            if(index != -1) {
-                required.splice(index, 1);
+        this.removeUntouchedInputs().then(() => {
+            $.each(this.inputs,(key : string, input : EF_Input) => {
 
+                let index = $.inArray(input.value.attributes.name,required);
+                if(index != -1) {
+                    required.splice(index, 1);
+                }
+            });
+
+            let inputs = [];
+
+
+            $.each(required,(key : number,inputName : string) => {
+
+                // Add the default values inside
+                let input = this.getAvailableInputData(inputName);
+
+                input.attributes.name = inputName;
+
+                inputs.push(input);
+
+            });
+
+            if(inputs && inputs.length > 0) {
+                this.loadInputs(inputs, 0).then(() => {
+                    EF_Add.success = 'The fields ' + required.join(', ') + ' have been added to the form';
+                });
+            }
+        });
+    }
+
+
+    /**
+     * Remove all the inputs added by changing the type of form
+     */
+    public removeUntouchedInputs() : Promise<any>
+    {
+        let inputs = [];
+
+        $.each(this.inputs,(key : number, input : EF_Input) => {
+
+            if (input.dirty) {
+                inputs.push(input);
             }
         });
 
-        let inputs = [];
+        this.inputs = inputs;
 
-
-        $.each(required,(key : number,inputName : string) => {
-
-            // Add the default values inside
-            let input = this.getAvailableInputData(inputName);
-
-            input.attributes.name = inputName;
-
-            console.log(input);
-
-            inputs.push(input);
-
-        });
-
-        if(inputs && inputs.length > 0) {
-            this.loadInputs(inputs, 0).then(() => {
-                EF_Add.success = 'The fields ' + required.join(', ') + ' have been added to the form';
-            });
-        }
+        return this.reorganise();
     }
 
 
@@ -523,13 +554,20 @@ class EF_Add
     }
 
 
-    public fillInfos($elem,$form) : void
+    /**
+     *
+     * Fill form data the infos inside the editor
+     *
+     * @param $elem
+     * @param $formData
+     */
+    public fillInfos($elem,$formData) : void
     {
         let prop = EF_Input.getInputProperties($elem);
 
-        if($form[prop.attr] && $form[prop.attr][prop.id]) {
+        if($formData[prop.attr] && $formData[prop.attr][prop.id]) {
 
-            EF_Input.setInputValue($elem,$form[prop.attr][prop.id]);
+            EF_Input.setInputValue($elem,$formData[prop.attr][prop.id]);
         }
     }
 

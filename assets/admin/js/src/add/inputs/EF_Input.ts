@@ -42,6 +42,12 @@ export class EF_Input
 
 
     /**
+     * If the field has been changed or not
+     */
+    public dirty : boolean = false;
+
+
+    /**
      * Function called on duplicate
      */
     public onDuplicate : any;
@@ -96,6 +102,7 @@ export class EF_Input
         this.element.find('[data-action="delete"]').off('click').on('click',() => {this.onDelete(this); return false;});
         this.element.find('[data-action="up"]').off('click').on('click',() => {this.onMove(this,'up'); return false;});
         this.element.find('[data-action="down"]').off('click').on('click',() => {this.onMove(this,'down'); return false;});
+        this.element.find('select,input,textarea').on('input', () => { this.dirty = true;});
     }
 
 
@@ -125,6 +132,12 @@ export class EF_Input
      */
     public addData($data) : void
     {
+
+        if($data.dirty) {
+            this.dirty = $data.dirty;
+        }
+
+
         EF_Input.addDataToElement(this.element,$data)
     }
 
@@ -270,7 +283,9 @@ export class EF_Input
      */
     get value(): any {
 
-        let value = {};
+        let value = {
+            dirty : this.dirty,
+        };
 
         this.element.find('[name^="field"]').each((key : number,input : any) => {
 
@@ -289,13 +304,8 @@ export class EF_Input
 
         });
 
-
         return value;
 
     }
-
-
-    // Void
-    set value(value : any) { }
 
 }
