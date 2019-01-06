@@ -95,10 +95,12 @@ class Easy_Form
         EF_include('src/forms/mail.php');
         EF_include('src/forms/post.php');
         EF_include('src/forms/reset.php');
+        EF_include('src/forms/user-activation.php');
         EF_include('src/forms/user.php');
 
         // Include class
         EF_include('src/wp_form.php');
+        EF_include('src/email.php');
 
         if( is_admin() ) {
             EF_include('src/admin/admin.php');
@@ -119,6 +121,11 @@ class Easy_Form
         // Add action for multilingual traduction
         add_action('plugins_loaded', [$this, 'load_translation']);
 
+        add_action('init',array(EF_User_Activation_Form::class,'activation_page'));
+
+        add_filter( 'authenticate',array(EF_User_Activation_Form::class,'checkIfActivated'), 50, 3 );
+
+
     }
 
 
@@ -128,7 +135,7 @@ class Easy_Form
     public function parse_content()
     {
 
-        if('POST' !== $_SERVER['REQUEST_METHOD']) {
+        if('POST' !== $_SERVER['REQUEST_METHOD'] || is_admin()) {
             return;
         }
 
@@ -330,14 +337,24 @@ class Easy_Form
 
     /**
      * @param $atts
+     * @return WP_Form
      */
     public function shortcode($atts)
     {
 
+        $post_id = false;
+
+        if(isset($atts['update'])) {
+            if($atts['update'] === true) {
+            }
+        }
+
+
         $form = new WP_Form($atts['id']);
 
+
         if(!isset($atts['validation-only'])) {
-            echo $form;
+            return $form;
         }
 
     }

@@ -17,8 +17,8 @@
     </label>
 </div>
 <div class="ef-input">
-    <label for="settings[email-user]" class="label-checkbox">
-        <input type="checkbox" name="settings[email-user]"  id="settings[email-user]">
+    <label for="settings[activation-via-email]" class="label-checkbox">
+        <input type="checkbox" name="settings[activation-via-email]"  id="settings[activation-via-email]">
         <?php _e('Activate user through email',  EF_get_domain()); ?>
     </label>
 </div>

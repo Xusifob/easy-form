@@ -1,6 +1,6 @@
 <?php
 
-class EF_User_Form extends EF_Form
+class EF_User_Form extends EF_User_Activation_Form
 {
 
 
@@ -8,6 +8,8 @@ class EF_User_Form extends EF_Form
         'email',
         'password'
     ];
+
+
 
 
     protected $defaultSettings = [
@@ -46,6 +48,8 @@ class EF_User_Form extends EF_Form
             do_action('form/BeforeModifyUser', $data);
             do_action('form/BeforeModifyUser-' . $this->getId(), $data);
             $user_id = $this->update($data);
+            $user = get_user_by('id',$user_id);
+            self::addMetaData($user,$data);
             do_action('form/AfterModifyUser', $user_id);
             do_action('form/AfterModifyUser-' . $this->getId(), $user_id);
 
@@ -55,6 +59,9 @@ class EF_User_Form extends EF_Form
             do_action('form/BeforeInsertUser', $data);
             do_action('form/BeforeInsertUser-' . $this->getId(), $data);
             $user_id = $this->create($data);
+            $user = get_user_by('id',$user_id);
+            self::addMetaData($user,$data);
+
             do_action('form/AfterInsertUser', $user_id);
             do_action('form/AfterInsertUser-' . $this->getId(), $user_id);
         }
@@ -63,16 +70,20 @@ class EF_User_Form extends EF_Form
         if($user_id == false)
             return false;
 
-        $user = get_user_by('id',$user_id);
-
-        self::addMetaData($user,$data);
-
         do_action('form/AfterInsertOrModifyUser', $user);
         do_action('form/AfterInsertOrModifyUser-' . $this->getId(), $user);
 
-        //TODO Send register email
 
-        if($this->login($data)){
+        if($this->requiresEmailActivation()) {
+
+            $this->deactivateUser($user_id);
+
+            $this->sendActivationEmail($user);
+        } else {
+            $this->activateUser($user_id);
+        }
+
+        if($this->login($data) && ! $this->requiresEmailActivation()){
 
             $this->setFormSend($user_id);
 
@@ -83,6 +94,10 @@ class EF_User_Form extends EF_Form
         }
         return false;
     }
+
+
+
+
 
 
     /**
@@ -159,6 +174,9 @@ class EF_User_Form extends EF_Form
                 }
             }
         }
+
+
+
     }
 
 
@@ -189,6 +207,23 @@ class EF_User_Form extends EF_Form
             return $user;
         }
     }
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     * Returns if the form needs an email activation or not
+     *
+     * @return bool
+     */
+    public function requiresEmailActivation()
+    {
+        // The form is activation via email and the form is not an update one
+        return $this->getSetting('activation-via-email') == true && $this->getSetting('id') === false;
+    }
+
+
 
 
     /**
@@ -256,7 +291,6 @@ class EF_User_Form extends EF_Form
 
             return false;
         } else {
-            self::addMetaData($user,$data);
             return $user_id;
         }
     }
@@ -314,5 +348,6 @@ class EF_User_Form extends EF_Form
     {
         return self::$_TYPE;
     }
+
 
 }

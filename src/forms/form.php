@@ -498,6 +498,34 @@ abstract class EF_Form extends EF_Html_Element
     {
 
 
+    $link = $this->generateRedirectLink($post_id);
+
+
+        if (!headers_sent())
+            wp_redirect($link);
+        else {
+            echo '<script type="text/javascript">';
+            echo 'window.location.href="'.$link.'";';
+            echo '</script>';
+            echo '<noscript>';
+            echo '<meta http-equiv="refresh" content="0;url='.$link.'" />';
+            echo '</noscript>';
+            die();
+        }
+    }
+
+
+    /**
+     *
+     * @Since 1.1.0
+     *
+     * Generates the link to redirect the user too
+     *
+     * @param null $post_id
+     * @return false|int|mixed|string
+     */
+    protected function generateRedirectLink($post_id = null)
+    {
         $redirect = $this->getSetting('redirect');
         $parameters = $this->getSetting('parameters');
         $link = '';
@@ -533,30 +561,23 @@ abstract class EF_Form extends EF_Html_Element
 
         }
 
+        if($link == '') {
+            $link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        }
+
         // Case the user entered a complete full url
         if(filter_var($redirect, FILTER_VALIDATE_URL)){
             $link = $redirect;
         }
-
 
         // If the post has parameters
         if($parameters){
             $link = $link . EF_get_link_union($link) . $parameters;
         }
 
-
-        if (!headers_sent())
-            wp_redirect($link);
-        else {
-            echo '<script type="text/javascript">';
-            echo 'window.location.href="'.$link.'";';
-            echo '</script>';
-            echo '<noscript>';
-            echo '<meta http-equiv="refresh" content="0;url='.$link.'" />';
-            echo '</noscript>';
-            die();
-        }
+        return $link;
     }
+
 
     /**
      * @since 1.0.0
