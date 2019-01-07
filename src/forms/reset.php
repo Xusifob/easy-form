@@ -4,7 +4,7 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
 {
 
     public static $_REQUIRED_FIELDS = [
-        'login',
+        'email',
         'password'
     ];
 
@@ -29,50 +29,17 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
         if(!$this->isValid($data))
             return false;
 
-        $credentials = [
-            'user_login' => $data['login'],
-            'user_password' => $data['password'],
-            'remember' => isset($data['remember']) ? $data['remember'] : $this->getSetting('remember'),
-        ];
+        $user = get_user_by('email',$data['login']);
 
-        /* @since V 0.4 */
 
-        do_action('form/BeforeConnectUser', $credentials);
-        do_action('form/BeforeConnectUser-' . $this->getId(), $credentials);
-        $user = self::login($credentials);
-        /* @since V 0.4 */
-        if(!$user)
+        if(!$user) {
+            $this->setError(__('No user found in the database',EF_get_domain()));
             return false;
-
-        do_action('form/BeforeConnectUser', $credentials);
-        do_action('form/BeforeConnectUser-' . $this->getId(), $credentials);
-
-        $this->setFormSend();
-        // Redirect the user
-        $this->redirect();
-        return true;
-
-    }
-
-
-    /**
-     *
-     * @Since 1.0.0
-     *
-     * Login the user
-     *
-     * @param $credentials
-     * @return bool|WP_User
-     */
-    public function login($credentials){
-        $usr = wp_signon($credentials, false);
-        if (is_wp_error($usr)) {
-            $this->setError(__('Invalid credentials','easy-form'));
-            return false;
-        } else {
-            return $usr;
         }
+
+
     }
+
 
 
 

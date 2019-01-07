@@ -56,7 +56,7 @@ class WP_Form implements JsonSerializable
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes = array();
 
 
     /**
@@ -66,7 +66,7 @@ class WP_Form implements JsonSerializable
      *
      * @var array
      */
-    protected $settings = [];
+    protected $settings = array();
 
 
     /**
@@ -76,7 +76,7 @@ class WP_Form implements JsonSerializable
      *
      * @var array
      */
-    protected $inputs = [];
+    protected $inputs = array();
 
 
     /**
@@ -86,7 +86,7 @@ class WP_Form implements JsonSerializable
      *
      * @var array
      */
-    protected $data = [];
+    protected $data = array();
 
     /**
      * WP_Form2 constructor.

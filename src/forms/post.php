@@ -27,9 +27,9 @@ class EF_Post_Form extends EF_Form
      *
      * @var array
      */
-    public static $_REQUIRED_FIELDS = [
+    public static $_REQUIRED_FIELDS = array(
         'title',
-    ];
+    );
 
 
     /**
@@ -39,11 +39,11 @@ class EF_Post_Form extends EF_Form
      *
      * @var array
      */
-    protected $defaultSettings = [
+    protected $defaultSettings = array(
         'post_type' => 'post',
         'post_status' => 'publish',
         'default-class' => 'form-control',
-    ];
+    );
 
 
     /**
@@ -60,7 +60,7 @@ class EF_Post_Form extends EF_Form
 
         // If you update, no field is required
         if($this->getSetting('id')) {
-            $this->requiredFields = [];
+            $this->requiredFields = array();
         }
 
         if(!$this->isValid($data))
@@ -74,9 +74,9 @@ class EF_Post_Form extends EF_Form
             // Update the post
             do_action('form/BeforeModifyPost', $data);
             do_action('form/BeforeModifyPost-' . $this->getId(), $data);
-            $the_post  = $this->update($data);
-            do_action('form/AfterModifyPost', $the_post );
-            do_action('form/AfterModifyPost-' . $this->getId(), $the_post);
+            $the_post_id  = $this->update($data);
+            do_action('form/AfterModifyPost', $the_post_id );
+            do_action('form/AfterModifyPost-' . $this->getId(), $the_post_id);
 
 
         } else{
@@ -119,7 +119,7 @@ class EF_Post_Form extends EF_Form
      */
     protected function addMetaData(WP_Post $the_post,$data){
 
-        $remove = [
+        $remove = array(
             '_nonce',
             '_time',
             '_antispam',
@@ -127,7 +127,7 @@ class EF_Post_Form extends EF_Form
             'content',
             'content',
             '_uniqid'
-        ];
+        );
 
         foreach($this->getInputs(true) as $input){
             if(in_array($input->getName(),$remove))

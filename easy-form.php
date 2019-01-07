@@ -21,9 +21,9 @@ License: GPL
  */
 class Easy_Form
 {
-    var $SETTINGS = [
+    var $SETTINGS = array(
         'is_initialised' => false,
-    ];
+    );
 
 
     /**
@@ -37,7 +37,7 @@ class Easy_Form
 
     public function initialise()
     {
-        $this->SETTINGS = [
+        $this->SETTINGS = array(
 
             'text_domain' => 'easy-form',
             // basic
@@ -53,8 +53,8 @@ class Easy_Form
             'capability' => 'edit_posts',
             'is_initialised' => true,
             'default_language' => 'en',
-            'test' => 'test'
-        ];
+            'test' => 'test',
+        );
 
 
         $this->SETTINGS['name'] = __('Easy Form', $this->SETTINGS['text_domain']);
@@ -119,7 +119,7 @@ class Easy_Form
         add_action('template_redirect',array($this,'parse_content'));
 
         // Add action for multilingual traduction
-        add_action('plugins_loaded', [$this, 'load_translation']);
+        add_action('plugins_loaded', array($this, 'load_translation'));
 
         add_action('init',array(EF_User_Activation_Form::class,'activation_page'));
 

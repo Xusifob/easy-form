@@ -496,10 +496,8 @@ abstract class EF_Form extends EF_Html_Element
      */
     protected function redirect($post_id = null)
     {
-
-
-    $link = $this->generateRedirectLink($post_id);
-
+        
+        $link = $this->generateRedirectLink($post_id);
 
         if (!headers_sent())
             wp_redirect($link);

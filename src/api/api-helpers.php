@@ -145,7 +145,7 @@ function array_flatten($array) {
     $return = array();
     foreach ($array as $key => $value) {
         if (is_array($value)){
-            $new_value = [];
+            $new_value = array();
             foreach($value as $k => $v){
                 $new_value[$key . '_' . $k] = $v;
             }

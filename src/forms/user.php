@@ -78,7 +78,15 @@ class EF_User_Form extends EF_User_Activation_Form
 
             $this->deactivateUser($user_id);
 
-            $this->sendActivationEmail($user);
+            $activated = $this->sendActivationEmail($user);
+
+
+            if(!$activated) {
+                $this->setError(__('The account has been created but an error occured when sending the activation email.', EF_get_domain()));
+                $this->activateUser($user_id);
+            }
+
+
         } else {
             $this->activateUser($user_id);
         }
