@@ -583,7 +583,7 @@ abstract class EF_Form extends EF_Html_Element
 
 
         // Case slug
-        if($link === '' && is_string($redirect)){
+        if($link === '' && $redirect != '' && is_string($redirect)){
 
             $args = array(
                 'name'        => $redirect,

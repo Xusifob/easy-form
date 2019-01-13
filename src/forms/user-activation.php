@@ -196,7 +196,7 @@ abstract class EF_User_Activation_Form extends EF_Form
      * @param $user
      * @return mixed
      */
-    public static function checkIfActivated(WP_User $user)
+    public static function checkIfActivated($user)
     {
         if(!$user instanceof WP_User) {
             return $user;

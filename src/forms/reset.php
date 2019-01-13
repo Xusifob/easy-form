@@ -69,31 +69,55 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
         if(!$this->isValid($data))
             return false;
 
-        $user = get_user_by('email',$data['user_email']);
+        if(!$this->isResetting()) {
+            $user = get_user_by('email', $data['user_email']);
 
 
-        if(!$user) {
-            $this->setError(__('No user found in the database',EF_get_domain()));
-            return false;
+            if (!$user) {
+                $this->setError(__('No user found in the database', EF_get_domain()));
+                return false;
+            }
+
+            $key = EF_User_Activation_Form::generateActivationKey();
+
+            $update = update_user_meta($user->ID, self::$_PASSWORD_FORGOT_KEY, $key);
+
+            if (!$update) {
+                $this->setError(__('An error occurred while generating the key, please try again later.', EF_get_domain()));
+                return false;
+            }
+
+            if (!$this->sendResetEmail($user)) {
+                $this->setError(__('An error occurred while sending the email, please try again later', EF_get_domain()));
+                return false;
+            }
+
+            return true;
+        } else {
+
+            $user_id = $_GET['ef_user_id'];
+
+            $key = get_user_meta($user_id,self::$_PASSWORD_FORGOT_KEY,true);
+
+            $valid = EF_User_Activation_Form::checkActivationKey($_GET['ef_reset_key'],$key);
+
+            if(is_wp_error($valid)) {
+                $this->setError($valid->get_error_message());
+                return false;
+            }
+
+            // Reset the activation key
+            update_user_meta($user_id,self::$_PASSWORD_FORGOT_KEY,'');
+
+            wp_set_password($data['user_pass'],$user_id);
+
+            return true;
         }
-
-        $key = EF_User_Activation_Form::generateActivationKey();
-
-        $update = update_user_meta($user->ID,self::$_PASSWORD_FORGOT_KEY,$key);
-
-        if(!$update) {
-            $this->setError(__('An error occurred while generating the key, please try again later.',EF_get_domain()));
-            return false;
-        }
-
-        if(!$this->sendResetEmail($user)) {
-            $this->setError(__('An error occurred while sending the email, please try again later',EF_get_domain()));
-            return false;
-        }
-
-        return true;
-
     }
+
+
+
+
 
 
     /**
@@ -104,7 +128,7 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
      */
     public function isResetting()
     {
-        return isset($_GET['ef_reset_key']) && !empty($_GET['ef_reset_key']);
+        return (isset($_GET['ef_user_id']) && !empty($_GET['ef_user_id'])) && (isset($_GET['ef_reset_key']) && !empty($_GET['ef_reset_key']));
     }
 
 
@@ -139,7 +163,7 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
 
 
         $data = array(
-            'activation_link' => $link,
+            'reset_link' => $link,
             'first_name' => get_user_meta($user->ID,'first_name',true),
         );
 
