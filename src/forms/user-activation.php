@@ -90,7 +90,7 @@ abstract class EF_User_Activation_Form extends EF_Form
     public static function checkActivationKey($key,$activation_key)
     {
 
-        if(false && $activation_key !== $key) {
+        if($activation_key !== $key) {
             return new WP_Error(666,__('The activation key is incorrect',EF_get_domain()));
         }
 

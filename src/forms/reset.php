@@ -91,8 +91,6 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
                 $this->setError(__('An error occurred while sending the email, please try again later', EF_get_domain()));
                 return false;
             }
-
-            return true;
         } else {
 
             $user_id = $_GET['ef_user_id'];
@@ -107,12 +105,18 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
             }
 
             // Reset the activation key
-            update_user_meta($user_id,self::$_PASSWORD_FORGOT_KEY,'');
+            update_user_meta($user_id,self::$_PASSWORD_FORGOT_KEY,false);
 
             wp_set_password($data['user_pass'],$user_id);
-
-            return true;
         }
+
+        $this->setFormSend();
+
+        // Redirect the user
+        $this->redirect();
+
+        return true;
+
     }
 
 

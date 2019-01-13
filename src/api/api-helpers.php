@@ -184,7 +184,7 @@ function EF_verify_nonce($action)
 
 if(!function_exists('dump')) {
 
-    function dump($var=  null)
+    function dump(...$var)
     {
         echo '<pre>';
         ob_start();

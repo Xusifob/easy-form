@@ -638,8 +638,9 @@ abstract class EF_Form extends EF_Html_Element
     {
         $template = $this->open();
 
-        $template .= sprintf('<p class="ef-error">%s</p>',$this->getError());
-
+        if($this->hasError()) {
+            $template .= sprintf('<p class="ef-error">%s</p>', $this->getError());
+        }
         /** @var EF_Input|array $input */
         $template .= $this->concatenateInputs();
 
