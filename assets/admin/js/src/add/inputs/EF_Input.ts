@@ -88,6 +88,35 @@ export class EF_Input
         this.setEvents();
 
         this.addData($data);
+
+        this.handleCheckbox();
+
+    }
+
+
+    /**
+     * Handle the checkboxs to link them with a hidden input
+     */
+    public handleCheckbox()
+    {
+        this.element.find('input[type="checkbox"]').each((key : number,input : HTMLElement) => {
+            let $input = $(input);
+
+            let value = $input.is(':checked') ? 1 : 0;
+            let name = $input.attr('name');
+            $input.attr('name','');
+
+            let $hidden = $('<input type="hidden" name="'+ name +'" value="'+ value +'">');
+
+
+            $input.on('change',() => {
+                let value = $input.is(':checked') ? 1 : 0;
+                $hidden.attr('value',value);
+            });
+
+            $input.after($hidden)
+
+        })
     }
 
 
@@ -172,8 +201,10 @@ export class EF_Input
     public static setInputValue(input : any, value : string|boolean)
     {
         if(input.is(':checkbox')){
-            if(value == 'on') {
+            if("1" == value || value == 'on') {
                 value = true;
+            }else {
+                value = false;
             }
             input.prop('checked',value);
         }else if(input.is('select')){

@@ -86,7 +86,7 @@ class WP_Form implements JsonSerializable
      *
      * @var array
      */
-    protected $data = array();
+    public $data = array();
 
     /**
      * WP_Form2 constructor.
@@ -94,6 +94,8 @@ class WP_Form implements JsonSerializable
      * @param null $post_id
      *
      * @since 1.0.0
+     *
+     * @throws Exception
      */
     public function __construct($id,$post_id = null)
     {
@@ -136,6 +138,8 @@ class WP_Form implements JsonSerializable
      * Load the post from the database
      *
      * @return WP_Error|true
+
+     * @throws Exception
      */
     protected function loadPost()
     {
@@ -178,6 +182,11 @@ class WP_Form implements JsonSerializable
 
         $this->attributes = get_post_meta($this->id,'ef-attributes',true);
         $this->settings = get_post_meta($this->id,'ef-settings',true);
+
+        if($this->post_id) {
+
+            $this->settings['update'] = $this->post_id;
+        }
 
         $this->inputs = get_post_meta($this->id,'ef-inputs');
 
@@ -244,6 +253,7 @@ class WP_Form implements JsonSerializable
                 $inputName = $inputs[EF_Input::$_TYPE]['class'];
                 $this->form->setError(__(sprintf('Form field %s does not exist or has not been registered',$input['attributes']['type']),EF_get_domain()));
             }
+
             $inputObj = new $inputName(
                 $this->form->getUniqId(),
                 $input['attributes'],

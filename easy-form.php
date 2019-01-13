@@ -336,21 +336,28 @@ class Easy_Form
 
 
     /**
+     *
      * @param $atts
      * @return WP_Form
+     *
+     * @throws Exception
      */
     public function shortcode($atts)
     {
 
-        $post_id = false;
+        $post_id = null;
 
         if(isset($atts['update'])) {
-            if($atts['update'] === true) {
+            $post_id = $atts['update'];
+
+            if(empty($atts['update'])) {
+                $post_id = 'update';
             }
         }
 
 
-        $form = new WP_Form($atts['id']);
+        $form = new WP_Form($atts['id'],$post_id);
+
 
 
         if(!isset($atts['validation-only'])) {

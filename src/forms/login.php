@@ -7,8 +7,8 @@ class EF_Login_Form extends EF_Form
      * @var array
      */
     public static $_REQUIRED_FIELDS = [
-        'login',
-        'password'
+        'user_login',
+        'user_pass'
     ];
 
     /**
@@ -32,8 +32,8 @@ class EF_Login_Form extends EF_Form
             return false;
 
         $credentials = [
-            'user_login' => $data['login'],
-            'user_password' => $data['password'],
+            'user_login' => $data['user_login'],
+            'user_password' => $data['user_pass'],
             'remember' => isset($data['remember']) ? $data['remember'] : $this->getSetting('remember'),
         ];
 

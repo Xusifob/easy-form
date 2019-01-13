@@ -5,8 +5,8 @@ class EF_User_Form extends EF_User_Activation_Form
 
 
     public static $_REQUIRED_FIELDS = [
-        'email',
-        'password'
+        'user_email',
+        'user_pass'
     ];
 
 
@@ -24,6 +24,16 @@ class EF_User_Form extends EF_User_Activation_Form
     public static $_TYPE = 'user';
 
 
+    public function __construct($id = null, array $attributes = [], array $settings = [])
+    {
+
+
+        parent::__construct($id, $attributes, $settings);
+
+    }
+
+
+
     /**
      *
      * Submit the form
@@ -35,7 +45,8 @@ class EF_User_Form extends EF_User_Activation_Form
      */
     public function submit($data){
 
-        $required = $this->getSetting('id') ? false  : true;
+        $required = $this->isUpdate() ? false  : true;
+
         if(!$this->isValid($data,$required))
             return false;
 
@@ -43,13 +54,15 @@ class EF_User_Form extends EF_User_Activation_Form
         do_action('form/BeforeInsertOrModifyUser', $data);
         do_action('form/BeforeInsertOrModifyUser-' . $this->getId(), $data);
 
-        if($this->getSetting('id')){
+        if($this->isUpdate()){
             // Update the user
             do_action('form/BeforeModifyUser', $data);
             do_action('form/BeforeModifyUser-' . $this->getId(), $data);
             $user_id = $this->update($data);
-            $user = get_user_by('id',$user_id);
-            self::addMetaData($user,$data);
+            if($user_id) {
+                $user = get_user_by('id', $user_id);
+                self::addMetaData($user, $data);
+            }
             do_action('form/AfterModifyUser', $user_id);
             do_action('form/AfterModifyUser-' . $this->getId(), $user_id);
 
@@ -59,13 +72,13 @@ class EF_User_Form extends EF_User_Activation_Form
             do_action('form/BeforeInsertUser', $data);
             do_action('form/BeforeInsertUser-' . $this->getId(), $data);
             $user_id = $this->create($data);
-            $user = get_user_by('id',$user_id);
-            self::addMetaData($user,$data);
-
+            if($user_id) {
+                $user = get_user_by('id', $user_id);
+                self::addMetaData($user, $data);
+            }
             do_action('form/AfterInsertUser', $user_id);
             do_action('form/AfterInsertUser-' . $this->getId(), $user_id);
         }
-
 
         if($user_id == false)
             return false;
@@ -74,7 +87,7 @@ class EF_User_Form extends EF_User_Activation_Form
         do_action('form/AfterInsertOrModifyUser-' . $this->getId(), $user);
 
 
-        if($this->requiresEmailActivation()) {
+        if($this->requiresEmailActivation() && !$this->isUpdate()) {
 
             $this->deactivateUser($user_id);
 
@@ -104,7 +117,54 @@ class EF_User_Form extends EF_User_Activation_Form
     }
 
 
+    /**
+     *
+     * Return if the form is currently doing an update or not
+     *
+     * @return bool
+     */
+    public function isUpdate()
+    {
+        return $this->getSetting('id') !== false;
+    }
 
+
+    /**
+     *
+     * Load the data from the database
+     *
+     * @return mixed|void
+     */
+    public function loadData()
+    {
+
+        $post_id = $this->getSetting('update');
+
+        if('update' === $post_id) {
+            $post_id = get_current_user_id();
+        }
+
+        if(!$post_id || !is_numeric($post_id)) {
+            return;
+        }
+
+        $this->addSetting('id',$post_id);
+
+        $user = get_user_by('id',$post_id);
+
+        $data = json_decode(json_encode($user->data),true);
+
+        unset($data['user_pass']);
+
+        $metas = get_user_meta($post_id);
+
+        foreach($metas as $key => $meta) {
+            $data[$key] = $meta[0];
+        }
+
+        $this->data = $data;
+
+    }
 
 
 
@@ -118,11 +178,17 @@ class EF_User_Form extends EF_User_Activation_Form
      */
     protected function login($data)
     {
+
+        if($this->isUpdate()) {
+            return true;
+        }
+
+
         if($this->getSetting('connexion-user')){
 
             $credentials = [
-                'user_login' => isset($data['login']) ? $data['login'] : $data['email'],
-                'user_password' => $data['password'],
+                'user_login' => isset($data['user_login']) ? $data['user_login'] : $data['user_email'],
+                'user_pass' => $data['user_pass'],
                 'remember' => true
             ];
 
@@ -152,9 +218,9 @@ class EF_User_Form extends EF_User_Activation_Form
             '_nonce',
             '_time',
             '_antispam',
-            'email',
-            'password',
-            'login',
+            'user_email',
+            'user_pass',
+            'user_login',
             'first_name',
             'last_name',
             'url',
@@ -228,7 +294,7 @@ class EF_User_Form extends EF_User_Activation_Form
     public function requiresEmailActivation()
     {
         // The form is activation via email and the form is not an update one
-        return $this->getSetting('activation-via-email') == true && $this->getSetting('id') === false;
+        return $this->getSetting('activation-via-email') == true && !$this->isUpdate();
     }
 
 
@@ -246,13 +312,13 @@ class EF_User_Form extends EF_User_Activation_Form
             $userData['url'] = $data['url'];
         }
 
-        if(isset($data['email'])){
-            $userData['user_email'] =  $data['email'];
-            $userData['user_login'] =  $data['email'];
+        if(isset($data['user_email'])){
+            $userData['user_email'] =  $data['user_email'];
+            $userData['user_login'] =  $data['user_email'];
         }
 
-        if(isset($data['login'])){
-            $userData['user_login'] = $data['login'];
+        if(isset($data['user_login'])){
+            $userData['user_login'] = $data['user_login'];
         }
 
         if(isset($data['first_name'])){
@@ -266,8 +332,8 @@ class EF_User_Form extends EF_User_Activation_Form
         if(isset($data['content'])){
             $userData['description'] = $data['content'];
         }
-        if(isset($data['password'])){
-            $userData['user_pass'] = $data['password'];
+        if(isset($data['user_pass'])){
+            $userData['user_pass'] = $data['user_pass'];
         }
 
         return $userData;
@@ -288,11 +354,11 @@ class EF_User_Form extends EF_User_Activation_Form
             'ID' => $this->getSetting('id'),
         ];
 
+
         $userData = self::prepareUserData($data,$userData);
 
         $user_id = wp_update_user($userData);
 
-        $user = get_user_by('id',$user_id);
 
         if (is_wp_error($user_id)) {
             $this->setError($user_id->get_error_message());

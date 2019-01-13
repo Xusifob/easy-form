@@ -22,13 +22,16 @@ abstract class EF_Settings_Element extends EF_Html_Element
 	protected $defaultSettings = [];
 
 
-	/**
-	 * EF_Settings_Element constructor.
-	 *
-	 * @param array $attributes
-	 * @param array $settings
-	 */
+    /**
+     * EF_Settings_Element constructor.
+     *
+     * @param array $attributes
+     * @param array $settings
+     * @throws Exception
+     */
 	public function __construct( array $attributes = [],array $settings = [] ) {
+
+
 
 		$this->setSettings(array_merge($this->defaultSettings,$settings));
 		parent::__construct( $attributes );

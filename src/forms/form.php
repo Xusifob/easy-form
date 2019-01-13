@@ -16,7 +16,7 @@ abstract class EF_Form extends EF_Html_Element
     /**
      * @var array : An array of all the fields required in the form to be functionning properly
      */
-    public static $_REQUIRED_FIELDS = [];
+    public static $_REQUIRED_FIELDS = array();
 
     /**
      * The form id
@@ -50,18 +50,18 @@ abstract class EF_Form extends EF_Html_Element
      *
      * @var array
      */
-    protected $defaultAttributes = [
+    protected $defaultAttributes = array(
         'name' => 'form',
         'novalidate' => true
-    ];
+    );
 
 
     /**
      * @var array
      */
-    protected $defaultSettings = [
+    protected $defaultSettings = array(
         'default-class' => 'form-control',
-    ];
+    );
 
     /**
      * @var string
@@ -71,12 +71,15 @@ abstract class EF_Form extends EF_Html_Element
     /**
      * @var array
      */
-    protected $inputs = [];
+    protected $inputs = array();
 
     /**
      * @var array
      */
-    protected $settings = [];
+    protected $settings = array();
+
+
+    protected $data = array();
 
     /**
      * EF_Form constructor.
@@ -101,10 +104,14 @@ abstract class EF_Form extends EF_Html_Element
 
 
         $attributes['method'] = 'POST';
-        $attributes['enctype'] = 'multipart/form-data';
         $attributes['action'] = '';
 
         parent::__construct($attributes);
+
+        if($this->getSetting('update')) {
+            $this->loadData();
+        }
+
         $this->createDefaultInputs();
     }
 
@@ -118,6 +125,16 @@ abstract class EF_Form extends EF_Html_Element
 
         return $flat ? array_flatten($this->inputs) : $this->inputs;
     }
+
+
+    /**
+     *
+     * Load the data from the database in case of an update
+     *
+     * @return mixed
+     */
+    public function loadData() {}
+
 
     /**
      * @return string
@@ -257,6 +274,12 @@ abstract class EF_Form extends EF_Html_Element
      */
     public function addInput($input){
 
+        $name = $input->getName();
+
+        if(isset($this->data[$name])) {
+            $input->addAttribute('value',$this->data[$name]);
+        }
+
         if(preg_match('#\[\]$#',$input->getName()) || $input->getType() == 'radio') {
             $this->inputs[$input->getName()][] = $input;
         }else{
@@ -278,6 +301,24 @@ abstract class EF_Form extends EF_Html_Element
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+
 
 
 
@@ -496,7 +537,7 @@ abstract class EF_Form extends EF_Html_Element
      */
     protected function redirect($post_id = null)
     {
-        
+
         $link = $this->generateRedirectLink($post_id);
 
         if (!headers_sent())
