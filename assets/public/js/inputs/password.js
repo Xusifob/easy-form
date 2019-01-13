@@ -8,10 +8,11 @@
         'Very strong'
     ];
 
+    let similar_string = 'Both passwords should be similar. ';
 
     let passwords = $('.password-checked');
 
-    passwords.each(function(){
+    passwords.each(function(key){
         let id = $(this).attr('id');
 
         let input = $('[password-id="'+ id + '"]');
@@ -30,11 +31,36 @@
     {
         let input = $(this);
 
-        let strength = get_strength(_analyse($(this)));
-
         let checker = $('#' + input.attr('password-id'));
 
-        checker.html(strengths[strength]);
+        let similar = true;
+
+        if(checker.attr('password-similar')) {
+            let value = input.val();
+
+            $('input[type="password"]').each(function () {
+
+                let pwd = $(this).val();
+
+                if(value != pwd && pwd != '') {
+                    similar = false;
+                }
+            });
+
+        }
+
+
+        let strength = get_strength(_analyse($(this)));
+
+        let string = '';
+
+        if(!similar) {
+            string = similar_string + strengths[strength];
+        } else {
+            string = strengths[strength];
+        }
+
+        checker.html(string);
 
     }
 
