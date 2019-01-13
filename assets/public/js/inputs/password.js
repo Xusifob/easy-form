@@ -1,14 +1,13 @@
 (function ($) {
 
     let strengths = [
-        'Very Weak',
-        'Weak',
-        'Medium',
-        'Strong',
-        'Very strong'
+        ef_password_strings.very_weak,
+        ef_password_strings.weak,
+        ef_password_strings.medium,
+        ef_password_strings.strong,
+        ef_password_strings.very_strong,
     ];
 
-    let similar_string = 'Both passwords should be similar. ';
 
     let passwords = $('.password-checked');
 
@@ -55,7 +54,7 @@
         let string = '';
 
         if(!similar) {
-            string = similar_string + strengths[strength];
+            string = ef_password_strings.similar_passwords + strengths[strength];
         } else {
             string = strengths[strength];
         }

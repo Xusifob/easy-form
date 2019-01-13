@@ -225,6 +225,18 @@ class EF_Password_Input extends EF_Input
     public static function wp_enqueue_scripts()
     {
         wp_register_script( 'ef-public-input-password-js', EF_get_dir('assets/public/js/inputs/password.js') , array('jquery'), EF_get_setting('version') );
+
+        $translation_array = array(
+            'very_weak' => __( 'Very Weak', EF_get_domain()),
+            'weak' => __( 'Weak', EF_get_domain()),
+            'medium' => __( 'Medium', EF_get_domain()),
+            'strong' => __( 'Strong', EF_get_domain()),
+            'very_strong' => __( 'Very strong', EF_get_domain()),
+            'similar_passwords' => __( 'Both passwords should be similar.', EF_get_domain()),
+        );
+        wp_localize_script( 'ef-public-input-password-js', 'ef_password_strings', $translation_array );
+
+
         wp_enqueue_script('ef-public-input-password-js',false,array('jquery'),false,true);
     }
 
