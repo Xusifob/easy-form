@@ -423,12 +423,12 @@ abstract class EF_Form extends EF_Html_Element
 
         // Verify time
         if(!isset($data['_time']) || microtime(true) - $data['_time'] < 1){
-            $this->setError(__('Anti spam Triggered please try again','easy-form'));
+            $this->setError(__('Anti spam Triggered please try again',EF_get_domain()));
             return false;
         }
 
         if(isset($data['_antispam']) && !empty($data['_antispam'])){
-            $this->setError(__('Anti spam Triggered please try again','easy-form'));
+            $this->setError(__('Anti spam Triggered please try again',EF_get_domain()));
             return false;
         }
 
@@ -436,24 +436,43 @@ abstract class EF_Form extends EF_Html_Element
             // Check if it has the required field
             foreach($this->getRequiredFields() as $field){
                 if(!$this->hasInput($field)) {
-                    $this->setError(__(sprintf('The form need a field %s',$field),'easy-form'));
+                    $this->setError(__(sprintf('The form need a field %s',$field),EF_get_domain()));
                     return false;
                 }
                 if($this->getInput($field)->getAttribute('required') === false){
-                    $this->setError(__(sprintf('The field %s must be required',$field),'easy-form'));
+                    $this->setError(__(sprintf('The field %s must be required',$field),EF_get_domain()));
                     return false;
                 }
             }
         }
 
+        $passwords = array();
+
+        $password_equals = false;
 
         /** @var EF_Input $input */
         foreach ($this->getInputs(true) as $input){
             if (!$input->isValid($data)) {
                 $isValid = false;
-                $this->setError(__('One or more field is missing', 'easy-form'));
+                $this->setError(__('One or more field is missing', EF_get_domain()));
+            }
+
+            if($input->getType() == EF_Password_Input::$_TYPE) {
+                $passwords[] = $input->getValue();
+
+                if($setting = $input->getSetting('password-equals')) {
+                    $password_equals = true;
+                }
             }
         }
+
+        if($password_equals) {
+            // If there are multiple values, it means that some input are not equal
+            if(count(array_count_values($passwords)) > 1) {
+                $isValid = false;
+            }
+        }
+
 
         return $isValid;
     }
@@ -627,6 +646,18 @@ abstract class EF_Form extends EF_Html_Element
     public function logStats()
     {
 
+    }
+
+
+    /**
+     *
+     * Return if the form is currently doing an update or not
+     *
+     * @return bool
+     */
+    public function isUpdate()
+    {
+        return $this->getSetting('id') !== false;
     }
 
 

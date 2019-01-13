@@ -58,19 +58,20 @@ class EF_Post_Form extends EF_Form
     public function submit($data){
 
 
+        $required = true;
         // If you update, no field is required
-        if($this->getSetting('id')) {
-            $this->requiredFields = array();
+        if($this->isUpdate()) {
+            $required = false;
         }
 
-        if(!$this->isValid($data))
+        if(!$this->isValid($data,$required))
             return false;
 
         do_action('form/BeforeInsertOrModifyPost', $data);
         do_action('form/BeforeInsertOrModifyPost-' . $this->getId(), $data);
 
         // If it's an update
-        if($this->getSetting('id')){
+        if($this->isUpdate()){
             // Update the post
             do_action('form/BeforeModifyPost', $data);
             do_action('form/BeforeModifyPost-' . $this->getId(), $data);

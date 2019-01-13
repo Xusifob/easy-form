@@ -186,6 +186,11 @@ if(!function_exists('dump')) {
 
     function dump(...$var)
     {
+
+        if(count($var) > 0) {
+            $var = $var[0];
+        }
+
         echo '<pre>';
         ob_start();
         var_dump($var);

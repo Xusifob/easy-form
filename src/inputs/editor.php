@@ -11,6 +11,24 @@ class EF_Editor_Input extends EF_Input
      */
     public static $_TYPE = 'editor';
 
+    /**
+     * @since 1.0.0
+     *
+     * @var array
+     */
+    protected $defaultAttributes = [
+        'id' => 'ef_editor'
+    ];
+
+
+    public function __construct($id = null, array $attributes = [], array $settings = [], array $data = [])
+    {
+
+        $attributes = array_merge($attributes,$this->defaultAttributes);
+
+        parent::__construct($id, $attributes, $settings, $data);
+    }
+
 
     /**
      *
@@ -19,6 +37,7 @@ class EF_Editor_Input extends EF_Input
     public function __toString()
     {
         ob_start();
+
         if (function_exists('wp_editor'))
             wp_editor($this->getValue(), $this->getFieldId());
         $editor_contents = ob_get_clean();

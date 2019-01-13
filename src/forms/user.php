@@ -117,16 +117,6 @@ class EF_User_Form extends EF_User_Activation_Form
     }
 
 
-    /**
-     *
-     * Return if the form is currently doing an update or not
-     *
-     * @return bool
-     */
-    public function isUpdate()
-    {
-        return $this->getSetting('id') !== false;
-    }
 
 
     /**
