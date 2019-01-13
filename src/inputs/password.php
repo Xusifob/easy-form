@@ -218,6 +218,9 @@ class EF_Password_Input extends EF_Input
     }
 
 
+    /**
+     * Add the password
+     */
     public static function wp_enqueue_scripts()
     {
         wp_register_script( 'ef-public-input-password-js', EF_get_dir('assets/public/js/inputs/password.js') , array('jquery'), EF_get_setting('version') );

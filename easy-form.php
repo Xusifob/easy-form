@@ -319,7 +319,12 @@ class Easy_Form
                 'handle'	=> 'ef-admin-css',
                 'src'		=> EF_get_dir('assets/admin/css/build/core.css'),
                 'deps'		=> false
-            )
+            ),
+            array(
+                'handle'	=> 'ef-public-css',
+                'src'		=> EF_get_dir('assets/public/css/build/core.css'),
+                'deps'		=> false
+            ),
 
         );
 
@@ -332,7 +337,16 @@ class Easy_Form
 
         add_shortcode('wp_easy_form',array($this,'shortcode'));
 
+        add_action('wp_enqueue_scripts',array(Easy_Form::class,'wp_enqueue_scripts'));
+
     }
+
+
+    public static function wp_enqueue_scripts()
+    {
+        wp_enqueue_style( 'ef-public-css' );
+    }
+
 
 
     /**

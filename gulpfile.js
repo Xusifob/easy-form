@@ -48,6 +48,32 @@ gulp.task('admin-less', function () {
 
 });
 
+gulp.task('public-less', function () {
+    var combined = combiner.obj([
+        gulp.src('./assets/public/css/src/core.less')
+            .pipe(gulpif(options.env == 'dev',sourcemaps.init()))
+            .pipe(less({
+                paths: [ path.join('./public/less') ],
+                plugins: [autoprefix]
+            }))
+            .pipe(gulpif(options.env == 'dev',sourcemaps.write()))
+            .pipe(gulpif(options.env != 'dev',cleanCSS({compatibility: 'ie8'})))
+            //.pipe(uglify({
+            //    mangle: false,
+            //    compress: options.env != 'dev',
+            //    output : {
+            //        beautify : options.env == 'dev',
+            //        comments : options.env != 'dev',
+            //    }
+            //}))
+            .pipe(gulp.dest('./assets/public/css/build'))
+        //   .pipe(rename('style.css'))
+    ]);
+    combined.on('error', console.error.bind(console));
+    return combined;
+
+});
+
 
 gulp.task('admin-js',function(){
     return gulp.src([
@@ -115,6 +141,7 @@ gulp.task("libs",['add-ts'], function () {
 
 gulp.task('watch',function(){
     gulp.watch('./assets/admin/css/src/**/*.less',['admin-less']);
+    gulp.watch('./assets/public/css/src/**/*.less',['public-less']);
     //gulp.watch('./assets/admin/js/src/**/*.js',['admin-js']);
     gulp.watch('./assets/admin/js/src/**/*.ts',['add-ts']);
     gulp.watch('./assets/public/css/src/**/*.less',['public-less','admin-less']);
