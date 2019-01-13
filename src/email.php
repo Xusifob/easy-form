@@ -44,8 +44,6 @@ class EF_Email_Helper
         // Filter the data so we can send the email using something else than wp_mail
         $data = apply_filters('ef_before_mail',$data);
 
-        dump($data);
-
         if(!$data['is_sent']) {
             return wp_mail($data['recipients'], $data['subject'], $data['template'], $data['headers'], $data['attachment']);
         }

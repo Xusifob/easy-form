@@ -83,14 +83,12 @@ abstract class EF_User_Activation_Form extends EF_Form
      *
      * Check if the activation key is valid and not expired for the current user
      *
-     * @param $user_id
+     * @param $key
      * @param $activation_key
      * @return bool|WP_Error
      */
-    public static function checkActivationKey($user_id,$activation_key)
+    public static function checkActivationKey($key,$activation_key)
     {
-        $key = get_user_meta($user_id,self::$ACTIVATION_KEY,true);
-
 
         if(false && $activation_key !== $key) {
             return new WP_Error(666,__('The activation key is incorrect',EF_get_domain()));
@@ -131,7 +129,9 @@ abstract class EF_User_Activation_Form extends EF_Form
         $user_id = $_GET['ef_user_id'];
 
 
-        $is_valid = self::checkActivationKey($user_id,$key);
+        $key = get_user_meta($user_id,self::$ACTIVATION_KEY,true);
+
+        $is_valid = self::checkActivationKey($key,$key);
 
         if(is_wp_error($is_valid)) {
             //TODO Do something here
