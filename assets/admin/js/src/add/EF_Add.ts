@@ -90,6 +90,7 @@ class EF_Add
             .on('click','button[data-action="add"]',() => {
                 this.addInput('text',{}).then((input : EF_Input) => {
                     EF_Add.loading(false,'fields');
+                    this.addPossibleFields();
                     input.dirty = true;
                 }) });
 
@@ -116,7 +117,10 @@ class EF_Add
 
 
     /**
-     * Reorganise all the inputs on the page according to the ones
+     *
+     * @since 2.0.0
+     *
+     * Reorganise all the inputs on the page
      */
     public reorganise() : Promise<any>
     {
@@ -135,7 +139,12 @@ class EF_Add
         this.removeAllInputs();
 
         this.loadInputs(inputs,0).then(() => {
+
+            console.log('kiwi');
+            this.addPossibleFields();
+
             EF_Add.loading(false,'fields');
+
             dfd.resolve();
         });
 
@@ -155,8 +164,6 @@ class EF_Add
         let position = this.inputs.indexOf(input);
 
         let newpos = direction == 'up' ? position-1 : position +1;
-
-        console.log(direction,newpos,position);
 
         if(newpos == -1 || newpos == this.inputs.length || !this.inputs[newpos]) {
             return
@@ -236,7 +243,9 @@ class EF_Add
 
     /**
      *
-     * Called on delete of an input
+     * Called on delete of an input.
+     *
+     * Remove the input
      *
      * @Event
      *
@@ -248,7 +257,7 @@ class EF_Add
 
         this.inputs.splice(position,1);
 
-        this.reorganise();
+        this.reorganise().then(() => {})
     }
 
 
@@ -344,17 +353,9 @@ class EF_Add
             this.addFormData(data.data.form);
 
 
-            $.each(data.data.inputs,(type,input : any) => {
-                this.availableInputs[type] = input;
-            });
-
-            $.each(data.data.forms,(type,input : any) => {
-                this.availableForms[type] = input;
-            });
-
-
+            this.availableInputs = data.data.inputs;
+            this.availableForms = data.data.forms;
             this.defaultInputTypes = data.data.default_inputs;
-
 
             // Add the submit data
             if(data.data.form.inputs.submit) {
@@ -371,6 +372,7 @@ class EF_Add
                 });
 
                 this.addRequiredFields(data.data.form.type);
+                this.addPossibleFields();
             });
 
 
@@ -387,7 +389,7 @@ class EF_Add
 
 
     /**
-     * Add the data inside the form itself
+     * Add the data inside the form <html> elements
      *
      * @param $formData
      */
@@ -409,6 +411,15 @@ class EF_Add
 
     /**
      *
+     * @event : The <select> element form type is changed
+     *
+     * This function will :
+     * - Add the form data within the new form and load the right template
+     * - Load the required fields of the form
+     * - Load the possible fields of the form
+     *
+     * @since 2.0.0
+     *
      * @param type
      */
     protected changeFormType(type) : void
@@ -422,6 +433,83 @@ class EF_Add
 
         this.addFormData($formData);
         this.addRequiredFields($formData.type);
+        this.addPossibleFields();
+
+    }
+
+
+    /**
+     * Display the list of possible fields according to the type of form selected.
+     *
+     * Exemple : User form has the following fields available :
+     *
+     * - first_name
+     * - last_name
+     * - content
+     *
+     * These fields are not mandatory but are a plus in the form type.
+     *
+     * Furthermore they are handled differently than other types
+     *
+     */
+    protected addPossibleFields()
+    {
+
+        let current = this.availableForms[this.getFormType()];
+
+        console.log(current.required);
+        // Slice is used here to clone the object
+        let possibleFields = current.possible.concat(current.required);
+
+        console.log(possibleFields);
+
+        let template = this.$body.find('#possible-field').html();
+
+        let elem = this.$body.find('#possible-fields');
+
+        // Reset the fields displayed
+        elem.html('');
+
+        // I don't show the inputs that are already in the form
+        this.inputs.forEach((input : EF_Input) => {
+            let index = possibleFields.indexOf(input.name);
+
+            if(index != -1) {
+                possibleFields.splice(index,1);
+            }
+        });
+
+        if(possibleFields.length == 0) {
+            $('#possible-fields-label').hide();
+            return;
+        }
+
+        $('#possible-fields-label').show();
+
+
+        possibleFields.forEach((input_name : string) => {
+            let _template = $(template);
+
+            _template.attr('name',input_name);
+            _template.html(input_name);
+
+            elem.append(_template);
+
+            _template.off('click').on('click',() => {
+
+                let input = this.getAvailableInputData(input_name);
+
+                input.attributes.name = input_name;
+
+                this.addInput(input.attributes.type,input).then((input : EF_Input) => {
+                    this.addPossibleFields();
+                    EF_Add.loading(false,'fields');
+                    input.dirty = true;
+                });
+            })
+
+        })
+
 
     }
 
@@ -457,7 +545,10 @@ class EF_Add
      */
     public addRequiredFields(formType : string) : void
     {
-        let required = this.availableForms[formType].required;
+        let _required = this.availableForms[formType].required;
+
+        // Here we add the concat to clone the object
+        let required = _required.concat([]);
 
         this.removeUntouchedInputs().then(() => {
             $.each(this.inputs,(key : string, input : EF_Input) => {
@@ -513,18 +604,15 @@ class EF_Add
 
     /**
      *
-     * @param inputType
+     * Return the type of input according to its name
+     *
+     * @param inputName
      */
-    public getAvailableInputData(inputType : string) : any
+    public getAvailableInputData(inputName : string) : any
     {
         let input;
 
-        // Default type
-        let type = 'text';
-
-        if(this.defaultInputTypes[inputType]) {
-            type = this.defaultInputTypes[inputType];
-        }
+        let type = this.getDefaultTypeFromName(inputName);
 
         if(this.availableInputs[type]) {
             input = this.availableInputs[type].data;
@@ -534,6 +622,26 @@ class EF_Add
 
         return input;
     }
+
+
+    /**
+     *
+     * Return the default type of a field according to its name
+     *
+     * @param name
+     */
+    public getDefaultTypeFromName(name : string) : string
+    {
+        // Default type
+        let type = 'text';
+
+        if(this.defaultInputTypes[name]) {
+            type = this.defaultInputTypes[name];
+        }
+
+        return type;
+    }
+
 
 
     /**
@@ -638,13 +746,17 @@ class EF_Add
 
     public generateForm(type : string) : EF_Form
     {
-        let form;
 
-        if(!this.availableForms[type]) {
+        return new EF_Form();
+
+        /**
+         let form;
+
+         if(!this.availableForms[type]) {
             type = 'post';
         }
 
-        switch (type) {
+         switch (type) {
             case 'login' :
                 form = new EF_Form();
                 break;
@@ -652,14 +764,21 @@ class EF_Add
                 form = new EF_Form();
                 break;
         }
-        if(!form) {
+         if(!form) {
             form = new EF_Form();
         }
 
+         return form;
+         **/
 
-        return form;
     }
 
+
+
+    public getFormType() : string
+    {
+        return this.$body.find('*[name="settings[type]"]').val();
+    }
 
     /**
      *

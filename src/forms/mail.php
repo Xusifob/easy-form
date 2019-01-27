@@ -202,7 +202,8 @@ class EF_Mail_Form extends EF_Form
                 'type' => self::$_TYPE,
                 'label' => __('Contact form','easy-form'),
                 'class' => self::class,
-                'required' => self::$_REQUIRED_FIELDS
+                'required' => self::$_REQUIRED_FIELDS,
+                'possible' => self::$_POSSIBLE_FIELDS,
             );
 
             return $forms;

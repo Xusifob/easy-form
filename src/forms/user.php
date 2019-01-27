@@ -17,6 +17,7 @@ class EF_User_Form extends EF_User_Activation_Form
         'first_name',
         'last_name',
         'content',
+        'repeat_password',
         'url',
     );
 
@@ -257,6 +258,7 @@ class EF_User_Form extends EF_User_Activation_Form
             'user_login',
             'first_name',
             'last_name',
+            'repeat_password',
             'url',
             'content',
             '_uniqid'
@@ -433,7 +435,8 @@ class EF_User_Form extends EF_User_Activation_Form
                 'type' => self::$_TYPE,
                 'label' => __('Create a user','easy-form'),
                 'class' => self::class,
-                'required' => self::$_REQUIRED_FIELDS
+                'required' => self::$_REQUIRED_FIELDS,
+                'possible' => self::$_POSSIBLE_FIELDS,
             );
 
             return $forms;
@@ -447,6 +450,7 @@ class EF_User_Form extends EF_User_Activation_Form
             $inputs['last_name'] = EF_Input::$_TYPE;
             $inputs['content'] = EF_TextArea::$_TYPE;
             $inputs['url'] = EF_URL_Input::$_TYPE;
+            $inputs['repeat_password'] = EF_Password_Input::$_TYPE;
 
             return $inputs;
 

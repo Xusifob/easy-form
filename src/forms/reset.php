@@ -197,7 +197,7 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
                 'label' => __('Reset a password','easy-form'),
                 'class' => self::class,
                 'required' => self::$_REQUIRED_FIELDS,
-                'possible' => self::$_POSSIBLE_FIELDS
+                'possible' => self::$_POSSIBLE_FIELDS,
             );
 
             return $forms;

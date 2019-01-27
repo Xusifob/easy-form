@@ -339,4 +339,21 @@ export class EF_Input
 
     }
 
+
+
+    public get name()
+    {
+        return this.value.attributes.name;
+    }
+
+
+    /**
+     *
+     * @param name
+     */
+    public set name(name : string)
+    {
+        this.value.attributes.name = name;
+    }
+
 }
