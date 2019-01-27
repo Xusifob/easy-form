@@ -235,3 +235,21 @@ if(!function_exists('EF_get_registered_forms')) {
 
     }
 }
+
+
+if(!function_exists('EF_get_default_inputs')) {
+
+    /**
+     *
+     * Return the list of all the forms available in the plugin
+     *
+     * @return array
+     */
+    function EF_get_default_inputs()
+    {
+        $inputs = array();
+
+        return apply_filters('EF_fields_default_inputs',$inputs);
+
+    }
+}

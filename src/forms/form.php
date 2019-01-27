@@ -14,9 +14,21 @@ abstract class EF_Form extends EF_Html_Element
 
 
     /**
-     * @var array : An array of all the fields required in the form to be functionning properly
+     * @var array : An array of all the fields required in the form to be functioning properly
      */
     public static $_REQUIRED_FIELDS = array();
+
+
+    /**
+     *
+     * An array of all the fields that can be added to this post
+     *
+     * @Since 2.0.0
+     *
+     * @var array
+     */
+    public static $_POSSIBLE_FIELDS = array();
+
 
     /**
      * The form id
@@ -720,11 +732,26 @@ abstract class EF_Form extends EF_Html_Element
     }
 
     /**
+     *
+     * Return all the required fields for the current form
+     *
      * @return array
      */
     public function getRequiredFields()
     {
         return self::$_REQUIRED_FIELDS;
+    }
+
+
+    /**
+     *
+     * Return all the possible additional fields for the form
+     *
+     * @return array
+     */
+    public function getPossibleFields()
+    {
+        return self::$_POSSIBLE_FIELDS;
     }
 
 

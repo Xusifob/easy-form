@@ -4,18 +4,29 @@ class EF_User_Form extends EF_User_Activation_Form
 {
 
 
-    public static $_REQUIRED_FIELDS = [
+    public static $_REQUIRED_FIELDS = array(
         'user_email',
         'user_pass'
-    ];
+    );
+
+
+    /**
+     * @var array
+     */
+    public static $_POSSIBLE_FIELDS = array(
+        'first_name',
+        'last_name',
+        'content',
+        'url',
+    );
 
 
 
 
-    protected $defaultSettings = [
+    protected $defaultSettings = array(
         'role' => 'subscriber',
         'default-class' => 'form-control',
-    ];
+    );
 
 
     /**
@@ -427,6 +438,21 @@ class EF_User_Form extends EF_User_Activation_Form
 
             return $forms;
         });
+
+        add_filter('EF_fields_default_inputs',function($inputs) {
+
+            $inputs['user_email'] = EF_Email_Input::$_TYPE;
+            $inputs['user_pass'] = EF_Password_Input::$_TYPE;
+            $inputs['first_name'] = EF_Input::$_TYPE;
+            $inputs['last_name'] = EF_Input::$_TYPE;
+            $inputs['content'] = EF_TextArea::$_TYPE;
+            $inputs['url'] = EF_URL_Input::$_TYPE;
+
+            return $inputs;
+
+        });
+
+
     }
 
     /**
@@ -435,6 +461,12 @@ class EF_User_Form extends EF_User_Activation_Form
     public function getRequiredFields()
     {
         return self::$_REQUIRED_FIELDS;
+    }
+
+
+    public function getPossibleFields()
+    {
+        return self::$_POSSIBLE_FIELDS;
     }
 
 

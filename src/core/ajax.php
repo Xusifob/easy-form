@@ -126,6 +126,7 @@ class EF_ajax
         $data['form'] = $wp_form;
         $data['inputs'] = EF_get_registered_inputs();
         $data['forms'] = EF_get_registered_forms();
+        $data['default_inputs'] = EF_get_default_inputs();
 
         foreach($data['inputs'] as $key => $input){
             $data['inputs'][$key]['data'] = new $input['class']();

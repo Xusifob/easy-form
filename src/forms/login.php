@@ -6,10 +6,19 @@ class EF_Login_Form extends EF_Form
     /**
      * @var array
      */
-    public static $_REQUIRED_FIELDS = [
+    public static $_REQUIRED_FIELDS = array(
         'user_login',
         'user_pass'
-    ];
+    );
+
+
+    /**
+     * @var array
+     */
+    public static $_POSSIBLE_FIELDS = array(
+        'remember',
+    );
+
 
     /**
      * @var string
@@ -106,6 +115,24 @@ class EF_Login_Form extends EF_Form
 
             return $forms;
         });
+
+
+        add_filter('EF_fields_default_inputs',function($inputs) {
+
+            $inputs['user_login'] = EF_Input::$_TYPE;
+            $inputs['user_pass'] = EF_Password_Input::$_TYPE;
+            $inputs['remember'] = EF_Checkbox_Input::$_TYPE;
+
+            return $inputs;
+
+        });
+
+
+    }
+
+    public function getPossibleFields()
+    {
+        return self::$_POSSIBLE_FIELDS;
     }
 
 }

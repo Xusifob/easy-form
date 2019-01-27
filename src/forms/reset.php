@@ -3,10 +3,13 @@
 class EF_Reset_Form extends EF_Form implements EF_Form_Interface
 {
 
-    public static $_REQUIRED_FIELDS = [
+    public static $_REQUIRED_FIELDS = array(
         'user_email',
         'user_pass'
-    ];
+    );
+
+
+    public static $_POSSIBLE_FIELDS = array();
 
 
     public static $_PASSWORD_FORGOT_KEY = 'ef_pass_forgot_key';
@@ -193,11 +196,24 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
                 'type' => self::$_TYPE,
                 'label' => __('Reset a password','easy-form'),
                 'class' => self::class,
-                'required' => self::$_REQUIRED_FIELDS
+                'required' => self::$_REQUIRED_FIELDS,
+                'possible' => self::$_POSSIBLE_FIELDS
             );
 
             return $forms;
         });
+
+
+        add_filter('EF_fields_default_inputs',function($inputs) {
+
+            $inputs['user_email'] = EF_Email_Input::$_TYPE;
+            $inputs['user_pass'] = EF_Password_Input::$_TYPE;
+
+            return $inputs;
+
+        });
+
+
     }
 
     /**
@@ -215,6 +231,13 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
 
         return $required;
     }
+
+
+    public function getPossibleFields()
+    {
+        return self::$_POSSIBLE_FIELDS;
+    }
+
 
     /**
      * @return string

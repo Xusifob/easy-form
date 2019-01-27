@@ -17,12 +17,17 @@ class EF_Mail_Form extends EF_Form
     /**
      * @var array
      */
-    public static  $_REQUIRED_FIELDS = [
-        'sendername',
+    public static  $_REQUIRED_FIELDS = array(
+        'senderName',
         'email',
         'message'
-    ];
+    );
 
+
+    /**
+     * @var array
+     */
+    public static $_POSSIBLE_FIELDS = array();
 
 
     public function __construct($id, array $attributes, array $settings)
@@ -100,7 +105,7 @@ class EF_Mail_Form extends EF_Form
         if($this->getSetting('senderEmail')){
             $mailer->setFrom($this->getSetting('senderEmail'),$this->getSetting('senderName'));
         }else{
-            $mailer->setFrom($data['email'],$data['sendername']);
+            $mailer->setFrom($data['email'],$data['senderName']);
         }
     }
 
@@ -158,7 +163,7 @@ class EF_Mail_Form extends EF_Form
         $remove = [
             'message',
             'email',
-            'sendername',
+            'senderName',
             'subject',
             '_nonce',
             '_time',
@@ -202,6 +207,19 @@ class EF_Mail_Form extends EF_Form
 
             return $forms;
         });
+
+
+        add_filter('EF_fields_default_inputs',function($inputs) {
+
+            $inputs['senderName'] = EF_Input::$_TYPE;
+            $inputs['email'] = EF_Email_Input::$_TYPE;
+            $inputs['message'] = EF_TextArea::$_TYPE;
+
+            return $inputs;
+
+        });
+
+
     }
 
 
@@ -212,6 +230,16 @@ class EF_Mail_Form extends EF_Form
     {
         return self::$_REQUIRED_FIELDS;
     }
+
+
+    /**
+     * @return array
+     */
+    public function getPossibleFields()
+    {
+        return self::$_POSSIBLE_FIELDS;
+    }
+
 
     /**
      * @return string

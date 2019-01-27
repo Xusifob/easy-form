@@ -33,6 +33,15 @@ class EF_Post_Form extends EF_Form
 
 
     /**
+     * @var array
+     */
+    public static $_POSSIBLE_FIELDS = array(
+        'post_content',
+        'attachment'
+    );
+
+
+    /**
      * Default settings for the post
      *
      * @since 1.0.0
@@ -298,6 +307,19 @@ class EF_Post_Form extends EF_Form
 
             return $forms;
         });
+
+
+        add_filter('EF_fields_default_inputs',function($inputs) {
+
+            $inputs['post_title'] = EF_Input::$_TYPE;
+            $inputs['post_content'] = EF_Editor_Input::$_TYPE;
+            $inputs['attachment'] = EF_File_Input::$_TYPE;
+
+            return $inputs;
+
+        });
+
+
     }
 
     /**
@@ -308,6 +330,14 @@ class EF_Post_Form extends EF_Form
         return self::$_REQUIRED_FIELDS;
     }
 
+
+    /**
+     * @return array
+     */
+    public function getPossibleFields()
+    {
+        return self::$_POSSIBLE_FIELDS;
+    }
 
     /**
      * @return string

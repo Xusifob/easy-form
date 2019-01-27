@@ -38,6 +38,12 @@ class EF_Add
     public availableForms : {} = {};
 
 
+    /**
+     * All the default input types. Ex : user_pass : password
+     */
+    public defaultInputTypes : {};
+
+
     public formType : EF_Form;
 
     /**
@@ -56,8 +62,7 @@ class EF_Add
 
         this.setEvents();
 
-        this.load().then((data) => {
-        })
+        this.load().then((data) => {})
     }
 
 
@@ -348,6 +353,9 @@ class EF_Add
             });
 
 
+            this.defaultInputTypes = data.data.default_inputs;
+
+
             // Add the submit data
             if(data.data.form.inputs.submit) {
                 let submit = data.data.form.inputs.submit;
@@ -511,8 +519,15 @@ class EF_Add
     {
         let input;
 
-        if(this.availableInputs[inputType]) {
-            input = this.availableInputs[inputType].data;
+        // Default type
+        let type = 'text';
+
+        if(this.defaultInputTypes[inputType]) {
+            type = this.defaultInputTypes[inputType];
+        }
+
+        if(this.availableInputs[type]) {
+            input = this.availableInputs[type].data;
         }else {
             input = this.availableInputs['text'].data;
         }
