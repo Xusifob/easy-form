@@ -418,6 +418,7 @@ abstract class EF_Form extends EF_Html_Element
     public function isValid($data,$required = true)
     {
 
+
         $isValid = true;
 
 
@@ -470,6 +471,8 @@ abstract class EF_Form extends EF_Html_Element
             // If there are multiple values, it means that some input are not equal
             if(count(array_count_values($passwords)) > 1) {
                 $isValid = false;
+                $this->setError(__('All the passwords must be similar', EF_get_domain()));
+
             }
         }
 

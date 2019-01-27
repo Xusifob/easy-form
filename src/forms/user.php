@@ -47,44 +47,41 @@ class EF_User_Form extends EF_User_Activation_Form
 
         $required = $this->isUpdate() ? false  : true;
 
-        if(!$this->isValid($data,$required))
+        if(!$this->isValid($data,$required)) {
             return false;
-
+        }
 
         do_action('form/BeforeInsertOrModifyUser', $data);
-        do_action('form/BeforeInsertOrModifyUser-' . $this->getId(), $data);
+
+        $user = null;
 
         if($this->isUpdate()){
             // Update the user
-            do_action('form/BeforeModifyUser', $data);
-            do_action('form/BeforeModifyUser-' . $this->getId(), $data);
+            do_action('form/BeforeModifyUser', $data,$this);
             $user_id = $this->update($data);
             if($user_id) {
                 $user = get_user_by('id', $user_id);
                 self::addMetaData($user, $data);
             }
             do_action('form/AfterModifyUser', $user_id);
-            do_action('form/AfterModifyUser-' . $this->getId(), $user_id);
 
 
         } else{
             // Register the user
             do_action('form/BeforeInsertUser', $data);
-            do_action('form/BeforeInsertUser-' . $this->getId(), $data);
             $user_id = $this->create($data);
             if($user_id) {
                 $user = get_user_by('id', $user_id);
                 self::addMetaData($user, $data);
             }
             do_action('form/AfterInsertUser', $user_id);
-            do_action('form/AfterInsertUser-' . $this->getId(), $user_id);
         }
 
-        if($user_id == false)
+        if($user_id == false || !($user instanceof WP_User)) {
             return false;
+        }
 
-        do_action('form/AfterInsertOrModifyUser', $user);
-        do_action('form/AfterInsertOrModifyUser-' . $this->getId(), $user);
+        do_action('form/AfterInsertOrModifyUser', $user,$this);
 
 
         if($this->requiresEmailActivation() && !$this->isUpdate()) {
@@ -116,6 +113,42 @@ class EF_User_Form extends EF_User_Activation_Form
         return false;
     }
 
+
+
+    public function isValid($data,$required = true)
+    {
+
+        if(!$isValid = parent::isValid($data,$required)) {
+            return $isValid;
+        }
+
+        if(!$this->isUpdate()) {
+
+            $email = $this->getInput('user_email');
+            if($email) {
+                $user = get_user_by('email',$email->getValue());
+
+                if($user instanceof WP_User) {
+                    $isValid = false;
+                    $this->setError(__('A user already exist with this e-mail',EF_get_domain()));
+                }
+            }
+
+            $login = $this->getInput('user_login');
+            if($login) {
+                $user = get_user_by('email',$email->getValue());
+
+                if($user instanceof WP_User) {
+                    $isValid = false;
+                    $this->setError(__('A user already exist with this login',EF_get_domain()));
+                }
+            }
+        }
+
+
+        return $isValid;
+
+    }
 
 
 
