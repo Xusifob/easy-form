@@ -37,7 +37,7 @@ class EF_Post_Form extends EF_Form
      */
     public static $_POSSIBLE_FIELDS = array(
         'post_content',
-        'attachment'
+        '_thumbnail_id'
     );
 
 
@@ -73,8 +73,9 @@ class EF_Post_Form extends EF_Form
             $required = false;
         }
 
-        if(!$this->isValid($data,$required))
+        if(!$this->isValid($data,$required)) {
             return false;
+        }
 
         do_action('form/BeforeInsertOrModifyPost', $data);
         do_action('form/BeforeInsertOrModifyPost-' . $this->getId(), $data);
@@ -256,7 +257,7 @@ class EF_Post_Form extends EF_Form
 
         $post_id = $this->getSetting('update');
 
-        if('update' === $post_id) {
+        if('update' === $post_id && isset($_GET['post_id'])) {
             $post_id = $_GET['post_id'];
         }
 
@@ -314,7 +315,7 @@ class EF_Post_Form extends EF_Form
 
             $inputs['post_title'] = EF_Input::$_TYPE;
             $inputs['post_content'] = EF_Editor_Input::$_TYPE;
-            $inputs['attachment'] = EF_File_Input::$_TYPE;
+            $inputs['_thumbnail_id'] = EF_File_Input::$_TYPE;
 
             return $inputs;
 

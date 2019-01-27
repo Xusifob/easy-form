@@ -40,7 +40,16 @@ class EF_Html_Element implements JsonSerializable
      * @return bool
      */
     public function getAttribute($key){
-        return isset($this->attributes[$key]) ? $this->attributes[$key] : false;
+
+        if(!isset($this->attributes[$key])) {
+            return false;
+        }
+
+        if(is_serialized($this->attributes[$key])) {
+            return unserialize($this->attributes[$key]);
+        }
+
+        return $this->attributes[$key];
     }
 
     /**

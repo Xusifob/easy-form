@@ -48,7 +48,7 @@ class EF_G_Map_Address_Input extends EF_Input
 
 
     /**
-     * Add the password
+     * Add the g_map_address.js script in the queue
      */
     public static function wp_enqueue_scripts()
     {

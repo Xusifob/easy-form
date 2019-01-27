@@ -13,10 +13,12 @@
 				<input type="text" id="field[fieldId][attributes][placeholder]" name="field[fieldId][attributes][placeholder]" class="form-control" placeholder="<?php _e('Placeholder',EF_get_domain()); ?>"/>
 			</div>
 			<!-- /placeholder -->
-			<div class="ef-input ef-input--value">
+            <!-- value -->
+            <div class="ef-input ef-input--value">
 				<label for="field[fieldId][attributes][value]"><?php _e('Value', EF_get_domain()); ?></label>
 				<input type="text" id="field[fieldId][attributes][value]" name="field[fieldId][attributes][value]" class="form-control" placeholder="<?php _e('Value',EF_get_domain()); ?>"/>
 			</div>
+            <!-- /value -->
 			<!-- Values -->
 		</td>
 	</tr>

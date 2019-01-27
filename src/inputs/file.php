@@ -11,7 +11,7 @@ class EF_File_Input extends EF_Input
      * @var array
      */
     protected $defaultAttributes = [
-        'MAX_FILE_SIZE' => 2097152, // 2Mo
+        'MAX_FILE_SIZE' => 2, // 2Mo
         'name' => 'thumbnail',
         'required' => true,
     ];
@@ -54,30 +54,116 @@ class EF_File_Input extends EF_Input
     public function isValid($data)
     {
 
-        if(parent::isValid($data)){
 
-            $value = $data[$this->getName()];
+        // First case, no image has been uploaded
+        if(!$this->hasUpload()) {
 
-
-            if ($value['error'] !== UPLOAD_ERR_OK){
-                return false;
+            // The image is still the same, we don't return false
+            if($this->getValue() && $this->getValue() === $data[$this->getName()]) {
+                return true;
             }
-
-
-
-            if($value['size'] > $this->getAttribute('MAX_FILE_SIZE')){
-                return false;
+            // Second case, no image has been uploaded but the image has been deleted
+            if($this->getValue() && $this->getValue() !== $data[$this->getName()]) {
+                return true;
             }
+        }
 
-            if(!in_array(pathinfo($value['name'],PATHINFO_EXTENSION),explode(',',$this->getSetting('allowed')))){
-                return false;
-            }
 
+        if(!parent::isValid($_FILES)) {
+            return false;
+        }
+
+
+        // Here the field is not required and there are no data, so GO !
+        if(!$this->isRequired() && !isset($_FILES[$this->getName()])) {
             return true;
         }
 
 
-        return false;
+        $value = $_FILES[$this->getName()];
+
+
+        $result = true;
+
+        // multiple upload
+        if($this->getAttribute('multiple')) {
+            for($i = 0; $i < count($value['name']); $i++) {
+
+               $val = $this->buildFileVar($value,$i);
+
+                $result = $this->checkValidity($val);
+
+                if(!$result) {
+                    break;
+                }
+
+            }
+
+        } else {
+            $result = $this->checkValidity($value);
+        }
+
+        return $result;
+
+    }
+
+
+    /**
+     *
+     * Build an array like if there was only 1 file uploaded
+     *
+     * @param $value
+     * @param $i
+     * @return array
+     */
+    protected function buildFileVar($value,$i)
+    {
+
+        return array(
+            'name' => $value['name'][$i],
+            'size' => $value['size'][$i],
+            'error' => $value['error'][$i],
+            'type' => $value['type'][$i],
+            'tmp_name' => $value['tmp_name'][$i]
+        );
+    }
+
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    protected function checkValidity($value)
+    {
+        if ($value['error'] !== UPLOAD_ERR_OK){
+            $this->setError(__('An error occured while uploading the file',EF_get_domain()));
+            return false;
+        }
+
+
+
+        if($value['size'] > $this->getMaxSize()){
+            $this->setError(__(sprintf('The file you uploaded is too big, maximum %sMB',$this->getAttribute('MAX_FILE_SIZE')),EF_get_domain()));
+            return false;
+        }
+
+        if(!in_array(pathinfo($value['name'],PATHINFO_EXTENSION),explode(',',$this->getSetting('allowed')))){
+            $this->setError(__(sprintf('The file you uploaded is not in the right format. Only %s accepted',$this->getSetting('allowed')),EF_get_domain()));
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * @return float|int
+     */
+    public function getMaxSize()
+    {
+        $size = $this->getAttribute('MAX_FILE_SIZE');
+
+        return $size*1024*1024;
     }
 
 
@@ -90,19 +176,60 @@ class EF_File_Input extends EF_Input
      * @param $post_id
      * @param array $overrides
      *
-     * @return bool|int|WP_Error
+     * @return int|WP_Error
      */
     public function upload($post_id, $overrides  = array( 'test_form' => false ))
     {
         // Get all images
-        require_once(ABSPATH . "wp-admin" . '/includes/image.php');
-        require_once(ABSPATH . "wp-admin" . '/includes/file.php');
-        require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+        if(!function_exists('wp_crop_image')) {
+            require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+        }
+        if(!function_exists('get_file_description')) {
+            require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+        }
+        if(!function_exists('media_upload_tabs')) {
+            require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+        }
 
         // Upload the file
         $file_id = media_handle_upload($this->getName(), $post_id,[],$overrides);
 
-        return is_wp_error($file_id) ? false : $file_id;
+        return $file_id;
+    }
+
+
+    /**
+     *
+     * Return weither or not there has been a new upload
+     *
+     * @return bool
+     */
+    public function hasUpload()
+    {
+
+
+        if(!isset($_FILES)) {
+            return false;
+        }
+
+        if(!isset($_FILES[$this->getName()])) {
+            return false;
+        }
+
+
+        if($this->getAttribute('multiple')) {
+            if($_FILES[$this->getName()]['error'][0] === UPLOAD_ERR_NO_FILE) {
+                return false;
+            }
+        }else {
+            if($_FILES[$this->getName()]['error'] === UPLOAD_ERR_NO_FILE) {
+                return false;
+            }
+        }
+
+
+        return true;
+
     }
 
 
@@ -124,17 +251,55 @@ class EF_File_Input extends EF_Input
     public function insert($post_id, $post_type = 'post', $overrides  = array( 'test_form' => false ))
     {
 
-        $id = $this->upload($post_id,$overrides);
 
-        if ($id) {
+        // If no upload has been made, they you keep the previous data
+        if(!$this->hasUpload()) {
+            if($this->getAttribute('multiple')) {
+                $id = explode(',',$_POST[$this->getName()][0]);
+            } else {
+                $id = $_POST[$this->getName()];
+            }
+
+        }
+        else {
+
+            if(!$this->getAttribute('multiple')) {
+                $id = $this->upload($post_id, $overrides);
+            } else {
+
+                $files = $_FILES;
+
+                $id = array();
+
+
+                for($i =0; $i < count($files[$this->getName()]['name']);$i++) {
+
+                    $_FILES = array();
+
+                    $_FILES[$this->getName()] = $this->buildFileVar($files[$this->getName()],$i);
+
+                    $upload = $this->upload($post_id,$overrides);
+
+                    if(is_wp_error($upload)) {
+                        $this->setError(__('An error occurred while uploading a file',EF_get_domain()));
+                    }
+
+                    $id[] = $upload;
+
+                }
+
+            }
+        }
+
+
+        if (!is_wp_error($id)) {
             if ('post' === $post_type) {
-                if ($this->getName() == $this->defaultAttributes['name'])
-                    update_post_meta($post_id, '_thumbnail_id', $id);
-                else
-                    update_post_meta($post_id, $this->getName(), $id);
+                update_post_meta($post_id, $this->getName(), $id);
             } else {
                 update_user_meta($post_id, $this->getName(), $id);
             }
+        } else {
+            $this->setError($id->get_error_message());
         }
 
 
@@ -161,7 +326,22 @@ class EF_File_Input extends EF_Input
 
             return $inputs;
         });
+
+        add_action('wp_enqueue_scripts',array(EF_File_Input::class,'wp_enqueue_scripts'));
+
     }
+
+
+    /**
+     * Add the g_map_address.js script in the queue
+     */
+    public static function wp_enqueue_scripts()
+    {
+        wp_register_script( 'ef-public-input-file-js', EF_get_dir('assets/public/js/inputs/file.js') , array('jquery'), EF_get_setting('version') );
+
+        wp_enqueue_script('ef-public-input-file-js',false,array('jquery'),false,true);
+    }
+
 
     /**
      * @return string
@@ -171,5 +351,75 @@ class EF_File_Input extends EF_Input
         return self::$_TYPE;
     }
 
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+
+        if($this->getAttribute('multiple')) {
+            $this->addAttribute('name',$this->getName() . '[]');
+        }
+
+        $elem = parent::__toString();
+
+        $value = $this->getAttribute('value');
+
+
+
+        if(!is_numeric($value) && !is_array($value) && !empty($value)) {
+            return $elem;
+        }
+
+        $id = uniqid();
+
+        if(is_numeric($value)) {
+            $elem .= $this->getAttachmentLinked($value,$id);
+        } else {
+            if(is_array($value)) {
+                foreach ($value as $val) {
+                    if(!empty($val)) {
+                        $elem .= $this->getAttachmentLinked($val, $id);
+                    }
+                }
+
+                $value = join(',',$value);
+
+            }
+        }
+
+        $elem .= sprintf('<input type="hidden" name="%s" value="%s" id="%s" >',$this->getName(),$value,$id);
+
+        return $elem;
+
+    }
+
+
+    /**
+     * @param $attachment_id
+     * @param $id
+     * @return string
+     */
+    public function getAttachmentLinked($attachment_id,$id)
+    {
+        $img = wp_get_attachment_url($attachment_id);
+
+        if(preg_match('#\.(png|jpg|jpeg|gif|bmp)$#',strtolower($img))) {
+            $string = sprintf('<div class="ef_attachment_container"><img class="ef_attachment" id="%s" src="%s"><a href="javascript:" delete-file img-id="%s" input-id="%s" >%s</a></div>',$attachment_id,$img,$attachment_id,$id,__('Delete',EF_get_domain()));
+        } else {
+            $string = sprintf(
+                '<div class="ef_attachment_container"><a  class="ef_attachment" id="%s" href="%s" target="_blank">%s</a><a href="javascript:" delete-file img-id="%s" input-id="%s" >%s</a></div>',
+                $attachment_id,
+                $img,
+                basename($img),
+                $attachment_id,
+                $id,
+                __('Delete',EF_get_domain())
+            );
+        }
+
+        return $string;
+    }
 
 }

@@ -136,11 +136,20 @@ class Easy_Form
     public function parse_content()
     {
 
+        global $post;
+
+
+
         if('POST' !== $_SERVER['REQUEST_METHOD'] || is_admin()) {
             return;
         }
 
-        global $post;
+        if(null === $post) {
+            return;
+        }
+
+
+
         if(preg_match('#\[wp_easy_form(( )+)?id=("|\')[a-zA-Z0-9]+("|\')(( )+)?\]#',$post->post_content,$matches)) {
 
             if(preg_match('#id=("|\')[a-zA-Z0-9]+("|\')#',$matches[0],$match)) {
