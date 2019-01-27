@@ -31,11 +31,12 @@
 		</td>
 		<td class="ef-table-content">
 			<!-- HTML -->
+            <!-- ID -->
 			<div class="ef-input">
 				<label for="field[fieldId][attributes][id]"><?php _e('id', EF_get_domain()); ?></label>
 				<input type="text" id="field[fieldId][attributes][id]" name="field[fieldId][attributes][id]" class="form-control" placeholder="<?php _e('Id of the input',EF_get_domain()); ?>"/>
 			</div>
-
+            <!-- /ID -->
 			<div class="ef-input">
 				<label for="field[fieldId][attributes][class]"><?php _e('class', EF_get_domain()); ?></label>
 				<input type="text" id="field[fieldId][attributes][class]" name="field[fieldId][attributes][class]" class="form-control" placeholder="<?php _e('class of the input',EF_get_domain()); ?>"/>

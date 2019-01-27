@@ -16,9 +16,7 @@ class EF_Editor_Input extends EF_Input
      *
      * @var array
      */
-    protected $defaultAttributes = [
-        'id' => 'ef_editor'
-    ];
+    protected $defaultAttributes = array();
 
 
     public function __construct($id = null, array $attributes = [], array $settings = [], array $data = [])
@@ -27,6 +25,9 @@ class EF_Editor_Input extends EF_Input
         $attributes = array_merge($attributes,$this->defaultAttributes);
 
         parent::__construct($id, $attributes, $settings, $data);
+
+        $this->addAttribute('id',$this->getName());
+
     }
 
 

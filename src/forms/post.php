@@ -28,7 +28,7 @@ class EF_Post_Form extends EF_Form
      * @var array
      */
     public static $_REQUIRED_FIELDS = array(
-        'title',
+        'post_title',
     );
 
 
@@ -78,7 +78,6 @@ class EF_Post_Form extends EF_Form
             $the_post_id  = $this->update($data);
             do_action('form/AfterModifyPost', $the_post_id );
             do_action('form/AfterModifyPost-' . $this->getId(), $the_post_id);
-
 
         } else{
             // Register the user
@@ -236,6 +235,56 @@ class EF_Post_Form extends EF_Form
             return $the_post;
         }
     }
+
+    /**
+     *
+     * Load the data from the database
+     *
+     * @return mixed|void
+     */
+    public function loadData()
+    {
+
+        $post_id = $this->getSetting('update');
+
+        if('update' === $post_id) {
+            $post_id = $_GET['post_id'];
+        }
+
+        if(!$post_id || !is_numeric($post_id)) {
+            return;
+        }
+
+        $post = get_post($post_id);
+
+        // Post update is only available for logged in users
+        if(!is_user_logged_in()) {
+            $this->setError(__('For security reasons, post update is only available for logged in users',EF_get_domain()));
+            return;
+        }
+
+        if($post->post_type != $this->getSetting('post_type')) {
+            $this->setError(__('The type of post selected is not the same as the one you are trying to update',EF_get_domain()));
+            return;
+        }
+
+        $this->addSetting('id',$post_id);
+
+
+        // Transform the post from object to array
+        $data = json_decode(json_encode($post),true);
+
+
+        $metas = get_post_meta($post_id);
+
+        foreach($metas as $key => $meta) {
+            $data[$key] = $meta[0];
+        }
+
+        $this->data = $data;
+
+    }
+
 
     public static function register()
     {
