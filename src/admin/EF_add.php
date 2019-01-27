@@ -201,7 +201,7 @@ class EF_add
             return $post_array;
         }
 
-        if(preg_match('/^form-/',$post_array['post_name'])){
+        if(preg_match('/^form-/',$post_array['post_name']) && strpos($post_array['post_name'],'auto-draft') === 0){
             return $post_array;
         }
 
