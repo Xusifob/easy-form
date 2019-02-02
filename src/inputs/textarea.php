@@ -23,7 +23,7 @@ class EF_TextArea extends EF_Input
      *
      * @return string
      */
-    public function __toString()
+    public function getInput()
     {
 
         $this->removeAttribute('type');
@@ -32,11 +32,7 @@ class EF_TextArea extends EF_Input
 
         $template =  $this->open() . $this->getAttribute('value') .  $this->close();
 
-        if($this->getSetting('label-after') == true){
-            return $template . $this->getLabel();
-        }else{
-            return $this->getLabel() . $template;
-        }
+        return $template;
     }
 
 

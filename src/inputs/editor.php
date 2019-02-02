@@ -35,7 +35,7 @@ class EF_Editor_Input extends EF_Input
      *
      * @return string
      */
-    public function __toString()
+    public function getInput()
     {
         ob_start();
 

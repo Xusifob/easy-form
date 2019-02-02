@@ -288,9 +288,7 @@ abstract class EF_Form extends EF_Html_Element
 
         $name = $input->getName();
 
-        if(isset($this->data[$name])) {
-            $input->addAttribute('value',$this->data[$name]);
-        }
+        $input->fillValue($this->data);
 
         if(preg_match('#\[\]$#',$input->getName()) || $input->getType() == 'radio') {
             $this->inputs[$input->getName()][] = $input;

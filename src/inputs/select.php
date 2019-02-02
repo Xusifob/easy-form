@@ -63,7 +63,7 @@ class EF_Select extends EF_Input
     /**
      * @return string
      */
-    public function __toString()
+    public function getInput()
     {
 
         $this->removeAttribute('type');

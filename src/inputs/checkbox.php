@@ -14,16 +14,16 @@ class EF_Checkbox_Input extends EF_Input
     /**
      * @var array
      */
-    protected $defaultAttributes = [
+    protected $defaultAttributes = array(
         'value' => true,
-    ];
+    );
 
     /**
      * @var array
      */
-    protected $defaultSettings = [
+    protected $defaultSettings = array(
         'label-after' => true,
-    ];
+    );
 
 
     /**

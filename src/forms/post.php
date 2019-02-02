@@ -37,7 +37,8 @@ class EF_Post_Form extends EF_Form
      */
     public static $_POSSIBLE_FIELDS = array(
         'post_content',
-        '_thumbnail_id'
+        '_thumbnail_id',
+        'taxonomy'
     );
 
 
@@ -73,6 +74,7 @@ class EF_Post_Form extends EF_Form
             $required = false;
         }
 
+
         if(!$this->isValid($data,$required)) {
             return false;
         }
@@ -99,9 +101,12 @@ class EF_Post_Form extends EF_Form
         }
 
 
+
         if($the_post_id  == false)
             return false;
 
+
+        $this->addTaxonomy($the_post_id,$data);
         self::addMetaData(get_post( $the_post_id ),$data);
 
         do_action('form/AfterInsertOrModifyPost', $the_post_id );
@@ -116,6 +121,37 @@ class EF_Post_Form extends EF_Form
     }
 
 
+    /**
+     * @param $post_id
+     * @param array $data
+     * @return bool
+     */
+    protected function addTaxonomy($post_id,$data = array())
+    {
+        if(empty($data)) {
+            return false;
+        }
+
+
+        foreach($data as $key => $value) {
+            if(EF_Taxonomy_Input::isTaxValue($key)) {
+                $category = EF_Taxonomy_Input::getTaxValue($key);
+                $result = wp_set_post_terms($post_id,$value,$category);
+
+
+                if(is_wp_error($result)) {
+                    $this->setError($result->get_error_message());
+                    return false;
+                }
+                if(false === $result) {
+                    $this->setError(_('An error occurred while adding the post to the taxonomy',EF_get_domain()));
+                }
+            }
+        }
+
+        return true;
+
+    }
 
 
     /**
@@ -129,25 +165,32 @@ class EF_Post_Form extends EF_Form
      */
     protected function addMetaData(WP_Post $the_post,$data){
 
-        $remove = array(
+        $remove = apply_filters('EF_ignore_post_meta',array(
             '_nonce',
             '_time',
             '_antispam',
             'title',
             'content',
             'content',
-            '_uniqid'
-        );
+            '_uniqid',
+        ));
+
 
         foreach($this->getInputs(true) as $input){
             if(in_array($input->getName(),$remove))
                 continue;
 
 
-            if('file' === $input->getType()){
+            if(EF_File_Input::$_TYPE === $input->getType()){
                 /** @var EF_File_Input $input  */
                 $input->insert($the_post->ID);
                 continue;
+            }
+
+            if(EF_Taxonomy_Input::$_TYPE == $input->getType()) {
+                if($input->getSetting('add-to-taxonomy')) {
+                    return;
+                }
             }
 
             // Handle multiple elements
@@ -178,6 +221,7 @@ class EF_Post_Form extends EF_Form
 
         $my_post = wp_insert_post($postData);
 
+
         if (is_wp_error($my_post)) {
             $this->setError($my_post->get_error_message());
 
@@ -200,20 +244,20 @@ class EF_Post_Form extends EF_Form
     private function preparePostData($data,$postData = [])
     {
 
-        if(isset($data['content'])) {
-            $postData['post_content'] = $data['content'];
+        if(isset($data['post_content'])) {
+            $postData['post_content'] = $data['post_content'];
         }
 
-        if(isset($data['title'])) {
-            $postData['post_title'] = $data['title'];
+        if(isset($data['post_title'])) {
+            $postData['post_title'] = $data['post_title'];
         }
 
 
         $postData['post_type'] = $this->getSetting('post_type');
         $postData['post_status'] = $this->getSetting('post_status');
 
-        if(isset($data['title']))
-            $postData['post_name'] = sanitize_title($data['title']);
+        if(isset($data['post_title']))
+            $postData['post_name'] = sanitize_title($data['post_title']);
 
         return $postData;
     }
@@ -290,6 +334,24 @@ class EF_Post_Form extends EF_Form
         foreach($metas as $key => $meta) {
             $data[$key] = $meta[0];
         }
+
+        $taxs = get_post_taxonomies($post_id);
+        $terms = wp_get_post_terms($post_id,$taxs);
+
+
+        /** @var WP_Term $term */
+        foreach($terms as $term) {
+
+            $key = EF_Taxonomy_Input::$_PREFIX . $term->taxonomy;
+
+            if(!isset($data[$key])) {
+                $data[$key] = array($term->term_id);
+            } else {
+                $data[$key][] = $term->term_id;
+            }
+        }
+
+        $data = apply_filters('EF_get_post_form_data',$data);
 
         $this->data = $data;
 

@@ -355,14 +355,14 @@ class EF_File_Input extends EF_Input
     /**
      * @return string
      */
-    public function __toString()
+    public function getInput()
     {
 
         if($this->getAttribute('multiple')) {
             $this->addAttribute('name',$this->getName() . '[]');
         }
 
-        $elem = parent::__toString();
+        $elem = parent::getInput();
 
         $value = $this->getAttribute('value');
 

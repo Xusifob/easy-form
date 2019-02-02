@@ -245,8 +245,6 @@ class WP_Form implements JsonSerializable
             if(!isset($input['attributes']))
                 continue;
 
-
-
             if(isset($inputs[$input['attributes']['type']])) {
                 $inputName = $inputs[$input['attributes']['type']]['class'];
             }else{

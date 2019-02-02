@@ -86,6 +86,7 @@ class Easy_Form
         EF_include('src/inputs/file.php');
         EF_include('src/inputs/submit.php');
         EF_include('src/inputs/nonce.php');
+        EF_include('src/inputs/taxonomy.php');
         EF_include('src/inputs/g_map_address.php');
 
 
@@ -183,6 +184,7 @@ class Easy_Form
         EF_File_Input::register();
         EF_Submit_Input::register();
         EF_Nonce_Input::register();
+        EF_Taxonomy_Input::register();
         EF_G_Map_Address_Input::register();
 
         EF_Login_Form::register();
