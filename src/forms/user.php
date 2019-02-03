@@ -249,20 +249,14 @@ class EF_User_Form extends EF_User_Activation_Form
      */
     protected function addMetaData(WP_User $user,$data){
 
-        $remove = [
-            '_nonce',
-            '_time',
-            '_antispam',
+        $remove = apply_filters('EF_Ignore_Fields',array(
             'user_email',
-            'user_pass',
             'user_login',
             'first_name',
             'last_name',
-            'repeat_password',
             'url',
             'content',
-            '_uniqid'
-        ];
+        ));
 
         foreach($this->getInputs(true) as $key => $input){
             if(in_array($input->getName(),$remove))

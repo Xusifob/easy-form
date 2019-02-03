@@ -158,6 +158,8 @@ abstract class EF_Form extends EF_Html_Element
 
     /**
      * Create the default inputs for the form
+     *
+     * @throws Exception
      */
     protected function createDefaultInputs(){
 
@@ -170,6 +172,7 @@ abstract class EF_Form extends EF_Html_Element
             'name' => '_time',
             'value' => microtime(true),
         ]);
+        $time->ignore();
 
         $antiSpam = new EF_Input(null,[
             'name' => '_antispam',
@@ -177,12 +180,14 @@ abstract class EF_Form extends EF_Html_Element
             'required' => false,
             'style' => 'display: none !important;',
         ]);
+        $antiSpam->ignore();
 
         $uniqId = new EF_Hidden_Input(null,[
             'name' => '_uniqid',
             'value' => $this->getUniqId(),
             'required' => false
         ]);
+        $uniqId->ignore();
 
         $this->addInput($nonce);
         $this->addInput($time);

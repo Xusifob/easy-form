@@ -58,6 +58,8 @@ class EF_Password_Input extends EF_Input
         $this->defaultSettings['min-strength'] = self::WEAK;
 
         parent::__construct($id, $attributes, $settings, $data);
+
+        $this->ignore();
     }
 
     /**

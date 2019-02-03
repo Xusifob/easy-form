@@ -253,3 +253,24 @@ if(!function_exists('EF_get_default_inputs')) {
 
     }
 }
+
+
+if(!function_exists('get_meta_from_id')) {
+
+    /**
+     * Returns a meta according to it's field meta_id
+     *
+     * @param $meta_id
+     * @return bool|object|null
+     */
+    function get_meta_from_id($meta_id)
+    {
+        global $wpdb;
+
+        $mid = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE meta_id = %s", $meta_id) );
+        if( $mid != '' )
+            return $mid;
+
+        return false;
+    }
+}

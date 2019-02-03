@@ -11,9 +11,17 @@ class EF_ReCaptcha_Input extends EF_Input
      */
     public static $_TYPE = 'captcha';
 
-    /**
-     *
-     */
+
+
+    public function __construct($id = null, array $attributes = [], array $settings = [], array $data = [])
+    {
+        parent::__construct($id, $attributes, $settings, $data);
+
+        $this->addAttribute('name','g-recaptcha-response');
+
+        $this->ignore(true);
+    }
+
     public static function register()
     {
         add_filter('EF_available_inputs',function($inputs){

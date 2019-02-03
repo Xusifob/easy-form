@@ -165,14 +165,9 @@ class EF_Post_Form extends EF_Form
      */
     protected function addMetaData(WP_Post $the_post,$data){
 
-        $remove = apply_filters('EF_ignore_post_meta',array(
-            '_nonce',
-            '_time',
-            '_antispam',
-            'title',
-            'content',
-            'content',
-            '_uniqid',
+        $remove = apply_filters('EF_Ignore_Fields',array(
+            'post_title',
+            'post_content',
         ));
 
 

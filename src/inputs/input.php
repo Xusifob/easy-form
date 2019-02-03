@@ -86,6 +86,24 @@ class EF_Input extends EF_Settings_Element
 
 
     /**
+     * @param bool $ignore Set that the field should be ignored when saving the data
+     */
+    public function ignore($ignore = true)
+    {
+
+        if($ignore) {
+            add_filter('EF_Ignore_Fields', function ($ignored) {
+                $ignored[] = $this->getName();
+
+                return $ignored;
+            });
+        }
+
+    }
+
+
+
+    /**
      * Add the value inside the input
      *
      * @param $data

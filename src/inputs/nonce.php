@@ -30,6 +30,9 @@ class EF_Nonce_Input extends EF_Hidden_Input
         if(WP_DEBUG)
             $this->addSetting('display-errors','on');
 
+        $this->ignore();
+
+
     }
 
 

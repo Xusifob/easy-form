@@ -63,6 +63,8 @@ class EF_Submit_Input extends EF_Input
         $this->defaultAttributes['value'] = __('Send',EF_get_domain());
 
         parent::__construct( $id, $attributes, $settings, $data );
+
+        $this->ignore();
     }
 
     /**
