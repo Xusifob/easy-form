@@ -242,7 +242,7 @@ class EF_add
 
             $input = new EF_Input(null,$_input['attributes'],$_settings);
 
-            add_post_meta($post_id,'ef-inputs',json_encode($input));
+            add_post_meta($post_id,'ef-inputs',addslashes(json_encode($input)));
         }
 
 

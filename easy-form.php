@@ -110,7 +110,9 @@ class Easy_Form
         if( is_admin() ) {
             EF_include('src/admin/admin.php');
             EF_include('src/admin/EF_add.php');
+            EF_include('src/admin/EF_edit_lead.php');
             EF_include('src/admin/EF_list.php');
+            EF_include('src/admin/EF_list_leads.php');
             EF_include('src/admin/EF_export.php');
         }
 
@@ -296,7 +298,7 @@ class Easy_Form
 
 
          // Create post type 'acf-field-group'
-        register_post_type( EF_Lead::$_META_KEY , array(
+        register_post_type( EF_Lead::$_POST_TYPE , array(
             'labels'			=> array(
                 'name'					=> __( 'Leads', EF_get_domain() ),
                 'singular_name'			=> __( 'Lead', EF_get_domain() ),
@@ -310,7 +312,7 @@ class Easy_Form
                 'not_found_in_trash'	=> __( 'No Lead found in Trash', EF_get_domain() ),
             ),
             'public'			=> false,
-            'show_ui'			=> false,
+            'show_ui'			=> true,
             '_builtin'			=> false,
             'capability_type'	=> 'post',
             'capabilities'		=> array(
@@ -323,7 +325,7 @@ class Easy_Form
             'rewrite'			=> false,
             'query_var'			=> false,
             'supports' => array( 'title' ),
-            'show_in_menu'		=> false,
+            'show_in_menu'		=> true,
         ));
 
 

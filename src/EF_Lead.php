@@ -7,17 +7,13 @@
 class EF_Lead implements JsonSerializable
 {
 
-    public static $_STATUS_DELETED = 0;
 
-    public static $_STATUS_ACTIVE = 1;
-
-    public static $_META_KEY = 'ef_leads';
-
+    public static $_POST_TYPE = 'ef_leads';
 
     /**
      * @var int the Id of the meta field
      */
-    public $meta_id;
+    public $post_id;
 
 
     /**
@@ -35,20 +31,22 @@ class EF_Lead implements JsonSerializable
     /**
      * EF_Lead constructor.
      *
-     * @param null $meta_id
+     * @param null $post_id
      * @param null $form_id
      * @param array $data
      */
-    public function __construct($meta_id = null,$form_id = null,$data = array())
+    public function __construct($post_id = null,$form_id = null,$data = array())
     {
-        if($meta_id) {
-            $meta = get_meta_from_id($meta_id);
+        if($post_id) {
+            $lead = get_post($post_id);
 
-            $data = unserialize($meta->meta_value);
+            $data = json_decode($lead->post_content,true);
 
-            $this->form_id = $meta->post_id;
+            $this->form_id = $lead->post_parent;
 
-            $this->meta_id = $meta_id;
+            $this->post_id = $lead->ID;
+
+            $this->data = $data;
         }
 
         if($form_id) {
@@ -58,6 +56,35 @@ class EF_Lead implements JsonSerializable
         if($data) {
             $this->setData($data);
         }
+
+
+    }
+
+
+    /**
+     * @param $key
+     * @return mixed|null
+     */
+    public function getValue($key)
+    {
+
+        if(isset($this->data[$key])) {
+            return $this->data[$key];
+        }
+
+        return null;
+
+    }
+
+    public function getPostData()
+    {
+        return array(
+            'post_content' => addslashes(json_encode($this->getData())),
+            'post_title' => uniqid(),
+            'post_parent' => $this->form_id,
+            'post_type' => self::$_POST_TYPE,
+            'post_status' => 'publish'
+        );
     }
 
 
@@ -66,16 +93,6 @@ class EF_Lead implements JsonSerializable
      */
     public function setData($data = array())
     {
-
-        if(!isset($data['created_date'])) {
-            $data['created_date'] = date('c');
-        } else {
-            $data['updated_date'] = date('c');
-        }
-
-        if(!isset($data['status'])) {
-            $data['status'] = self::$_STATUS_ACTIVE;
-        }
 
         $this->data = $data;
 
@@ -92,29 +109,39 @@ class EF_Lead implements JsonSerializable
             return new WP_Error(666,__('You must set a form id to a lead so you can save it',EF_get_domain()));
         }
 
-        $meta_id = add_post_meta($this->form_id,self::$_META_KEY,$this->getData());
+        if($this->post_id) {
+            $post_id = wp_update_post($this->getPostData());
+        } else {
+            $post_id = wp_insert_post($this->getPostData());
+        }
 
-        if(false === $meta_id) {
+        if(false === $post_id) {
             return new WP_Error(666,__('An error occurred while saving the lead, please try again later',EF_get_domain()));
         }
 
-        $this->meta_id = $meta_id;
+        $this->post_id = $post_id;
 
-        return $meta_id;
+        return $post_id;
 
     }
 
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         return $this->data;
     }
 
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         return array(
-                'meta_id' => $this->meta_id,
+                'meta_id' => $this->post_id,
                 'form_id' => $this->form_id,
                 'data' => $this->getData(),
             );

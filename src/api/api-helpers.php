@@ -58,7 +58,6 @@ function EF_is_screen( $id = '' ) {
     $current_screen = get_current_screen();
 
 
-
     // return
     return ($id === $current_screen->id);
 

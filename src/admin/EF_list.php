@@ -53,10 +53,16 @@ class EF_List
             return $actions;
         }
 
-        $actions['leads'] = sprintf('<a href="%s">%s</a>',
-            'TAMER',
-            __('See the leads',EF_get_domain())
-        );
+        try {
+            $form = new WP_Form($post->ID);
+
+            if($form->get_type() === EF_Leads_Form::$_TYPE) {
+                $actions['leads'] = sprintf('<a href="%s">%s</a>',
+                    'edit.php?post_type=' . EF_Lead::$_POST_TYPE . '&form_id=' . $post->ID,
+                    __('See the leads', EF_get_domain())
+                );
+            }
+        }catch (Exception $e) {}
 
         return $actions;
     }
