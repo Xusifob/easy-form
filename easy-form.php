@@ -89,6 +89,7 @@ class Easy_Form
         EF_include('src/inputs/taxonomy.php');
         EF_include('src/inputs/captcha.php');
         EF_include('src/inputs/g_map_address.php');
+        EF_include('src/inputs/section.php');
 
 
         // Include all forms
@@ -192,6 +193,7 @@ class Easy_Form
         EF_Taxonomy_Input::register();
         EF_G_Map_Address_Input::register();
         EF_ReCaptcha_Input::register();
+        EF_Section::register();
 
         EF_Login_Form::register();
         EF_Mail_Form::register();
@@ -325,7 +327,7 @@ class Easy_Form
             'rewrite'			=> false,
             'query_var'			=> false,
             'supports' => array( 'title' ),
-            'show_in_menu'		=> true,
+            'show_in_menu'		=> false,
         ));
 
 

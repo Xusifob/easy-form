@@ -68,12 +68,12 @@ class EF_Post_Form extends EF_Form
     public function submit($data){
 
 
+
         $required = true;
         // If you update, no field is required
         if($this->isUpdate()) {
             $required = false;
         }
-
 
         if(!$this->isValid($data,$required)) {
             return false;
@@ -101,23 +101,28 @@ class EF_Post_Form extends EF_Form
         }
 
 
-
         if($the_post_id  == false)
             return false;
 
 
         $this->addTaxonomy($the_post_id,$data);
+
         self::addMetaData(get_post( $the_post_id ),$data);
+
 
         do_action('form/AfterInsertOrModifyPost', $the_post_id );
         do_action('form/AfterInsertOrModifyPost-' . $this->getId(), $the_post_id );
 
 
-        $this->setFormSend($the_post_id);
+        if(!$this->hasError()) {
+            $this->setFormSend($the_post_id);
 
-        // Redirect the user
-        $this->redirect($the_post_id);
-        return true;
+            // Redirect the user
+            $this->redirect($the_post_id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -171,7 +176,9 @@ class EF_Post_Form extends EF_Form
         ));
 
 
+
         foreach($this->getInputs(true) as $input){
+
             if(in_array($input->getName(),$remove))
                 continue;
 
@@ -197,6 +204,9 @@ class EF_Post_Form extends EF_Form
                 update_post_meta($the_post->ID,$input->getName(), $data[$input->getName()]);
             }
         }
+
+        die();
+
     }
 
 

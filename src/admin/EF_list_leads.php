@@ -16,9 +16,14 @@ class EF_List_Leads
      */
     public $columns = array();
 
+    public $form_id;
+
 
     public function __construct() {
 
+        if(isset($_GET['form_id'])) {
+            $this->form_id = $_GET['form_id'];
+        }
         add_action('current_screen', array($this, 'current_screen'));
     }
 
@@ -35,16 +40,32 @@ class EF_List_Leads
             return;
         }
 
+        if(!isset($this->form_id)) {
+            wp_redirect('edit.php?post_type=' . EF_get_post_type());
+        }
+
+        add_filter('parse_query',array($this,'parse_query'));
 
         add_filter('manage_edit-'. EF_Lead::$_POST_TYPE .'_columns' , array($this,'ef_columns'));
         add_filter('manage_edit-'. EF_Lead::$_POST_TYPE .'_sortable_columns' , array($this,'ef_sortable_columns'));
 
         add_action('manage_'. EF_Lead::$_POST_TYPE .'_posts_custom_column', array($this,'ef_data_columns'), 10, 2 );
 
-//        add_filter('the_title',array($this,'the_title'));
-
     }
 
+
+    /**
+     * @param WP_Query $query
+     * @return WP_Query
+     */
+    public function parse_query(WP_Query $query)
+    {
+
+        $parent_id = $_GET['form_id'];
+
+        $query->query['post_parent'] = $parent_id;
+        return $query;
+    }
 
 
 
@@ -70,6 +91,8 @@ class EF_List_Leads
 
         $data = $lead->getData();
 
+        $columns['title'] .= sprintf('<input type="hidden" name="form_id" value="%s">',$this->form_id);
+        
         $date = $columns['date'];
         unset($columns['date']);
 
@@ -114,11 +137,7 @@ class EF_List_Leads
 
         $lead = new EF_Lead($post->ID);
 
-        $data = $lead->getData();
-
-        if(isset($data[$name])) {
-            echo $data[$name];
-        }
+        echo $lead->getValue($name);
 
     }
 

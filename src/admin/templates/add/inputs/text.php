@@ -65,11 +65,21 @@
                 <label for="field[fieldId][settings][label-class]"><?php _e('Class of the label', EF_get_domain()); ?></label>
                 <input type="text" id="field[fieldId][settings][label-class]" name="field[fieldId][settings][label-class]" class="form-control" placeholder="<?php _e('Class of the label',EF_get_domain()); ?>"/>
             </div>
+            <!-- Label after -->
             <div class="ef-input">
                 <label for="field[fieldId][settings][label-after]" class="label-checkbox">
                     <input type="checkbox" id="field[fieldId][settings][label-after]" name="field[fieldId][settings][label-after]" value="1"/>
                     <?php _e('Display the label after the field', EF_get_domain()); ?>
                 </label>
+            </div>
+            <!-- /Label after -->
+            <div class="ef-input">
+                <label for="field[fieldId][settings][exp-text]"><?php _e('Explainatory text', EF_get_domain()); ?></label>
+                <input type="text" id="field[fieldId][settings][exp-text]" name="field[fieldId][settings][exp-text]" class="form-control" placeholder="<?php _e('Explainatory text',EF_get_domain()); ?>"/>
+            </div>
+            <div class="ef-input">
+                <label for="field[fieldId][settings][exp-text-class]"><?php _e('Class of the text', EF_get_domain()); ?></label>
+                <input type="text" id="field[fieldId][settings][exp-text-class]" name="field[fieldId][settings][exp-text-class]" class="form-control" placeholder="<?php _e('Class of the text',EF_get_domain()); ?>"/>
             </div>
         </td>
     </tr>

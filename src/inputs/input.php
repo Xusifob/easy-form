@@ -332,6 +332,8 @@ class EF_Input extends EF_Settings_Element
      *
      * @param bool|false $force if false, will return the label only once
      * @return string
+     *
+     * @throws Exception
      */
     public function getLabel($force = false)
     {
@@ -341,20 +343,50 @@ class EF_Input extends EF_Settings_Element
         $this->setDefaultLabel();
 
         if(!$this->label_retrieved || $force) {
-            $label = new EF_Html_Element([
+            $label = new EF_Html_Element(array(
                 'for' => $this->getFieldId(),
                 'class' => $this->getSetting('label-class'),
-            ]);
+            ));
             $label->setElement('label');
 
             $this->label_retrieved = true;
 
             // Return the label html
-            return $label->open() . $this->getSetting('label') . $label->close();
+            $l =  $label->open() . $this->getSetting('label') . $label->close();
+
+            return $l . $this->getExplanatoryText();
         }else{
             return '';
         }
     }
+
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    function getExplanatoryText()
+    {
+        $txt = $this->getSetting('exp-text');
+
+        if(!$txt) {
+            return "";
+        }
+
+
+        $txt = stripslashes($txt);
+
+        $text = new EF_Html_Element(array(
+            'class' => $this->getSetting('exp-text-class'),
+        ));
+
+        $text->setElement('p');
+
+        return $text->open() . $txt . $text->close();
+
+
+    }
+
 
     /**
      *
@@ -388,7 +420,7 @@ class EF_Input extends EF_Settings_Element
      */
     public static function register()
     {
-        
+
         add_filter('EF_available_inputs',function($inputs){
             $inputs[self::$_TYPE] = array(
                 'type' => self::$_TYPE,

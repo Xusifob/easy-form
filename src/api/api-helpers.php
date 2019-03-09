@@ -183,18 +183,16 @@ function EF_verify_nonce($action)
 
 if(!function_exists('dump')) {
 
-    function dump(...$var)
+    function dump(...$vars)
     {
-
-        if(count($var) > 0) {
-            $var = $var[0];
-        }
 
         echo '<pre>';
         ob_start();
-        var_dump($var);
-        $data = ob_get_clean();
-        echo htmlentities($data);
+        foreach($vars as $var) {
+            var_dump($var);
+            $data = ob_get_clean();
+            echo htmlentities($data);
+        }
         echo '</pre>';
     }
 
