@@ -43,7 +43,7 @@ abstract class EF_Settings_Element extends EF_Html_Element
 	 * @return mixed
 	 */
 	public function getSetting($key){
-		return isset($this->settings[$key]) ? $this->settings[$key] : false;
+		return isset($this->settings[$key]) ? stripslashes($this->settings[$key]) : false;
 	}
 
 	/**
