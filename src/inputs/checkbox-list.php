@@ -3,21 +3,26 @@
 /**
  * Class EF_Input
  */
-class EF_Radio_List_Input extends EF_Select
+class EF_Checkbox_List_Input extends EF_Select
 {
 
     /**
      * @var string
      */
-    public static $_TYPE = 'radio-list';
+    public static $_TYPE = 'checkbox-list';
 
 
     /**
      * @var array
      */
-    protected $defaultSettings = [
+    protected $defaultSettings = array(
         'label-after' => true,
-    ];
+    );
+
+
+    protected $defaultAttributes = array(
+        'multiple' => true,
+    );
 
 
 
@@ -33,7 +38,7 @@ class EF_Radio_List_Input extends EF_Select
         add_filter('EF_available_inputs',function($inputs){
             $inputs[self::$_TYPE] = array(
                 'type' => self::$_TYPE,
-                'label' => __('List of radio input','easy-form'),
+                'label' => __('List of checkbox input','easy-form'),
                 'class' => self::class
             );
 
@@ -56,12 +61,8 @@ class EF_Radio_List_Input extends EF_Select
 
         $this->removeAttribute('type');
 
-        foreach($this->getOptions() as $option) {
 
-            // Case the user removed the possibility to add a new answer
-            if(!isset($option['value'])) {
-                $option['value'] = $option['content'];
-            }
+        foreach($this->getOptions() as $option) {
 
             if($option['value'] == 'ef-other') {
 
@@ -73,12 +74,20 @@ class EF_Radio_List_Input extends EF_Select
                 $option['content'] = sprintf(__('Other : %s',EF_get_domain()),$txt);
             }
 
-            $input = new EF_Radio_Input(null,array(
+            $attributes = array(
                 'value' => $option['value'],
-                'checked' => isset($option['selected']) ? $option['selected'] : '',
                 'name' => $this->getName(),
                 'class' => self::$_TYPE . $this->getAttribute('class'),
-            ),array(
+                'multiple' => true,
+            );
+
+
+            if(isset($option['selected'])) {
+                $attributes['checked'] = 'checked';
+            }
+
+
+            $input = new EF_Checkbox_Input(null,$attributes,array(
                 'label' => $option['content'],
             ));
 
@@ -101,6 +110,30 @@ class EF_Radio_List_Input extends EF_Select
     }
 
 
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function getValueFromPostData($data)
+    {
 
+        $val = parent::getValueFromPostData($data);
+
+        if(is_array($val)) {
+            foreach($val as &$v) {
+                if($v == 'ef-other') {
+                    $v = $data['ef-other-' . $this->getName()];
+                }
+            }
+        }
+
+
+        // If the value selected is other, we return the value of the input
+        if($val === 'ef-other') {
+            return $data['ef-other-' . $this->getName()];
+        }
+
+        return $val;
+    }
 
 }

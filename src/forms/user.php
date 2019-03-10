@@ -268,13 +268,16 @@ class EF_User_Form extends EF_User_Activation_Form
                 $input->insert($user->ID,'user');
             }
             else {
+
+                $value = $input->getValueFromPostData($data);
+
                 // Handle multiple elements
-                if ($input->getAttribute('multiple') === true && is_array($data[$input->getName()])) {
-                    foreach ($data[$input->getName()] as $val) {
+                if ($input->getAttribute('multiple') === true && is_array($value)) {
+                    foreach ($value as $val) {
                         add_user_meta($user->ID, $input->getName(), $val);
                     }
                 } else {
-                    update_user_meta($user->ID, $input->getName(), $data[$input->getName()]);
+                    update_user_meta($user->ID, $input->getName(),$value);
                 }
             }
         }

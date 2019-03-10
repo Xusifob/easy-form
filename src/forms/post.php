@@ -201,16 +201,24 @@ class EF_Post_Form extends EF_Form
                 continue;
             }
 
-            // Handle multiple elements
-            if($input->getAttribute('multiple') === true && is_array($input->getValueFromPostData($data))) {
 
-                foreach ($input->getValueFromPostData($data) as $val) {
+            $value = $input->getValueFromPostData($data);
+
+
+            // Handle multiple elements
+            if($input->getAttribute('multiple') == true && is_array($value)) {
+
+                delete_post_meta($the_post->ID,$input->getName());
+
+                foreach ($value as $val) {
                     add_post_meta($the_post->ID,$input->getName(), $val);
                 }
+
             }else{
-                update_post_meta($the_post->ID,$input->getName(), $input->getValueFromPostData($data));
+                update_post_meta($the_post->ID,$input->getName(), $value);
             }
         }
+
     }
 
 
@@ -341,7 +349,11 @@ class EF_Post_Form extends EF_Form
         $metas = get_post_meta($post_id);
 
         foreach($metas as $key => $meta) {
-            $data[$key] = $meta[0];
+            if(count($meta) == 1) {
+                $data[$key] = $meta[0];
+            } else {
+                $data[$key] = $meta;
+            }
         }
 
         $taxs = get_post_taxonomies($post_id);

@@ -79,8 +79,9 @@ class Easy_Form
         EF_include('src/inputs/url.php');
         EF_include('src/inputs/password.php');
         EF_include('src/inputs/phone.php');
-        EF_include('src/inputs/checkbox.php');
         EF_include('src/inputs/select.php');
+        EF_include('src/inputs/checkbox.php');
+        EF_include('src/inputs/checkbox-list.php');
         EF_include('src/inputs/radio.php');
         EF_include('src/inputs/radio-list.php');
         EF_include('src/inputs/textarea.php');
@@ -181,6 +182,7 @@ class Easy_Form
         EF_Input::register();
         EF_Hidden_Input::register();
         EF_Checkbox_Input::register();
+        EF_Checkbox_List_Input::register();
         EF_Editor_Input::register();
         EF_Email_Input::register();
         EF_Number_Input::register();

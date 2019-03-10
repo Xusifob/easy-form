@@ -109,7 +109,9 @@ class EF_Input extends EF_Settings_Element
      * @param $data
      */
     public function fillValue($data){
+
         if(isset($data[$this->getAttribute('name')])){
+
             $this->addAttribute('value',$data[$this->getAttribute('name')]);
         }
     }
@@ -260,9 +262,14 @@ class EF_Input extends EF_Settings_Element
         if(empty($this->getName()))
             return;
 
+        $val = $this->getValue();
+        if(is_array($val)) {
+            $val = implode($val);
+        }
+
         // Add the id if the input does not have any
         if(false === $this->getFieldId()){
-            $this->addAttribute('id',$this->getName() . '-' . sanitize_title($this->getValue()) . '-' . $this->getId());
+            $this->addAttribute('id',$this->getName() . '-' . sanitize_title($val) . '-' . $this->getId());
         }
     }
 

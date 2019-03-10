@@ -33,8 +33,10 @@ class EF_Taxonomy_Input extends EF_Input
     public function fillValue($data)
     {
         foreach($data as $key => $datum) {
+
             if(self::isTaxValue($key)) {
                 if($this->getSetting('taxonomy') == self::getTaxValue($key)) {
+
                     parent::fillValue(array(
                         $this->getName() => $datum,
                     ));
@@ -108,10 +110,18 @@ class EF_Taxonomy_Input extends EF_Input
     }
 
 
-
-
+    /**
+     *
+     * @TODO Enable Taxonomy
+     *
+     * @param $data
+     * @return bool
+     */
     public function isValid($data)
     {
+
+        return true;
+
 
         // Field is valid if not required
         if(!$this->isRequired()) {
@@ -202,6 +212,8 @@ class EF_Taxonomy_Input extends EF_Input
             $this->addAttribute('id',$id . '_' . $term->term_id);
             $this->addAttribute('value',$term->term_id);
             $this->removeAttribute('checked');
+            $this->removeAttribute('value');
+
 
             if(is_array($value)) {
 
@@ -217,6 +229,7 @@ class EF_Taxonomy_Input extends EF_Input
 
 
             $input = $this->open();
+
             $template .= sprintf('<label class="%s" >%s %s</label>',$this->getSetting('label-class'),$input,$term->name);
         }
 

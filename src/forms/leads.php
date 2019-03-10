@@ -51,7 +51,7 @@ class EF_Leads_Form extends EF_Form
                 continue;
             }
 
-            $_data[$input->getName()] = $input->getValue();
+            $_data[$input->getName()] = $input->getValueFromPostData($data);
         }
 
 

@@ -199,6 +199,19 @@ if(!function_exists('dump')) {
 }
 
 
+if(!function_exists('ef_debug_backtrace')) {
+
+    function ef_debug_backtrace()
+    {
+        $debug = explode(',',wp_debug_backtrace_summary());
+        array_pop($debug);
+
+        dump($debug);
+    }
+
+}
+
+
 if(!function_exists('EF_get_registered_inputs')) {
 
     /**
