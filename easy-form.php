@@ -80,8 +80,9 @@ class Easy_Form
         EF_include('src/inputs/password.php');
         EF_include('src/inputs/phone.php');
         EF_include('src/inputs/checkbox.php');
-        EF_include('src/inputs/radio.php');
         EF_include('src/inputs/select.php');
+        EF_include('src/inputs/radio.php');
+        EF_include('src/inputs/radio-list.php');
         EF_include('src/inputs/textarea.php');
         EF_include('src/inputs/file.php');
         EF_include('src/inputs/submit.php');
@@ -185,6 +186,7 @@ class Easy_Form
         EF_Number_Input::register();
         EF_Password_Input::register();
         EF_Radio_Input::register();
+        EF_Radio_List_Input::register();
         EF_Select::register();
         EF_TextArea::register();
         EF_URL_Input::register();

@@ -9,8 +9,9 @@ $data = preg_replace('/<!-- AutoComplete -->.+<!-- \/AutoComplete -->/sm','',$da
 
 ob_start(); ?>
 	<div class="ef-input">
-		<label for="field[fieldId]attributes[checked]" class="label-checkbox">
-			<input type="checkbox" id="field[fieldId]attributes[checked]" name="field[fieldId]attributes[checked]" value="checked" />
+		<label for="field[fieldId][attributes]
+		[checked]" class="label-checkbox">
+			<input type="checkbox" id="field[fieldId][attributes][checked]" name="field[fieldId][attributes][checked]" value="checked" />
 			<?php _e('Selected', EF_get_domain()); ?>
 		</label>
 	</div>

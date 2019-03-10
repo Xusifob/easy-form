@@ -440,4 +440,22 @@ class EF_Input extends EF_Settings_Element
         return EF_get_dir('');
     }
 
+
+    /**
+     *
+     * Return the value the input is supposed to have according
+     * to the date within the $_POST variables
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function getValueFromPostData($data)
+    {
+        if(!isset($data[$this->getName()])) {
+            return false;
+        }
+        return $data[$this->getName()];
+    }
+
+
 }

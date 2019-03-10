@@ -202,17 +202,15 @@ class EF_Post_Form extends EF_Form
             }
 
             // Handle multiple elements
-            if($input->getAttribute('multiple') === true && is_array($data[$input->getName()])) {
-                foreach ($data[$input->getName()] as $val) {
+            if($input->getAttribute('multiple') === true && is_array($input->getValueFromPostData($data))) {
+
+                foreach ($input->getValueFromPostData($data) as $val) {
                     add_post_meta($the_post->ID,$input->getName(), $val);
                 }
             }else{
-                update_post_meta($the_post->ID,$input->getName(), $data[$input->getName()]);
+                update_post_meta($the_post->ID,$input->getName(), $input->getValueFromPostData($data));
             }
         }
-
-        die();
-
     }
 
 

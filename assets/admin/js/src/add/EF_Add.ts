@@ -91,6 +91,7 @@ class EF_Add
                 this.addInput('text',{}).then((input : EF_Input) => {
                     EF_Add.loading(false,'fields');
                     this.addPossibleFields();
+                    input.open();
                     input.dirty = true;
                 }) });
 
