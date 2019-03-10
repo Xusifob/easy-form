@@ -18,7 +18,7 @@
 
 							<br>
 							<br>
-							<button class="button button-primary button-large"><?php _e('Import the fields forms',EF_get_domain()); ?></button>
+							<button class="button button-primary button-large"><?php _e('Import the form',EF_get_domain()); ?></button>
 						</form>
 					</div>
 				</div>

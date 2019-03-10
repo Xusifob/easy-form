@@ -144,6 +144,7 @@ class EF_Export
 
 		$_forms = json_decode($content,true);
 
+
 		if(is_array($_forms)){
 			foreach($_forms as $form){
 
@@ -158,14 +159,14 @@ class EF_Export
 				if(is_wp_error($post_id))
 					continue;
 
-				add_post_meta($post_id,'attributes',$form['attributes']);
-				add_post_meta($post_id,'settings',$form['settings']);
+				add_post_meta($post_id,'ef-attributes',$form['attributes']);
+				add_post_meta($post_id,'ef-settings',$form['settings']);
 
 				foreach($form['inputs'] as $input){
-					add_post_meta($post_id,'inputs',json_encode($input));
-				}
+                    add_post_meta($post_id,'ef-inputs',addslashes(json_encode($input)));
+                }
 
-			}
+            }
 		}
 
 	}
