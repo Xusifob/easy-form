@@ -80,7 +80,7 @@ class EF_List
         $date = $columns['date'];
 
         unset($columns['date']);
-        $columns['id'] = __('ID - Slug',EF_get_domain());
+        $columns['shortcode'] = __('Shortcode',EF_get_domain());
         $columns['nb_fields'] = __('Number of fields',EF_get_domain());
         $columns['type'] = __('Form type',EF_get_domain());
         $columns['date'] = $date;
@@ -100,7 +100,7 @@ class EF_List
     public function ef_sortable_columns($columns)
     {
 
-        $columns['id'] = 'id';
+        $columns['shortcode'] = 'id';
         $columns['nb_fields'] = 'nb_fields';
         $columns['type'] = 'type';
 
@@ -126,8 +126,8 @@ class EF_List
         $form->get_field('_antispam');
 
         switch ($name) {
-            case 'id':
-                echo $form->getId() . ' - ' . $post->post_name;
+            case 'shortcode':
+                echo sprintf("<input readonly type='text' value='[wp_easy_form id=\"%s\"]' >",$post->post_name);
                 break;
 
             case 'nb_fields':
