@@ -4,6 +4,21 @@
 		<div class="spinner"></div>
 	</div>
 	<table class="ef-table">
+        <tr class="ef-table--separator">
+            <td class="ef-rules">
+                <h4><?php _e('Advanced mode',EF_get_domain()); ?></h4>
+                <p><?php _e('By enabling the advanced mode, you will display more configuration for the fields',EF_get_domain()); ?></p>
+            </td>
+            <td class="ef-table-content">
+                <div class="ef-input">
+                    <label for="settings[advanced-mode]" class="label-checkbox">
+                        <input type="checkbox" id="settings[advanced-mode]" data-action="advanced-mode" name="settings[advanced-mode]"/>
+                        <?php _e('Enable advanced mode',EF_get_domain()); ?>
+                    </label>
+
+                </div>
+            </td>
+        </tr>
 		<tr class="ef-table--separator">
 			<td class="ef-rules">
 				<h4><?php _e('Type of form',EF_get_domain()); ?></h4>
@@ -42,9 +57,8 @@
 					       class="form-control"/>
 				</div>
 
-				<div class="ef-input">
-					<label
-						for="settings[parameters]"><?php _e('Url parameters', EF_get_domain()); ?></label>
+				<div class="ef-input" advanced >
+					<label for="settings[parameters]"><?php _e('Url parameters', EF_get_domain()); ?></label>
 					<input name="settings[parameters]" type="text" id="settings[parameters]"
 					       placeholder="<?php _e('key=parameter&key=parameter', EF_get_domain()); ?>" class="form-control"/>
 				</div>

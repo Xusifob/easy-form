@@ -26,12 +26,12 @@
 
 
     <!-- HTML Elements -->
-    <tr class="ef-table--separator">
+    <tr class="ef-table--separator" advanced >
         <td class="ef-rules">
             <h4><?php _e('HTML Elements',EF_get_domain()); ?></h4>
             <p><?php _e('This part will regroup all the information linked to the &lt;input&gt; html element',EF_get_domain()); ?></p>
         </td>
-        <td class="ef-table-content">
+        <td class="ef-table-content" >
             <!-- HTML -->
             <!-- ID -->
             <div class="ef-input">
@@ -39,7 +39,7 @@
                 <input type="text" id="field[fieldId][attributes][id]" name="field[fieldId][attributes][id]" class="form-control" placeholder="<?php _e('Id of the input',EF_get_domain()); ?>"/>
             </div>
             <!-- /ID -->
-            <div class="ef-input">
+            <div class="ef-input" advanced >
                 <label for="field[fieldId][attributes][class]"><?php _e('class', EF_get_domain()); ?></label>
                 <input type="text" id="field[fieldId][attributes][class]" name="field[fieldId][attributes][class]" class="form-control" placeholder="<?php _e('class of the input',EF_get_domain()); ?>"/>
             </div>
@@ -61,12 +61,12 @@
                 <label for="field[fieldId][settings][label]"><?php _e('Label Value', EF_get_domain()); ?></label>
                 <input type="text" id="field[fieldId][settings][label]" name="field[fieldId][settings][label]" class="form-control" placeholder="<?php _e('Label Value',EF_get_domain()); ?>"/>
             </div>
-            <div class="ef-input">
+            <div class="ef-input" advanced >
                 <label for="field[fieldId][settings][label-class]"><?php _e('Class of the label', EF_get_domain()); ?></label>
                 <input type="text" id="field[fieldId][settings][label-class]" name="field[fieldId][settings][label-class]" class="form-control" placeholder="<?php _e('Class of the label',EF_get_domain()); ?>"/>
             </div>
             <!-- Label after -->
-            <div class="ef-input">
+            <div class="ef-input" advanced >
                 <label for="field[fieldId][settings][label-after]" class="label-checkbox">
                     <input type="checkbox" id="field[fieldId][settings][label-after]" name="field[fieldId][settings][label-after]" value="1"/>
                     <?php _e('Display the label after the field', EF_get_domain()); ?>
@@ -77,7 +77,7 @@
                 <label for="field[fieldId][settings][exp-text]"><?php _e('Explanatory text', EF_get_domain()); ?></label>
                 <textarea type="text" id="field[fieldId][settings][exp-text]" name="field[fieldId][settings][exp-text]" class="form-control" placeholder="<?php _e('Explainatory text',EF_get_domain()); ?>"></textarea>
             </div>
-            <div class="ef-input">
+            <div class="ef-input" advanced >
                 <label for="field[fieldId][settings][exp-text-class]"><?php _e('Class of the text', EF_get_domain()); ?></label>
                 <input type="text" id="field[fieldId][settings][exp-text-class]" name="field[fieldId][settings][exp-text-class]" class="form-control" placeholder="<?php _e('Class of the text',EF_get_domain()); ?>"/>
             </div>
@@ -102,7 +102,7 @@
             </div>
             <!-- /Required -->
             <!-- AutoComplete -->
-            <div class="ef-input">
+            <div class="ef-input" advanced >
                 <label for="field[fieldId][attributes][autocomplete]" class="label-checkbox">
                     <input type="checkbox" id="field[fieldId][attributes][autocomplete]" name="field[fieldId][attributes][autocomplete]" value="1" />
                     <?php _e('AutoComplete', EF_get_domain()); ?>
@@ -116,7 +116,7 @@
 
 
     <!-- Statistics Group -->
-    <tr class="ef-table--separator">
+    <tr class="ef-table--separator" advanced >
         <td class="ef-rules">
             <h4><?php _e('Statistics',EF_get_domain()); ?></h4>
             <p><?php _e('This part will regroup all the options of the statistics',EF_get_domain()); ?></p>

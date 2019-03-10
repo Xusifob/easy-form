@@ -1,6 +1,6 @@
-<div class="ef-content">
+<div class="ef-content" >
 	<table class="ef-table">
-		<tr class="ef-table--separator">
+		<tr class="ef-table--separator" advanced >
 			<td class="ef-rules">
 				<h4><?php _e('HTML Elements',EF_get_domain()); ?></h4>
 				<p><?php _e('This part will regroup all the information linked to the &lt;form&gt; html element',EF_get_domain()); ?></p>
@@ -23,7 +23,7 @@
 			</td>
 		</tr>
 
-		<tr class="ef-table--separator">
+		<tr class="ef-table--separator" advanced >
 			<td class="ef-rules">
 				<h4><?php _e('Field options',EF_get_domain()); ?></h4>
 				<p><?php _e('This part will regroup all the information repeated on all fields',EF_get_domain()); ?></p>

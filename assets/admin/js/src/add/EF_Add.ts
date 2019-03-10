@@ -96,10 +96,16 @@ class EF_Add
 
 
         this.$body
-            .off('click','select[name="settings[type]"]')
+            .off('change','select[name="settings[type]"]')
             .on('change','select[name="settings[type]"]',($event : Event) => {
                 let type = $($event.target).val();
                 this.changeFormType(type);
+            });
+
+        this.$body
+            .off('change','input[data-action="advanced-mode"]')
+            .on('change','input[data-action="advanced-mode"]',($event : Event) => {
+                this.toggleAdvancedMode();
             });
 
         /*
@@ -113,6 +119,17 @@ class EF_Add
                 this.$body
                     .on('change','select[name="form-reset-action"]',_changeResetAction);
                     */
+    }
+
+
+    /**
+     *
+     */
+    public toggleAdvancedMode()
+    {
+        let mode = this.$body.find('input[data-action="advanced-mode"]').is(':checked');
+
+        $('[advanced]').toggle(mode);
     }
 
 
@@ -297,6 +314,8 @@ class EF_Add
                 this.inputs.push(input);
             }
 
+            this.toggleAdvancedMode();
+
             dfd.resolve(input);
 
         });
@@ -373,6 +392,7 @@ class EF_Add
 
                 this.addRequiredFields(data.data.form.type);
                 this.addPossibleFields();
+                this.toggleAdvancedMode();
             });
 
 
