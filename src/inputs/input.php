@@ -217,6 +217,7 @@ class EF_Input extends EF_Settings_Element
      * @since 1.0.0
      *
      * @return string
+     * @throws Exception
      */
     public function __toString()
     {

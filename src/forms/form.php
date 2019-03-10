@@ -690,14 +690,29 @@ abstract class EF_Form extends EF_Html_Element
         $template = $this->open();
 
         if($this->hasError()) {
-            $template .= sprintf('<p class="ef-error">%s</p>', $this->getError());
+            $template .= sprintf('<p class="ef-error-message">%s</p>', $this->getError());
+        } else if($this->hasBeenSend(null,false)) {
+            $template .= sprintf('<p class="ef-success-message">%s</p>', $this->getSuccess());
         }
+
         /** @var EF_Input|array $input */
         $template .= $this->concatenateInputs();
 
         $template .= $this->close();
 
         return $template;
+    }
+
+
+    /**
+     *
+     * Return the success message
+     *
+     * @return mixed
+     */
+    public function getSuccess()
+    {
+        return apply_filters('EF_success_message',$this->getSetting('success-message'));
     }
 
 

@@ -430,11 +430,13 @@ class Easy_Form
         }
 
 
+
         $form = new WP_Form($atts['id'],$post_id);
 
 
 
         if(!isset($atts['validation-only'])) {
+
             return $form;
         }
 
