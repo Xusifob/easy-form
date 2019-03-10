@@ -177,6 +177,8 @@ class EF_Post_Form extends EF_Form
 
 
 
+
+        // TODO, Inputize this
         foreach($this->getInputs(true) as $input){
 
             if(in_array($input->getName(),$remove))
@@ -191,8 +193,12 @@ class EF_Post_Form extends EF_Form
 
             if(EF_Taxonomy_Input::$_TYPE == $input->getType()) {
                 if($input->getSetting('add-to-taxonomy')) {
-                    return;
+                    continue;
                 }
+            }
+
+            if(EF_Section::$_TYPE == $input->getType()) {
+                continue;
             }
 
             // Handle multiple elements

@@ -224,6 +224,7 @@ class EF_add
     public function save_post($post_id)
     {
 
+
         if(isset($_POST['settings']))
             update_post_meta($post_id,'ef-settings',$_POST['settings']);
         if(isset($_POST['attributes']))
@@ -236,9 +237,9 @@ class EF_add
 
         delete_post_meta($post_id,'ef-inputs');
 
-
         foreach($_POST['field'] as $key => $_input){
             $_settings = isset($_input['settings']) ? $_input['settings'] : [];
+
 
             $input = new EF_Input(null,$_input['attributes'],$_settings);
 

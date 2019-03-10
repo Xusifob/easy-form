@@ -29,6 +29,11 @@ class EF_Section extends EF_Input
     }
 
 
+    public function isValid($data)
+    {
+        return true;
+    }
+
 
     /**
      * @return string

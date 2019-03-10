@@ -49,7 +49,10 @@ class EF_Html_Element implements JsonSerializable
             return unserialize($this->attributes[$key]);
         }
 
-        return stripslashes($this->attributes[$key]);
+        if(is_string($this->attributes[$key])) {
+            return stripslashes($this->attributes[$key]);
+        }
+        return $this->attributes[$key];
     }
 
     /**

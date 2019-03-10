@@ -18,10 +18,10 @@ ob_start(); ?>
 		<td class="ef-table-content">
 			<!-- options -->
 			<div class="ef-input">
-				<label for="field[fieldId]settings[options]"><?php _e('List of choices', EF_get_domain()); ?></label>
+				<label for="field[fieldId][settings][options]"><?php _e('List of choices', EF_get_domain()); ?></label>
 				<textarea
-						id="field[fieldId]settings[options]"
-						name="field[fieldId]settings[options]"
+						id="field[fieldId][settings][options]"
+						name="field[fieldId][settings][options]"
 						class="form-control"
 						placeholder="<?php _e("key : value \nkey : value selected *",EF_get_domain()); ?>"></textarea>
 			</div>

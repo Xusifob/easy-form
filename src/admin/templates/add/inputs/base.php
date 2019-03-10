@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                     <label for="field[fieldId][attributes][type]"><?php _e('Type de champ', 'easy-form'); ?></label>
                     <select name="field[fieldId][attributes][type]" data-action="change-type" class="form-control" id="field[fieldId][attributes][type]" data-field="fieldId">
                         <?php foreach(EF_get_registered_inputs() as $val){ ?>
-                            <?php if(!isset($val['public']) || $val['public'] = true ) { ?>
+                            <?php if(!isset($val['public']) || $val['public'] == true ) { ?>
                                 <option value="<?php echo $val['type']; ?>"><?php echo $val['label']; ?></option>
                             <?php } ?>
                         <?php } ?>

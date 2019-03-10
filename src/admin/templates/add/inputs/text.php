@@ -74,8 +74,8 @@
             </div>
             <!-- /Label after -->
             <div class="ef-input">
-                <label for="field[fieldId][settings][exp-text]"><?php _e('Explainatory text', EF_get_domain()); ?></label>
-                <input type="text" id="field[fieldId][settings][exp-text]" name="field[fieldId][settings][exp-text]" class="form-control" placeholder="<?php _e('Explainatory text',EF_get_domain()); ?>"/>
+                <label for="field[fieldId][settings][exp-text]"><?php _e('Explanatory text', EF_get_domain()); ?></label>
+                <textarea type="text" id="field[fieldId][settings][exp-text]" name="field[fieldId][settings][exp-text]" class="form-control" placeholder="<?php _e('Explainatory text',EF_get_domain()); ?>"></textarea>
             </div>
             <div class="ef-input">
                 <label for="field[fieldId][settings][exp-text-class]"><?php _e('Class of the text', EF_get_domain()); ?></label>
