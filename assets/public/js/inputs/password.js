@@ -8,6 +8,10 @@
         ef_password_strings.very_strong,
     ];
 
+    let classes = [
+        'very_weak','weak','medium','strong','very_strong'
+    ];
+
 
     let passwords = $('.password-checked');
 
@@ -59,6 +63,11 @@
             string = strengths[strength];
         }
 
+        checker.removeClass(classes.join(' '));
+
+        let $class = classes[strength];
+
+        checker.addClass($class);
         checker.html(string);
 
     }

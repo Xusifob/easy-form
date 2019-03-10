@@ -109,3 +109,18 @@ label {
   display: block;
   margin-top: 10px;
 }
+
+.ef-password-checked {
+  &.very_weak, &.weak {
+    color: @red;
+  }
+
+  &.medium {
+    color: orange;
+  }
+
+  &.strong,&.very_strong {
+    color: @green;
+  }
+
+}
