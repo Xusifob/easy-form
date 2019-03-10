@@ -350,6 +350,12 @@ class EF_Input extends EF_Settings_Element
 
         $this->setDefaultLabel();
 
+        $star = '';
+
+        if($this->isRequired()) {
+            $star = '<em class="ef-required">*</em>';
+        }
+
         if(!$this->label_retrieved || $force) {
             $label = new EF_Html_Element(array(
                 'for' => $this->getFieldId(),
@@ -360,7 +366,7 @@ class EF_Input extends EF_Settings_Element
             $this->label_retrieved = true;
 
             // Return the label html
-            $l =  $label->open() . $this->getSetting('label') . $label->close();
+            $l =  $label->open() . $this->getSetting('label') . $star . $label->close();
 
             return $l . $this->getExplanatoryText();
         }else{

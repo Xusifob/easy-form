@@ -51,11 +51,13 @@ class EF_Section extends EF_Input
     public function __toString()
     {
 
+        $this->addAttribute('required',false);
+
         $class = $this->getSetting('label-class');
-        $this->addSetting('label-class',$class . ' section-label');
+        $this->addSetting('label-class',$class . ' ef-section-label');
 
         $class = $this->getSetting('exp-text-class');
-        $this->addSetting('exp-text-class',$class . ' section-exp-text');
+        $this->addSetting('exp-text-class',$class . ' ef-section-exp-text');
 
 
         return $this->getLabel(true);

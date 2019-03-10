@@ -687,6 +687,8 @@ abstract class EF_Form extends EF_Html_Element
     {
         $this->addAttribute('enctype','multipart/form-data');
 
+        $this->addAttribute('class',$this->getAttribute('class') . " ef_form");
+
         $template = $this->open();
 
         if($this->hasError()) {
