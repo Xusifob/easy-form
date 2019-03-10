@@ -70,6 +70,9 @@ class EF_Note_Input extends EF_Input
         for($i = $min; $i <=$max;$i++) {
 
             $checked = $value == $i ? 'checked' : '';
+            if($this->getAttribute('readonly')) {
+                $checked .= " disabled";
+            }
 
             $string .= sprintf('<label class="note-%s"><span>%s</span>',$nb,$i);
             $string .= sprintf('<input type="radio" name="%s" value="%s" id="%s" %s />',$name,$i,"$name$i",$checked);

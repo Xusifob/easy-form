@@ -322,6 +322,11 @@ class EF_Post_Form extends EF_Form
             $post_id = $_GET['post_id'];
         }
 
+        if('from_url' === $post_id && isset($_GET['post_id'])) {
+            $post_id = $_GET['post_id'];
+        }
+
+
         if(!$post_id || !is_numeric($post_id)) {
             return;
         }
@@ -334,7 +339,19 @@ class EF_Post_Form extends EF_Form
             return;
         }
 
-        if($post->post_type != $this->getSetting('post_type')) {
+        if(!current_user_can('edit_published_posts')) {
+            $this->setError(__('Sorry, you\'re not allowed to update this post',EF_get_domain()));
+
+        }
+
+        if($post->post_author !== get_current_user_id() && !current_user_can('edit_others_posts')) {
+            $this->setError(__('Sorry, you\'re not allowed to update this post',EF_get_domain()));
+
+        }
+
+
+
+            if($post->post_type != $this->getSetting('post_type')) {
             $this->setError(__('The type of post selected is not the same as the one you are trying to update',EF_get_domain()));
             return;
         }

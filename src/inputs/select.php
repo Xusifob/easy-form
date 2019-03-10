@@ -123,6 +123,10 @@ class EF_Select extends EF_Input
 
         $this->removeAttribute('type');
 
+        if($this->getAttribute('readonly')) {
+            $this->addAttribute('disabled',true);
+        }
+
         $template =  $this->open() . $this->displayOptions() .   $this->close();
 
         if($this->getSetting('label-after') == true){

@@ -86,6 +86,9 @@ class EF_Checkbox_List_Input extends EF_Select
                 $attributes['checked'] = 'checked';
             }
 
+            if($this->getAttribute('readonly')) {
+                $attributes['disabled'] = true;
+            }
 
             $input = new EF_Checkbox_Input(null,$attributes,array(
                 'label' => $option['content'],

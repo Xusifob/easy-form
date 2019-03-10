@@ -424,14 +424,25 @@ class Easy_Form
         if(isset($atts['update'])) {
             $post_id = $atts['update'];
 
+
             if(empty($atts['update'])) {
                 $post_id = 'update';
             }
         }
 
+        $readonly = false;
 
 
-        $form = new WP_Form($atts['id'],$post_id);
+        if(isset($atts['readonly'])) {
+            $readonly = true;
+        }
+
+
+
+        $form = new WP_Form($atts['id'],array(
+            'post_id' => $post_id,
+            'readonly' => $readonly
+        ));
 
 
 

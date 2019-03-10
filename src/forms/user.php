@@ -179,6 +179,18 @@ class EF_User_Form extends EF_User_Activation_Form
             $post_id = get_current_user_id();
         }
 
+
+        if('from_url' === $post_id && isset($_GET['user_id'])) {
+
+            if(current_user_can('edit_users')) {
+                $post_id = $_GET['user_id'];
+            }else {
+                $this->setError(__('Sorry, you\'re not allowed to update this user',EF_get_domain()));
+                    return;
+            }
+        }
+
+
         if(!$post_id || !is_numeric($post_id)) {
             return;
         }

@@ -91,21 +91,22 @@ class WP_Form implements JsonSerializable
     /**
      * WP_Form2 constructor.
      * @param $id
-     * @param null $post_id
+     * @param array
      *
      * @since 1.0.0
      *
      * @throws Exception
      */
-    public function __construct($id,$post_id = null)
+    public function __construct($id,$settings = array())
     {
         $this->id = $id;
-        $this->post_id = $post_id;
+        $this->post_id = isset($settings['post_id']) ? $settings['post_id'] : null;
         $this->data = $_POST;
-
 
         /** @var boolean|WP_Error $loaded */
         $loaded = $this->loadPost();
+
+        $this->settings = array_merge($this->settings,$settings);
 
         if(is_wp_error($loaded)){
             return $loaded;
@@ -123,11 +124,20 @@ class WP_Form implements JsonSerializable
             return new WP_Error(666,$e->getMessage(),$e);
         }
 
-        if(isset($this->data) && !empty($this->data)){
+        if(isset($this->data) && !empty($this->data) && !$this->isReadOnly()){
             return $this->form->submit($this->data);
         }
 
         return false;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isReadOnly()
+    {
+        return isset($this->settings['readonly']) && $this->settings['readonly'] == true;
     }
 
 
@@ -250,6 +260,10 @@ class WP_Form implements JsonSerializable
             }else{
                 $inputName = $inputs[EF_Input::$_TYPE]['class'];
                 $this->form->setError(__(sprintf('Form field %s does not exist or has not been registered',$input['attributes']['type']),EF_get_domain()));
+            }
+
+            if($this->isReadOnly()) {
+                $input['attributes']['readonly'] = true;
             }
 
             $inputObj = new $inputName(
