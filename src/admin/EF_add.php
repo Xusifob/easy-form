@@ -238,7 +238,7 @@ class EF_add
         delete_post_meta($post_id,'ef-inputs');
 
         foreach($_POST['field'] as $key => $_input){
-            $_settings = isset($_input['settings']) ? $_input['settings'] : [];
+            $_settings = isset($_input['settings']) ? $_input['settings'] : array();
 
 
             $input = new EF_Input(null,$_input['attributes'],$_settings);
