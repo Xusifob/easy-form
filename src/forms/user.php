@@ -126,9 +126,25 @@ class EF_User_Form extends EF_User_Activation_Form
     }
 
 
-
+    /**
+     *
+     * Returns weither or not the form is valid
+     *
+     * @param $data
+     * @param bool $required
+     * @return bool
+     */
     public function isValid($data,$required = true)
     {
+
+        if($this->isUpdate()) {
+            foreach ($this->getInputs() as &$input) {
+                if($input->getType() === EF_Password_Input::$_TYPE) {
+                    $input->addAttribute('required',false);
+                }
+            }
+        }
+
 
         if(!$isValid = parent::isValid($data,$required)) {
             return $isValid;
