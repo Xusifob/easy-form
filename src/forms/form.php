@@ -426,6 +426,17 @@ abstract class EF_Form extends EF_Html_Element
 
 
     /**
+     * @return int
+     */
+    public function getSlug()
+    {
+        return $this->getSetting('slug');
+    }
+
+
+
+
+    /**
      * @param $data
      * @param $required bool, weither the required fields are required or not
      * @return bool

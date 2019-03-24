@@ -168,6 +168,7 @@ class WP_Form implements JsonSerializable
             if( $my_posts ) {
                 $this->post = $my_posts[0];
                 $this->id = $this->post->ID;
+
             }else{
                 $this->form = new EF_Post_Form();
                 $this->form->setError(__(sprintf("No form found with the id %s",$this->id),EF_get_domain()));
@@ -223,6 +224,8 @@ class WP_Form implements JsonSerializable
 
         $forms = EF_get_registered_forms();
 
+
+        $this->settings['slug'] = $this->post->post_title;
 
         if(isset($forms[$form_type])){
             $className = $forms[$form_type]['class'];
