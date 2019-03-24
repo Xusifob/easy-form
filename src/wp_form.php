@@ -225,7 +225,7 @@ class WP_Form implements JsonSerializable
         $forms = EF_get_registered_forms();
 
 
-        $this->settings['slug'] = $this->post->post_title;
+        $this->settings['slug'] = $this->post->post_name;
 
         if(isset($forms[$form_type])){
             $className = $forms[$form_type]['class'];
