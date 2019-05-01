@@ -11,6 +11,7 @@ Author: Bastien Malahieude
 Author URI: http://bastienmalahieude.fr
 Copyright: Bastien Malahieude
 License: GPL
+Text Domain: easy-form
 
 */
 
@@ -129,7 +130,7 @@ class Easy_Form
 
         add_action('template_redirect',array($this,'parse_content'));
 
-        // Add action for multilingual traduction
+        // Add action for multilingual translations
         add_action('plugins_loaded', array($this, 'load_translation'));
 
         add_action('init',array(EF_User_Activation_Form::class,'activation_page'));
@@ -228,7 +229,8 @@ class Easy_Form
      */
     public function load_translation()
     {
-        load_plugin_textdomain('easy-form', false, EF_get_setting('dir') . '/languages/');
+        load_plugin_textdomain('easy-form', false, basename(EF_get_setting('path')) . '/');
+
     }
 
 
