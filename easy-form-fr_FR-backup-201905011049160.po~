@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: Easy WP Form V2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-01 10:04+0000\n"
-"PO-Revision-Date: 2019-05-01 10:49+0000\n"
+"PO-Revision-Date: 2019-05-01 10:14+0000\n"
 "Last-Translator: bastien <b.malahieude@free.fr>\n"
-"Language-Team: Français\n"
+"Language-Team: French (France)\n"
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "Formulaire"
 
 #: easy-form.php:281 easy-form.php:313
 msgid "Add New"
-msgstr "Nouveau formulaire"
+msgstr "Ajouter un nouveau"
 
 #: easy-form.php:282
 msgid "Add New Form"
@@ -32,27 +32,27 @@ msgstr "Ajouter un nouveau formulaire"
 
 #: easy-form.php:283
 msgid "Edit Form"
-msgstr "Editer le formulaire"
+msgstr ""
 
 #: easy-form.php:284
 msgid "New Form"
-msgstr "Nouveau formulaire"
+msgstr ""
 
 #: easy-form.php:285
 msgid "View Form"
-msgstr "Voir le formulaire"
+msgstr ""
 
 #: easy-form.php:286
 msgid "Search Form"
-msgstr "Rechercher un formulaire"
+msgstr ""
 
 #: easy-form.php:287
 msgid "No Form found"
-msgstr "Aucun formulaire trouvé"
+msgstr ""
 
 #: easy-form.php:288
 msgid "No Form found in Trash"
-msgstr "Aucun formulaire trouvé dans la corbeille"
+msgstr ""
 
 #: easy-form.php:311
 msgid "Leads"
@@ -68,27 +68,27 @@ msgstr "Ajouter un nouveau prospect"
 
 #: easy-form.php:315
 msgid "Edit Lead"
-msgstr "Editer un prospect"
+msgstr ""
 
 #: easy-form.php:316
 msgid "New Lead"
-msgstr "Nouveau prospect"
+msgstr ""
 
 #: easy-form.php:317
 msgid "View Lead"
-msgstr "Voir le prospect"
+msgstr ""
 
 #: easy-form.php:318
 msgid "Search Lead"
-msgstr "Rechercher un prospect"
+msgstr ""
 
 #: easy-form.php:319
 msgid "No Lead found"
-msgstr "Aucun prospect trouvé"
+msgstr ""
 
 #: easy-form.php:320
 msgid "No Lead found in Trash"
-msgstr "Aucun prospect trouvé dans la corbeille"
+msgstr ""
 
 #: src/EF_Lead.php:109
 msgid "You must set a form id to a lead so you can save it"
@@ -194,11 +194,11 @@ msgstr "Réinitialiser un mot de passe"
 
 #: src/forms/form.php:453 src/forms/form.php:458
 msgid "Anti spam Triggered please try again"
-msgstr "Spam détécté"
+msgstr ""
 
 #: src/forms/form.php:484
 msgid "One or more field is missing"
-msgstr "Un ou plusieurs champ est manquant"
+msgstr "Un ou plusieur champ est manquant"
 
 #: src/forms/form.php:500
 msgid "All the passwords must be similar"
@@ -242,7 +242,7 @@ msgstr "Type de formulaire"
 
 #: src/admin/admin.php:46
 msgid "Easy Forms"
-msgstr "Easy Forms"
+msgstr ""
 
 #: src/admin/admin.php:49
 msgid "Add"
@@ -254,7 +254,7 @@ msgstr "Prévisualiser"
 
 #: src/admin/admin.php:55 src/admin/templates/add/inputs/text.php:121
 msgid "Statistics"
-msgstr "Statistiques"
+msgstr ""
 
 #: src/admin/EF_edit_lead.php:57
 msgid "Lead informations"
@@ -307,7 +307,7 @@ msgstr "Champ texte"
 
 #: src/inputs/captcha.php:30
 msgid "Captcha"
-msgstr "Captcha"
+msgstr ""
 
 #: src/inputs/password.php:109
 msgid "The password is not strong enough."
@@ -359,7 +359,7 @@ msgstr "Champ caché"
 
 #: src/inputs/section.php:23
 msgid "Section"
-msgstr "Section"
+msgstr ""
 
 #: src/inputs/checkbox.php:37
 msgid "Checkbox input"
@@ -375,7 +375,7 @@ msgstr "Champ lien"
 
 #: src/inputs/submit.php:63
 msgid "Send"
-msgstr "Envoyer"
+msgstr ""
 
 #: src/inputs/select.php:249
 msgid "Select input"
@@ -436,32 +436,29 @@ msgstr "Champ nombre"
 
 #: src/admin/templates/import-export/import.php:7
 msgid "Import"
-msgstr "Importer"
+msgstr ""
 
 #: src/admin/templates/import-export/import.php:11
 msgid "Import a previously exported JSON file"
-msgstr "Importer un formulaire exporté précédemment au format JSON"
+msgstr ""
 
 #: src/admin/templates/import-export/import.php:21
 msgid "Import the form"
-msgstr "Importer le formulaire"
+msgstr ""
 
 #: src/admin/templates/import-export/export.php:7
 msgid "Export"
-msgstr "Exporter"
+msgstr ""
 
 #: src/admin/templates/import-export/export.php:11
 msgid ""
 "Select the forms you wish to export and export it. You will get a JSON file "
 "that will allow you to re import your forms later or in another website"
 msgstr ""
-"Sélectionnez le formulaire que vous souhaitez exporter et exportez le. Un "
-"fichier JSON sera téléchargé, il vous permettra de le réimporter plus tard "
-"sur un autre site"
 
 #: src/admin/templates/import-export/export.php:29
 msgid "Export the selected forms"
-msgstr "Exporter les formulaires sélectionnés"
+msgstr ""
 
 #: src/admin/templates/add/actions/email.php:3
 #: src/admin/templates/add/actions/email.php:4
@@ -538,106 +535,99 @@ msgstr "Id du formulaire"
 
 #: src/admin/templates/add/views/main-information.php:28
 msgid "Field options"
-msgstr "Option des champs"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:29
 msgid "This part will regroup all the information repeated on all fields"
-msgstr "Cette partie regroupe toutes les informations répétés dans les champs"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:33
 msgid "Default Class"
-msgstr "Attribut class par défaut"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:38
 msgid "Field's default class"
-msgstr "Attribut class des champs par défaut"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:45
 msgid "Errors"
-msgstr "Erreurs"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:46
 msgid "This part will regroup  how the errors will be handled in the form"
 msgstr ""
-"Cette partie regroupe la façon dont les erreurs sont gérés dans le formulaire"
 
 #: src/admin/templates/add/views/main-information.php:52
 msgid "Display the errors of every field"
-msgstr "Afficher les erreurs de chaque champ"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:58
 msgid "Display errors over the field"
-msgstr "Afficher les erreurs au dessus de chaque champ"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:66
 msgid "Success"
-msgstr "Succès"
+msgstr ""
 
 #: src/admin/templates/add/views/main-information.php:67
 msgid "This part let you define the success message to display to the user"
 msgstr ""
-"Cette partie vous permet de définir le message de succès à afficher à "
-"l'utilisateur"
 
 #: src/admin/templates/add/views/main-information.php:71
 msgid "Success Message"
-msgstr "Message de succès"
+msgstr ""
 
 #: src/admin/templates/add/views/submit.php:5
 msgid "Submit Information"
-msgstr "Informations d'envoi"
+msgstr ""
 
 #: src/admin/templates/add/views/submit.php:6
 msgid "This part regroup all informations of the submit button"
 msgstr ""
-"Cette partie regroupe toutes les informations liés au bouton de validation "
-"du formulaire"
 
 #: src/admin/templates/add/views/submit.php:10
 #: src/admin/templates/add/views/submit.php:13
 msgid "Send Value"
-msgstr "Valeur du bouton"
+msgstr ""
 
 #: src/admin/templates/add/views/submit.php:16
 msgid "Input Class"
-msgstr "Attribut class du bouton"
+msgstr ""
 
 #: src/admin/templates/add/views/submit.php:19
 msgid "Class"
-msgstr "Class"
+msgstr ""
 
 #: src/admin/templates/add/views/submit.php:26
 msgid "Input Id"
-msgstr "Id du champ"
+msgstr ""
 
 #: src/admin/templates/add/views/submit.php:29
 msgid "Id"
-msgstr "id"
+msgstr ""
 
 #: src/admin/templates/add/views/type-of-form.php:9
 msgid "Advanced mode"
-msgstr "Mode avancé"
+msgstr ""
 
 #: src/admin/templates/add/views/type-of-form.php:10
 msgid ""
 "By enabling the advanced mode, you will display more configuration for the "
 "fields"
 msgstr ""
-"Le mode avancé vous permet de configurer de façon plus profonde les "
-"différents champs du formulaire"
 
 #: src/admin/templates/add/views/type-of-form.php:16
 msgid "Enable advanced mode"
-msgstr "Activer le mode avancé"
+msgstr ""
 
 #: src/admin/templates/add/views/type-of-form.php:24
 #: src/admin/templates/add/views/type-of-form.php:28
 msgid "Type of form"
-msgstr "Type de formulaire"
+msgstr ""
 
 #: src/admin/templates/add/views/type-of-form.php:39
 msgid "Specs"
-msgstr "Specificités"
+msgstr ""
 
 #: src/admin/templates/add/views/type-of-form.php:40
 msgid "This part comport all specs linked to the type of form selected"
