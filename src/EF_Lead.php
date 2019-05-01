@@ -106,7 +106,7 @@ class EF_Lead implements JsonSerializable
     {
 
         if(empty($this->form_id)) {
-            return new WP_Error(666,__('You must set a form id to a lead so you can save it',EF_get_domain()));
+            return new WP_Error(666,__('You must set a form id to a lead so you can save it','easy-form'));
         }
 
         if($this->post_id) {
@@ -116,7 +116,7 @@ class EF_Lead implements JsonSerializable
         }
 
         if(false === $post_id) {
-            return new WP_Error(666,__('An error occurred while saving the lead, please try again later',EF_get_domain()));
+            return new WP_Error(666,__('An error occurred while saving the lead, please try again later','easy-form'));
         }
 
         $this->post_id = $post_id;

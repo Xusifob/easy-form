@@ -77,7 +77,7 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
 
 
             if (!$user) {
-                $this->setError(__('No user found in the database', EF_get_domain()));
+                $this->setError(__('No user found in the database', 'easy-form'));
                 return false;
             }
 
@@ -86,12 +86,12 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
             $update = update_user_meta($user->ID, self::$_PASSWORD_FORGOT_KEY, $key);
 
             if (!$update) {
-                $this->setError(__('An error occurred while generating the key, please try again later.', EF_get_domain()));
+                $this->setError(__('An error occurred while generating the key, please try again later.', 'easy-form'));
                 return false;
             }
 
             if (!$this->sendResetEmail($user)) {
-                $this->setError(__('An error occurred while sending the email, please try again later', EF_get_domain()));
+                $this->setError(__('An error occurred while sending the email, please try again later', 'easy-form'));
                 return false;
             }
         } else {
@@ -177,7 +177,7 @@ class EF_Reset_Form extends EF_Form implements EF_Form_Interface
         $template = $mailer->parseTemplate($template,$data);
 
 
-        $subject = __('Reset your password',EF_get_domain());
+        $subject = __('Reset your password','easy-form');
 
         $subject = apply_filters('ef_reset_email_subject',$subject);
 

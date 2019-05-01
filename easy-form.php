@@ -228,7 +228,7 @@ class Easy_Form
      */
     public function load_translation()
     {
-        load_plugin_textdomain(EF_get_domain(), false, EF_get_setting('dir') . '/languages/');
+        load_plugin_textdomain('easy-form', false, EF_get_setting('dir') . '/languages/');
     }
 
 
@@ -276,16 +276,16 @@ class Easy_Form
         // Create post type 'acf-field-group'
         register_post_type( EF_get_post_type() , array(
             'labels'			=> array(
-                'name'					=> __( 'Forms', EF_get_domain() ),
-                'singular_name'			=> __( 'Form', EF_get_domain() ),
-                'add_new'				=> __( 'Add New' , EF_get_domain() ),
-                'add_new_item'			=> __( 'Add New Form' , EF_get_domain() ),
-                'edit_item'				=> __( 'Edit Form' , EF_get_domain() ),
-                'new_item'				=> __( 'New Form' , EF_get_domain() ),
-                'view_item'				=> __( 'View Form', EF_get_domain() ),
-                'search_items'			=> __( 'Search Form', EF_get_domain() ),
-                'not_found'				=> __( 'No Form found', EF_get_domain() ),
-                'not_found_in_trash'	=> __( 'No Form found in Trash', EF_get_domain() ),
+                'name'					=> __( 'Forms', 'easy-form' ),
+                'singular_name'			=> __( 'Form', 'easy-form' ),
+                'add_new'				=> __( 'Add New' , 'easy-form' ),
+                'add_new_item'			=> __( 'Add New Form' , 'easy-form' ),
+                'edit_item'				=> __( 'Edit Form' , 'easy-form' ),
+                'new_item'				=> __( 'New Form' , 'easy-form' ),
+                'view_item'				=> __( 'View Form', 'easy-form' ),
+                'search_items'			=> __( 'Search Form', 'easy-form' ),
+                'not_found'				=> __( 'No Form found', 'easy-form' ),
+                'not_found_in_trash'	=> __( 'No Form found in Trash', 'easy-form' ),
             ),
             'public'			=> false,
             'show_ui'			=> true,
@@ -308,16 +308,16 @@ class Easy_Form
          // Create post type 'acf-field-group'
         register_post_type( EF_Lead::$_POST_TYPE , array(
             'labels'			=> array(
-                'name'					=> __( 'Leads', EF_get_domain() ),
-                'singular_name'			=> __( 'Lead', EF_get_domain() ),
-                'add_new'				=> __( 'Add New' , EF_get_domain() ),
-                'add_new_item'			=> __( 'Add New Lead' , EF_get_domain() ),
-                'edit_item'				=> __( 'Edit Lead' , EF_get_domain() ),
-                'new_item'				=> __( 'New Lead' , EF_get_domain() ),
-                'view_item'				=> __( 'View Lead', EF_get_domain() ),
-                'search_items'			=> __( 'Search Lead', EF_get_domain() ),
-                'not_found'				=> __( 'No Lead found', EF_get_domain() ),
-                'not_found_in_trash'	=> __( 'No Lead found in Trash', EF_get_domain() ),
+                'name'					=> __( 'Leads', 'easy-form' ),
+                'singular_name'			=> __( 'Lead', 'easy-form' ),
+                'add_new'				=> __( 'Add New' , 'easy-form' ),
+                'add_new_item'			=> __( 'Add New Lead' , 'easy-form' ),
+                'edit_item'				=> __( 'Edit Lead' , 'easy-form' ),
+                'new_item'				=> __( 'New Lead' , 'easy-form' ),
+                'view_item'				=> __( 'View Lead', 'easy-form' ),
+                'search_items'			=> __( 'Search Lead', 'easy-form' ),
+                'not_found'				=> __( 'No Lead found', 'easy-form' ),
+                'not_found_in_trash'	=> __( 'No Lead found in Trash', 'easy-form' ),
             ),
             'public'			=> false,
             'show_ui'			=> true,

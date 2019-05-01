@@ -149,7 +149,7 @@ class EF_Post_Form extends EF_Form
                     return false;
                 }
                 if(false === $result) {
-                    $this->setError(_('An error occurred while adding the post to the taxonomy',EF_get_domain()));
+                    $this->setError(_('An error occurred while adding the post to the taxonomy','easy-form'));
                 }
             }
         }
@@ -335,24 +335,24 @@ class EF_Post_Form extends EF_Form
 
         // Post update is only available for logged in users
         if(!is_user_logged_in()) {
-            $this->setError(__('For security reasons, post update is only available for logged in users',EF_get_domain()));
+            $this->setError(__('For security reasons, post update is only available for logged in users','easy-form'));
             return;
         }
 
         if(!current_user_can('edit_published_posts')) {
-            $this->setError(__('Sorry, you\'re not allowed to update this post',EF_get_domain()));
+            $this->setError(__('Sorry, you\'re not allowed to update this post','easy-form'));
 
         }
 
         if($post->post_author !== get_current_user_id() && !current_user_can('edit_others_posts')) {
-            $this->setError(__('Sorry, you\'re not allowed to update this post',EF_get_domain()));
+            $this->setError(__('Sorry, you\'re not allowed to update this post','easy-form'));
 
         }
 
 
 
             if($post->post_type != $this->getSetting('post_type')) {
-            $this->setError(__('The type of post selected is not the same as the one you are trying to update',EF_get_domain()));
+            $this->setError(__('The type of post selected is not the same as the one you are trying to update','easy-form'));
             return;
         }
 

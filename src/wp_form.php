@@ -171,7 +171,7 @@ class WP_Form implements JsonSerializable
 
             }else{
                 $this->form = new EF_Post_Form();
-                $this->form->setError(__(sprintf("No form found with the id %s",$this->id),EF_get_domain()));
+                $this->form->setError(__(sprintf("No form found with the id %s",$this->id),'easy-form'));
                 return new WP_Error(666,__(sprintf("No form found with the id %s",$this->id)));
             }
         }
@@ -180,14 +180,14 @@ class WP_Form implements JsonSerializable
             $this->post = get_post($this->id);
         }else{
             $this->form = new EF_Post_Form();
-            $this->form->setError(__(sprintf("The id must be a string or an integer %s got ",gettype($this->id)),EF_get_domain()));
-            return new WP_Error(666,__(sprintf("The id must be a string or an integer %s got ",gettype($this->id)),EF_get_domain()));
+            $this->form->setError(__(sprintf("The id must be a string or an integer %s got ",gettype($this->id)),'easy-form'));
+            return new WP_Error(666,__(sprintf("The id must be a string or an integer %s got ",gettype($this->id)),'easy-form'));
         }
 
         if(!is_object($this->post)|| $this->post->post_type !== EF_get_post_type()){
             $this->form = new EF_Post_Form();
-            $this->form->setError(__(sprintf("No form found with the id %s",$this->id),EF_get_domain()));
-            return new WP_Error(666,__(sprintf("No form found with the id %s",$this->id),EF_get_domain()));
+            $this->form->setError(__(sprintf("No form found with the id %s",$this->id),'easy-form'));
+            return new WP_Error(666,__(sprintf("No form found with the id %s",$this->id),'easy-form'));
         }
 
 
@@ -231,8 +231,8 @@ class WP_Form implements JsonSerializable
             $className = $forms[$form_type]['class'];
         }else{
             $this->form = new EF_Post_Form();
-            $this->form->setError(__(sprintf('Form type %s does not exist',$form_type),EF_get_domain()));
-            return new WP_Error(666,__(sprintf('Form type %s does not exist or has not been registered',$form_type),EF_get_domain()));
+            $this->form->setError(__(sprintf('Form type %s does not exist',$form_type),'easy-form'));
+            return new WP_Error(666,__(sprintf('Form type %s does not exist or has not been registered',$form_type),'easy-form'));
         }
 
         // Create the form
@@ -262,7 +262,7 @@ class WP_Form implements JsonSerializable
                 $inputName = $inputs[$input['attributes']['type']]['class'];
             }else{
                 $inputName = $inputs[EF_Input::$_TYPE]['class'];
-                $this->form->setError(__(sprintf('Form field %s does not exist or has not been registered',$input['attributes']['type']),EF_get_domain()));
+                $this->form->setError(__(sprintf('Form field %s does not exist or has not been registered',$input['attributes']['type']),'easy-form'));
             }
 
             if($this->isReadOnly()) {

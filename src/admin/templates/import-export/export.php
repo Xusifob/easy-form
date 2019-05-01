@@ -4,11 +4,11 @@
 	<div class="postbox-container">
 		<div class="meta-box">
 			<div id="ef-add-type" class="postbox ">
-				<h3 class="hndle"><span><?php _e('Export',EF_get_domain()); ?></span></h3>
+				<h3 class="hndle"><span><?php _e('Export','easy-form'); ?></span></h3>
 				<div class="inside">
 					<div class="ef-content ef-content--padded">
 
-						<p><?php _e('Select the forms you wish to export and export it. You will get a JSON file that will allow you to re import your forms later or in another website',EF_get_domain()); ?></p>
+						<p><?php _e('Select the forms you wish to export and export it. You will get a JSON file that will allow you to re import your forms later or in another website','easy-form'); ?></p>
 
 						<form action="" method="POST">
 							<?php /** @var $form WP_Post; ?> */
@@ -26,7 +26,7 @@
 
 							<br>
 							<br>
-							<button class="button button-primary button-large"><?php _e('Export the selected forms',EF_get_domain()); ?></button>
+							<button class="button button-primary button-large"><?php _e('Export the selected forms','easy-form'); ?></button>
 						</form>
 					</div>
 				</div>

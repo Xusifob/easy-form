@@ -51,10 +51,10 @@ class EF_ajax
 	public function load_template()
 	{
 		if(!isset($_GET['template']))
-			self::HTTP_Error(__('Template is required',EF_get_domain()),400);
+			self::HTTP_Error(__('Template is required','easy-form'),400);
 
 		if(!isset($_GET['element']))
-			self::HTTP_Error(__('Element is required',EF_get_domain()),400);
+			self::HTTP_Error(__('Element is required','easy-form'),400);
 
 
 		$data = $this->get_template($_GET['element'],$_GET['template']);
@@ -89,10 +89,10 @@ class EF_ajax
         ))['file'];
 
         if(!file_exists($file))
-            self::HTTP_Error(sprintf(__('File %s not found',EF_get_domain()),$file),404);
+            self::HTTP_Error(sprintf(__('File %s not found','easy-form'),$file),404);
 
         if(!is_readable($file))
-            self::HTTP_Error(__('File not readable',EF_get_domain()),404);
+            self::HTTP_Error(__('File not readable','easy-form'),404);
 
         ob_start();
         include_once ( $file );

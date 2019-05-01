@@ -7,7 +7,7 @@ $postDisabled = ['attachment','acf-field','acf-field-group','easy_form'];
 ?>
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="ef-input">
-	<label for="settings[form-send-type]"><?php _e('Post type',EF_get_domain()); ?></label>
+	<label for="settings[form-send-type]"><?php _e('Post type','easy-form'); ?></label>
 	<select name="settings[form-send-type]" class="form-control" id="settings[form-send-type]">
 		<?php
 		foreach ($postTypes as $postType){
@@ -18,7 +18,7 @@ $postDisabled = ['attachment','acf-field','acf-field-group','easy_form'];
 </div>
 
 <div class="ef-input">
-	<label for="settings[post_status]"><?php _e('Status',EF_get_domain())?></label>
+	<label for="settings[post_status]"><?php _e('Status','easy-form')?></label>
 	<select id="settings[post_status]" class="form-control" name="settings[post_status]">
 		<?php $post_status = get_post_stati();
 		foreach($post_status as $status){ ?>

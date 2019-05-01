@@ -59,7 +59,7 @@ class EF_List
             if($form->get_type() === EF_Leads_Form::$_TYPE) {
                 $actions['leads'] = sprintf('<a href="%s">%s</a>',
                     'edit.php?post_type=' . EF_Lead::$_POST_TYPE . '&form_id=' . $post->ID,
-                    __('See the leads', EF_get_domain())
+                    __('See the leads', 'easy-form')
                 );
             }
         }catch (Exception $e) {}
@@ -80,9 +80,9 @@ class EF_List
         $date = $columns['date'];
 
         unset($columns['date']);
-        $columns['shortcode'] = __('Shortcode',EF_get_domain());
-        $columns['nb_fields'] = __('Number of fields',EF_get_domain());
-        $columns['type'] = __('Form type',EF_get_domain());
+        $columns['shortcode'] = __('Shortcode','easy-form');
+        $columns['nb_fields'] = __('Number of fields','easy-form');
+        $columns['type'] = __('Form type','easy-form');
         $columns['date'] = $date;
 
         return $columns;

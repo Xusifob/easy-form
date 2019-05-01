@@ -1,0 +1,989 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy WP Form V2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-01 10:04+0000\n"
+"PO-Revision-Date: 2019-05-01 10:14+0000\n"
+"Last-Translator: bastien <b.malahieude@free.fr>\n"
+"Language-Team: French (France)\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.2.2; wp-5.0.4"
+
+#: easy-form.php:279
+msgid "Forms"
+msgstr "Formulaires"
+
+#: easy-form.php:280
+msgid "Form"
+msgstr "Formulaire"
+
+#: easy-form.php:281 easy-form.php:313
+msgid "Add New"
+msgstr "Ajouter un nouveau"
+
+#: easy-form.php:282
+msgid "Add New Form"
+msgstr "Ajouter un nouveau formulaire"
+
+#: easy-form.php:283
+msgid "Edit Form"
+msgstr ""
+
+#: easy-form.php:284
+msgid "New Form"
+msgstr ""
+
+#: easy-form.php:285
+msgid "View Form"
+msgstr ""
+
+#: easy-form.php:286
+msgid "Search Form"
+msgstr ""
+
+#: easy-form.php:287
+msgid "No Form found"
+msgstr ""
+
+#: easy-form.php:288
+msgid "No Form found in Trash"
+msgstr ""
+
+#: easy-form.php:311
+msgid "Leads"
+msgstr "Prospects"
+
+#: easy-form.php:312
+msgid "Lead"
+msgstr "Prospect"
+
+#: easy-form.php:314
+msgid "Add New Lead"
+msgstr "Ajouter un nouveau prospect"
+
+#: easy-form.php:315
+msgid "Edit Lead"
+msgstr ""
+
+#: easy-form.php:316
+msgid "New Lead"
+msgstr ""
+
+#: easy-form.php:317
+msgid "View Lead"
+msgstr ""
+
+#: easy-form.php:318
+msgid "Search Lead"
+msgstr ""
+
+#: easy-form.php:319
+msgid "No Lead found"
+msgstr ""
+
+#: easy-form.php:320
+msgid "No Lead found in Trash"
+msgstr ""
+
+#: src/EF_Lead.php:109
+msgid "You must set a form id to a lead so you can save it"
+msgstr "Vous devez ajouter un formulaire au prospect pour le sauver"
+
+#: src/EF_Lead.php:119
+msgid "An error occurred while saving the lead, please try again later"
+msgstr ""
+"Une erreur est survenue lors de la sauvegarde du prospect, veuillez réessayer"
+
+#: src/forms/mail.php:37
+msgid "Email From Easy-Form"
+msgstr "Email via Easy-Form"
+
+#: src/forms/mail.php:78
+msgid "An error occurs while sending the email"
+msgstr "Une erreur est survenue lors de l'envoi de l'e-mail"
+
+#: src/forms/mail.php:203
+msgid "Contact form"
+msgstr "Formulaire de contact"
+
+#: src/forms/leads.php:97
+msgid "Leads Generator form"
+msgstr "Formulaire de génération de prospects"
+
+#: src/forms/post.php:338
+msgid "For security reasons, post update is only available for logged in users"
+msgstr ""
+"Pour des raisons de sécurité, la modification d'article est disponible "
+"uniquement pour les utilisateurs connectés"
+
+#: src/forms/post.php:343 src/forms/post.php:348
+msgid "Sorry, you're not allowed to update this post"
+msgstr "Désolé, vous ne pouvez pas mettre à jour cet article"
+
+#: src/forms/post.php:355
+msgid ""
+"The type of post selected is not the same as the one you are trying to update"
+msgstr ""
+"Le type d'article sélectionné n'est pas le même que celui que vous souhaitez "
+"mettre à jour"
+
+#: src/forms/post.php:404
+msgid "Create a post"
+msgstr "Créer un article"
+
+#: src/forms/login.php:81 src/forms/user.php:260
+msgid "Invalid credentials"
+msgstr "Identifiants incorrects"
+
+#: src/forms/login.php:111
+msgid "Login form"
+msgstr "Formulaire de connexion"
+
+#: src/forms/user.php:107
+msgid ""
+"The account has been created but an error occured when sending the "
+"activation email."
+msgstr ""
+"Le compte a bien été créé mais une erreur est survenue lors de l'envoi de "
+"l'e-mail d'activation"
+
+#: src/forms/user.php:161
+msgid "A user already exist with this e-mail"
+msgstr "Un utilisateur existe déjà avec cet e-mail"
+
+#: src/forms/user.php:171
+msgid "A user already exist with this login"
+msgstr "Un utilisateur existe déjà avec cet identifiant de connexion"
+
+#: src/forms/user.php:204
+msgid "Sorry, you're not allowed to update this user"
+msgstr "Désolé, vous ne pouvez pas mettre à jour cet utilisateur"
+
+#: src/forms/user.php:461
+msgid "Create a user"
+msgstr "Créer un utilisateur"
+
+#: src/forms/reset.php:80
+msgid "No user found in the database"
+msgstr "Aucun utilisateur trouvé"
+
+#: src/forms/reset.php:89
+msgid "An error occurred while generating the key, please try again later."
+msgstr ""
+"Une erreur est survenue lors de la génération de la clé, veuillez réessayer "
+"plus tard"
+
+#: src/forms/reset.php:94
+msgid "An error occurred while sending the email, please try again later"
+msgstr ""
+"Une erreur est survenue lors de l'envoi de l'e-mail, veuillez réessayer plus "
+"tard."
+
+#: src/forms/reset.php:180
+msgid "Reset your password"
+msgstr "Réinitialiser votre mot de passe"
+
+#: src/forms/reset.php:197
+msgid "Reset a password"
+msgstr "Réinitialiser un mot de passe"
+
+#: src/forms/form.php:453 src/forms/form.php:458
+msgid "Anti spam Triggered please try again"
+msgstr ""
+
+#: src/forms/form.php:484
+msgid "One or more field is missing"
+msgstr "Un ou plusieur champ est manquant"
+
+#: src/forms/form.php:500
+msgid "All the passwords must be similar"
+msgstr "Tous les mots de passe doivent être identiques"
+
+#: src/forms/user-activation.php:94
+msgid "The activation key is incorrect"
+msgstr "La clé d'activation est incorrecte"
+
+#: src/forms/user-activation.php:103
+msgid "The activation key is expired"
+msgstr "La clé d'activation est expirée"
+
+#: src/forms/user-activation.php:183
+msgid "Activate your account"
+msgstr "Activez votre compte"
+
+#: src/forms/user-activation.php:209
+msgid ""
+"Please activate your account by clicking on the link provided in the "
+"activation email"
+msgstr ""
+"Merci d'activer votre compte en cliquant dans le lien présent dans l'e-mail "
+"d'activation"
+
+#: src/admin/EF_list.php:62
+msgid "See the leads"
+msgstr "Voir les prospects"
+
+#: src/admin/EF_list.php:83
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: src/admin/EF_list.php:84
+msgid "Number of fields"
+msgstr "Nombre de champs"
+
+#: src/admin/EF_list.php:85
+msgid "Form type"
+msgstr "Type de formulaire"
+
+#: src/admin/admin.php:46
+msgid "Easy Forms"
+msgstr ""
+
+#: src/admin/admin.php:49
+msgid "Add"
+msgstr "Ajouter"
+
+#: src/admin/admin.php:51
+msgid "Preview"
+msgstr "Prévisualiser"
+
+#: src/admin/admin.php:55 src/admin/templates/add/inputs/text.php:121
+msgid "Statistics"
+msgstr ""
+
+#: src/admin/EF_edit_lead.php:57
+msgid "Lead informations"
+msgstr "Prospects"
+
+#: src/admin/EF_export.php:27
+msgid "Import/Export"
+msgstr "Importer/Exporter"
+
+#: src/admin/EF_add.php:60
+msgid "Main information"
+msgstr "Informations principales"
+
+#: src/admin/EF_add.php:61
+msgid "Type Of Form"
+msgstr "Type de formulaire"
+
+#: src/admin/EF_add.php:62
+msgid "Fields"
+msgstr "Champs"
+
+#: src/admin/EF_add.php:63
+msgid "Submit Values"
+msgstr "Valeur du bouton d'envoi"
+
+#: src/core/ajax.php:54
+msgid "Template is required"
+msgstr "Le template est requis"
+
+#: src/core/ajax.php:57
+msgid "Element is required"
+msgstr "L'élément est requis"
+
+#: src/core/ajax.php:92
+#, php-format
+msgid "File %s not found"
+msgstr "Fichier %s non trouvé"
+
+#: src/core/ajax.php:95
+msgid "File not readable"
+msgstr "Le fichier ne peut pas être lu"
+
+#: src/inputs/email.php:42
+msgid "Email input"
+msgstr "Champ E-mail"
+
+#: src/inputs/nonce.php:73 src/inputs/input.php:441 src/inputs/submit.php:117
+msgid "Text input"
+msgstr "Champ texte"
+
+#: src/inputs/captcha.php:30
+msgid "Captcha"
+msgstr ""
+
+#: src/inputs/password.php:109
+msgid "The password is not strong enough."
+msgstr "Le mot de passe est trop faible"
+
+#: src/inputs/password.php:211
+msgid "Password input"
+msgstr "Mot de passe"
+
+#: src/inputs/password.php:232
+msgid "Very Weak"
+msgstr "Très faible"
+
+#: src/inputs/password.php:233 src/admin/templates/add/inputs/password.php:18
+msgid "Weak"
+msgstr "Faible"
+
+#: src/inputs/password.php:234 src/admin/templates/add/inputs/password.php:19
+msgid "Medium"
+msgstr "Moyen"
+
+#: src/inputs/password.php:235 src/admin/templates/add/inputs/password.php:20
+msgid "Strong"
+msgstr "Fort"
+
+#: src/inputs/password.php:236
+msgid "Very strong"
+msgstr "Très fort"
+
+#: src/inputs/password.php:237
+msgid "Both passwords should be similar."
+msgstr "Les deux mots de passe doivent être similaires"
+
+#: src/inputs/taxonomy.php:84
+msgid "Taxonomy input"
+msgstr "Choix d'une catégorie"
+
+#: src/inputs/input.php:422
+msgid "This field  is required"
+msgstr "Ce champ est requis"
+
+#: src/inputs/radio.php:36
+msgid "Radio input"
+msgstr "Bouton radio"
+
+#: src/inputs/hidden.php:38
+msgid "Hidden input"
+msgstr "Champ caché"
+
+#: src/inputs/section.php:23
+msgid "Section"
+msgstr ""
+
+#: src/inputs/checkbox.php:37
+msgid "Checkbox input"
+msgstr "Case à cocher"
+
+#: src/inputs/textarea.php:51
+msgid "Text area"
+msgstr "Zone de texte"
+
+#: src/inputs/url.php:47
+msgid "URL Input"
+msgstr "Champ lien"
+
+#: src/inputs/submit.php:63
+msgid "Send"
+msgstr ""
+
+#: src/inputs/select.php:249
+msgid "Select input"
+msgstr "Liste de choix"
+
+#: src/inputs/note.php:28
+msgid "Note input"
+msgstr "Note"
+
+#: src/inputs/editor.php:58
+msgid "Editor WYSIWYG"
+msgstr "Editeur WordPress"
+
+#: src/inputs/g_map_address.php:39
+msgid "Google Maps address"
+msgstr "Adresse Google Maps"
+
+#: src/inputs/phone.php:71
+msgid "Phone input"
+msgstr "Numéro de téléphone"
+
+#: src/inputs/file.php:139
+msgid "An error occured while uploading the file"
+msgstr "Une erreur est survenue lors de l'upload du fichier"
+
+#: src/inputs/file.php:284
+msgid "An error occurred while uploading a file"
+msgstr "Une erreur est survenue lors de l'upload d'un fichier"
+
+#: src/inputs/file.php:323
+msgid "File Input"
+msgstr "Upload d'un fichier"
+
+#: src/inputs/file.php:409 src/inputs/file.php:418
+msgid "Delete"
+msgstr "Supprimer"
+
+#: src/inputs/radio-list.php:36
+msgid "List of radio input"
+msgstr "Liste de bouton radios"
+
+#: src/inputs/radio-list.php:73 src/inputs/checkbox-list.php:74
+#, php-format
+msgid "Other : %s"
+msgstr "Autre : %s"
+
+#: src/inputs/checkbox-list.php:41
+msgid "List of checkbox input"
+msgstr "Liste de cases à cocher"
+
+#: src/inputs/number.php:29
+msgid "The field must be a numeric value"
+msgstr "Le champ doit être une valeur numérique"
+
+#: src/inputs/number.php:46
+msgid "Number input"
+msgstr "Champ nombre"
+
+#: src/admin/templates/import-export/import.php:7
+msgid "Import"
+msgstr ""
+
+#: src/admin/templates/import-export/import.php:11
+msgid "Import a previously exported JSON file"
+msgstr ""
+
+#: src/admin/templates/import-export/import.php:21
+msgid "Import the form"
+msgstr ""
+
+#: src/admin/templates/import-export/export.php:7
+msgid "Export"
+msgstr ""
+
+#: src/admin/templates/import-export/export.php:11
+msgid ""
+"Select the forms you wish to export and export it. You will get a JSON file "
+"that will allow you to re import your forms later or in another website"
+msgstr ""
+
+#: src/admin/templates/import-export/export.php:29
+msgid "Export the selected forms"
+msgstr ""
+
+#: src/admin/templates/add/actions/email.php:3
+#: src/admin/templates/add/actions/email.php:4
+msgid "Subject"
+msgstr "Objet"
+
+#: src/admin/templates/add/actions/email.php:7
+#: src/admin/templates/add/actions/email.php:8
+msgid "Recipient Email"
+msgstr "Email du destinataire"
+
+#: src/admin/templates/add/actions/email.php:11
+#: src/admin/templates/add/actions/email.php:12
+msgid "Recipient Name"
+msgstr "Nom du destinataire"
+
+#: src/admin/templates/add/actions/post.php:10
+msgid "Post type"
+msgstr "Type d'article"
+
+#: src/admin/templates/add/actions/post.php:21
+msgid "Status"
+msgstr "Statut"
+
+#: src/admin/templates/add/actions/login.php:6
+msgid "Remember the user"
+msgstr "Se rappeler de l'utilisateur"
+
+#: src/admin/templates/add/actions/user.php:5
+msgid "Role"
+msgstr "Rôle"
+
+#: src/admin/templates/add/actions/user.php:10
+msgid "Rôle actuel"
+msgstr ""
+
+#: src/admin/templates/add/actions/user.php:16
+msgid "Login the user when register"
+msgstr "Connecter l'utilisateur à l'inscription"
+
+#: src/admin/templates/add/actions/user.php:22
+msgid "Activate user through email"
+msgstr "Activer l'utilisateur via un e-mail"
+
+#: src/admin/templates/add/views/fields.php:10
+msgid "Possible fields available for this type of form : "
+msgstr "Types de champs disponible pour ce formulaire"
+
+#: src/admin/templates/add/views/fields.php:16
+msgid "Add a field"
+msgstr "Ajouter un champ"
+
+#: src/admin/templates/add/views/main-information.php:5
+#: src/admin/templates/add/inputs/text.php:31
+msgid "HTML Elements"
+msgstr "Elements HTML"
+
+#: src/admin/templates/add/views/main-information.php:6
+msgid ""
+"This part will regroup all the information linked to the &lt;form&gt; html "
+"element"
+msgstr ""
+"Cette partie regroupe toutes les informations de l'élément HTML &lt;form&gt;"
+
+#: src/admin/templates/add/views/main-information.php:10
+#: src/admin/templates/add/views/main-information.php:13
+msgid "Class of the form"
+msgstr "Class du formulaire"
+
+#: src/admin/templates/add/views/main-information.php:18
+#: src/admin/templates/add/views/main-information.php:20
+msgid "Id of the form"
+msgstr "Id du formulaire"
+
+#: src/admin/templates/add/views/main-information.php:28
+msgid "Field options"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:29
+msgid "This part will regroup all the information repeated on all fields"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:33
+msgid "Default Class"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:38
+msgid "Field's default class"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:45
+msgid "Errors"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:46
+msgid "This part will regroup  how the errors will be handled in the form"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:52
+msgid "Display the errors of every field"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:58
+msgid "Display errors over the field"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:66
+msgid "Success"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:67
+msgid "This part let you define the success message to display to the user"
+msgstr ""
+
+#: src/admin/templates/add/views/main-information.php:71
+msgid "Success Message"
+msgstr ""
+
+#: src/admin/templates/add/views/submit.php:5
+msgid "Submit Information"
+msgstr ""
+
+#: src/admin/templates/add/views/submit.php:6
+msgid "This part regroup all informations of the submit button"
+msgstr ""
+
+#: src/admin/templates/add/views/submit.php:10
+#: src/admin/templates/add/views/submit.php:13
+msgid "Send Value"
+msgstr ""
+
+#: src/admin/templates/add/views/submit.php:16
+msgid "Input Class"
+msgstr ""
+
+#: src/admin/templates/add/views/submit.php:19
+msgid "Class"
+msgstr ""
+
+#: src/admin/templates/add/views/submit.php:26
+msgid "Input Id"
+msgstr ""
+
+#: src/admin/templates/add/views/submit.php:29
+msgid "Id"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:9
+msgid "Advanced mode"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:10
+msgid ""
+"By enabling the advanced mode, you will display more configuration for the "
+"fields"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:16
+msgid "Enable advanced mode"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:24
+#: src/admin/templates/add/views/type-of-form.php:28
+msgid "Type of form"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:39
+msgid "Specs"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:40
+msgid "This part comport all specs linked to the type of form selected"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:48
+msgid "Redirection"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:49
+msgid ""
+"This part comport all information from the redirection when the form is send"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:54
+#: src/admin/templates/add/views/type-of-form.php:56
+msgid ""
+"Url or Page ID to be redirected after success (newpost for the new post page)"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:61
+msgid "Url parameters"
+msgstr ""
+
+#: src/admin/templates/add/views/type-of-form.php:63
+msgid "key=parameter&key=parameter"
+msgstr ""
+
+#: src/admin/templates/add/views/modal-duplicate.php:18
+msgid "Dupliquer un champ sur un autre formulaire"
+msgstr ""
+
+#: src/admin/templates/add/views/modal-duplicate.php:22
+msgid "Nom du nouveau formulaire"
+msgstr ""
+
+#: src/admin/templates/add/views/modal-duplicate.php:39
+msgid "Copier"
+msgstr ""
+
+#: src/admin/templates/add/inputs/captcha.php:16
+msgid "Website Re Captcha API Key"
+msgstr ""
+
+#: src/admin/templates/add/inputs/captcha.php:20
+msgid "Secret Re Captcha API Key"
+msgstr ""
+
+#: src/admin/templates/add/inputs/captcha.php:22
+msgid ""
+"The api keys can be retrieved here : <a href=\"https://g.co/recaptcha/v3\" "
+"target=\"_blank\">https://g.co/recaptcha/v3</a>"
+msgstr ""
+
+#: src/admin/templates/add/inputs/password.php:11
+msgid "All password fields must be equals"
+msgstr ""
+
+#: src/admin/templates/add/inputs/password.php:15
+msgid "Password minimal strength"
+msgstr ""
+
+#: src/admin/templates/add/inputs/password.php:17
+msgid "No verification"
+msgstr ""
+
+#: src/admin/templates/add/inputs/password.php:21
+msgid "Very Strong"
+msgstr ""
+
+#: src/admin/templates/add/inputs/taxonomy.php:15
+msgid "Taxonomy used"
+msgstr ""
+
+#: src/admin/templates/add/inputs/taxonomy.php:26
+msgid "Allow multiple entries"
+msgstr ""
+
+#: src/admin/templates/add/inputs/taxonomy.php:32
+msgid "Add the post to the taxonomy"
+msgstr ""
+
+#: src/admin/templates/add/inputs/taxonomy.php:34
+msgid "If unselected, the data of the taxonomy will be added as a post meta"
+msgstr ""
+
+#: src/admin/templates/add/inputs/radio.php:15
+msgid "Selected"
+msgstr ""
+
+#: src/admin/templates/add/inputs/checkbox.php:14
+msgid "Checked by default"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:10
+#: src/admin/templates/add/inputs/radio-list.php:10
+#: src/admin/templates/add/inputs/checkbox-list.php:10
+msgid "Choices"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:11
+#: src/admin/templates/add/inputs/radio-list.php:11
+#: src/admin/templates/add/inputs/checkbox-list.php:11
+msgid "This part regroup all the choices possible"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:12
+#: src/admin/templates/add/inputs/radio-list.php:12
+#: src/admin/templates/add/inputs/checkbox-list.php:12
+msgid "Display one value per line like this:"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:13
+#: src/admin/templates/add/inputs/radio-list.php:13
+#: src/admin/templates/add/inputs/checkbox-list.php:13
+msgid "key : Value"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:15
+#: src/admin/templates/add/inputs/radio-list.php:15
+#: src/admin/templates/add/inputs/checkbox-list.php:15
+msgid "To select by default a value add a star on the right"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:16
+#: src/admin/templates/add/inputs/radio-list.php:16
+#: src/admin/templates/add/inputs/checkbox-list.php:16
+msgid "key_selected : Value Selected *"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:21
+#: src/admin/templates/add/inputs/radio-list.php:21
+#: src/admin/templates/add/inputs/checkbox-list.php:21
+msgid "List of choices"
+msgstr ""
+
+#: src/admin/templates/add/inputs/select.php:26
+#: src/admin/templates/add/inputs/radio-list.php:26
+#: src/admin/templates/add/inputs/checkbox-list.php:26
+msgid ""
+"key : value \n"
+"key : value selected *"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:6
+msgid "Values"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:7
+msgid "This part will regroup the values displayed in your form"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:12
+#: src/admin/templates/add/inputs/text.php:13
+msgid "Placeholder"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:18
+#: src/admin/templates/add/inputs/text.php:19
+msgid "Value"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:32
+msgid ""
+"This part will regroup all the information linked to the &lt;input&gt; html "
+"element"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:38
+msgid "id"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:39
+msgid "Id of the input"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:43
+msgid "class"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:44
+msgid "class of the input"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:55
+msgid "Label"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:56
+msgid ""
+"This part will regroup all the information about the label around the element"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:61
+#: src/admin/templates/add/inputs/text.php:62
+#: src/admin/templates/add/inputs/note.php:15
+#: src/admin/templates/add/inputs/note.php:19
+msgid "Label Value"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:65
+#: src/admin/templates/add/inputs/text.php:66
+msgid "Class of the label"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:72
+msgid "Display the label after the field"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:77
+msgid "Explanatory text"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:78
+msgid "Explainatory text"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:81
+#: src/admin/templates/add/inputs/text.php:82
+msgid "Class of the text"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:92
+msgid "Validations"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:93
+msgid "This part will regroup all the validations around the input"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:100
+msgid "Required"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:108
+msgid "AutoComplete"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:122
+msgid "This part will regroup all the options of the statistics"
+msgstr ""
+
+#: src/admin/templates/add/inputs/text.php:128
+msgid "Filter statistics with thie field"
+msgstr ""
+
+#: src/admin/templates/add/inputs/note.php:14
+msgid "Left label"
+msgstr ""
+
+#: src/admin/templates/add/inputs/note.php:18
+msgid "Right label"
+msgstr ""
+
+#: src/admin/templates/add/inputs/note.php:28
+msgid "Min note"
+msgstr "Note minimale"
+
+#: src/admin/templates/add/inputs/note.php:36
+msgid "Max note"
+msgstr "Note maximale"
+
+#: src/admin/templates/add/inputs/g_map_address.php:12
+msgid "API Google Maps Places"
+msgstr ""
+
+#: src/admin/templates/add/inputs/g_map_address.php:16
+msgid "Restrict the search to some countries"
+msgstr ""
+
+#: src/admin/templates/add/inputs/g_map_address.php:18
+msgid ""
+"The name of the countries must be <a href=\"https://en.wikipedia."
+"org/wiki/ISO_3166-1_alpha-2\" target=\"_blank\">ISO 3166-1 Alpha-2 country "
+"code</a> separated with a comma \",\". Maximum 5 countries. More infos  <a "
+"href=\"https://developers.google."
+"com/maps/documentation/javascript/reference/places-autocomplete-"
+"service#ComponentRestrictions\" target=\"_blank\" >here</a></a>"
+msgstr ""
+
+#: src/admin/templates/add/inputs/base.php:22
+#: src/admin/templates/add/inputs/base.php:23
+msgid "Nom du champ"
+msgstr ""
+
+#: src/admin/templates/add/inputs/base.php:24
+msgid "Dupliquer"
+msgstr ""
+
+#: src/admin/templates/add/inputs/base.php:25
+msgid "Copier sur un autre formulaire"
+msgstr ""
+
+#: src/admin/templates/add/inputs/base.php:30
+msgid "Type de champ"
+msgstr ""
+
+#: src/admin/templates/add/inputs/file.php:14
+msgid "Max upload size (in MB)"
+msgstr ""
+
+#: src/admin/templates/add/inputs/file.php:15
+msgid "Max Upload Size"
+msgstr ""
+
+#: src/admin/templates/add/inputs/file.php:18
+msgid "Allowed extensions"
+msgstr ""
+
+#: src/admin/templates/add/inputs/file.php:19
+msgid "png,jpg,gif,pdf"
+msgstr ""
+
+#: src/admin/templates/add/inputs/file.php:24
+msgid "Upload Multiple"
+msgstr ""
+
+#: src/admin/templates/add/inputs/radio-list.php:41
+#: src/admin/templates/add/inputs/checkbox-list.php:41
+msgid "Allow user to enter a custom value"
+msgstr ""
+
+#: src/admin/templates/add/inputs/number.php:9
+msgid "Value minimum"
+msgstr ""
+
+#: src/admin/templates/add/inputs/number.php:10
+msgid "Value Minimum"
+msgstr ""
+
+#: src/admin/templates/add/inputs/number.php:13
+msgid "Value maximum"
+msgstr ""
+
+#: src/admin/templates/add/inputs/number.php:14
+msgid "Value Maximum"
+msgstr ""
+
+#. Name of the plugin
+msgid "Easy WP Form V2"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Permet de créer et styliser des formulaires facilement. Ce plugin a été créé "
+"conjointement par Bastien Malahieude et Baltazare (http://baltazare.fr)."
+msgstr ""
+
+#. URI of the plugin
+msgid "http://easyform.bastienmalahieude.fr"
+msgstr ""
+
+#. Author of the plugin
+msgid "Bastien Malahieude"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://bastienmalahieude.fr"
+msgstr ""

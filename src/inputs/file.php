@@ -136,19 +136,19 @@ class EF_File_Input extends EF_Input
     protected function checkValidity($value)
     {
         if ($value['error'] !== UPLOAD_ERR_OK){
-            $this->setError(__('An error occured while uploading the file',EF_get_domain()));
+            $this->setError(__('An error occured while uploading the file','easy-form'));
             return false;
         }
 
 
 
         if($value['size'] > $this->getMaxSize()){
-            $this->setError(__(sprintf('The file you uploaded is too big, maximum %sMB',$this->getAttribute('MAX_FILE_SIZE')),EF_get_domain()));
+            $this->setError(__(sprintf('The file you uploaded is too big, maximum %sMB',$this->getAttribute('MAX_FILE_SIZE')),'easy-form'));
             return false;
         }
 
         if(!in_array(pathinfo($value['name'],PATHINFO_EXTENSION),explode(',',$this->getSetting('allowed')))){
-            $this->setError(__(sprintf('The file you uploaded is not in the right format. Only %s accepted',$this->getSetting('allowed')),EF_get_domain()));
+            $this->setError(__(sprintf('The file you uploaded is not in the right format. Only %s accepted',$this->getSetting('allowed')),'easy-form'));
             return false;
         }
 
@@ -281,7 +281,7 @@ class EF_File_Input extends EF_Input
                     $upload = $this->upload($post_id,$overrides);
 
                     if(is_wp_error($upload)) {
-                        $this->setError(__('An error occurred while uploading a file',EF_get_domain()));
+                        $this->setError(__('An error occurred while uploading a file','easy-form'));
                     }
 
                     $id[] = $upload;
@@ -406,7 +406,7 @@ class EF_File_Input extends EF_Input
         $img = wp_get_attachment_url($attachment_id);
 
         if(preg_match('#\.(png|jpg|jpeg|gif|bmp)$#',strtolower($img))) {
-            $string = sprintf('<div class="ef_attachment_container"><img class="ef_attachment" id="%s" src="%s"><a href="javascript:" delete-file img-id="%s" input-id="%s" >%s</a></div>',$attachment_id,$img,$attachment_id,$id,__('Delete',EF_get_domain()));
+            $string = sprintf('<div class="ef_attachment_container"><img class="ef_attachment" id="%s" src="%s"><a href="javascript:" delete-file img-id="%s" input-id="%s" >%s</a></div>',$attachment_id,$img,$attachment_id,$id,__('Delete','easy-form'));
         } else {
             $string = sprintf(
                 '<div class="ef_attachment_container"><a  class="ef_attachment" id="%s" href="%s" target="_blank">%s</a><a href="javascript:" delete-file img-id="%s" input-id="%s" >%s</a></div>',
@@ -415,7 +415,7 @@ class EF_File_Input extends EF_Input
                 basename($img),
                 $attachment_id,
                 $id,
-                __('Delete',EF_get_domain())
+                __('Delete','easy-form')
             );
         }
 

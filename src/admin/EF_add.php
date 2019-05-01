@@ -57,10 +57,10 @@ class EF_add
 
 
         // metaboxes
-        add_meta_box('ef-add-main-info', __("Main information",EF_get_domain()), array($this, 'mb_info'), EF_get_post_type(), 'normal', 'high');
-        add_meta_box('ef-add-type', __("Type Of Form",EF_get_domain()), array($this, 'mb_type'), EF_get_post_type(), 'normal', 'high');
-        add_meta_box('ef-add-fields', __("Fields",EF_get_domain()), array($this, 'mb_fields'), EF_get_post_type(), 'normal', 'high');
-        add_meta_box('ef-add-submit', __("Submit Values",EF_get_domain()), array($this, 'mb_submit'), EF_get_post_type(), 'normal', 'high');
+        add_meta_box('ef-add-main-info', __("Main information",'easy-form'), array($this, 'mb_info'), EF_get_post_type(), 'normal', 'high');
+        add_meta_box('ef-add-type', __("Type Of Form",'easy-form'), array($this, 'mb_type'), EF_get_post_type(), 'normal', 'high');
+        add_meta_box('ef-add-fields', __("Fields",'easy-form'), array($this, 'mb_fields'), EF_get_post_type(), 'normal', 'high');
+        add_meta_box('ef-add-submit', __("Submit Values",'easy-form'), array($this, 'mb_submit'), EF_get_post_type(), 'normal', 'high');
 
     }
 

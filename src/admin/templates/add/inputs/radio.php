@@ -12,7 +12,7 @@ ob_start(); ?>
 		<label for="field[fieldId][attributes]
 		[checked]" class="label-checkbox">
 			<input type="checkbox" id="field[fieldId][attributes][checked]" name="field[fieldId][attributes][checked]" value="checked" />
-			<?php _e('Selected', EF_get_domain()); ?>
+			<?php _e('Selected', 'easy-form'); ?>
 		</label>
 	</div>
 <?php

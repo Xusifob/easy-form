@@ -24,7 +24,7 @@ class EF_Export
 	function admin_menu() {
 
 		// add page
-		$page = add_submenu_page('edit.php?post_type=' . EF_get_post_type(), __('Import/Export', EF_get_domain()), __('Import/Export', EF_get_domain()), EF_get_setting('capability'), 'EF_import_export', [$this, 'render']);
+		$page = add_submenu_page('edit.php?post_type=' . EF_get_post_type(), __('Import/Export', 'easy-form'), __('Import/Export', 'easy-form'), EF_get_setting('capability'), 'EF_import_export', [$this, 'render']);
 
 
 		// actions

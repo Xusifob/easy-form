@@ -91,7 +91,7 @@ abstract class EF_User_Activation_Form extends EF_Form
     {
 
         if($activation_key !== $key) {
-            return new WP_Error(666,__('The activation key is incorrect',EF_get_domain()));
+            return new WP_Error(666,__('The activation key is incorrect','easy-form'));
         }
 
         $key = base64_decode($key);
@@ -100,7 +100,7 @@ abstract class EF_User_Activation_Form extends EF_Form
         $time = $key[1];
 
         if(time() - $time > self::$LINK_VALIDITY*60*60) {
-            return new WP_Error(666,__('The activation key is expired',EF_get_domain()));
+            return new WP_Error(666,__('The activation key is expired','easy-form'));
         }
 
 
@@ -180,7 +180,7 @@ abstract class EF_User_Activation_Form extends EF_Form
         $template = $mailer->parseTemplate($template,$data);
 
 
-        $subject = __('Activate your account',EF_get_domain());
+        $subject = __('Activate your account','easy-form');
 
         $subject = apply_filters('ef_activation_email_subject',$subject);
 
@@ -206,7 +206,7 @@ abstract class EF_User_Activation_Form extends EF_Form
 
 
         if(false === $is_activated) {
-            return new WP_Error(666,__('Please activate your account by clicking on the link provided in the activation email',EF_get_domain()));
+            return new WP_Error(666,__('Please activate your account by clicking on the link provided in the activation email','easy-form'));
         }
 
 

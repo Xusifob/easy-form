@@ -13,13 +13,13 @@ $data = preg_replace('/<!-- Statistics Group -->.+<!-- \/Statistics Group -->/sm
 
 ob_start(); ?>
 	<div class="ef-input">
-		<label for="field[fieldId][settings][api_key]"><?php _e('Website Re Captcha API Key', EF_get_domain()); ?></label>
+		<label for="field[fieldId][settings][api_key]"><?php _e('Website Re Captcha API Key', 'easy-form'); ?></label>
         <input type="text" id="field[fieldId][settings][api_key]" placeholder="6Lcmqo4UAAAAABs4Cyq4I_xLDLhB_f4PuNEOd9KW" class="form-control" name="field[fieldId][settings][api_key]" />
     </div>
     <div class="ef-input">
-		<label for="field[fieldId][settings][api_key_secret]"><?php _e('Secret Re Captcha API Key', EF_get_domain()); ?></label>
+		<label for="field[fieldId][settings][api_key_secret]"><?php _e('Secret Re Captcha API Key', 'easy-form'); ?></label>
         <input type="text" id="field[fieldId][settings][api_key_secret]" placeholder="6Lcmqo4UAAAAABs4Cyq4I_xLDLhB_f4PuNEOd9KW" class="form-control" name="field[fieldId][settings][api_key_secret]" />
-        <p class="small-help"><?php _e('The api keys can be retrieved here : <a href="https://g.co/recaptcha/v3" target="_blank">https://g.co/recaptcha/v3</a>',EF_get_domain()); ?></p>
+        <p class="small-help"><?php _e('The api keys can be retrieved here : <a href="https://g.co/recaptcha/v3" target="_blank">https://g.co/recaptcha/v3</a>','easy-form'); ?></p>
     </div>
 <?php
 $validations = ob_get_clean();

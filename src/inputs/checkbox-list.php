@@ -71,7 +71,7 @@ class EF_Checkbox_List_Input extends EF_Select
                     'value' => $option['content'],
                 ));
 
-                $option['content'] = sprintf(__('Other : %s',EF_get_domain()),$txt);
+                $option['content'] = sprintf(__('Other : %s','easy-form'),$txt);
             }
 
             $attributes = array(

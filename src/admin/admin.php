@@ -43,16 +43,16 @@ class EF_Admin
         $menu_page = 'edit.php?post_type=' . EF_get_post_type();
 
         // Menu formulaire/Tous les formulaires
-        add_menu_page(__('Easy Forms',EF_get_domain()),__('Easy Forms',EF_get_domain()), EF_get_setting('capability'), $menu_page,false, 'dashicons-feedback', 22);
+        add_menu_page(__('Easy Forms','easy-form'),__('Easy Forms','easy-form'), EF_get_setting('capability'), $menu_page,false, 'dashicons-feedback', 22);
 
         // Ajouter/modifier un formulaire
-        add_submenu_page($menu_page, __('Add', EF_get_domain()), __('Add', EF_get_domain()), EF_get_setting('capability'),'post-new.php?post_type=' . EF_get_post_type());
+        add_submenu_page($menu_page, __('Add', 'easy-form'), __('Add', 'easy-form'), EF_get_setting('capability'),'post-new.php?post_type=' . EF_get_post_type());
         // Prévisualiser son formulaire
-        add_submenu_page($menu_page, __('Preview', EF_get_domain()), __('Preview', EF_get_domain()), EF_get_setting('capability'), 'EF_show', [$this, 'EF_show']);
+        add_submenu_page($menu_page, __('Preview', 'easy-form'), __('Preview', 'easy-form'), EF_get_setting('capability'), 'EF_show', [$this, 'EF_show']);
 
 
         // Stats
-        add_submenu_page($menu_page, __('Statistics', EF_get_domain()), __('Statistics', EF_get_domain()), EF_get_setting('capability'), 'EF_stat', [$this, 'EF_stat']);
+        add_submenu_page($menu_page, __('Statistics', 'easy-form'), __('Statistics', 'easy-form'), EF_get_setting('capability'), 'EF_stat', [$this, 'EF_stat']);
 
     }
 

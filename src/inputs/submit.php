@@ -60,7 +60,7 @@ class EF_Submit_Input extends EF_Input
      */
     public function __construct( $id = null, $attributes = [], $settings = [], $data = [] ) {
 
-        $this->defaultAttributes['value'] = __('Send',EF_get_domain());
+        $this->defaultAttributes['value'] = __('Send','easy-form');
 
         parent::__construct( $id, $attributes, $settings, $data );
 

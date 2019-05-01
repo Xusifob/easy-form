@@ -63,7 +63,9 @@ class EF_User_Form extends EF_User_Activation_Form
             return false;
         }
 
-        do_action('form/BeforeInsertOrModifyUser', $data);
+        do_action('form/BeforeInsertOrModifyUser', $data,$this);
+
+        $data = apply_filters('form/BeforeInsertOrModifyUser',$data,$this);
 
         $user = null;
 
@@ -104,7 +106,7 @@ class EF_User_Form extends EF_User_Activation_Form
 
 
             if(!$activated) {
-                $this->setError(__('The account has been created but an error occured when sending the activation email.', EF_get_domain()));
+                $this->setError(__('The account has been created but an error occured when sending the activation email.', 'easy-form'));
                 $this->activateUser($user_id);
             }
 
@@ -158,7 +160,7 @@ class EF_User_Form extends EF_User_Activation_Form
 
                 if($user instanceof WP_User) {
                     $isValid = false;
-                    $this->setError(__('A user already exist with this e-mail',EF_get_domain()));
+                    $this->setError(__('A user already exist with this e-mail','easy-form'));
                 }
             }
 
@@ -168,7 +170,7 @@ class EF_User_Form extends EF_User_Activation_Form
 
                 if($user instanceof WP_User) {
                     $isValid = false;
-                    $this->setError(__('A user already exist with this login',EF_get_domain()));
+                    $this->setError(__('A user already exist with this login','easy-form'));
                 }
             }
         }
@@ -201,7 +203,7 @@ class EF_User_Form extends EF_User_Activation_Form
             if(current_user_can('edit_users')) {
                 $post_id = $_GET['user_id'];
             }else {
-                $this->setError(__('Sorry, you\'re not allowed to update this user',EF_get_domain()));
+                $this->setError(__('Sorry, you\'re not allowed to update this user','easy-form'));
                     return;
             }
         }

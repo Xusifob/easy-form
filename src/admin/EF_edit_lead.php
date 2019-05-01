@@ -54,7 +54,7 @@ class EF_edit_lead
     {
 
         // metaboxes
-        add_meta_box('ef-edit-lead', __("Lead informations",EF_get_domain()), array($this, 'mb_edit'), EF_Lead::$_POST_TYPE, 'normal', 'high');
+        add_meta_box('ef-edit-lead', __("Lead informations",'easy-form'), array($this, 'mb_edit'), EF_Lead::$_POST_TYPE, 'normal', 'high');
 
     }
 

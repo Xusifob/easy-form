@@ -11,12 +11,12 @@ $data = preg_replace('/<!-- Label after -->.+<!-- \/Label after -->/sm','',$data
 
 ob_start(); ?>
     <div class="ef-input">
-        <label for="field[fieldId][settings][left-label]"><?php _e('Left label', EF_get_domain()); ?></label>
-        <input type="text" id="field[fieldId][settings][left-label]" name="field[fieldId][settings][left-label]" class="form-control" placeholder="<?php _e('Label Value',EF_get_domain()); ?>"/>
+        <label for="field[fieldId][settings][left-label]"><?php _e('Left label', 'easy-form'); ?></label>
+        <input type="text" id="field[fieldId][settings][left-label]" name="field[fieldId][settings][left-label]" class="form-control" placeholder="<?php _e('Label Value','easy-form'); ?>"/>
     </div>
     <div class="ef-input">
-        <label for="field[fieldId][settings][right-label]"><?php _e('Right label', EF_get_domain()); ?></label>
-        <input type="text" id="field[fieldId][settings][right-label]" name="field[fieldId][settings][right-label]" class="form-control" placeholder="<?php _e('Label Value',EF_get_domain()); ?>"/>
+        <label for="field[fieldId][settings][right-label]"><?php _e('Right label', 'easy-form'); ?></label>
+        <input type="text" id="field[fieldId][settings][right-label]" name="field[fieldId][settings][right-label]" class="form-control" placeholder="<?php _e('Label Value','easy-form'); ?>"/>
     </div>
 <?php
 $validations = ob_get_clean();

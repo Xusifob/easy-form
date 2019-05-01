@@ -11,7 +11,7 @@ ob_start(); ?>
 	<div class="ef-input">
 		<label for="field[fieldId][attributes][checked]" class="label-checkbox">
 			<input type="checkbox" id="field[fieldId][attributes][checked]" name="field[fieldId][attributes][checked]" value="checked" />
-			<?php _e('Checked by default', EF_get_domain()); ?>
+			<?php _e('Checked by default', 'easy-form'); ?>
 		</label>
 	</div>
 <?php

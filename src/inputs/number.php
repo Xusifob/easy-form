@@ -26,7 +26,7 @@ class EF_Number_Input extends EF_Input
                 return true;
         }
 
-        $this->setError(__('The field must be a numeric value',EF_get_domain()));
+        $this->setError(__('The field must be a numeric value','easy-form'));
 
         return false;
     }
