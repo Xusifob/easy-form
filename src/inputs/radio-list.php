@@ -81,6 +81,7 @@ class EF_Radio_List_Input extends EF_Select
                 'class' => self::$_TYPE . " " . $this->getAttribute('class'),
             ),array(
                 'label' => $option['content'],
+                'label-class' => $this->getSetting('label-class'),
             ));
 
             $template .= $input;
