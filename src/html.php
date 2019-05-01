@@ -123,7 +123,7 @@ class EF_Html_Element implements JsonSerializable
             }
 
             if($attribute) {
-                $template .= " $key=\"". stripslashes(htmlspecialchars($attribute)). "\" ";
+                $template .= " $key=\" ". stripslashes(htmlspecialchars($attribute)). "\" ";
             }
         }
 

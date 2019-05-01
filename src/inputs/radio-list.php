@@ -78,7 +78,7 @@ class EF_Radio_List_Input extends EF_Select
                 'checked' => isset($option['selected']) ? $option['selected'] : '',
                 'name' => $this->getName(),
                 'required' => false,
-                'class' => self::$_TYPE . $this->getAttribute('class'),
+                'class' => self::$_TYPE . " " . $this->getAttribute('class'),
             ),array(
                 'label' => $option['content'],
             ));
