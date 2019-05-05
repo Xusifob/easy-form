@@ -16,6 +16,7 @@ class EF_Phone_Input extends EF_Input
      */
     protected $pattern;
 
+
     const PATTERNS = [
         'fr' => '(^((\+([0-9 ]){0,5})|[0-9]{1,2})( |-)?[0-9]{2}( |-)?[0-9]{2}( |-)?[0-9]{2}( |-)?[0-9]{2}$)',
         'us' => '(^(\+[0-9]){0,3}? ?\(?[0-9]{3}\)? ?[0-9]{3}( |-)?[0-9]{4}$)',
@@ -24,15 +25,20 @@ class EF_Phone_Input extends EF_Input
 
 
     /**
+     *
      * EF_Phone_Input constructor.
      *
      * @param null $id
      * @param array $attributes
+     * @param array $settings
      * @param array $data
+     * @throws Exception
      */
-    public function __construct($id = null, array $attributes = [], array $data = [])
+    public function __construct($id = null,$attributes = [],$settings = [],$data = [])
     {
-        parent::__construct($id, $attributes, $data);
+
+        parent::__construct($id, $attributes,$settings, $data);
+
         $this->pattern = '/' . implode('|',self::PATTERNS) . '/i';
 
     }
@@ -49,7 +55,7 @@ class EF_Phone_Input extends EF_Input
 
             $value = $data[$this->getName()];
 
-            return 0 !== preg_match($this->pattern,$value);
+            return preg_match($this->pattern,$value) === 1;
 
         }
         return false;
@@ -75,6 +81,20 @@ class EF_Phone_Input extends EF_Input
             return $inputs;
         });
 
+        add_action('wp_enqueue_scripts',array(EF_Phone_Input::class,'wp_enqueue_scripts'));
+
+    }
+
+
+
+    /**
+     * Add the password
+     */
+    public static function wp_enqueue_scripts()
+    {
+        wp_register_script( 'ef-public-input-phone-js', EF_get_dir('assets/public/js/inputs/phone.js') , array('jquery'), EF_get_setting('version') );
+
+        wp_enqueue_script('ef-public-input-phone-js',false,array('jquery'),false,true);
     }
 
 

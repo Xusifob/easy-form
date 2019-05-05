@@ -181,6 +181,7 @@ class Easy_Form
     {
 
         EF_Input::register();
+        EF_Phone_Input::register();
         EF_Hidden_Input::register();
         EF_Checkbox_Input::register();
         EF_Checkbox_List_Input::register();

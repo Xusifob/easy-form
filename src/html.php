@@ -199,6 +199,20 @@ class EF_Html_Element implements JsonSerializable
         return $this->open() . $this->getContent() . $this->close();
     }
 
+
+    /**
+     * @param string $class
+     */
+    public function addClass($class = '')
+    {
+        $classes = $this->getAttribute('class');
+
+        $classes .= " $class";
+
+        $this->addAttribute('class',$classes);
+    }
+
+
     /**
      * Return a json object
      */

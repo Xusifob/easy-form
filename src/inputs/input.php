@@ -76,6 +76,9 @@ class EF_Input extends EF_Settings_Element
 
         parent::__construct($attributes,$settings);
 
+        $this->addClass('ef_' . $this->getType());
+
+
         $this->fillValue($data);
 
         if(false === $this->getName()){
@@ -110,9 +113,10 @@ class EF_Input extends EF_Settings_Element
      */
     public function fillValue($data){
 
-        if(isset($data[$this->getAttribute('name')])){
+        $name = $this->getAttribute('name');
 
-            $this->addAttribute('value',$data[$this->getAttribute('name')]);
+        if(isset($data[$name])){
+            $this->addAttribute('value',$data[$name]);
         }
     }
 
