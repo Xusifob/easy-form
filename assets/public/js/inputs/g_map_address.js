@@ -7,6 +7,9 @@
 
     inputs.each((key,input) => {
 
+        let id = $(input).attr('g_map_address');
+        let old_data = $('script[for="'+ id +'"]').text();
+
         var options = {
             componentRestrictions: {country: ''}
         };
@@ -17,7 +20,11 @@
         let autocomplete = new google.maps.places.Autocomplete(input, options);
         autocompletes.push(autocomplete);
 
-        let hidden = $('#' + $(input).attr('g_map_address'));
+        let hidden = $('#' + id);
+
+        if(old_data) {
+            hidden.val(old_data);
+        }
 
         autocomplete.addListener('place_changed', function() {
             var place = autocomplete.getPlace();

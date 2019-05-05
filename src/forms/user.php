@@ -69,6 +69,7 @@ class EF_User_Form extends EF_User_Activation_Form
 
         $user = null;
 
+
         if($this->isUpdate()){
             // Update the user
             do_action('form/BeforeModifyUser', $data,$this);
