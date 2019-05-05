@@ -56,6 +56,9 @@ class EF_Select extends EF_Input
 
         $opts = array();
 
+        if($default = $this->getSetting('default-value')) {
+            $opts[] = array('content' => $default,'value' => 'ef-empty');
+        }
 
         // Go over all options
         foreach ($options as $option) {
@@ -220,12 +223,9 @@ class EF_Select extends EF_Input
                 $opt = new EF_Html_Element($option);
                 $opt->setElement('option');
                 $opt->removeAttribute('content');
+                $opt->setContent($option['content']);
 
-                $options .= $opt->open();
-                if(isset($option['content'])){
-                    $options .= $option['content'];
-                }
-                $options .= $opt->close();
+                $options .= $opt;
             }
         }
 

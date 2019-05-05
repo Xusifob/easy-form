@@ -22,6 +22,15 @@ class EF_Html_Element implements JsonSerializable
 
 
     /**
+     *
+     * The content to display in the element
+     *
+     * @var string
+     */
+    protected $content = '';
+
+
+    /**
      * EF_Html_Element constructor.
      * @param array $attributes
      * @throws Exception
@@ -123,6 +132,9 @@ class EF_Html_Element implements JsonSerializable
             }
 
             if($attribute) {
+                if($attribute == 'ef-empty') {
+                    $attribute = '';
+                }
                 $template .= " $key=\"". stripslashes(htmlspecialchars($attribute)). "\" ";
             }
         }
@@ -160,13 +172,31 @@ class EF_Html_Element implements JsonSerializable
         $this->element = $element;
     }
 
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+
+
 
     /**
      * @return string
      */
     public function __toString()
     {
-        return $this->open() . $this->close();
+        return $this->open() . $this->getContent() . $this->close();
     }
 
     /**

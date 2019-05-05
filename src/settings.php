@@ -1,6 +1,6 @@
 <?php
 
-abstract class EF_Settings_Element extends EF_Html_Element
+class EF_Settings_Element extends EF_Html_Element
 {
 
 	/**

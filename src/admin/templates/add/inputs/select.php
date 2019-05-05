@@ -17,7 +17,13 @@ ob_start(); ?>
 		</td>
 		<td class="ef-table-content">
 			<!-- options -->
-			<div class="ef-input">
+            <div class="ef-input ef-input--value">
+                <label for="field[fieldId][settings][default-value]"><?php _e('Default Value', 'easy-form'); ?></label>
+                <input type="text" id="field[fieldId][settings][default-value]" name="field[fieldId][settings][default-value]" class="form-control" placeholder="<?php _e('Select this ...','easy-form'); ?>"/>
+                <p class="small-text"><?php _e('This will be the default value of the field','easy-form'); ?></p>
+            </div>
+			</div>
+            <div class="ef-input">
 				<label for="field[fieldId][settings][options]"><?php _e('List of choices', 'easy-form'); ?></label>
 				<textarea
 						id="field[fieldId][settings][options]"
