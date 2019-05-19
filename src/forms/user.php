@@ -39,7 +39,6 @@ class EF_User_Form extends EF_User_Activation_Form
     public function __construct($id = null, array $attributes = [], array $settings = [])
     {
 
-
         parent::__construct($id, $attributes, $settings);
 
     }
@@ -205,7 +204,7 @@ class EF_User_Form extends EF_User_Activation_Form
                 $post_id = $_GET['user_id'];
             }else {
                 $this->setError(__('Sorry, you\'re not allowed to update this user','easy-form'));
-                    return;
+                return;
             }
         }
 
@@ -378,7 +377,10 @@ class EF_User_Form extends EF_User_Activation_Form
 
         if(isset($data['user_email'])){
             $userData['user_email'] =  $data['user_email'];
-            $userData['user_login'] =  $data['user_email'];
+            // If it's not an update, we put the email as the login
+            if(!isset($userData['ID'])) {
+                $userData['user_login'] =  $data['user_email'];
+            }
         }
 
         if(isset($data['user_login'])){
@@ -421,8 +423,12 @@ class EF_User_Form extends EF_User_Activation_Form
 
         $userData = self::prepareUserData($data,$userData);
 
+        $userData = self::removeUnChangedData($userData);
+
         $user_id = wp_update_user($userData);
 
+        dump($user_id);
+        die();
 
         if (is_wp_error($user_id)) {
             $this->setError($user_id->get_error_message());
@@ -431,6 +437,43 @@ class EF_User_Form extends EF_User_Activation_Form
         } else {
             return $user_id;
         }
+    }
+
+
+    /**
+     * @param $userData
+     * @return mixed
+     */
+    public function removeUnchangedData($userData)
+    {
+
+        if(!isset($userData['ID'])) {
+            return $userData;
+        }
+
+        $user = get_user_by('id',$userData['ID']);
+
+        foreach($userData as $key => $datum) {
+
+            // Always keep key
+            if($key == "ID") {
+                continue;
+            }
+
+            // If value is empty, do not change it ?
+            if($datum == "") {
+                unset($userData[$key]);
+                continue;
+            }
+
+            // If value is the same, do not update
+            if($datum == $user->$key) {
+                unset($userData[$key]);
+                continue;
+            }
+        }
+
+        return $userData;
     }
 
 

@@ -21,7 +21,7 @@ class EF_Phone_Input extends EF_Input
         'fr' => '(^((\+([0-9 ]){0,5})|[0-9]{1,2})( |-)?[0-9]{2}( |-)?[0-9]{2}( |-)?[0-9]{2}( |-)?[0-9]{2}$)',
         'us' => '(^(\+[0-9]){0,3}? ?\(?[0-9]{3}\)? ?[0-9]{3}( |-)?[0-9]{4}$)',
         'uk' => '(^(\+[0-9]{0,5}|0)( |-)?[0-9]{4}( |-)?[0-9]{0,6}$)',
-];
+    ];
 
 
     /**
@@ -41,6 +41,9 @@ class EF_Phone_Input extends EF_Input
 
         $this->pattern = '/' . implode('|',self::PATTERNS) . '/i';
 
+        // echo $this->pattern;
+        //  die();
+
     }
 
     /**
@@ -51,12 +54,26 @@ class EF_Phone_Input extends EF_Input
      */
     public function isValid($data)
     {
+
+
         if(parent::isValid($data)){
+
+            $format = $this->getAttribute('format');
+
+            if(null === $format || null == (self::PATTERNS[$format])) {
+                $pattern = $this->pattern;
+            } else {
+                $pattern = self::PATTERNS[$format];
+            }
 
             $value = $data[$this->getName()];
 
-            return preg_match($this->pattern,$value) === 1;
+            if(0 === preg_match($pattern,$value)) {
+                $this->setError(__('Incorrect format','easy-form'));
+                return false;
+            }
 
+            return true;
         }
         return false;
     }

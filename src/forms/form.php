@@ -703,7 +703,9 @@ abstract class EF_Form extends EF_Html_Element
         $template = $this->open();
 
         if($this->hasError()) {
-            $template .= sprintf('<p class="ef-error-message">%s</p>', $this->getError());
+            $template .= sprintf('<p class="ef-error-message">%s</p>',
+                apply_filters('ef_form_error',$this->getError())
+            );
         } else if($this->hasBeenSend(null)) {
             $template .= sprintf('<p class="ef-success-message">%s</p>', $this->getSuccess());
         }
