@@ -427,9 +427,6 @@ class EF_User_Form extends EF_User_Activation_Form
 
         $user_id = wp_update_user($userData);
 
-        dump($user_id);
-        die();
-
         if (is_wp_error($user_id)) {
             $this->setError($user_id->get_error_message());
 
@@ -455,13 +452,14 @@ class EF_User_Form extends EF_User_Activation_Form
 
         foreach($userData as $key => $datum) {
 
-            // Always keep key
+            // Always keep ID and do not change password
             if($key == "ID") {
                 continue;
             }
 
-            // If value is empty, do not change it ?
-            if($datum == "") {
+
+            // If password is empty
+            if($datum == "" && $key == "user_pass") {
                 unset($userData[$key]);
                 continue;
             }
