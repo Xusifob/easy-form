@@ -124,6 +124,11 @@ class EF_Html_Element implements JsonSerializable
         // Open the element
         $template = '<' . $this->element;
 
+        if(method_exists($this,'getType')) {
+            $this->addClass('ef_' . $this->getType());
+        }
+
+
         // Add all attributes
         foreach ($this->getAttributes() as $key => $attribute) {
 

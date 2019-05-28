@@ -76,8 +76,6 @@ class EF_Input extends EF_Settings_Element
 
         parent::__construct($attributes,$settings);
 
-        $this->addClass('ef_' . $this->getType());
-
 
         $this->fillValue($data);
 

@@ -68,7 +68,6 @@ class EF_User_Form extends EF_User_Activation_Form
 
         $user = null;
 
-
         if($this->isUpdate()){
             // Update the user
             do_action('form/BeforeModifyUser', $data,$this);
@@ -95,7 +94,7 @@ class EF_User_Form extends EF_User_Activation_Form
             return false;
         }
 
-        do_action('form/AfterInsertOrModifyUser', $user,$this);
+        do_action('form/AfterInsertOrModifyUser', $user,$this,$data);
 
 
         if($this->requiresEmailActivation() && !$this->isUpdate()) {

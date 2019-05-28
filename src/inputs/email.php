@@ -18,17 +18,21 @@ class EF_Email_Input extends EF_Input
      */
     public function isValid($data)
     {
-        if(parent::isValid($data)){
+        if(!parent::isValid($data)) {
+            return false;
+        }
 
-            if(!$this->isRequired())
-                return true;
-
+        if(isset($data[$this->getName()])) {
             $value = $data[$this->getName()];
 
-            if(filter_var($value, FILTER_VALIDATE_EMAIL))
-                return true;
+            if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                $this->setError(__('This field must be an e-mail', 'easy-form'));
+                return false;
+            }
         }
-        return false;
+
+
+        return true;
     }
 
     /**
